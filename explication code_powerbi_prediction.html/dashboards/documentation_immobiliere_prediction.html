@@ -1,0 +1,2968 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+      content="Documentation technique du module Agences Immobilières : Node.js, Express, MySQL, Python et Machine Learning">
+
+<title>
+    Documentation — Agences Immobilières & Machine Learning
+</title>
+
+<style>
+
+    /* =====================================================
+       RESET
+    ===================================================== */
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f7fb;
+        color: #263238;
+        line-height: 1.7;
+    }
+
+
+    /* =====================================================
+       SIDEBAR
+    ===================================================== */
+
+    .sidebar {
+
+        position: fixed;
+
+        left: 0;
+        top: 0;
+
+        width: 280px;
+        height: 100vh;
+
+        background: #111827;
+
+        color: white;
+
+        padding: 25px 18px;
+
+        overflow-y: auto;
+
+        z-index: 1000;
+    }
+
+    .sidebar h2 {
+
+        font-size: 20px;
+
+        margin-bottom: 7px;
+    }
+
+    .sidebar .subtitle {
+
+        color: #9ca3af;
+
+        font-size: 13px;
+
+        margin-bottom: 25px;
+    }
+
+    .sidebar a {
+
+        display: block;
+
+        color: #d1d5db;
+
+        text-decoration: none;
+
+        padding: 10px 12px;
+
+        border-radius: 8px;
+
+        margin-bottom: 4px;
+
+        font-size: 14px;
+
+        transition: 0.25s;
+    }
+
+    .sidebar a:hover {
+
+        background: #1f2937;
+
+        color: white;
+
+        transform: translateX(3px);
+    }
+
+
+    /* =====================================================
+       MAIN
+    ===================================================== */
+
+    .main {
+
+        margin-left: 280px;
+
+        padding: 40px;
+
+        max-width: 1450px;
+    }
+
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .hero {
+
+        background:
+            linear-gradient(
+                135deg,
+                #111827,
+                #2563eb
+            );
+
+        color: white;
+
+        padding: 50px;
+
+        border-radius: 18px;
+
+        margin-bottom: 30px;
+
+        box-shadow:
+            0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .hero h1 {
+
+        font-size: 38px;
+
+        margin-bottom: 12px;
+    }
+
+    .hero p {
+
+        color: #e5e7eb;
+
+        max-width: 950px;
+
+        font-size: 17px;
+    }
+
+
+    /* =====================================================
+       SECTIONS
+    ===================================================== */
+
+    .section {
+
+        background: white;
+
+        padding: 32px;
+
+        margin-bottom: 28px;
+
+        border-radius: 15px;
+
+        box-shadow:
+            0 5px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    h2 {
+
+        color: #111827;
+
+        font-size: 28px;
+
+        margin-bottom: 20px;
+
+        border-left: 5px solid #2563eb;
+
+        padding-left: 14px;
+    }
+
+    h3 {
+
+        color: #1d4ed8;
+
+        margin-top: 25px;
+
+        margin-bottom: 10px;
+    }
+
+    h4 {
+
+        color: #374151;
+
+        margin-top: 18px;
+
+        margin-bottom: 8px;
+    }
+
+    p {
+
+        margin-bottom: 15px;
+    }
+
+    ul,
+    ol {
+
+        margin-left: 25px;
+
+        margin-bottom: 18px;
+    }
+
+    li {
+
+        margin-bottom: 7px;
+    }
+
+
+    /* =====================================================
+       CODE
+    ===================================================== */
+
+    .code-title {
+
+        background: #1f2937;
+
+        color: #dbeafe;
+
+        padding: 11px 16px;
+
+        border-radius: 8px 8px 0 0;
+
+        font-size: 14px;
+
+        font-weight: bold;
+    }
+
+    pre {
+
+        background: #0b1120;
+
+        color: #e5e7eb;
+
+        padding: 20px;
+
+        overflow-x: auto;
+
+        border-radius: 0 0 8px 8px;
+
+        margin-bottom: 20px;
+
+        font-size: 14px;
+
+        line-height: 1.65;
+    }
+
+    code {
+
+        font-family:
+            Consolas,
+            Monaco,
+            monospace;
+    }
+
+    .inline-code {
+
+        background: #eef2ff;
+
+        color: #3730a3;
+
+        padding: 3px 7px;
+
+        border-radius: 5px;
+
+        font-family:
+            Consolas,
+            Monaco,
+            monospace;
+    }
+
+
+    /* =====================================================
+       INFO BOXES
+    ===================================================== */
+
+    .info {
+
+        background: #eff6ff;
+
+        border-left: 5px solid #2563eb;
+
+        padding: 18px;
+
+        border-radius: 8px;
+
+        margin: 20px 0;
+    }
+
+    .success {
+
+        background: #ecfdf5;
+
+        border-left: 5px solid #10b981;
+
+        padding: 18px;
+
+        border-radius: 8px;
+
+        margin: 20px 0;
+    }
+
+    .warning {
+
+        background: #fffbeb;
+
+        border-left: 5px solid #f59e0b;
+
+        padding: 18px;
+
+        border-radius: 8px;
+
+        margin: 20px 0;
+    }
+
+    .danger {
+
+        background: #fef2f2;
+
+        border-left: 5px solid #ef4444;
+
+        padding: 18px;
+
+        border-radius: 8px;
+
+        margin: 20px 0;
+    }
+
+
+    /* =====================================================
+       FLOW
+    ===================================================== */
+
+    .flow {
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        align-items: center;
+
+        gap: 12px;
+
+        margin: 30px 0;
+    }
+
+    .flow-box {
+
+        background: #eff6ff;
+
+        border: 2px solid #2563eb;
+
+        padding: 18px;
+
+        border-radius: 12px;
+
+        text-align: center;
+
+        min-width: 145px;
+
+        font-weight: bold;
+    }
+
+    .arrow {
+
+        font-size: 25px;
+
+        color: #2563eb;
+
+        font-weight: bold;
+    }
+
+
+    /* =====================================================
+       TABLE
+    ===================================================== */
+
+    table {
+
+        width: 100%;
+
+        border-collapse: collapse;
+
+        margin: 20px 0;
+    }
+
+    th,
+    td {
+
+        border: 1px solid #dbe3ef;
+
+        padding: 12px;
+
+        text-align: left;
+    }
+
+    th {
+
+        background: #111827;
+
+        color: white;
+    }
+
+    tr:nth-child(even) {
+
+        background: #f8fafc;
+    }
+
+
+    /* =====================================================
+       BADGES
+    ===================================================== */
+
+    .badge {
+
+        display: inline-block;
+
+        padding: 5px 10px;
+
+        border-radius: 20px;
+
+        background: #dbeafe;
+
+        color: #1e40af;
+
+        font-size: 13px;
+
+        font-weight: bold;
+
+        margin: 3px;
+    }
+
+
+    /* =====================================================
+       TOP BUTTON
+    ===================================================== */
+
+    .top-button {
+
+        position: fixed;
+
+        right: 25px;
+
+        bottom: 25px;
+
+        width: 45px;
+
+        height: 45px;
+
+        border: none;
+
+        border-radius: 50%;
+
+        background: #2563eb;
+
+        color: white;
+
+        font-size: 20px;
+
+        cursor: pointer;
+
+        display: none;
+
+        box-shadow:
+            0 5px 15px rgba(0, 0, 0, 0.2);
+
+        z-index: 2000;
+    }
+
+    .top-button:hover {
+
+        background: #1d4ed8;
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    footer {
+
+        text-align: center;
+
+        color: #6b7280;
+
+        padding: 20px;
+
+        font-size: 13px;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 850px) {
+
+        .sidebar {
+
+            position: relative;
+
+            width: 100%;
+
+            height: auto;
+        }
+
+        .main {
+
+            margin-left: 0;
+
+            padding: 20px;
+        }
+
+        .hero {
+
+            padding: 30px 20px;
+        }
+
+        .hero h1 {
+
+            font-size: 28px;
+        }
+
+        .section {
+
+            padding: 22px;
+        }
+
+        .flow {
+
+            flex-direction: column;
+        }
+
+        .arrow {
+
+            transform: rotate(90deg);
+        }
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+```
+<h2>
+    🏠 Immobilier ML
+</h2>
+
+<p class="subtitle">
+    Documentation technique
+</p>
+
+<a href="#presentation">
+    1. Présentation
+</a>
+
+<a href="#architecture">
+    2. Architecture
+</a>
+
+<a href="#python">
+    3. Script Python
+</a>
+
+<a href="#input">
+    4. Lecture des données
+</a>
+
+<a href="#models">
+    5. Chargement des modèles
+</a>
+
+<a href="#prediction">
+    6. Prédictions
+</a>
+
+<a href="#json">
+    7. Résultat JSON
+</a>
+
+<a href="#service">
+    8. Service immobilier
+</a>
+
+<a href="#server">
+    9. Serveur Express
+</a>
+
+<a href="#insert">
+    10. Route /insert
+</a>
+
+<a href="#process">
+    11. Route /process-data
+</a>
+
+<a href="#integration">
+    12. Intégration Node → Python
+</a>
+
+<a href="#mysql">
+    13. MySQL
+</a>
+
+<a href="#complete">
+    14. Flux complet
+</a>
+
+<a href="#errors">
+    15. Gestion des erreurs
+</a>
+
+<a href="#summary">
+    16. Conclusion
+</a>
+```
+
+</aside>
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+```
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+    <h1>
+        🏠 Agences Immobilières
+        <br>
+        Machine Learning & Node.js
+    </h1>
+
+    <p>
+
+        Documentation technique détaillée du module
+        immobilier permettant de connecter une base MySQL,
+        une API Node.js / Express et plusieurs modèles
+        de Machine Learning Python.
+
+    </p>
+
+    <br>
+
+    <span class="badge">
+        Python
+    </span>
+
+    <span class="badge">
+        Machine Learning
+    </span>
+
+    <span class="badge">
+        Node.js
+    </span>
+
+    <span class="badge">
+        Express
+    </span>
+
+    <span class="badge">
+        MySQL
+    </span>
+
+    <span class="badge">
+        JSON
+    </span>
+
+</section>
+
+
+<!-- =====================================================
+     1. PRESENTATION
+====================================================== -->
+
+<section class="section" id="presentation">
+
+    <h2>
+        1. Présentation du module
+    </h2>
+
+    <p>
+
+        Le module immobilier permet de traiter des données
+        provenant d'agences immobilières et d'intégrer
+        des prédictions Machine Learning dans une application
+        Web.
+
+    </p>
+
+    <p>
+
+        Le système utilise deux modèles de Machine Learning :
+
+    </p>
+
+    <ul>
+
+        <li>
+            <span class="inline-code">
+                model_AROUS.pkl
+            </span>
+        </li>
+
+        <li>
+            <span class="inline-code">
+                model_gamma.pkl
+            </span>
+        </li>
+
+    </ul>
+
+    <p>
+
+        Ces modèles sont chargés par Python puis utilisés
+        pour produire deux prédictions à partir d'une
+        même valeur d'entrée.
+
+    </p>
+
+    <div class="info">
+
+        <strong>
+            Objectif principal :
+        </strong>
+
+        permettre à Node.js de communiquer avec Python
+        afin d'utiliser les modèles Machine Learning
+        dans l'application Web.
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     2. ARCHITECTURE
+====================================================== -->
+
+<section class="section" id="architecture">
+
+    <h2>
+        2. Architecture générale
+    </h2>
+
+    <p>
+
+        L'architecture du module est composée de plusieurs
+        couches.
+
+    </p>
+
+    <div class="flow">
+
+        <div class="flow-box">
+            🌐<br>
+            Frontend
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🟢<br>
+            Node.js
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🚏<br>
+            Express
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🐍<br>
+            Python
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🤖<br>
+            Modèles ML
+        </div>
+
+    </div>
+
+    <div class="flow">
+
+        <div class="flow-box">
+            🗄️<br>
+            MySQL
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            📊<br>
+            Données
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🧠<br>
+            Prédictions
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            📦<br>
+            JSON
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     3. PYTHON
+====================================================== -->
+
+<section class="section" id="python">
+
+    <h2>
+        3. Script Python de prédiction
+    </h2>
+
+    <p>
+        Le script Python constitue la partie Machine Learning.
+    </p>
+
+    <div class="code-title">
+        📄 predict.py
+    </div>
+
+    <pre><code>import sys
+```
+
+import json
+import pickle
+import numpy as np
+import os
+
+try:
+
+```
+print("START PYTHON", file=sys.stderr)
+
+# lire input Node
+data = json.load(sys.stdin)
+print("INPUT:", data, file=sys.stderr)
+
+value = data.get("value")
+
+if value is None:
+    raise ValueError("value manquante")
+
+X_test = np.array([[float(value)]])
+
+# vérifier fichiers modèles AVANT load
+if not os.path.exists("model_AROUS.pkl"):
+    raise FileNotFoundError("model_AROUS.pkl introuvable")
+
+if not os.path.exists("model_gamma.pkl"):
+    raise FileNotFoundError("model_gamma.pkl introuvable")
+
+# charger modèles
+with open("model_AROUS.pkl", "rb") as f:
+    model_arous = pickle.load(f)
+
+with open("model_gamma.pkl", "rb") as f:
+    model_gamma = pickle.load(f)
+
+# prédictions
+prediction_arous = model_arous.predict(X_test)
+prediction_gamma = model_gamma.predict(X_test)
+
+result = {
+    "status": "ok",
+    "input": value,
+    "arous": prediction_arous.tolist(),
+    "gamma": prediction_gamma.tolist()
+}
+
+print(json.dumps(result))
+```
+
+except Exception as e:
+
+```
+print(json.dumps({
+    "status": "error",
+    "message": str(e)
+}))</code></pre>
+
+</section>
+
+
+<!-- =====================================================
+     4. INPUT
+====================================================== -->
+
+<section class="section" id="input">
+
+    <h2>
+        4. Lecture des données envoyées par Node.js
+    </h2>
+
+    <h3>
+        4.1 Importation de sys
+    </h3>
+
+    <pre><code>import sys</code></pre>
+
+    <p>
+
+        Le module <span class="inline-code">sys</span>
+        permet notamment d'accéder aux flux d'entrée
+        et de sortie du programme Python.
+
+    </p>
+
+    <p>
+
+        Ici, il est utilisé avec :
+
+    </p>
+
+    <pre><code>sys.stdin
+```
+
+sys.stderr</code></pre>
+
+```
+    <h3>
+        4.2 Lecture de l'entrée standard
+    </h3>
+
+    <pre><code>data = json.load(sys.stdin)</code></pre>
+
+    <p>
+
+        Cette instruction permet à Python de lire les données
+        JSON envoyées dans son entrée standard.
+
+    </p>
+
+    <p>
+        Par exemple, Node.js peut envoyer :
+    </p>
+
+    <pre><code>{
+"value": 30
+```
+
+}</code></pre>
+
+```
+    <p>
+
+        Python transforme ensuite ce JSON en dictionnaire Python.
+
+    </p>
+
+    <h3>
+        4.3 Affichage du contenu reçu
+    </h3>
+
+    <pre><code>print("INPUT:", data, file=sys.stderr)</code></pre>
+
+    <p>
+
+        Cette instruction affiche les informations reçues
+        dans la sortie d'erreur standard.
+
+    </p>
+
+    <div class="info">
+
+        <strong>
+            Pourquoi stderr ?
+        </strong>
+
+        Les messages de diagnostic sont séparés de la sortie
+        JSON destinée à Node.js.
+
+        Cela permet de conserver une sortie standard propre
+        pour le résultat final.
+
+    </div>
+
+    <h3>
+        4.4 Récupération de value
+    </h3>
+
+    <pre><code>value = data.get("value")</code></pre>
+
+    <p>
+
+        La méthode <span class="inline-code">get()</span>
+        récupère la propriété <strong>value</strong>
+        du dictionnaire.
+
+    </p>
+
+    <h3>
+        4.5 Vérification
+    </h3>
+
+    <pre><code>if value is None:
+raise ValueError("value manquante")</code></pre>
+
+    <p>
+
+        Cette vérification empêche le modèle de fonctionner
+        si aucune valeur n'a été fournie.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     5. MODELS
+====================================================== -->
+
+<section class="section" id="models">
+
+    <h2>
+        5. Chargement des modèles Machine Learning
+    </h2>
+
+    <h3>
+        5.1 Conversion de l'entrée
+    </h3>
+
+    <pre><code>X_test = np.array([[float(value)]])</code></pre>
+
+    <p>
+
+        La valeur reçue est convertie en nombre décimal
+        avec <span class="inline-code">float()</span>.
+
+    </p>
+
+    <p>
+
+        Elle est ensuite transformée en tableau NumPy.
+
+    </p>
+
+    <p>
+        Exemple :
+    </p>
+
+    <pre><code>value = 30
+```
+
+X_test =
+[[30.0]]</code></pre>
+
+```
+    <p>
+
+        Cette structure correspond à une observation
+        contenant une variable.
+
+    </p>
+
+    <h3>
+        5.2 Vérification du premier modèle
+    </h3>
+
+    <pre><code>if not os.path.exists("model_AROUS.pkl"):
+raise FileNotFoundError(
+    "model_AROUS.pkl introuvable"
+)</code></pre>
+
+    <p>
+
+        Avant de charger le modèle, le programme vérifie
+        que le fichier existe réellement.
+
+    </p>
+
+    <h3>
+        5.3 Vérification du deuxième modèle
+    </h3>
+
+    <pre><code>if not os.path.exists("model_gamma.pkl"):
+raise FileNotFoundError(
+    "model_gamma.pkl introuvable"
+)</code></pre>
+
+    <p>
+
+        La même vérification est effectuée pour
+        <span class="inline-code">model_gamma.pkl</span>.
+
+    </p>
+
+    <h3>
+        5.4 Chargement de model_AROUS
+    </h3>
+
+    <pre><code>with open("model_AROUS.pkl", "rb") as f:
+model_arous = pickle.load(f)</code></pre>
+
+    <p>
+
+        Le fichier est ouvert en mode binaire
+        puis le modèle est reconstruit avec
+        <span class="inline-code">pickle.load()</span>.
+
+    </p>
+
+    <h3>
+        5.5 Chargement de model_gamma
+    </h3>
+
+    <pre><code>with open("model_gamma.pkl", "rb") as f:
+model_gamma = pickle.load(f)</code></pre>
+
+    <p>
+
+        Le deuxième modèle est chargé de la même manière.
+
+    </p>
+
+    <table>
+
+        <tr>
+
+            <th>
+                Fichier
+            </th>
+
+            <th>
+                Variable Python
+            </th>
+
+            <th>
+                Fonction
+            </th>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                model_AROUS.pkl
+            </td>
+
+            <td>
+                model_arous
+            </td>
+
+            <td>
+                Produit la prédiction AROUS
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                model_gamma.pkl
+            </td>
+
+            <td>
+                model_gamma
+            </td>
+
+            <td>
+                Produit la prédiction Gamma
+            </td>
+
+        </tr>
+
+    </table>
+
+</section>
+
+
+<!-- =====================================================
+     6. PREDICTION
+====================================================== -->
+
+<section class="section" id="prediction">
+
+    <h2>
+        6. Exécution des prédictions
+    </h2>
+
+    <h3>
+        6.1 Prédiction AROUS
+    </h3>
+
+    <pre><code>prediction_arous =
+model_arous.predict(X_test)</code></pre>
+
+    <p>
+
+        Le premier modèle reçoit les données
+        <span class="inline-code">X_test</span>
+        et calcule sa prédiction.
+
+    </p>
+
+    <h3>
+        6.2 Prédiction Gamma
+    </h3>
+
+    <pre><code>prediction_gamma =
+model_gamma.predict(X_test)</code></pre>
+
+    <p>
+
+        Le deuxième modèle reçoit exactement la même entrée
+        mais produit sa propre prédiction.
+
+    </p>
+
+    <div class="success">
+
+        <strong>
+            Point important :
+        </strong>
+
+        une seule valeur d'entrée peut donc être utilisée
+        pour produire deux résultats différents grâce
+        aux deux modèles Machine Learning.
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     7. JSON
+====================================================== -->
+
+<section class="section" id="json">
+
+    <h2>
+        7. Construction du résultat JSON
+    </h2>
+
+    <pre><code>result = {
+"status": "ok",
+"input": value,
+"arous": prediction_arous.tolist(),
+"gamma": prediction_gamma.tolist()
+```
+
+}</code></pre>
+
+```
+    <p>
+
+        L'objet <span class="inline-code">result</span>
+        rassemble toutes les informations nécessaires
+        à la réponse.
+
+    </p>
+
+    <table>
+
+        <tr>
+
+            <th>
+                Propriété
+            </th>
+
+            <th>
+                Signification
+            </th>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                status
+            </td>
+
+            <td>
+                Indique si le traitement est réussi.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                input
+            </td>
+
+            <td>
+                Valeur reçue depuis Node.js.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                arous
+            </td>
+
+            <td>
+                Résultat du modèle AROUS.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                gamma
+            </td>
+
+            <td>
+                Résultat du modèle Gamma.
+            </td>
+
+        </tr>
+
+    </table>
+
+    <h3>
+        7.1 Conversion avec tolist()
+    </h3>
+
+    <pre><code>prediction_arous.tolist()
+```
+
+prediction_gamma.tolist()</code></pre>
+
+```
+    <p>
+
+        Les prédictions produites par NumPy peuvent être
+        sous forme de tableaux NumPy.
+
+        <span class="inline-code">tolist()</span>
+        permet de les convertir en listes Python classiques,
+        compatibles avec JSON.
+
+    </p>
+
+    <h3>
+        7.2 Envoi du JSON
+    </h3>
+
+    <pre><code>print(json.dumps(result))</code></pre>
+
+    <p>
+
+        <span class="inline-code">json.dumps()</span>
+        transforme l'objet Python en chaîne JSON.
+
+    </p>
+
+    <p>
+        Un exemple de réponse pourrait être :
+    </p>
+
+    <pre><code>{
+"status": "ok",
+"input": 30,
+"arous": [125000],
+"gamma": [138000]
+```
+
+}</code></pre>
+
+```
+</section>
+
+
+<!-- =====================================================
+     8. SERVICE
+====================================================== -->
+
+<section class="section" id="service">
+
+    <h2>
+        8. Service immobilier Node.js
+    </h2>
+
+    <p>
+        Le fichier :
+    </p>
+
+    <pre><code>service/immobiliere.js</code></pre>
+
+    <p>
+        regroupe les fonctions permettant de manipuler
+        les données immobilières.
+    </p>
+
+    <div class="code-title">
+        📄 service/immobiliere.js
+    </div>
+
+    <pre><code>async function fetchData(connection) {
+
+const [rows] =
+    await connection.query(
+        "SELECT * FROM immobilier"
+    );
+
+return rows;
+```
+
+}
+
+async function processData(data) {
+
+```
+// Ici tu peux transformer/encoder
+// tes données si besoin
+
+return data;
+```
+
+}
+
+async function insertData(connection, data) {
+
+```
+for (let row of data) {
+
+    await connection.query(
+        "INSERT INTO immobilier_processed SET ?",
+        row
+    );
+
+}
+```
+
+}
+
+module.exports = {
+
+```
+fetchData,
+processData,
+insertData
+```
+
+};</code></pre>
+
+```
+    <h3>
+        8.1 fetchData()
+    </h3>
+
+    <pre><code>async function fetchData(connection)</code></pre>
+
+    <p>
+
+        Cette fonction reçoit une connexion MySQL
+        et récupère les données de la table
+        <span class="inline-code">immobilier</span>.
+
+    </p>
+
+    <pre><code>const [rows] =
+await connection.query(
+    "SELECT * FROM immobilier"
+);</code></pre>
+
+    <p>
+
+        La requête SQL sélectionne toutes les colonnes
+        et toutes les lignes de la table.
+
+    </p>
+
+    <h3>
+        8.2 processData()
+    </h3>
+
+    <pre><code>async function processData(data) {
+return data;
+```
+
+}</code></pre>
+
+```
+    <p>
+
+        Cette fonction constitue une étape de préparation
+        des données.
+
+    </p>
+
+    <p>
+
+        Elle peut être complétée pour effectuer par exemple :
+
+    </p>
+
+    <ul>
+
+        <li>
+            nettoyage des données ;
+        </li>
+
+        <li>
+            conversion des types ;
+        </li>
+
+        <li>
+            suppression des valeurs incorrectes ;
+        </li>
+
+        <li>
+            transformation des variables ;
+        </li>
+
+        <li>
+            encodage de variables catégorielles.
+        </li>
+
+    </ul>
+
+    <h3>
+        8.3 insertData()
+    </h3>
+
+    <pre><code>async function insertData(connection, data) {
+
+for (let row of data) {
+
+    await connection.query(
+        "INSERT INTO immobilier_processed SET ?",
+        row
+    );
+
+}
+```
+
+}</code></pre>
+
+```
+    <p>
+
+        Cette fonction parcourt chaque ligne des données
+        traitées et l'insère dans la table :
+
+    </p>
+
+    <pre><code>immobilier_processed</code></pre>
+
+    <h3>
+        8.4 Exportation
+    </h3>
+
+    <pre><code>module.exports = {
+fetchData,
+processData,
+insertData
+```
+
+};</code></pre>
+
+```
+    <p>
+
+        Les trois fonctions deviennent disponibles
+        dans les autres fichiers Node.js.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     9. SERVER
+====================================================== -->
+
+<section class="section" id="server">
+
+    <h2>
+        9. Serveur Node.js avec Express
+    </h2>
+
+    <div class="code-title">
+        📄 server.js
+    </div>
+
+    <pre><code>const express = require("express");
+```
+
+const app = express();
+
+console.log("IMMOBILIERE API STARTED");
+
+app.use(express.json());
+
+// routes
+const immobilierRoutes =
+require("./routes/immobiliereRoute");
+
+app.use("/", immobilierRoutes);
+
+// port
+const PORT =
+process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+
+```
+console.log(
+    `🌍 Server running on http://localhost:${PORT}`
+);
+```
+
+});</code></pre>
+
+```
+    <h3>
+        9.1 Importation d'Express
+    </h3>
+
+    <pre><code>const express = require("express");</code></pre>
+
+    <p>
+
+        Express est utilisé pour créer l'API backend.
+
+    </p>
+
+    <h3>
+        9.2 Création de l'application
+    </h3>
+
+    <pre><code>const app = express();</code></pre>
+
+    <p>
+
+        Cette instruction crée l'application Express.
+
+    </p>
+
+    <h3>
+        9.3 Lecture du JSON
+    </h3>
+
+    <pre><code>app.use(express.json());</code></pre>
+
+    <p>
+
+        Cette instruction permet à Express de comprendre
+        les requêtes HTTP contenant du JSON.
+
+    </p>
+
+    <h3>
+        9.4 Importation des routes
+    </h3>
+
+    <pre><code>const immobilierRoutes =
+require("./routes/immobiliereRoute");</code></pre>
+
+    <p>
+
+        Le serveur importe le fichier contenant
+        les routes immobilières.
+
+    </p>
+
+    <h3>
+        9.5 Enregistrement des routes
+    </h3>
+
+    <pre><code>app.use("/", immobilierRoutes);</code></pre>
+
+    <p>
+
+        Les routes sont montées directement à la racine
+        de l'API.
+
+    </p>
+
+    <h3>
+        9.6 Port
+    </h3>
+
+    <pre><code>const PORT =
+process.env.PORT || 3000;</code></pre>
+
+    <p>
+
+        Le serveur utilise la variable d'environnement
+        <span class="inline-code">PORT</span> si elle existe.
+
+        Sinon, le port <strong>3000</strong> est utilisé.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     10. INSERT
+====================================================== -->
+
+<section class="section" id="insert">
+
+    <h2>
+        10. Route POST /insert
+    </h2>
+
+    <p>
+
+        Cette route permet d'insérer des données immobilières
+        dans la table MySQL.
+
+    </p>
+
+    <div class="code-title">
+        📄 routes/immobiliereRoute.js
+    </div>
+
+    <pre><code>router.post("/insert", async (req, res) => {
+
+let connection;
+
+try {
+
+    connection =
+        await mysql.createConnection(dbConfig);
+
+    const data = req.body;
+
+    for (let row of data) {
+
+        await connection.query(
+
+            "INSERT INTO immobilier " +
+            "(idImmobilier, Type, Surface, Prix, Source) " +
+            "VALUES (?, ?, ?, ?, ?)",
+
+            [
+                row.idImmobilier,
+                row.Type,
+                row.Surface,
+                row.Prix,
+                row.Source
+            ]
+
+        );
+
+    }
+
+    res.json({
+
+        status: "success",
+
+        message: "Data inserted",
+
+        rows: data.length
+
+    });
+
+}
+
+catch (err) {
+
+    res.status(500).json({
+
+        status: "error",
+
+        message: err.message
+
+    });
+
+}
+
+finally {
+
+    if (connection)
+        await connection.end();
+
+}
+```
+
+});</code></pre>
+
+```
+    <h3>
+        10.1 Création de la route
+    </h3>
+
+    <pre><code>router.post("/insert", async (req, res) => {</code></pre>
+
+    <p>
+
+        La route accepte une requête HTTP
+        <strong>POST</strong> sur :
+
+    </p>
+
+    <pre><code>/insert</code></pre>
+
+    <h3>
+        10.2 Récupération du body
+    </h3>
+
+    <pre><code>const data = req.body;</code></pre>
+
+    <p>
+
+        Les données envoyées par le frontend sont récupérées
+        dans <span class="inline-code">req.body</span>.
+
+    </p>
+
+    <p>
+        Exemple :
+    </p>
+
+    <pre><code>[
+{
+    "idImmobilier": 1,
+    "Type": "Appartement",
+    "Surface": 120,
+    "Prix": 350000,
+    "Source": "Agence"
+}
+```
+
+]</code></pre>
+
+```
+    <h3>
+        10.3 Insertion SQL
+    </h3>
+
+    <pre><code>INSERT INTO immobilier
+```
+
+(idImmobilier, Type, Surface, Prix, Source)
+VALUES (?, ?, ?, ?, ?)</code></pre>
+
+```
+    <p>
+
+        Les paramètres <span class="inline-code">?</span>
+        sont remplis avec les valeurs de chaque objet.
+
+    </p>
+
+    <h3>
+        10.4 Réponse
+    </h3>
+
+    <pre><code>res.json({
+status: "success",
+message: "Data inserted",
+rows: data.length
+```
+
+});</code></pre>
+
+```
+    <p>
+
+        Le backend confirme que les données ont été insérées.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     11. PROCESS
+====================================================== -->
+
+<section class="section" id="process">
+
+    <h2>
+        11. Route POST /process-data
+    </h2>
+
+    <p>
+
+        Cette route permet de réaliser un traitement
+        des données immobilières stockées dans MySQL.
+
+    </p>
+
+    <pre><code>router.post("/process-data", async (req, res) => {
+
+let connection;
+
+try {
+
+    connection =
+        await mysql.createConnection(dbConfig);
+
+    const rawData =
+        await fetchData(connection);
+
+    const processedData =
+        await processData(rawData);
+
+    await insertData(
+        connection,
+        processedData
+    );
+
+    res.json({
+
+        status: "success",
+
+        message:
+            "Immobilier data processed successfully",
+
+        rows:
+            processedData.length
+
+    });
+
+}
+
+catch (err) {
+
+    res.status(500).json({
+
+        status: "error",
+
+        message: err.message
+
+    });
+
+}
+
+finally {
+
+    if (connection)
+        await connection.end();
+
+}
+```
+
+});</code></pre>
+
+```
+    <h3>
+        Étape 1 — Connexion MySQL
+    </h3>
+
+    <pre><code>connection =
+await mysql.createConnection(dbConfig);</code></pre>
+
+    <p>
+
+        Une connexion est créée avec la base
+        <span class="inline-code">POWERBI_PREDICTION</span>.
+
+    </p>
+
+    <h3>
+        Étape 2 — Récupération des données
+    </h3>
+
+    <pre><code>const rawData =
+await fetchData(connection);</code></pre>
+
+    <p>
+
+        La fonction <span class="inline-code">fetchData()</span>
+        récupère les données de la table
+        <span class="inline-code">immobilier</span>.
+
+    </p>
+
+    <h3>
+        Étape 3 — Traitement
+    </h3>
+
+    <pre><code>const processedData =
+await processData(rawData);</code></pre>
+
+    <p>
+
+        Les données sont transmises à
+        <span class="inline-code">processData()</span>
+        pour effectuer les transformations nécessaires.
+
+    </p>
+
+    <h3>
+        Étape 4 — Insertion
+    </h3>
+
+    <pre><code>await insertData(
+connection,
+processedData
+```
+
+);</code></pre>
+
+```
+    <p>
+
+        Les données transformées sont insérées
+        dans la table :
+
+    </p>
+
+    <pre><code>immobilier_processed</code></pre>
+
+    <h3>
+        Étape 5 — Réponse
+    </h3>
+
+    <pre><code>res.json({
+status: "success",
+message:
+    "Immobilier data processed successfully",
+rows: processedData.length
+```
+
+});</code></pre>
+
+```
+</section>
+
+
+<!-- =====================================================
+     12. INTEGRATION
+====================================================== -->
+
+<section class="section" id="integration">
+
+    <h2>
+        12. Intégration Node.js → Python
+    </h2>
+
+    <p>
+
+        La partie la plus importante de l'architecture
+        est la communication entre Node.js et Python.
+
+    </p>
+
+    <div class="flow">
+
+        <div class="flow-box">
+            🌐<br>
+            Frontend
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🟢<br>
+            Express
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            📦<br>
+            JSON
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🐍<br>
+            Python
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🤖<br>
+            AROUS
+        </div>
+
+        <div class="arrow">
+            +
+        </div>
+
+        <div class="flow-box">
+            🤖<br>
+            Gamma
+        </div>
+
+    </div>
+
+    <h3>
+        Exemple de données envoyées
+    </h3>
+
+    <pre><code>{
+"value": 30
+```
+
+}</code></pre>
+
+```
+    <p>
+
+        Node.js transmet cette donnée au processus Python
+        via l'entrée standard.
+
+    </p>
+
+    <h3>
+        Python reçoit
+    </h3>
+
+    <pre><code>data = json.load(sys.stdin)</code></pre>
+
+    <h3>
+        Python extrait
+    </h3>
+
+    <pre><code>value = data.get("value")</code></pre>
+
+    <h3>
+        Python prépare l'entrée
+    </h3>
+
+    <pre><code>X_test =
+np.array([[float(value)]])</code></pre>
+
+    <h3>
+        Python effectue deux prédictions
+    </h3>
+
+    <pre><code>model_arous.predict(X_test)
+```
+
+model_gamma.predict(X_test)</code></pre>
+
+```
+    <h3>
+        Python retourne
+    </h3>
+
+    <pre><code>{
+"status": "ok",
+"input": 30,
+"arous": [...],
+"gamma": [...]
+```
+
+}</code></pre>
+
+```
+    <p>
+
+        Node.js peut ensuite récupérer cette réponse
+        et la transmettre au frontend.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     13. MYSQL
+====================================================== -->
+
+<section class="section" id="mysql">
+
+    <h2>
+        13. Connexion à MySQL
+    </h2>
+
+    <p>
+
+        Le backend utilise :
+
+    </p>
+
+    <pre><code>const mysql =
+require("mysql2/promise");</code></pre>
+
+    <p>
+
+        La bibliothèque <span class="inline-code">mysql2</span>
+        permet à Node.js de communiquer avec MySQL.
+
+    </p>
+
+    <p>
+        La configuration utilisée est :
+    </p>
+
+    <pre><code>const dbConfig = {
+
+host: "localhost",
+
+user: "root",
+
+password: "",
+
+database: "POWERBI_PREDICTION"
+```
+
+};</code></pre>
+
+```
+    <table>
+
+        <tr>
+
+            <th>
+                Paramètre
+            </th>
+
+            <th>
+                Valeur
+            </th>
+
+            <th>
+                Rôle
+            </th>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                host
+            </td>
+
+            <td>
+                localhost
+            </td>
+
+            <td>
+                Serveur MySQL local
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                user
+            </td>
+
+            <td>
+                root
+            </td>
+
+            <td>
+                Utilisateur MySQL
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                database
+            </td>
+
+            <td>
+                POWERBI_PREDICTION
+            </td>
+
+            <td>
+                Base utilisée par le projet
+            </td>
+
+        </tr>
+
+    </table>
+
+    <div class="warning">
+
+        <strong>
+            Bonne pratique :
+        </strong>
+
+        dans une application de production,
+        les informations de connexion devraient être
+        placées dans des variables d'environnement
+        plutôt que directement dans le code.
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     14. COMPLETE FLOW
+====================================================== -->
+
+<section class="section" id="complete">
+
+    <h2>
+        14. Flux complet du système
+    </h2>
+
+    <p>
+
+        Le fonctionnement global peut être résumé
+        de la manière suivante :
+
+    </p>
+
+    <div class="flow">
+
+        <div class="flow-box">
+            👤<br>
+            Utilisateur
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🌐<br>
+            Frontend
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🟢<br>
+            Express
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🗄️<br>
+            MySQL
+        </div>
+
+    </div>
+
+    <div class="flow">
+
+        <div class="flow-box">
+            📊<br>
+            Données
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🧹<br>
+            Processing
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🐍<br>
+            Python
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🤖<br>
+            AROUS
+        </div>
+
+        <div class="arrow">
+            +
+        </div>
+
+        <div class="flow-box">
+            🤖<br>
+            Gamma
+        </div>
+
+    </div>
+
+    <div class="flow">
+
+        <div class="flow-box">
+            📦<br>
+            JSON
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🟢<br>
+            Node.js
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-box">
+            🌐<br>
+            Dashboard
+        </div>
+
+    </div>
+
+    <h3>
+        Résumé du cycle
+    </h3>
+
+    <ol>
+
+        <li>
+            Le frontend envoie une donnée.
+        </li>
+
+        <li>
+            Express reçoit la requête.
+        </li>
+
+        <li>
+            Node.js traite la demande.
+        </li>
+
+        <li>
+            Les données peuvent être récupérées
+            depuis MySQL.
+        </li>
+
+        <li>
+            Les données sont préparées.
+        </li>
+
+        <li>
+            Node.js communique avec Python.
+        </li>
+
+        <li>
+            Python charge les deux modèles.
+        </li>
+
+        <li>
+            Les deux prédictions sont calculées.
+        </li>
+
+        <li>
+            Python produit un résultat JSON.
+        </li>
+
+        <li>
+            Node.js récupère le résultat.
+        </li>
+
+        <li>
+            Express transmet la réponse au frontend.
+        </li>
+
+        <li>
+            Le dashboard affiche les résultats.
+        </li>
+
+    </ol>
+
+</section>
+
+
+<!-- =====================================================
+     15. ERRORS
+====================================================== -->
+
+<section class="section" id="errors">
+
+    <h2>
+        15. Gestion des erreurs
+    </h2>
+
+    <p>
+
+        Le script Python utilise :
+
+    </p>
+
+    <pre><code>try:
+...
+```
+
+except Exception as e:
+...</code></pre>
+
+```
+    <p>
+
+        Cela permet d'éviter qu'une erreur Python
+        arrête silencieusement le traitement.
+
+    </p>
+
+    <h3>
+        Exemple : valeur manquante
+    </h3>
+
+    <pre><code>if value is None:
+raise ValueError("value manquante")</code></pre>
+
+    <h3>
+        Exemple : modèle absent
+    </h3>
+
+    <pre><code>if not os.path.exists("model_AROUS.pkl"):
+raise FileNotFoundError(
+    "model_AROUS.pkl introuvable"
+)</code></pre>
+
+    <h3>
+        Réponse en cas d'erreur
+    </h3>
+
+    <pre><code>{
+"status": "error",
+"message": "..."
+```
+
+}</code></pre>
+
+```
+    <p>
+
+        Côté Express, les erreurs sont également
+        capturées avec :
+
+    </p>
+
+    <pre><code>catch (err) {
+
+res.status(500).json({
+
+    status: "error",
+
+    message: err.message
+
+});
+```
+
+}</code></pre>
+
+```
+    <div class="danger">
+
+        <strong>
+            Résultat :
+        </strong>
+
+        le backend peut informer le frontend qu'une erreur
+        s'est produite au lieu de laisser la requête
+        échouer sans explication.
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     16. SUMMARY
+====================================================== -->
+
+<section class="section" id="summary">
+
+    <h2>
+        16. Conclusion
+    </h2>
+
+    <p>
+
+        Le module immobilier met en œuvre une architecture
+        complète combinant stockage de données,
+        traitement backend et Machine Learning.
+
+    </p>
+
+    <table>
+
+        <tr>
+
+            <th>
+                Technologie
+            </th>
+
+            <th>
+                Rôle
+            </th>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                MySQL
+            </td>
+
+            <td>
+                Stockage des données immobilières
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                mysql2
+            </td>
+
+            <td>
+                Communication entre Node.js et MySQL
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Node.js
+            </td>
+
+            <td>
+                Backend de l'application
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Express
+            </td>
+
+            <td>
+                Création et gestion des routes API
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Python
+            </td>
+
+            <td>
+                Exécution des modèles Machine Learning
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                NumPy
+            </td>
+
+            <td>
+                Préparation des données d'entrée
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Pickle
+            </td>
+
+            <td>
+                Chargement des modèles sauvegardés
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                JSON
+            </td>
+
+            <td>
+                Communication entre Node.js et Python
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                model_AROUS.pkl
+            </td>
+
+            <td>
+                Premier modèle de prédiction
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                model_gamma.pkl
+            </td>
+
+            <td>
+                Deuxième modèle de prédiction
+            </td>
+
+        </tr>
+
+    </table>
+
+    <div class="success">
+
+        <strong>
+            Architecture finale :
+        </strong>
+
+        Frontend → Express → Node.js → MySQL / Python →
+        modèles Machine Learning →
+        prédictions → JSON →
+        Node.js → Dashboard.
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    Documentation technique —
+    Module Agences Immobilières & Machine Learning
+
+</footer>
+```
+
+</main>
+
+<!-- =========================================================
+     BACK TO TOP
+========================================================= -->
+
+<button
+ class="top-button"
+ id="topButton">
+
+```
+↑
+```
+
+</button>
+
+<script>
+
+    /* =====================================================
+       BOUTON RETOUR EN HAUT
+    ===================================================== */
+
+    const topButton =
+        document.getElementById("topButton");
+
+
+    window.addEventListener("scroll", () => {
+
+        if (window.scrollY > 400) {
+
+            topButton.style.display = "block";
+
+        } else {
+
+            topButton.style.display = "none";
+
+        }
+
+    });
+
+
+    topButton.addEventListener("click", () => {
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    });
+
+
+    /* =====================================================
+       NAVIGATION ACTIVE
+    ===================================================== */
+
+    const links =
+        document.querySelectorAll(".sidebar a");
+
+
+    links.forEach(link => {
+
+        link.addEventListener("click", () => {
+
+            links.forEach(item => {
+
+                item.style.background = "";
+
+                item.style.color = "";
+
+            });
+
+
+            link.style.background =
+                "#2563eb";
+
+            link.style.color =
+                "white";
+
+        });
+
+    });
+
+
+    /* =====================================================
+       ANIMATION DES SECTIONS
+    ===================================================== */
+
+    const sections =
+        document.querySelectorAll(".section");
+
+
+    const observer =
+        new IntersectionObserver(
+
+            (entries) => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.style.transition =
+                            "opacity 0.6s ease, transform 0.6s ease";
+
+                        entry.target.style.opacity =
+                            "1";
+
+                        entry.target.style.transform =
+                            "translateY(0)";
+
+                    }
+
+                });
+
+            },
+
+            {
+                threshold: 0.08
+            }
+
+        );
+
+
+    sections.forEach(section => {
+
+        section.style.opacity =
+            "0";
+
+        section.style.transform =
+            "translateY(20px)";
+
+        observer.observe(section);
+
+    });
+
+</script>
+
+</body>
+
+</html>

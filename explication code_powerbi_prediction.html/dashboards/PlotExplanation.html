@@ -1,0 +1,3167 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="description"
+    content="Documentation technique du Dashboard Plot utilisant React, Redux Toolkit, Axios, Recharts et Power BI."
+>
+
+<title>
+    Explication du Dashboard Plot — React, Redux Toolkit, Axios, Recharts et Power BI
+</title>
+
+<link rel="stylesheet" href="PlotExplanation.css">
+```
+
+</head>
+
+<body>
+
+<main class="documentation">
+
+```
+<!-- ===================================================== -->
+<!-- HEADER -->
+<!-- ===================================================== -->
+
+<header class="documentation-header">
+
+    <h1>
+        📊 Dashboard Plot — Explication du code
+    </h1>
+
+    <p>
+        Documentation technique détaillée du fonctionnement de
+        <strong>React, Redux Toolkit, Axios, Recharts et Power BI</strong>
+        dans le Dashboard Plot.
+    </p>
+
+    <p>
+        Cette documentation explique le rôle de chaque partie
+        du fichier <strong>PlotDashboard.jsx</strong> et du fichier
+        <strong>plotSlice.js</strong>, ainsi que le parcours des
+        données entre le frontend React, Redux et le backend.
+    </p>
+
+</header>
+
+
+<!-- ===================================================== -->
+<!-- 152 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 152 — Présentation du Dashboard Plot
+    </h2>
+
+    <p>
+
+        Le <strong>Dashboard Plot</strong> est une interface
+        frontend développée avec <strong>React</strong>.
+
+        Son objectif est de récupérer des données depuis
+        le backend, de les stocker avec <strong>Redux Toolkit</strong>,
+        de les afficher sous forme de liste et de les représenter
+        graphiquement avec <strong>Recharts</strong>.
+
+        Le dashboard intègre également un rapport
+        <strong>Power BI</strong> grâce à une iframe.
+
+        La fonctionnalité repose donc sur plusieurs technologies
+        qui travaillent ensemble.
+
+        <strong>React</strong> construit l'interface.
+
+        <strong>Redux Toolkit</strong> gère l'état des données.
+
+        <strong>Axios</strong> communique avec l'API backend.
+
+        <strong>Recharts</strong> crée le graphique à barres.
+
+        <strong>Power BI</strong> fournit une visualisation
+        Business Intelligence intégrée.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 153 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 153 — Organisation des fichiers
+    </h2>
+
+    <p>
+
+        La fonctionnalité Plot repose principalement
+        sur deux fichiers JavaScript :
+
+    </p>
+
+    <div class="file-grid">
+
+        <div class="file-card">
+
+            <h3>📄 PlotDashboard.jsx</h3>
+
+            <p>
+                Ce fichier contient le composant React.
+                Il est responsable de l'affichage du dashboard,
+                de la récupération du state Redux et de la
+                représentation graphique des données.
+            </p>
+
+        </div>
+
+        <div class="file-card">
+
+            <h3>📄 plotSlice.js</h3>
+
+            <p>
+                Ce fichier contient la logique Redux.
+                Il récupère les données depuis le backend
+                avec Axios et gère les états
+                <strong>loading</strong>, <strong>error</strong>,
+                <strong>message</strong> et <strong>rows</strong>.
+            </p>
+
+        </div>
+
+    </div>
+
+    <p>
+
+        Cette séparation permet de respecter une architecture
+        claire.
+
+        Le composant React s'occupe principalement de
+        l'interface tandis que Redux centralise la logique
+        de récupération et de gestion des données.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 154 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 154 — Importation de React et useEffect
+    </h2>
+
+    <p>
+
+        Le fichier <strong>PlotDashboard.jsx</strong> commence
+        par l'importation de React et du hook
+        <code>useEffect</code> :
+
+    </p>
+
+    <pre><code>
+```
+
+import React, { useEffect } from "react"; </code></pre>
+
+```
+    <p>
+
+        <code>React</code> permet de créer le composant
+        d'interface utilisateur.
+
+        Le hook <code>useEffect</code> permet d'exécuter
+        du code après le rendu du composant.
+
+        Dans notre cas, il est utilisé pour déclencher
+        automatiquement la récupération des données Plot
+        lorsque le dashboard est chargé.
+
+        L'utilisateur n'a donc pas besoin d'appuyer sur
+        un bouton pour récupérer les données.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 155 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 155 — Importation de useDispatch et useSelector
+    </h2>
+
+    <p>
+
+        Le composant importe ensuite les deux hooks principaux
+        de <strong>React Redux</strong> :
+
+    </p>
+
+    <pre><code>
+```
+
+import {
+useDispatch,
+useSelector
+} from "react-redux"; </code></pre>
+
+```
+    <p>
+
+        <code>useDispatch()</code> permet au composant
+        d'envoyer une action vers Redux.
+
+        Dans ce projet, il sera utilisé pour exécuter :
+
+    </p>
+
+    <pre><code>
+```
+
+dispatch(fetchPlotData()); </code></pre>
+
+```
+    <p>
+
+        <code>useSelector()</code> permet au composant
+        de récupérer les données stockées dans le store Redux.
+
+        Le composant récupère ici :
+
+        <strong>loading</strong>,
+
+        <strong>error</strong>,
+
+        <strong>message</strong>,
+
+        et <strong>rows</strong>.
+
+        Ces valeurs permettent à l'interface de connaître
+        l'état actuel de la requête et les données disponibles.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 156 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 156 — Importation de fetchPlotData
+    </h2>
+
+    <p>
+
+        Le composant importe l'action asynchrone
+        <code>fetchPlotData</code> :
+
+    </p>
+
+    <pre><code>
+```
+
+import { fetchPlotData }
+from "../redux/plotSlice"; </code></pre>
+
+```
+    <p>
+
+        Cette fonction est définie dans
+        <code>plotSlice.js</code>.
+
+        Elle utilise <code>createAsyncThunk()</code>
+        pour effectuer une requête asynchrone vers
+        le backend.
+
+        Le composant React ne contient donc pas directement
+        la logique Axios.
+
+        Il demande simplement à Redux de récupérer
+        les données.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 157 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 157 — Importation des composants Recharts
+    </h2>
+
+    <p>
+
+        Le dashboard utilise plusieurs composants
+        de la bibliothèque <strong>Recharts</strong> :
+
+    </p>
+
+    <pre><code>
+```
+
+import {
+BarChart,
+Bar,
+XAxis,
+YAxis,
+Tooltip,
+CartesianGrid,
+Legend,
+ResponsiveContainer
+} from "recharts"; </code></pre>
+
+```
+    <p>
+
+        Chaque composant possède une fonction précise.
+
+    </p>
+
+    <ul>
+
+        <li>
+            <strong>BarChart</strong> :
+            structure générale du graphique.
+        </li>
+
+        <li>
+            <strong>Bar</strong> :
+            représente une série de données sous forme de barres.
+        </li>
+
+        <li>
+            <strong>XAxis</strong> :
+            représente l'axe horizontal.
+        </li>
+
+        <li>
+            <strong>YAxis</strong> :
+            représente l'axe vertical.
+        </li>
+
+        <li>
+            <strong>Tooltip</strong> :
+            affiche des informations lors du survol.
+        </li>
+
+        <li>
+            <strong>CartesianGrid</strong> :
+            ajoute une grille au graphique.
+        </li>
+
+        <li>
+            <strong>Legend</strong> :
+            affiche la légende des séries.
+        </li>
+
+        <li>
+            <strong>ResponsiveContainer</strong> :
+            rend le graphique adaptable à la largeur disponible.
+        </li>
+
+    </ul>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 158 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 158 — Importation du fichier CSS
+    </h2>
+
+    <p>
+
+        Le fichier CSS spécifique au dashboard est importé avec :
+
+    </p>
+
+    <pre><code>
+```
+
+import "./plot.css"; </code></pre>
+
+```
+    <p>
+
+        Cette instruction permet de séparer la logique
+        du composant de sa présentation visuelle.
+
+        Le fichier <strong>plot.css</strong> peut contrôler :
+
+        les dimensions du dashboard,
+
+        le titre,
+
+        l'iframe Power BI,
+
+        la liste,
+
+        les messages,
+
+        le graphique,
+
+        les espacements,
+
+        et la responsivité.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 159 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 159 — Création du composant PlotDashboard
+    </h2>
+
+    <p>
+
+        Le composant principal est créé avec :
+
+    </p>
+
+    <pre><code>
+```
+
+export default function PlotDashboard() { </code></pre>
+
+```
+    <p>
+
+        <code>PlotDashboard</code> représente la page
+        complète du Dashboard Plot.
+
+        Il contient toutes les parties visibles
+        par l'utilisateur :
+
+        le titre,
+
+        le rapport Power BI,
+
+        le statut de chargement,
+
+        le message d'erreur,
+
+        le message retourné par le backend,
+
+        la liste des données,
+
+        et le graphique Plot.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 160 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 160 — Initialisation de dispatch
+    </h2>
+
+    <p>
+
+        Le composant initialise la fonction
+        <code>dispatch</code> :
+
+    </p>
+
+    <pre><code>
+```
+
+const dispatch = useDispatch(); </code></pre>
+
+```
+    <p>
+
+        <code>dispatch</code> représente le mécanisme
+        permettant d'envoyer des actions vers Redux.
+
+        Dans notre cas, il permettra de déclencher
+        la récupération des données :
+
+    </p>
+
+    <pre><code>
+```
+
+dispatch(fetchPlotData()); </code></pre>
+
+```
+    <p>
+
+        Cette instruction démarre donc le traitement
+        défini dans <code>plotSlice.js</code>.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 161 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 161 — Lecture du state Redux
+    </h2>
+
+    <p>
+
+        Le composant récupère ensuite les données
+        depuis le store Redux :
+
+    </p>
+
+    <pre><code>
+```
+
+const {
+loading,
+error,
+message,
+rows
+} = useSelector(state => state.plot); </code></pre>
+
+```
+    <p>
+
+        Le composant accède à :
+
+    </p>
+
+    <ul>
+
+        <li>
+            <strong>loading</strong> :
+            indique si les données sont en cours de récupération.
+        </li>
+
+        <li>
+            <strong>error</strong> :
+            contient une éventuelle erreur.
+        </li>
+
+        <li>
+            <strong>message</strong> :
+            contient le message retourné par le backend.
+        </li>
+
+        <li>
+            <strong>rows</strong> :
+            contient les lignes de données Plot.
+        </li>
+
+    </ul>
+
+    <p>
+
+        Grâce à <code>useSelector()</code>,
+        toute modification de ces valeurs dans Redux
+        entraîne automatiquement une mise à jour
+        de l'interface React.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 162 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 162 — Déclenchement automatique de la requête
+    </h2>
+
+    <p>
+
+        Le hook <code>useEffect</code> contient :
+
+    </p>
+
+    <pre><code>
+```
+
+useEffect(() => {
+dispatch(fetchPlotData());
+}, [dispatch]); </code></pre>
+
+```
+    <p>
+
+        Lorsque le composant est chargé,
+        React exécute ce hook.
+
+        Celui-ci appelle :
+
+        <code>dispatch(fetchPlotData())</code>.
+
+        Redux Toolkit commence alors l'exécution
+        du thunk <code>fetchPlotData</code>.
+
+        Le processus de récupération des données
+        démarre donc automatiquement.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 163 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 163 — Création de chartData
+    </h2>
+
+    <p>
+
+        Les données reçues dans <code>rows</code>
+        sont préparées pour Recharts :
+
+    </p>
+
+    <pre><code>
+```
+
+const chartData = rows.map((item) => ({
+name: `X${item.x}`,
+X: item.x,
+Y: item.y
+})); </code></pre>
+
+```
+    <p>
+
+        La méthode <code>map()</code> parcourt chaque élément
+        du tableau <code>rows</code>.
+
+        Pour chaque ligne, un nouvel objet est créé.
+
+    </p>
+
+    <p>
+
+        La propriété :
+
+    </p>
+
+    <pre><code>
+```
+
+name: `X${item.x}` </code></pre>
+
+```
+    <p>
+
+        construit le nom utilisé sur l'axe horizontal.
+
+        Par exemple, si <code>item.x = 10</code>,
+        le nom devient :
+
+        <strong>X10</strong>.
+
+    </p>
+
+    <p>
+
+        La propriété :
+
+    </p>
+
+    <pre><code>
+```
+
+X: item.x </code></pre>
+
+```
+    <p>
+
+        conserve la valeur X.
+
+    </p>
+
+    <p>
+
+        La propriété :
+
+    </p>
+
+    <pre><code>
+```
+
+Y: item.y </code></pre>
+
+```
+    <p>
+
+        conserve la valeur Y.
+
+        Le tableau <code>chartData</code> devient donc
+        une structure adaptée à Recharts.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 164 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 164 — Structure du conteneur principal
+    </h2>
+
+    <p>
+
+        Toute l'interface est placée dans :
+
+    </p>
+
+    <pre><code>
+```
+
+<div className="plot-container"> </code></pre>
+
+```
+    <p>
+
+        La classe <code>plot-container</code> représente
+        le conteneur principal du dashboard.
+
+        Elle permet au fichier CSS de contrôler
+        la mise en page globale.
+
+        Toutes les sections du dashboard sont placées
+        à l'intérieur de ce conteneur.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 165 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 165 — Affichage du titre
+    </h2>
+
+    <pre><code>
+```
+
+<h2 className="plot-title">
+📊 Power BI Dashboard
+</h2> </code></pre>
+
+```
+    <p>
+
+        Cette balise affiche le titre principal
+        du dashboard.
+
+        La classe <code>plot-title</code> permet de
+        personnaliser son apparence avec CSS.
+
+        Le titre indique que la page contient
+        une visualisation Power BI.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 166 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 166 — Intégration de Power BI
+    </h2>
+
+    <p>
+
+        Le rapport Power BI est intégré grâce à une iframe :
+
+    </p>
+
+    <pre><code>
+```
+
+<iframe
+className="plot-iframe"
+title="lobna@education"
+src="https://app.powerbi.com/view?r=..."
+allowFullScreen
+/> </code></pre>
+
+```
+    <p>
+
+        L'attribut <code>src</code> contient le lien
+        du rapport Power BI publié.
+
+        L'iframe permet d'afficher le rapport directement
+        dans l'application React.
+
+        L'utilisateur peut donc consulter les visualisations
+        Power BI depuis le dashboard.
+
+        L'attribut <code>title</code> fournit une identification
+        du contenu intégré.
+
+        L'attribut <code>allowFullScreen</code> permet
+        l'affichage en plein écran lorsque cette fonctionnalité
+        est disponible.
+
+    </p>
+
+    <div class="important">
+
+        <strong>💡 Architecture hybride :</strong>
+
+        Le dashboard combine ici Power BI et React.
+
+        Power BI est utilisé pour la Business Intelligence
+        et les visualisations décisionnelles.
+
+        React, Redux et Recharts sont utilisés pour gérer,
+        récupérer et représenter les données de l'application.
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 167 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 167 — Gestion du chargement
+    </h2>
+
+    <p>
+
+        Le composant vérifie si la requête est en cours :
+
+    </p>
+
+    <pre><code>
+```
+
+{loading && (
+<p className="plot-loading">
+Loading...
+</p>
+)} </code></pre>
+
+```
+    <p>
+
+        Si <code>loading</code> vaut <code>true</code>,
+        le message <strong>Loading...</strong> apparaît.
+
+        Cela signifie que Redux est actuellement
+        en train d'attendre la réponse du backend.
+
+        Lorsque la requête se termine,
+        <code>loading</code> devient <code>false</code>
+        et le message disparaît.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 168 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 168 — Affichage des erreurs
+    </h2>
+
+    <pre><code>
+```
+
+{error && (
+<p className="plot-error">
+{error}
+</p>
+)} </code></pre>
+
+```
+    <p>
+
+        Si une erreur existe dans Redux,
+        elle est affichée dans l'interface.
+
+        La valeur <code>error</code> provient
+        du reducer <code>fetchPlotData.rejected</code>.
+
+        Cela permet notamment d'afficher une erreur
+        de connexion ou une erreur provenant
+        de la requête Axios.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 169 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 169 — Condition d'affichage des données
+    </h2>
+
+    <p>
+
+        Le reste du contenu est affiché uniquement
+        lorsque la récupération est terminée
+        et qu'aucune erreur n'existe :
+
+    </p>
+
+    <pre><code>
+```
+
+{!loading && !error && (
+<>
+...
+</>
+)} </code></pre>
+
+```
+    <p>
+
+        Cette condition signifie :
+
+    </p>
+
+    <ul>
+
+        <li>
+            <code>!loading</code> :
+            le chargement est terminé.
+        </li>
+
+        <li>
+            <code>!error</code> :
+            aucune erreur n'est présente.
+        </li>
+
+    </ul>
+
+    <p>
+
+        Lorsque les deux conditions sont vraies,
+        React affiche le message, la liste et le graphique.
+
+        Cela évite notamment d'afficher les données
+        pendant qu'elles sont encore en cours de récupération.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 170 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 170 — Affichage du message backend
+    </h2>
+
+    <pre><code>
+```
+
+<h3 className="plot-message">
+{message}
+</h3> </code></pre>
+
+```
+    <p>
+
+        La variable <code>message</code> contient
+        le message envoyé par le backend.
+
+        Cette valeur est récupérée dans Redux
+        lorsque la requête réussit.
+
+        Elle permet au backend de transmettre
+        une information supplémentaire au frontend.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 171 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 171 — Affichage de rows avec map()
+    </h2>
+
+    <p>
+
+        Les données sont affichées sous forme de liste :
+
+    </p>
+
+    <pre><code>
+```
+
+<ul className="plot-list">
+
+{rows.map((item, index) => (
+
+```
+&lt;li key={index}&gt;
+
+  X: {item.x} | Y: {item.y}
+
+&lt;/li&gt;
+```
+
+))}
+
+</ul> </code></pre>
+
+```
+    <p>
+
+        La méthode <code>map()</code> parcourt
+        le tableau <code>rows</code>.
+
+        Pour chaque élément, React crée une balise
+        <code>li</code>.
+
+        <code>item.x</code> représente la valeur X.
+
+        <code>item.y</code> représente la valeur Y.
+
+        La propriété <code>key</code> permet à React
+        d'identifier chaque élément de la liste.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 172 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 172 — Titre du graphique
+    </h2>
+
+    <pre><code>
+```
+
+<h2 className="plot-subtitle">
+📈 Plot Graph
+</h2> </code></pre>
+
+```
+    <p>
+
+        Ce titre introduit la représentation graphique
+        des données X et Y.
+
+        La classe <code>plot-subtitle</code> permet
+        de contrôler son apparence avec CSS.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 173 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 173 — ResponsiveContainer
+    </h2>
+
+    <pre><code>
+```
+
+<ResponsiveContainer
+width="100%"
+height={400}
+> </code></pre>
+
+```
+    <p>
+
+        <code>ResponsiveContainer</code> permet au graphique
+        de s'adapter à la largeur disponible.
+
+        <code>width="100%"</code> signifie que le graphique
+        occupe toute la largeur de son conteneur.
+
+        <code>height={400}</code> définit une hauteur
+        de 400 pixels.
+
+        Cette approche améliore l'affichage sur différents
+        écrans.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 174 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 174 — Création du BarChart
+    </h2>
+
+    <pre><code>
+```
+
+<BarChart data={chartData}> </code></pre>
+
+```
+    <p>
+
+        Le composant <code>BarChart</code> reçoit
+        le tableau <code>chartData</code>.
+
+        Ce tableau a été créé à partir de
+        <code>rows</code> avec la méthode
+        <code>map()</code>.
+
+        Recharts utilise ensuite ces données
+        pour construire automatiquement
+        le graphique.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 175 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 175 — Configuration de la grille
+    </h2>
+
+    <pre><code>
+```
+
+<CartesianGrid
+strokeDasharray="3 3"
+/> </code></pre>
+
+```
+    <p>
+
+        <code>CartesianGrid</code> ajoute une grille
+        de référence au graphique.
+
+        <code>strokeDasharray="3 3"</code> permet
+        d'obtenir une grille en lignes discontinues.
+
+        Cette grille facilite la lecture des valeurs.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 176 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 176 — Configuration de l'axe X
+    </h2>
+
+    <pre><code>
+```
+
+<XAxis dataKey="name" /> </code></pre>
+
+```
+    <p>
+
+        L'axe horizontal utilise la propriété
+        <code>name</code> de chaque objet
+        de <code>chartData</code>.
+
+        Cette propriété est construite avec :
+
+    </p>
+
+    <pre><code>
+```
+
+name: `X${item.x}` </code></pre>
+
+```
+    <p>
+
+        Ainsi, les catégories affichées sur l'axe
+        peuvent être par exemple :
+
+        <strong>X1</strong>,
+
+        <strong>X2</strong>,
+
+        <strong>X3</strong>,
+
+        etc.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 177 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 177 — Configuration de l'axe Y
+    </h2>
+
+    <pre><code>
+```
+
+<YAxis /> </code></pre>
+
+```
+    <p>
+
+        <code>YAxis</code> représente l'axe vertical.
+
+        Recharts utilise automatiquement les valeurs
+        numériques des séries pour déterminer
+        l'échelle de cet axe.
+
+        Les valeurs X et Y peuvent donc être comparées
+        visuellement sur le graphique.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 178 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 178 — Tooltip
+    </h2>
+
+    <pre><code>
+```
+
+<Tooltip /> </code></pre>
+
+```
+    <p>
+
+        Le composant <code>Tooltip</code> ajoute
+        une information interactive.
+
+        Lorsque l'utilisateur place la souris
+        sur une barre, Recharts affiche les valeurs
+        correspondantes.
+
+        Cela permet de consulter les données précises
+        sans surcharger le graphique.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 179 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 179 — Legend
+    </h2>
+
+    <pre><code>
+```
+
+<Legend /> </code></pre>
+
+```
+    <p>
+
+        <code>Legend</code> affiche la légende
+        des séries présentes dans le graphique.
+
+        Dans notre cas, deux séries sont utilisées :
+
+        <strong>X</strong> et <strong>Y</strong>.
+
+        L'utilisateur peut ainsi comprendre
+        quelle barre correspond à quelle donnée.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 180 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 180 — Barre X
+    </h2>
+
+    <pre><code>
+```
+
+<Bar
+dataKey="X"
+fill="#4f46e5"
+/> </code></pre>
+
+```
+    <p>
+
+        Cette barre utilise la propriété
+        <code>X</code> de <code>chartData</code>.
+
+        Elle représente donc :
+
+    </p>
+
+    <pre><code>
+```
+
+X: item.x </code></pre>
+
+```
+    <p>
+
+        La propriété <code>fill</code> définit
+        la couleur utilisée pour cette série.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 181 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 181 — Barre Y
+    </h2>
+
+    <pre><code>
+```
+
+<Bar
+dataKey="Y"
+fill="#ef4444"
+/> </code></pre>
+
+```
+    <p>
+
+        Cette deuxième barre utilise la propriété
+        <code>Y</code> de <code>chartData</code>.
+
+        Elle représente :
+
+    </p>
+
+    <pre><code>
+```
+
+Y: item.y </code></pre>
+
+```
+    <p>
+
+        Le graphique peut donc afficher simultanément
+        les valeurs X et Y.
+
+        Cette représentation facilite la comparaison
+        entre les deux séries.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 182 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 182 — Importation de Redux Toolkit
+    </h2>
+
+    <p>
+
+        Le fichier <strong>plotSlice.js</strong> commence
+        par importer deux fonctions de Redux Toolkit :
+
+    </p>
+
+    <pre><code>
+```
+
+import {
+createSlice,
+createAsyncThunk
+} from "@reduxjs/toolkit"; </code></pre>
+
+```
+    <p>
+
+        <code>createAsyncThunk</code> est utilisé
+        pour créer l'action asynchrone.
+
+        <code>createSlice</code> permet de créer
+        le slice Redux et ses reducers.
+
+        Ces outils simplifient fortement
+        la gestion de l'état dans une application React.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 183 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 183 — Importation d'Axios
+    </h2>
+
+    <pre><code>
+```
+
+import axios from "axios"; </code></pre>
+
+```
+    <p>
+
+        Axios permet d'envoyer des requêtes HTTP
+        au backend.
+
+        Dans notre cas, il est utilisé pour envoyer
+        une requête <strong>GET</strong> vers
+        l'endpoint Plot.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 184 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 184 — Création de fetchPlotData
+    </h2>
+
+    <pre><code>
+```
+
+export const fetchPlotData = createAsyncThunk(
+"plot/fetchPlotData",
+async (_, thunkAPI) => {
+...
+}
+); </code></pre>
+
+```
+    <p>
+
+        <code>fetchPlotData</code> est une action
+        asynchrone Redux.
+
+        Son rôle est de récupérer les données Plot
+        depuis le backend.
+
+        Le premier argument :
+
+    </p>
+
+    <pre><code>
+```
+
+"plot/fetchPlotData" </code></pre>
+
+```
+    <p>
+
+        représente le type Redux associé à cette action.
+
+        Le symbole <code>_</code> signifie que cette action
+        n'a pas besoin de recevoir de paramètre.
+
+        Le paramètre <code>thunkAPI</code> permet notamment
+        d'utiliser <code>rejectWithValue()</code>
+        en cas d'erreur.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 185 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 185 — Requête GET avec Axios
+    </h2>
+
+    <pre><code>
+```
+
+const res = await axios.get(
+"http://localhost:3000/plot/plot"
+); </code></pre>
+
+```
+    <p>
+
+        Axios envoie une requête HTTP GET vers :
+
+    </p>
+
+    <pre><code>
+```
+
+http://localhost:3000/plot/plot </code></pre>
+
+```
+    <p>
+
+        Le serveur backend reçoit cette requête
+        et doit retourner les données nécessaires
+        au dashboard.
+
+        Le mot-clé <code>await</code> permet d'attendre
+        la réponse avant de continuer.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 186 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 186 — Retour de la réponse Axios
+    </h2>
+
+    <pre><code>
+```
+
+return res.data; </code></pre>
+
+```
+    <p>
+
+        Après réception de la réponse,
+        le thunk retourne <code>res.data</code>.
+
+        Contrairement à certains autres endpoints,
+        le code ne récupère pas directement
+        <code>res.data.data</code>.
+
+        Il retourne toute la structure JSON
+        fournie par le backend.
+
+        C'est ensuite le reducer
+        <code>fulfilled</code> qui extrait
+        les différentes propriétés.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 187 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 187 — Gestion des erreurs du thunk
+    </h2>
+
+    <pre><code>
+```
+
+catch (err) {
+
+return thunkAPI.rejectWithValue(
+err.message
+);
+
+} </code></pre>
+
+```
+    <p>
+
+        Si Axios rencontre une erreur,
+        l'exécution passe dans le bloc
+        <code>catch</code>.
+
+        Le message de l'erreur est récupéré avec :
+
+    </p>
+
+    <pre><code>
+```
+
+err.message </code></pre>
+
+```
+    <p>
+
+        Il est ensuite transmis à Redux
+        grâce à :
+
+    </p>
+
+    <pre><code>
+```
+
+thunkAPI.rejectWithValue(err.message) </code></pre>
+
+```
+    <p>
+
+        Cette valeur sera disponible dans
+        <code>action.payload</code>
+        du reducer <code>rejected</code>.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 188 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 188 — Création du plotSlice
+    </h2>
+
+    <pre><code>
+```
+
+const plotSlice = createSlice({
+
+name: "plot",
+
+initialState: {
+loading: false,
+error: null,
+message: "",
+rows: []
+},
+
+reducers: {},
+
+extraReducers: ...
+}); </code></pre>
+
+```
+    <p>
+
+        <code>createSlice()</code> crée la partie
+        du store Redux consacrée au Dashboard Plot.
+
+        Le nom du slice est :
+
+    </p>
+
+    <pre><code>
+```
+
+name: "plot" </code></pre>
+
+```
+    <p>
+
+        Le state est composé de quatre propriétés :
+
+    </p>
+
+    <ul>
+
+        <li>
+            <strong>loading</strong> :
+            indique si une requête est en cours.
+        </li>
+
+        <li>
+            <strong>error</strong> :
+            contient une éventuelle erreur.
+        </li>
+
+        <li>
+            <strong>message</strong> :
+            contient le message retourné par le backend.
+        </li>
+
+        <li>
+            <strong>rows</strong> :
+            contient les données Plot.
+        </li>
+
+    </ul>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 189 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 189 — InitialState
+    </h2>
+
+    <pre><code>
+```
+
+initialState: {
+
+loading: false,
+
+error: null,
+
+message: "",
+
+rows: []
+
+} </code></pre>
+
+```
+    <p>
+
+        Au démarrage de l'application,
+        aucune requête n'est encore en cours.
+
+        C'est pourquoi :
+
+        <code>loading</code> vaut <code>false</code>.
+
+        Aucune erreur n'existe :
+
+        <code>error</code> vaut <code>null</code>.
+
+        Aucun message n'est disponible :
+
+        <code>message</code> vaut une chaîne vide.
+
+        Enfin, aucune ligne n'a encore été récupérée :
+
+        <code>rows</code> est un tableau vide.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 190 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 190 — Pourquoi reducers est vide ?
+    </h2>
+
+    <pre><code>
+```
+
+reducers: {}, </code></pre>
+
+```
+    <p>
+
+        La propriété <code>reducers</code> est vide
+        parce que le slice n'a pas besoin ici
+        d'actions synchrones personnalisées.
+
+        La récupération des données est entièrement
+        gérée par <code>createAsyncThunk</code>.
+
+        Les différents états de cette opération
+        sont traités dans <code>extraReducers</code>.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 191 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 191 — Gestion de l'état pending
+    </h2>
+
+    <pre><code>
+```
+
+.addCase(
+fetchPlotData.pending,
+(state) => {
+
+```
+state.loading = true;
+state.error = null;
+```
+
+}
+) </code></pre>
+
+```
+    <p>
+
+        Lorsque <code>fetchPlotData()</code> commence,
+        Redux Toolkit déclenche automatiquement
+        l'état <code>pending</code>.
+
+        Le code met alors :
+
+    </p>
+
+    <pre><code>
+```
+
+state.loading = true; </code></pre>
+
+```
+    <p>
+
+        Le composant React reçoit cette modification
+        avec <code>useSelector()</code>.
+
+        Il peut donc afficher :
+
+        <strong>Loading...</strong>.
+
+        L'erreur précédente est également supprimée :
+
+    </p>
+
+    <pre><code>
+```
+
+state.error = null; </code></pre>
+
+```
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 192 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 192 — Gestion de l'état fulfilled
+    </h2>
+
+    <pre><code>
+```
+
+.addCase(
+fetchPlotData.fulfilled,
+(state, action) => {
+
+```
+state.loading = false;
+
+state.message =
+  action.payload.message;
+
+state.rows =
+  action.payload.data.rows;
+```
+
+}
+) </code></pre>
+
+```
+    <p>
+
+        Lorsque Axios reçoit correctement
+        les données du backend,
+        Redux Toolkit déclenche
+        <code>fulfilled</code>.
+
+        Le chargement est terminé :
+
+    </p>
+
+    <pre><code>
+```
+
+state.loading = false; </code></pre>
+
+```
+    <p>
+
+        Le message backend est récupéré avec :
+
+    </p>
+
+    <pre><code>
+```
+
+action.payload.message </code></pre>
+
+```
+    <p>
+
+        Il est stocké dans :
+
+    </p>
+
+    <pre><code>
+```
+
+state.message </code></pre>
+
+```
+    <p>
+
+        Les lignes Plot sont ensuite récupérées
+        avec :
+
+    </p>
+
+    <pre><code>
+```
+
+action.payload.data.rows </code></pre>
+
+```
+    <p>
+
+        Elles sont enregistrées dans :
+
+    </p>
+
+    <pre><code>
+```
+
+state.rows </code></pre>
+
+```
+    <p>
+
+        React reçoit alors les nouvelles données
+        et met automatiquement l'interface à jour.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 193 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 193 — Structure attendue de la réponse backend
+    </h2>
+
+    <p>
+
+        Le reducer <code>fulfilled</code> montre
+        que le backend doit retourner une structure
+        contenant au minimum :
+
+    </p>
+
+    <pre><code>
+```
+
+{
+"message": "...",
+
+"data": {
+
+```
+"rows": [
+
+  {
+    "x": 10,
+    "y": 20
+  },
+
+  {
+    "x": 20,
+    "y": 35
+  }
+
+]
+```
+
+}
+} </code></pre>
+
+```
+    <p>
+
+        Le frontend récupère le message avec :
+
+    </p>
+
+    <pre><code>
+```
+
+action.payload.message </code></pre>
+
+```
+    <p>
+
+        et les données avec :
+
+    </p>
+
+    <pre><code>
+```
+
+action.payload.data.rows </code></pre>
+
+```
+    <div class="important">
+
+        <strong>⚠️ Point important :</strong>
+
+        La structure de la réponse backend doit correspondre
+        exactement à ce que le reducer attend.
+
+        Si le backend retourne par exemple
+        <code>data</code> directement sous forme de tableau,
+        alors l'instruction
+        <code>action.payload.data.rows</code>
+        ne fonctionnera pas.
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 194 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 194 — Gestion de l'état rejected
+    </h2>
+
+    <pre><code>
+```
+
+.addCase(
+fetchPlotData.rejected,
+(state, action) => {
+
+```
+state.loading = false;
+
+state.error = action.payload;
+```
+
+}
+) </code></pre>
+
+```
+    <p>
+
+        Si la requête échoue,
+        Redux Toolkit déclenche
+        <code>rejected</code>.
+
+        Le chargement est arrêté :
+
+    </p>
+
+    <pre><code>
+```
+
+state.loading = false; </code></pre>
+
+```
+    <p>
+
+        Le message d'erreur envoyé par
+        <code>rejectWithValue()</code>
+        est récupéré avec :
+
+    </p>
+
+    <pre><code>
+```
+
+action.payload </code></pre>
+
+```
+    <p>
+
+        Il est ensuite enregistré dans :
+
+    </p>
+
+    <pre><code>
+```
+
+state.error </code></pre>
+
+```
+    <p>
+
+        Le composant React peut alors afficher
+        le message grâce à :
+
+    </p>
+
+    <pre><code>
+```
+
+{error && <p>{error}</p>} </code></pre>
+
+```
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 195 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 195 — Exportation du reducer
+    </h2>
+
+    <pre><code>
+```
+
+export default plotSlice.reducer; </code></pre>
+
+```
+    <p>
+
+        Le reducer du slice Plot est exporté
+        afin d'être enregistré dans le store Redux principal.
+
+        Une fois enregistré sous le nom <code>plot</code>,
+        le composant peut accéder aux données avec :
+
+    </p>
+
+    <pre><code>
+```
+
+useSelector(state => state.plot); </code></pre>
+
+```
+    <p>
+
+        Le lien entre le store Redux et
+        <code>PlotDashboard</code> est ainsi établi.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 196 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 196 — Cycle complet de la requête
+    </h2>
+
+    <div class="state-grid">
+
+        <div class="state-card">
+
+            <h3>⏳ 1. Pending</h3>
+
+            <p>
+                <code>fetchPlotData()</code> commence.
+                <code>loading = true</code>.
+            </p>
+
+        </div>
+
+        <div class="state-card">
+
+            <h3>✅ 2. Fulfilled</h3>
+
+            <p>
+                Axios reçoit les données.
+                <code>message</code> et
+                <code>rows</code> sont enregistrés.
+            </p>
+
+        </div>
+
+        <div class="state-card">
+
+            <h3>❌ 3. Rejected</h3>
+
+            <p>
+                Une erreur survient.
+                <code>error</code> reçoit le message.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 197 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 197 — Parcours complet des données
+    </h2>
+
+    <p>
+
+        Le fonctionnement commence lorsque
+        l'utilisateur ouvre le Dashboard Plot.
+
+        React charge le composant
+        <code>PlotDashboard</code>.
+
+        Le hook <code>useEffect()</code> est exécuté.
+
+        Il déclenche :
+
+    </p>
+
+    <pre><code>
+```
+
+dispatch(fetchPlotData()); </code></pre>
+
+```
+    <p>
+
+        Redux Toolkit lance alors le thunk
+        <code>fetchPlotData</code>.
+
+        Le state passe à :
+
+    </p>
+
+    <pre><code>
+```
+
+loading = true </code></pre>
+
+```
+    <p>
+
+        Axios envoie ensuite :
+
+    </p>
+
+    <pre><code>
+```
+
+GET http://localhost:3000/plot/plot </code></pre>
+
+```
+    <p>
+
+        Le backend traite la requête et retourne
+        une réponse JSON.
+
+        Le thunk retourne :
+
+    </p>
+
+    <pre><code>
+```
+
+res.data </code></pre>
+
+```
+    <p>
+
+        Redux déclenche ensuite
+        <code>fulfilled</code>.
+
+        Le reducer récupère :
+
+    </p>
+
+    <pre><code>
+```
+
+action.payload.message </code></pre>
+
+```
+    <p>
+
+        et :
+
+    </p>
+
+    <pre><code>
+```
+
+action.payload.data.rows </code></pre>
+
+```
+    <p>
+
+        Les données sont ensuite disponibles
+        dans <code>state.plot.rows</code>.
+
+        React récupère ces données avec
+        <code>useSelector()</code>.
+
+        Enfin, <code>rows.map()</code> construit
+        <code>chartData</code>.
+
+        Recharts utilise ce tableau pour créer
+        le graphique à barres.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 198 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 198 — Schéma global
+    </h2>
+
+    <div class="flow">
+
+        <div class="flow-box">
+            👤 Utilisateur
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            ⚛️ React
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            PlotDashboard
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            useEffect()
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            dispatch(fetchPlotData())
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            Redux Toolkit
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            createAsyncThunk
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            Axios GET
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            🖥️ Backend Node.js / Express
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            📦 Réponse JSON
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            fulfilled / rejected
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            Redux Store
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            useSelector()
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            rows
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            chartData
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="flow-box">
+            📊 Recharts
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 199 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 199 — Rôle de React
+    </h2>
+
+    <p>
+
+        <strong>React</strong> constitue la couche
+        d'interface utilisateur.
+
+        Il affiche :
+
+        le titre,
+
+        le rapport Power BI,
+
+        le chargement,
+
+        les erreurs,
+
+        le message backend,
+
+        la liste des données,
+
+        et le graphique.
+
+        React réagit également automatiquement
+        aux modifications du state Redux.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 200 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 200 — Rôle de Redux Toolkit
+    </h2>
+
+    <p>
+
+        <strong>Redux Toolkit</strong> centralise
+        les données du Dashboard Plot.
+
+        Le slice possède quatre informations principales :
+
+    </p>
+
+    <ul>
+
+        <li><code>loading</code></li>
+
+        <li><code>error</code></li>
+
+        <li><code>message</code></li>
+
+        <li><code>rows</code></li>
+
+    </ul>
+
+    <p>
+
+        Redux Toolkit gère également automatiquement
+        les trois états de l'opération asynchrone :
+
+        <strong>pending</strong>,
+
+        <strong>fulfilled</strong>,
+
+        et <strong>rejected</strong>.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 201 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 201 — Rôle d'Axios
+    </h2>
+
+    <p>
+
+        <strong>Axios</strong> est le client HTTP utilisé
+        pour communiquer avec le backend.
+
+        Dans cette fonctionnalité, il effectue :
+
+    </p>
+
+    <pre><code>
+```
+
+GET /plot/plot </code></pre>
+
+```
+    <p>
+
+        Axios reçoit ensuite la réponse du serveur
+        et transmet les données au thunk Redux.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 202 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 202 — Rôle de Recharts
+    </h2>
+
+    <p>
+
+        <strong>Recharts</strong> transforme les données
+        <code>rows</code> en graphique.
+
+        Le tableau <code>chartData</code> contient :
+
+    </p>
+
+    <pre><code>
+```
+
+{
+name: "X10",
+X: 10,
+Y: 20
+} </code></pre>
+
+```
+    <p>
+
+        Recharts utilise ensuite les propriétés
+        <code>X</code> et <code>Y</code> pour créer
+        les deux séries de barres.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 203 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 203 — Rôle de Power BI
+    </h2>
+
+    <p>
+
+        <strong>Power BI</strong> apporte la partie
+        Business Intelligence du dashboard.
+
+        Le rapport est intégré avec une iframe.
+
+        Cela permet de combiner :
+
+        <strong>Power BI</strong> pour l'analyse décisionnelle,
+
+        <strong>React</strong> pour l'interface,
+
+        <strong>Redux</strong> pour la gestion des données,
+
+        et <strong>Recharts</strong> pour les graphiques
+        personnalisés.
+
+    </p>
+
+    <div class="important">
+
+        <strong>📌 Résultat :</strong>
+
+        Le Dashboard Plot devient une interface hybride
+        qui combine Business Intelligence,
+        développement frontend, communication backend
+        et visualisation de données.
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 204 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 204 — Différence entre rows et chartData
+    </h2>
+
+    <p>
+
+        Il est important de distinguer
+        <code>rows</code> et <code>chartData</code>.
+
+        <strong>rows</strong> représente les données
+        originales reçues du backend.
+
+    </p>
+
+    <pre><code>
+```
+
+rows = [
+{
+x: 10,
+y: 20
+}
+] </code></pre>
+
+```
+    <p>
+
+        <strong>chartData</strong> représente
+        les mêmes données préparées pour Recharts :
+
+    </p>
+
+    <pre><code>
+```
+
+chartData = [
+{
+name: "X10",
+X: 10,
+Y: 20
+}
+] </code></pre>
+
+```
+    <p>
+
+        Cette transformation permet d'ajouter
+        la propriété <code>name</code> nécessaire
+        à l'axe horizontal du graphique.
+
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 205 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 205 — Pourquoi utiliser Redux ici ?
+    </h2>
+
+    <p>
+
+        Redux permet de centraliser la gestion
+        des données du dashboard.
+
+        Au lieu de gérer directement la requête Axios
+        dans le composant React, la récupération
+        est organisée dans le slice.
+
+        Cette architecture permet de séparer
+        les responsabilités :
+
+    </p>
+
+    <div class="architecture-grid">
+
+        <div class="architecture-card">
+
+            <h3>⚛️ React</h3>
+
+            <p>
+                Affichage et interaction utilisateur.
+            </p>
+
+        </div>
+
+        <div class="architecture-card">
+
+            <h3>🔄 Redux</h3>
+
+            <p>
+                Gestion centralisée du state.
+            </p>
+
+        </div>
+
+        <div class="architecture-card">
+
+            <h3>🌐 Axios</h3>
+
+            <p>
+                Communication HTTP avec l'API.
+            </p>
+
+        </div>
+
+        <div class="architecture-card">
+
+            <h3>📊 Recharts</h3>
+
+            <p>
+                Visualisation graphique.
+            </p>
+
+        </div>
+
+        <div class="architecture-card">
+
+            <h3>📈 Power BI</h3>
+
+            <p>
+                Business Intelligence.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 206 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 206 — Architecture complète du Dashboard Plot
+    </h2>
+
+    <p>
+
+        L'architecture complète peut être résumée
+        comme suit :
+
+    </p>
+
+    <ol>
+
+        <li>
+            L'utilisateur ouvre le Dashboard Plot.
+        </li>
+
+        <li>
+            React charge <code>PlotDashboard</code>.
+        </li>
+
+        <li>
+            <code>useEffect()</code> est exécuté.
+        </li>
+
+        <li>
+            <code>dispatch(fetchPlotData())</code>
+            est déclenché.
+        </li>
+
+        <li>
+            Redux passe à l'état <strong>pending</strong>.
+        </li>
+
+        <li>
+            Axios envoie une requête GET au backend.
+        </li>
+
+        <li>
+            Le backend retourne les données Plot.
+        </li>
+
+        <li>
+            Redux passe à l'état
+            <strong>fulfilled</strong>.
+        </li>
+
+        <li>
+            Les données sont stockées dans
+            <code>state.plot.rows</code>.
+        </li>
+
+        <li>
+            React récupère <code>rows</code>
+            avec <code>useSelector()</code>.
+        </li>
+
+        <li>
+            <code>rows.map()</code> crée
+            <code>chartData</code>.
+        </li>
+
+        <li>
+            Recharts utilise <code>chartData</code>
+            pour construire le graphique.
+        </li>
+
+        <li>
+            Power BI affiche parallèlement
+            le rapport Business Intelligence intégré.
+        </li>
+
+    </ol>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 207 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        # 207 — Points importants du code
+    </h2>
+
+    <div class="important">
+
+        <h3>🔎 Point 1 — Endpoint backend</h3>
+
+        <p>
+            Le frontend utilise :
+            <code>http://localhost:3000/plot/plot</code>.
+        </p>
+
+    </div>
+
+    <div class="important">
+
+        <h3>🔎 Point 2 — Structure JSON</h3>
+
+        <p>
+            Le reducer attend :
+            <code>message</code> et
+            <code>data.rows</code>.
+        </p>
+
+    </div>
+
+    <div class="important">
+
+        <h3>🔎 Point 3 — Tableau rows</h3>
+
+        <p>
+            Chaque ligne doit contenir au minimum
+            les propriétés <code>x</code> et <code>y</code>.
+        </p>
+
+    </div>
+
+    <div class="important">
+
+        <h3>🔎 Point 4 — Transformation graphique</h3>
+
+        <p>
+            <code>rows</code> est transformé en
+            <code>chartData</code> avant d'être envoyé
+            à Recharts.
+        </p>
+
+    </div>
+
+    <div class="important">
+
+        <h3>🔎 Point 5 — Gestion des états</h3>
+
+        <p>
+            Redux Toolkit gère automatiquement
+            les états <strong>pending</strong>,
+            <strong>fulfilled</strong> et
+            <strong>rejected</strong>.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 208 -->
+<!-- ===================================================== -->
+
+<section class="chapter conclusion">
+
+    <h2>
+        # 208 — Conclusion
+    </h2>
+
+    <p>
+
+        Le Dashboard Plot constitue une fonctionnalité
+        complète de visualisation de données.
+
+        <strong>React</strong> construit l'interface utilisateur
+        et affiche les différentes informations.
+
+        <strong>useEffect</strong> déclenche automatiquement
+        la récupération des données.
+
+        <strong>useDispatch</strong> permet d'envoyer
+        l'action vers Redux.
+
+        <strong>useSelector</strong> permet de récupérer
+        les données depuis le store.
+
+        <strong>Redux Toolkit</strong> centralise la gestion
+        du state et organise le cycle asynchrone.
+
+        <strong>createAsyncThunk</strong> permet de créer
+        l'opération de récupération des données.
+
+        <strong>Axios</strong> communique avec le backend
+        grâce à une requête GET.
+
+        <strong>rows</strong> contient les données originales
+        reçues du serveur.
+
+        <strong>chartData</strong> prépare ces données
+        pour la visualisation.
+
+        <strong>Recharts</strong> construit le graphique
+        avec les séries X et Y.
+
+        Enfin, <strong>Power BI</strong> fournit une couche
+        supplémentaire de Business Intelligence grâce
+        à l'intégration du rapport dans une iframe.
+
+        L'ensemble forme donc une architecture moderne
+        combinant frontend React, gestion d'état Redux,
+        communication API, visualisation graphique
+        et Business Intelligence.
+
+    </p>
+
+</section>
+```
+
+</main>
+
+</body>
+
+</html>

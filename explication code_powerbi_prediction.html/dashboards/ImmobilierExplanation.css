@@ -1,0 +1,566 @@
+
+/* =========================================================
+   DOCUMENTATION DASHBOARD IMMOBILIER
+   Fichier : ImmobilierDocumentation.css
+   ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+    color: #1f2937;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   MAIN DOCUMENTATION
+   ========================================================= */
+
+.documentation {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 30px 80px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.documentation-header {
+    background: linear-gradient(
+        135deg,
+        #1e3a8a,
+        #2563eb
+    );
+
+    color: white;
+
+    padding: 45px 35px;
+
+    border-radius: 18px;
+
+    margin-bottom: 40px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.12);
+
+    text-align: center;
+}
+
+
+.documentation-header h1 {
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+
+.documentation-header p {
+    font-size: 17px;
+    max-width: 850px;
+    margin: 0 auto;
+    opacity: 0.95;
+}
+
+
+/* =========================================================
+   CHAPTER
+   ========================================================= */
+
+.chapter {
+    background: #ffffff;
+
+    padding: 35px;
+
+    margin-bottom: 30px;
+
+    border-radius: 16px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.06);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.chapter:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.09);
+}
+
+
+/* =========================================================
+   CHAPTER TITLE
+   ========================================================= */
+
+.chapter h2 {
+    font-size: 24px;
+
+    color: #1e3a8a;
+
+    margin-bottom: 20px;
+
+    padding-bottom: 12px;
+
+    border-bottom: 2px solid #e5e7eb;
+}
+
+
+/* =========================================================
+   PARAGRAPHS
+   ========================================================= */
+
+.chapter p {
+    font-size: 16px;
+
+    color: #374151;
+
+    text-align: justify;
+
+    line-height: 1.9;
+}
+
+
+/* =========================================================
+   STRONG
+   ========================================================= */
+
+.chapter strong {
+    color: #111827;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   INLINE CODE
+   ========================================================= */
+
+.chapter code {
+    background: #eef2ff;
+
+    color: #3730a3;
+
+    padding: 3px 7px;
+
+    border-radius: 5px;
+
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   FLOW / SCHEMA
+   ========================================================= */
+
+.flow {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 35px auto;
+
+    width: 100%;
+
+    max-width: 650px;
+}
+
+
+/* =========================================================
+   FLOW BOX
+   ========================================================= */
+
+.flow-box {
+    width: 100%;
+
+    max-width: 500px;
+
+    padding: 16px 25px;
+
+    background: #eff6ff;
+
+    border: 2px solid #3b82f6;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    color: #1e3a8a;
+
+    box-shadow:
+        0 4px 12px rgba(37, 99, 235, 0.10);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.flow-box:hover {
+    transform: scale(1.03);
+
+    background: #dbeafe;
+}
+
+
+/* =========================================================
+   ARROW
+   ========================================================= */
+
+.arrow {
+    font-size: 28px;
+
+    font-weight: bold;
+
+    color: #2563eb;
+
+    margin: 7px 0;
+}
+
+
+/* =========================================================
+   FIRST CHAPTER
+   ========================================================= */
+
+.chapter:first-of-type {
+    border-top: 5px solid #2563eb;
+}
+
+
+/* =========================================================
+   CODE EMPHASIS
+   ========================================================= */
+
+.chapter code:hover {
+    background: #e0e7ff;
+}
+
+
+/* =========================================================
+   LIST SUPPORT
+   ========================================================= */
+
+.chapter ul {
+    margin-top: 20px;
+
+    margin-left: 25px;
+}
+
+
+.chapter li {
+    margin-bottom: 10px;
+
+    color: #374151;
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+.chapter a {
+    color: #2563eb;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+
+.chapter a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   TABLE SUPPORT
+   ========================================================= */
+
+.chapter table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 25px;
+
+    overflow: hidden;
+}
+
+
+.chapter th,
+.chapter td {
+    border: 1px solid #d1d5db;
+
+    padding: 12px;
+
+    text-align: left;
+}
+
+
+.chapter th {
+    background: #eff6ff;
+
+    color: #1e3a8a;
+
+    font-weight: 700;
+}
+
+
+.chapter td {
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .documentation {
+        padding: 35px 20px 60px;
+    }
+
+
+    .documentation-header {
+        padding: 35px 25px;
+    }
+
+
+    .documentation-header h1 {
+        font-size: 29px;
+    }
+
+
+    .documentation-header p {
+        font-size: 16px;
+    }
+
+
+    .chapter {
+        padding: 28px;
+    }
+
+
+    .chapter h2 {
+        font-size: 22px;
+    }
+
+
+    .chapter p {
+        font-size: 15px;
+    }
+
+
+    .flow-box {
+        max-width: 450px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        font-size: 14px;
+    }
+
+
+    .documentation {
+        padding: 20px 12px 50px;
+    }
+
+
+    .documentation-header {
+        padding: 28px 18px;
+
+        border-radius: 14px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .documentation-header h1 {
+        font-size: 24px;
+
+        line-height: 1.4;
+    }
+
+
+    .documentation-header p {
+        font-size: 14px;
+
+        line-height: 1.7;
+    }
+
+
+    .chapter {
+        padding: 22px 18px;
+
+        margin-bottom: 20px;
+
+        border-radius: 12px;
+    }
+
+
+    .chapter h2 {
+        font-size: 20px;
+
+        line-height: 1.5;
+    }
+
+
+    .chapter p {
+        font-size: 14px;
+
+        line-height: 1.8;
+
+        text-align: left;
+    }
+
+
+    .chapter code {
+        font-size: 12px;
+
+        padding: 2px 5px;
+    }
+
+
+    .flow {
+        margin: 25px auto;
+    }
+
+
+    .flow-box {
+        width: 95%;
+
+        padding: 14px 12px;
+
+        font-size: 14px;
+
+        line-height: 1.5;
+    }
+
+
+    .arrow {
+        font-size: 24px;
+
+        margin: 5px 0;
+    }
+
+
+    .chapter table {
+        display: block;
+
+        overflow-x: auto;
+
+        white-space: nowrap;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITÉ
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .chapter,
+    .flow-box {
+        transition: none;
+    }
+
+}
+
+
+/* =========================================================
+   IMPRESSION
+   ========================================================= */
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+
+    .documentation {
+        max-width: 100%;
+
+        padding: 0;
+    }
+
+
+    .documentation-header {
+        color: black;
+
+        background: white;
+
+        box-shadow: none;
+
+        border: 1px solid #ccc;
+    }
+
+
+    .chapter {
+        box-shadow: none;
+
+        border: 1px solid #ccc;
+
+        page-break-inside: avoid;
+    }
+
+
+    .chapter:hover,
+    .flow-box:hover {
+        transform: none;
+
+        box-shadow: none;
+    }
+
+}
+

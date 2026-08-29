@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Documentation technique du composant InfoDashboard.jsx, du fichier infoSlice.js et de leur liaison avec InfoDashboard.css."
+    >
+
+    <title>Documentation — InfoDashboard.jsx, infoSlice.js et CSS</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.8;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .documentation {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 0;
+        }
+
+        .documentation-header {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #2563eb;
+        }
+
+        h3 {
+            color: #374151;
+        }
+
+        .chapter {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        code {
+            background: #eef2ff;
+            color: #4338ca;
+            padding: 3px 6px;
+            border-radius: 5px;
+            font-family: Consolas, monospace;
+        }
+
+        pre {
+            background: #111827;
+            color: #f9fafb;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        .flow {
+            background: #f8fafc;
+            border-left: 5px solid #2563eb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            white-space: pre-line;
+        }
+
+        .important {
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .warning {
+            background: #fff7ed;
+            border-left: 5px solid #f97316;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #d1d5db;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #2563eb;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="documentation">
+
+    <header class="documentation-header">
+
+        <h1>
+            📊 Explication du composant InfoDashboard.jsx,
+            du fichier infoSlice.js et de leur liaison avec CSS
+        </h1>
+
+        <p>
+            Cette documentation explique le fonctionnement du Dashboard
+            GOMYCODE AI et la communication entre React, Redux Toolkit,
+            Axios, le backend, le Machine Learning, Power BI, Recharts
+            et le fichier CSS associé.
+        </p>
+
+    </header>
+
+
+    <!-- ===================================================== -->
+    <!-- 1 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>1. Présentation générale</h2>
+
+        <p>
+            Le composant <strong>InfoDashboard.jsx</strong> constitue
+            l'interface React du Dashboard consacré à l'analyse et à la
+            prédiction des données GOMYCODE. Il utilise plusieurs
+            technologies complémentaires afin de récupérer une prédiction
+            depuis le backend, de gérer son état avec Redux Toolkit,
+            d'afficher un rapport Power BI intégré et de représenter la
+            prédiction sous forme de graphique avec Recharts.
+        </p>
+
+        <p>
+            Le fichier <strong>infoSlice.js</strong> constitue la partie
+            Redux Toolkit responsable de la récupération et de la gestion
+            des données de prédiction.
+        </p>
+
+        <p>
+            Enfin, le fichier <strong>InfoDashboard.css</strong> est
+            responsable de la présentation visuelle du composant
+            <strong>InfoDashboard.jsx</strong>.
+        </p>
+
+        <div class="flow">
+InfoDashboard.jsx
+        ↓
+useEffect()
+        ↓
+dispatch(fetchInfoData())
+        ↓
+infoSlice.js
+        ↓
+Axios
+        ↓
+Backend / Machine Learning
+        ↓
+Résultat de prédiction
+        ↓
+Redux
+        ↓
+InfoDashboard.jsx
+        ↓
+InfoDashboard.css
+        ↓
+Interface finale
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 2 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>2. Les imports de InfoDashboard.jsx</h2>
+
+        <p>
+            Le fichier <strong>InfoDashboard.jsx</strong> commence par
+            l'importation de React et du hook <code>useEffect</code>.
+            Le hook <code>useEffect</code> permet d'exécuter
+            automatiquement une opération après le chargement du composant.
+        </p>
+
+        <p>
+            Le composant importe également <code>useDispatch</code> et
+            <code>useSelector</code> depuis <code>react-redux</code>.
+            <code>useDispatch</code> permet d'envoyer une action Redux,
+            tandis que <code>useSelector</code> permet de récupérer les
+            données stockées dans le store Redux.
+        </p>
+
+        <p>
+            Le composant importe ensuite <code>fetchInfoData</code> depuis
+            <code>../redux/infoSlice</code>. Cette fonction asynchrone est
+            responsable de lancer la requête vers le backend afin d'obtenir
+            la prédiction.
+        </p>
+
+        <p>
+            Plusieurs composants de la bibliothèque
+            <strong>Recharts</strong> sont également importés :
+            <code>BarChart</code>, <code>Bar</code>,
+            <code>XAxis</code>, <code>YAxis</code>,
+            <code>Tooltip</code>, <code>CartesianGrid</code> et
+            <code>ResponsiveContainer</code>.
+        </p>
+
+        <div class="important">
+
+            <strong>Point important :</strong>
+
+            <p>
+                Le fichier React contient également :
+            </p>
+
+            <pre><code>import "./InfoDashboard.css";</code></pre>
+
+            <p>
+                Cette instruction est placée dans
+                <strong>InfoDashboard.jsx</strong>, et non dans le fichier
+                HTML de documentation.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 3 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>3. Comment InfoDashboard.jsx est lié à InfoDashboard.css ?</h2>
+
+        <p>
+            La liaison entre React et CSS se fait de deux manières
+            principales.
+        </p>
+
+        <h3>Première liaison : l'importation du CSS</h3>
+
+        <pre><code>import "./InfoDashboard.css";</code></pre>
+
+        <p>
+            Cette instruction indique à l'application React de charger le
+            fichier <strong>InfoDashboard.css</strong>.
+        </p>
+
+        <h3>Deuxième liaison : les className</h3>
+
+        <p>
+            Dans le JSX, les éléments HTML utilisent des propriétés
+            <code>className</code>. Ces noms correspondent aux classes
+            définies dans le fichier CSS.
+        </p>
+
+        <pre><code>&lt;div className="info-container"&gt;
+
+&lt;h1 className="info-title"&gt;
+    📊 GOMYCODE AI Dashboard
+&lt;/h1&gt;
+
+&lt;div className="prediction-card"&gt;
+
+&lt;h1 className="prediction-value"&gt;
+
+&lt;div className="chart-box"&gt;</code></pre>
+
+        <p>
+            Dans <strong>InfoDashboard.css</strong>, ces classes peuvent
+            être définies de la manière suivante :
+        </p>
+
+        <pre><code>.info-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 30px;
+}
+
+.info-title {
+    text-align: center;
+    font-size: 32px;
+}
+
+.prediction-card {
+    padding: 30px;
+    text-align: center;
+    border-radius: 15px;
+}
+
+.prediction-value {
+    font-size: 42px;
+    font-weight: bold;
+}
+
+.chart-box {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+}</code></pre>
+
+        <div class="flow">
+InfoDashboard.jsx
+        ↓
+className="prediction-card"
+        ↓
+InfoDashboard.css
+        ↓
+.prediction-card { ... }
+        ↓
+Style appliqué à la carte
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 4 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>4. La fonction InfoDashboard</h2>
+
+        <p>
+            La fonction <strong>InfoDashboard</strong> représente le
+            composant React principal.
+        </p>
+
+        <p>
+            Au début du composant,
+            <code>const dispatch = useDispatch()</code> permet de récupérer
+            la fonction <code>dispatch</code> de Redux.
+        </p>
+
+        <p>
+            Cette fonction permet au composant d'envoyer l'action
+            <code>fetchInfoData()</code> vers le store Redux.
+        </p>
+
+        <p>
+            Ensuite, <code>useSelector</code> est utilisé avec
+            <code>(state) =&gt; state.info</code> afin de récupérer les
+            trois informations principales :
+        </p>
+
+        <ul>
+            <li><code>data</code> : contient le résultat de la prédiction.</li>
+            <li><code>loading</code> : indique si la requête est en cours.</li>
+            <li><code>error</code> : contient une éventuelle erreur.</li>
+        </ul>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 5 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>5. Le rôle de useEffect</h2>
+
+        <p>
+            Le hook <strong>useEffect</strong> joue un rôle important dans
+            le fonctionnement du Dashboard.
+        </p>
+
+        <pre><code>useEffect(() =&gt; {
+    dispatch(fetchInfoData());
+}, [dispatch]);</code></pre>
+
+        <p>
+            Lorsque l'utilisateur ouvre la page
+            <strong>GOMYCODE AI Dashboard</strong>, React charge le
+            composant puis exécute le <code>useEffect</code>.
+        </p>
+
+        <p>
+            Celui-ci déclenche :
+        </p>
+
+        <pre><code>dispatch(fetchInfoData());</code></pre>
+
+        <p>
+            Redux reçoit alors l'action et lance la fonction asynchrone
+            définie dans <strong>infoSlice.js</strong>.
+        </p>
+
+        <div class="flow">
+Chargement du composant
+        ↓
+useEffect()
+        ↓
+dispatch(fetchInfoData())
+        ↓
+Redux
+        ↓
+Axios
+        ↓
+Backend
+        ↓
+Machine Learning
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 6 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>6. Préparation de chartData</h2>
+
+        <p>
+            La constante <strong>chartData</strong> prépare les données
+            nécessaires à Recharts.
+        </p>
+
+        <pre><code>const chartData = data
+    ? [
+        {
+            name: "GOMYCODE",
+            prediction: data.gomycode_pred
+        }
+    ]
+    : [];</code></pre>
+
+        <p>
+            Si <code>data</code> existe, un tableau contenant un objet est
+            créé.
+        </p>
+
+        <p>
+            L'objet possède :
+        </p>
+
+        <ul>
+            <li><code>name</code> avec la valeur <code>"GOMYCODE"</code></li>
+            <li><code>prediction</code> avec la valeur
+                <code>data.gomycode_pred</code></li>
+        </ul>
+
+        <p>
+            Si les données ne sont pas encore disponibles, un tableau vide
+            est retourné :
+        </p>
+
+        <pre><code>[]</code></pre>
+
+        <p>
+            Cette précaution évite d'utiliser des données inexistantes lors
+            du premier rendu.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 7 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>7. Le conteneur principal et son CSS</h2>
+
+        <p>
+            Dans la partie <strong>return</strong>, l'ensemble du contenu
+            est placé dans :
+        </p>
+
+        <pre><code>&lt;div className="info-container"&gt;</code></pre>
+
+        <p>
+            La classe <code>info-container</code> permet de relier cet
+            élément au fichier <strong>InfoDashboard.css</strong>.
+        </p>
+
+        <p>
+            Par exemple :
+        </p>
+
+        <pre><code>.info-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 30px;
+    box-sizing: border-box;
+}</code></pre>
+
+        <p>
+            Le CSS contrôle donc la largeur, la hauteur minimale,
+            l'espacement intérieur et la gestion de la boîte.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 8 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>8. Le titre info-title</h2>
+
+        <p>
+            Le titre du Dashboard est défini avec :
+        </p>
+
+        <pre><code>&lt;h1 className="info-title"&gt;
+    📊 GOMYCODE AI Dashboard
+&lt;/h1&gt;</code></pre>
+
+        <p>
+            Le contenu du titre est défini par React, tandis que son
+            apparence est contrôlée par CSS.
+        </p>
+
+        <pre><code>.info-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}</code></pre>
+
+        <p>
+            Ainsi, React définit le texte et CSS définit sa présentation.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 9 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>9. Intégration de Power BI</h2>
+
+        <p>
+            Le composant contient une section consacrée à l'intégration
+            du rapport Power BI.
+        </p>
+
+        <pre><code>&lt;div className="iframe-wrapper"&gt;
+
+    &lt;iframe
+        className="info-iframe"
+        title="gomycode"
+        src="..."
+        allowFullScreen
+    /&gt;
+
+&lt;/div&gt;</code></pre>
+
+        <p>
+            La classe <code>iframe-wrapper</code> permet de contrôler le
+            conteneur du rapport Power BI.
+        </p>
+
+        <p>
+            La classe <code>info-iframe</code> permet de contrôler
+            directement l'iframe.
+        </p>
+
+        <pre><code>.iframe-wrapper {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.info-iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+    border-radius: 10px;
+}</code></pre>
+
+        <p>
+            L'iframe permet donc d'afficher le rapport Power BI directement
+            dans l'application React.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 10 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>10. Gestion de l'état loading</h2>
+
+        <p>
+            Lorsque la requête est en cours, le composant utilise :
+        </p>
+
+        <pre><code>{loading &amp;&amp; (
+    &lt;p className="loading"&gt;
+        Loading prediction...
+    &lt;/p&gt;
+)}</code></pre>
+
+        <p>
+            Si <code>loading</code> vaut <code>true</code>, le message est
+            affiché.
+        </p>
+
+        <p>
+            Le CSS peut ensuite contrôler son apparence :
+        </p>
+
+        <pre><code>.loading {
+    text-align: center;
+    font-size: 18px;
+    margin: 20px;
+}</code></pre>
+
+        <div class="important">
+
+            <strong>À retenir :</strong>
+
+            <p>
+                Redux décide si <code>loading</code> est vrai ou faux.
+                React décide d'afficher ou non l'élément.
+                CSS décide comment cet élément apparaît.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 11 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>11. Gestion de l'erreur</h2>
+
+        <p>
+            Lorsque la requête échoue, le composant affiche :
+        </p>
+
+        <pre><code>{error &amp;&amp; (
+    &lt;p className="error"&gt;
+        {JSON.stringify(error)}
+    &lt;/p&gt;
+)}</code></pre>
+
+        <p>
+            Si <code>error</code> contient une valeur, React affiche le
+            paragraphe.
+        </p>
+
+        <p>
+            La classe <code>error</code> peut être stylisée avec :
+        </p>
+
+        <pre><code>.error {
+    text-align: center;
+    font-weight: bold;
+    margin: 20px;
+}</code></pre>
+
+        <div class="flow">
+Erreur backend
+        ↓
+Redux
+        ↓
+error
+        ↓
+React
+        ↓
+className="error"
+        ↓
+InfoDashboard.css
+        ↓
+Message d'erreur stylisé
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 12 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>12. La carte de prédiction</h2>
+
+        <p>
+            Lorsque les données sont disponibles, le composant affiche
+            une carte grâce à :
+        </p>
+
+        <pre><code>{data &amp;&amp; (
+    &lt;div className="prediction-card"&gt;
+
+        &lt;h2&gt;GOMYCODE Prediction&lt;/h2&gt;
+
+        &lt;h1 className="prediction-value"&gt;
+            {Number(data.gomycode_pred).toFixed(2)}
+        &lt;/h1&gt;
+
+    &lt;/div&gt;
+)}</code></pre>
+
+        <p>
+            La classe <code>prediction-card</code> permet au CSS de
+            contrôler l'apparence de la carte.
+        </p>
+
+        <pre><code>.prediction-card {
+    width: 100%;
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 30px;
+    text-align: center;
+    border-radius: 15px;
+}</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 13 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>13. La valeur prediction-value</h2>
+
+        <p>
+            La valeur de la prédiction possède sa propre classe :
+        </p>
+
+        <pre><code>&lt;h1 className="prediction-value"&gt;
+    {Number(data.gomycode_pred).toFixed(2)}
+&lt;/h1&gt;</code></pre>
+
+        <p>
+            Cette classe permet de mettre le résultat principal en
+            évidence.
+        </p>
+
+        <pre><code>.prediction-value {
+    font-size: 42px;
+    font-weight: bold;
+    margin: 10px 0;
+}</code></pre>
+
+        <p>
+            L'expression
+            <code>Number(data.gomycode_pred).toFixed(2)</code>
+            convertit la valeur en nombre puis limite l'affichage à deux
+            chiffres après la virgule.
+        </p>
+
+        <p>
+            Par exemple, une valeur comme
+            <code>1234.5678</code> pourra être affichée sous la forme
+            <code>1234.57</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 14 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>14. Le graphique et chart-box</h2>
+
+        <p>
+            La dernière partie du composant est consacrée à la
+            visualisation graphique de la prédiction.
+        </p>
+
+        <pre><code>&lt;div className="chart-box"&gt;
+
+    &lt;ResponsiveContainer width="100%" height={260}&gt;
+
+        &lt;BarChart data={chartData}&gt;
+
+            ...
+
+        &lt;/BarChart&gt;
+
+    &lt;/ResponsiveContainer&gt;
+
+&lt;/div&gt;</code></pre>
+
+        <p>
+            La classe <code>chart-box</code> appartient au CSS et permet
+            de contrôler la zone qui contient le graphique.
+        </p>
+
+        <pre><code>.chart-box {
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 15px;
+}</code></pre>
+
+        <p>
+            Recharts est responsable du dessin du graphique tandis que
+            CSS est responsable de la présentation de son conteneur.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 15 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>15. Les composants Recharts</h2>
+
+        <p>
+            Le graphique utilise plusieurs composants de Recharts.
+        </p>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Composant</th>
+                    <th>Rôle</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>ResponsiveContainer</td>
+                    <td>Rend le graphique adaptable à la largeur disponible.</td>
+                </tr>
+
+                <tr>
+                    <td>BarChart</td>
+                    <td>Construit le graphique à barres.</td>
+                </tr>
+
+                <tr>
+                    <td>CartesianGrid</td>
+                    <td>Ajoute une grille de référence.</td>
+                </tr>
+
+                <tr>
+                    <td>XAxis</td>
+                    <td>Représente l'axe horizontal.</td>
+                </tr>
+
+                <tr>
+                    <td>YAxis</td>
+                    <td>Représente l'échelle numérique.</td>
+                </tr>
+
+                <tr>
+                    <td>Tooltip</td>
+                    <td>Affiche une information lors du survol.</td>
+                </tr>
+
+                <tr>
+                    <td>Bar</td>
+                    <td>Représente graphiquement la prédiction.</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <p>
+            Le graphique utilise <code>chartData</code>, préparé
+            précédemment à partir de la donnée
+            <code>data.gomycode_pred</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 16 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>16. Le fichier infoSlice.js</h2>
+
+        <p>
+            Le fichier <strong>infoSlice.js</strong> constitue la partie
+            Redux Toolkit responsable de la récupération et de la gestion
+            des données de prédiction.
+        </p>
+
+        <p>
+            Il importe notamment :
+        </p>
+
+        <ul>
+            <li><code>createSlice</code></li>
+            <li><code>createAsyncThunk</code></li>
+            <li><code>axios</code></li>
+        </ul>
+
+        <p>
+            La fonction <code>fetchInfoData</code> est créée avec
+            <code>createAsyncThunk</code>.
+        </p>
+
+        <pre><code>createAsyncThunk(
+    "info/fetchInfoData",
+    async (_, thunkAPI) =&gt; {
+        ...
+    }
+)</code></pre>
+
+        <p>
+            Cette fonction représente l'opération asynchrone qui permet
+            de communiquer avec le backend.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 17 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>17. Requête Axios</h2>
+
+        <p>
+            Axios utilise <code>axios.post()</code> pour envoyer une
+            requête HTTP POST vers :
+        </p>
+
+        <pre><code>http://localhost:3000/info/predict</code></pre>
+
+        <p>
+            Le corps de la requête contient :
+        </p>
+
+        <pre><code>{
+    values: [1000, 2500]
+}</code></pre>
+
+        <p>
+            Ces valeurs représentent les données d'entrée transmises au
+            système de prédiction.
+        </p>
+
+        <div class="flow">
+[1000, 2500]
+        ↓
+Axios
+        ↓
+POST /info/predict
+        ↓
+Node.js
+        ↓
+Machine Learning
+        ↓
+Prédiction
+        ↓
+Réponse HTTP
+        ↓
+Redux
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 18 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>18. Gestion de la réponse</h2>
+
+        <p>
+            Après l'exécution de la requête Axios, le code :
+        </p>
+
+        <pre><code>return res.data.data;</code></pre>
+
+        <p>
+            récupère les données utiles dans la réponse HTTP.
+        </p>
+
+        <p>
+            Cette valeur devient ensuite le résultat de l'action
+            asynchrone Redux.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 19 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>19. Gestion des erreurs avec try/catch</h2>
+
+        <p>
+            La fonction utilise un bloc <code>try/catch</code> afin de
+            gérer le succès ou l'échec de la requête.
+        </p>
+
+        <pre><code>try {
+    ...
+} catch (err) {
+    ...
+}</code></pre>
+
+        <p>
+            En cas d'erreur, le code utilise :
+        </p>
+
+        <pre><code>thunkAPI.rejectWithValue(
+    err.response?.data || err.message
+)</code></pre>
+
+        <p>
+            L'opérateur <code>?.</code> permet d'accéder à
+            <code>response.data</code> uniquement si
+            <code>response</code> existe.
+        </p>
+
+        <p>
+            Si aucune réponse serveur n'est disponible,
+            <code>err.message</code> est utilisé.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 20 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>20. initialState</h2>
+
+        <p>
+            Le slice possède un état initial :
+        </p>
+
+        <pre><code>initialState: {
+    data: null,
+    loading: false,
+    error: null
+}</code></pre>
+
+        <p>
+            Au départ :
+        </p>
+
+        <ul>
+            <li><code>data</code> ne contient aucune prédiction.</li>
+            <li><code>loading</code> indique qu'aucune requête n'est en cours.</li>
+            <li><code>error</code> ne contient aucune erreur.</li>
+        </ul>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 21 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>21. fetchInfoData.pending</h2>
+
+        <p>
+            Lorsque la requête commence, Redux déclenche :
+        </p>
+
+        <pre><code>fetchInfoData.pending</code></pre>
+
+        <p>
+            Le state est alors modifié :
+        </p>
+
+        <pre><code>state.loading = true;
+state.error = null;</code></pre>
+
+        <p>
+            React récupère ensuite cette nouvelle valeur grâce à
+            <code>useSelector</code>.
+        </p>
+
+        <div class="flow">
+Redux
+        ↓
+loading = true
+        ↓
+React
+        ↓
+className="loading"
+        ↓
+InfoDashboard.css
+        ↓
+Message de chargement stylisé
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 22 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>22. fetchInfoData.fulfilled</h2>
+
+        <p>
+            Lorsque la requête réussit, Redux déclenche :
+        </p>
+
+        <pre><code>fetchInfoData.fulfilled</code></pre>
+
+        <p>
+            Le code met alors :
+        </p>
+
+        <pre><code>state.loading = false;
+state.data = action.payload;</code></pre>
+
+        <p>
+            La prédiction est donc stockée dans
+            <code>state.info.data</code>.
+        </p>
+
+        <p>
+            Grâce à <code>useSelector</code>, le composant React récupère
+            automatiquement la nouvelle donnée et actualise son interface.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 23 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>23. fetchInfoData.rejected</h2>
+
+        <p>
+            Si la requête échoue, Redux déclenche :
+        </p>
+
+        <pre><code>fetchInfoData.rejected</code></pre>
+
+        <p>
+            Le state devient :
+        </p>
+
+        <pre><code>state.loading = false;
+state.error = action.payload;</code></pre>
+
+        <p>
+            React récupère ensuite <code>error</code> et affiche le
+            message correspondant avec la classe CSS <code>error</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 24 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>24. Liaison entre Redux, React et CSS</h2>
+
+        <p>
+            Il est important de comprendre que Redux ne communique pas
+            directement avec le CSS.
+        </p>
+
+        <p>
+            Redux fournit les données et les états à React. React décide
+            ensuite quels éléments doivent être affichés. Les
+            <code>className</code> permettent enfin de relier ces éléments
+            au fichier CSS.
+        </p>
+
+        <div class="flow">
+infoSlice.js
+        ↓
+data / loading / error
+        ↓
+InfoDashboard.jsx
+        ↓
+JSX + className
+        ↓
+InfoDashboard.css
+        ↓
+Présentation visuelle
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 25 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>25. Exemple complet de liaison</h2>
+
+        <p>
+            Prenons l'exemple de la carte de prédiction.
+        </p>
+
+        <pre><code>&lt;div className="prediction-card"&gt;
+
+    &lt;h2&gt;GOMYCODE Prediction&lt;/h2&gt;
+
+    &lt;h1 className="prediction-value"&gt;
+        {Number(data.gomycode_pred).toFixed(2)}
+    &lt;/h1&gt;
+
+&lt;/div&gt;</code></pre>
+
+        <p>
+            Dans le CSS :
+        </p>
+
+        <pre><code>.prediction-card {
+    padding: 30px;
+    text-align: center;
+    border-radius: 15px;
+}
+
+.prediction-value {
+    font-size: 42px;
+    font-weight: bold;
+}</code></pre>
+
+        <p>
+            Le lien est donc :
+        </p>
+
+        <div class="flow">
+className="prediction-card"
+        ↓
+.prediction-card
+
+className="prediction-value"
+        ↓
+.prediction-value
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 26 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>26. Rôle de chaque technologie</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Technologie / fichier</th>
+                    <th>Responsabilité</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>InfoDashboard.jsx</td>
+                    <td>Construit l'interface React.</td>
+                </tr>
+
+                <tr>
+                    <td>infoSlice.js</td>
+                    <td>Gère les données et les états avec Redux Toolkit.</td>
+                </tr>
+
+                <tr>
+                    <td>Axios</td>
+                    <td>Communique avec le backend.</td>
+                </tr>
+
+                <tr>
+                    <td>Node.js</td>
+                    <td>Reçoit et traite la requête côté backend.</td>
+                </tr>
+
+                <tr>
+                    <td>Machine Learning</td>
+                    <td>Calcule la prédiction.</td>
+                </tr>
+
+                <tr>
+                    <td>Power BI</td>
+                    <td>Affiche le rapport décisionnel intégré.</td>
+                </tr>
+
+                <tr>
+                    <td>Recharts</td>
+                    <td>Représente la prédiction graphiquement.</td>
+                </tr>
+
+                <tr>
+                    <td>InfoDashboard.css</td>
+                    <td>Contrôle la présentation visuelle du Dashboard.</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 27 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>27. Flux complet du projet</h2>
+
+        <p>
+            Lorsque l'utilisateur ouvre le Dashboard, React charge
+            <strong>InfoDashboard.jsx</strong>.
+        </p>
+
+        <p>
+            Le <code>useEffect</code> est alors exécuté et déclenche :
+        </p>
+
+        <pre><code>dispatch(fetchInfoData());</code></pre>
+
+        <p>
+            Redux Toolkit passe dans l'état <code>pending</code> et met
+            <code>loading</code> à <code>true</code>.
+        </p>
+
+        <p>
+            Axios envoie ensuite les valeurs :
+        </p>
+
+        <pre><code>[1000, 2500]</code></pre>
+
+        <p>
+            vers :
+        </p>
+
+        <pre><code>POST /info/predict</code></pre>
+
+        <p>
+            Le backend reçoit ces valeurs et utilise le modèle de
+            Machine Learning pour calculer la prédiction.
+        </p>
+
+        <p>
+            Le résultat revient ensuite vers Redux.
+        </p>
+
+        <p>
+            Si la requête réussit, Redux passe dans l'état
+            <code>fulfilled</code> et stocke le résultat dans :
+        </p>
+
+        <pre><code>state.info.data</code></pre>
+
+        <p>
+            <code>useSelector</code> récupère alors la nouvelle donnée.
+            React actualise automatiquement l'interface.
+        </p>
+
+        <p>
+            La valeur <code>data.gomycode_pred</code> est affichée dans
+            la carte de prédiction et utilisée pour construire
+            <code>chartData</code>.
+        </p>
+
+        <p>
+            Recharts utilise ensuite <code>chartData</code> pour créer le
+            graphique.
+        </p>
+
+        <p>
+            En parallèle, l'iframe affiche le rapport Power BI.
+        </p>
+
+        <p>
+            Enfin, <strong>InfoDashboard.css</strong> applique les styles
+            aux différents éléments grâce aux <code>className</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 28 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>28. Schéma final de l'architecture</h2>
+
+        <div class="flow">
+                         BACKEND
+                            │
+                            ▼
+                    Machine Learning
+                            │
+                            ▼
+                          Axios
+                            │
+                            ▼
+                     infoSlice.js
+                            │
+                  ┌─────────┼─────────┐
+                  ▼         ▼         ▼
+                data     loading     error
+                  │         │         │
+                  └─────────┼─────────┘
+                            ▼
+                  InfoDashboard.jsx
+                            │
+             ┌──────────────┼──────────────┐
+             ▼              ▼              ▼
+       prediction-card    loading        error
+             │
+       prediction-value
+             │
+         chart-box
+             │
+             ▼
+      InfoDashboard.css
+             │
+             ▼
+      Interface visuelle
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 29 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>29. Résumé à retenir pour la présentation</h2>
+
+        <div class="important">
+
+            <p>
+                <strong>
+                    React construit → Redux gère → Axios communique →
+                    Backend prédit → Recharts visualise →
+                    Power BI analyse → CSS présente.
+                </strong>
+            </p>
+
+        </div>
+
+        <p>
+            Le composant <strong>InfoDashboard.jsx</strong> construit
+            l'interface et récupère les informations depuis Redux.
+            Le fichier <strong>infoSlice.js</strong> gère la requête
+            asynchrone et les états <code>data</code>,
+            <code>loading</code> et <code>error</code>.
+        </p>
+
+        <p>
+            Axios assure la communication avec le backend qui utilise le
+            système de Machine Learning pour produire la prédiction.
+        </p>
+
+        <p>
+            Recharts transforme ensuite la prédiction en représentation
+            graphique et Power BI fournit le rapport décisionnel intégré.
+        </p>
+
+        <p>
+            Enfin, <strong>InfoDashboard.css</strong> ne réalise ni la
+            prédiction ni la récupération des données. Son rôle est de
+            contrôler l'apparence des éléments créés par React.
+        </p>
+
+        <p>
+            La liaison entre React et CSS se fait grâce à
+            <code>import "./InfoDashboard.css";</code> dans le fichier
+            JSX et grâce aux <code>className</code> qui correspondent aux
+            sélecteurs CSS.
+        </p>
+
+    </section>
+
+
+    <footer class="footer">
+
+        <p>
+            📊 Documentation technique — GOMYCODE AI Dashboard
+        </p>
+
+    </footer>
+
+</main>
+
+</body>
+</html>

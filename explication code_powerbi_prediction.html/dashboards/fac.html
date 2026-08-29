@@ -1,0 +1,3013 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Documentation technique du système de prédiction des universités privées utilisant Python, Machine Learning, Pandas, Scikit-learn, SVR, Joblib, Node.js et Express."
+    >
+
+    <title>
+        Documentation — Universités Privées ML
+    </title>
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ====================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                #f4f7fb;
+
+            color:
+                #1f2937;
+
+            line-height:
+                1.8;
+
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ====================================================== */
+
+        .nav-container {
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+
+            min-height: 75px;
+
+            padding:
+                15px 45px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 30px;
+
+            background:
+                rgba(15, 23, 42, 0.97);
+
+            backdrop-filter:
+                blur(10px);
+
+            z-index: 1000;
+
+            box-shadow:
+                0 5px 25px rgba(0,0,0,0.15);
+
+        }
+
+
+        .logo {
+
+            color:
+                #ffffff;
+
+            font-size:
+                21px;
+
+            font-weight:
+                700;
+
+            white-space:
+                nowrap;
+
+        }
+
+
+        nav {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            justify-content:
+                flex-end;
+
+            gap:
+                8px;
+
+        }
+
+
+        nav a {
+
+            color:
+                #cbd5e1;
+
+            text-decoration:
+                none;
+
+            font-size:
+                13px;
+
+            padding:
+                7px 10px;
+
+            border-radius:
+                7px;
+
+            transition:
+                0.3s;
+
+        }
+
+
+        nav a:hover {
+
+            color:
+                #ffffff;
+
+            background:
+                #2563eb;
+
+        }
+
+
+        /* =====================================================
+           HERO
+        ====================================================== */
+
+        .hero {
+
+            min-height:
+                570px;
+
+            padding:
+                160px 30px 100px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            text-align:
+                center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e3a8a,
+                    #2563eb
+                );
+
+            color:
+                white;
+
+        }
+
+
+        .hero-content {
+
+            max-width:
+                950px;
+
+        }
+
+
+        .badge {
+
+            display:
+                inline-block;
+
+            padding:
+                7px 16px;
+
+            margin-bottom:
+                20px;
+
+            border:
+                1px solid rgba(255,255,255,0.3);
+
+            border-radius:
+                50px;
+
+            font-size:
+                13px;
+
+            background:
+                rgba(255,255,255,0.1);
+
+        }
+
+
+        .hero h1 {
+
+            font-size:
+                clamp(38px, 6vw, 70px);
+
+            line-height:
+                1.1;
+
+            margin-bottom:
+                25px;
+
+        }
+
+
+        .hero h1 span {
+
+            display:
+                block;
+
+            color:
+                #93c5fd;
+
+        }
+
+
+        .hero p {
+
+            max-width:
+                800px;
+
+            margin:
+                auto auto 30px;
+
+            color:
+                #dbeafe;
+
+            font-size:
+                18px;
+
+        }
+
+
+        .hero-button {
+
+            display:
+                inline-block;
+
+            padding:
+                13px 25px;
+
+            border-radius:
+                8px;
+
+            background:
+                white;
+
+            color:
+                #1d4ed8;
+
+            text-decoration:
+                none;
+
+            font-weight:
+                700;
+
+            transition:
+                0.3s;
+
+        }
+
+
+        .hero-button:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 10px 25px rgba(0,0,0,0.2);
+
+        }
+
+
+        /* =====================================================
+           MAIN
+        ====================================================== */
+
+        main {
+
+            max-width:
+                1150px;
+
+            margin:
+                auto;
+
+            padding:
+                80px 25px;
+
+        }
+
+
+        .section {
+
+            margin-bottom:
+                90px;
+
+            scroll-margin-top:
+                100px;
+
+        }
+
+
+        .section-number {
+
+            display:
+                inline-block;
+
+            margin-bottom:
+                10px;
+
+            padding:
+                5px 13px;
+
+            border-radius:
+                6px;
+
+            background:
+                #dbeafe;
+
+            color:
+                #1d4ed8;
+
+            font-weight:
+                700;
+
+            font-size:
+                14px;
+
+        }
+
+
+        h2 {
+
+            font-size:
+                34px;
+
+            color:
+                #0f172a;
+
+            margin-bottom:
+                22px;
+
+        }
+
+
+        h3 {
+
+            margin-top:
+                30px;
+
+            margin-bottom:
+                12px;
+
+            color:
+                #1e40af;
+
+            font-size:
+                21px;
+
+        }
+
+
+        p {
+
+            margin-bottom:
+                20px;
+
+            text-align:
+                justify;
+
+            color:
+                #475569;
+
+        }
+
+
+        strong {
+
+            color:
+                #1e3a8a;
+
+        }
+
+
+        /* =====================================================
+           CODE
+        ====================================================== */
+
+        pre {
+
+            overflow-x:
+                auto;
+
+            margin:
+                20px 0;
+
+            padding:
+                25px;
+
+            border-radius:
+                12px;
+
+            background:
+                #0f172a;
+
+            color:
+                #e2e8f0;
+
+            box-shadow:
+                0 8px 25px rgba(15,23,42,0.12);
+
+        }
+
+
+        code {
+
+            font-family:
+                Consolas,
+                "Courier New",
+                monospace;
+
+            font-size:
+                14px;
+
+        }
+
+
+        /* =====================================================
+           HIGHLIGHT
+        ====================================================== */
+
+        .highlight {
+
+            margin:
+                30px 0;
+
+            padding:
+                25px;
+
+            border-left:
+                5px solid #2563eb;
+
+            border-radius:
+                10px;
+
+            background:
+                #eff6ff;
+
+            color:
+                #1e3a8a;
+
+        }
+
+
+        /* =====================================================
+           FLOW
+        ====================================================== */
+
+        .flow {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            gap:
+                12px;
+
+            margin-top:
+                35px;
+
+        }
+
+
+        .flow-item {
+
+            padding:
+                15px 18px;
+
+            border-radius:
+                10px;
+
+            background:
+                white;
+
+            border:
+                1px solid #dbeafe;
+
+            box-shadow:
+                0 5px 18px rgba(0,0,0,0.06);
+
+            font-weight:
+                600;
+
+        }
+
+
+        .flow-item span {
+
+            display:
+                block;
+
+            color:
+                #2563eb;
+
+            font-size:
+                12px;
+
+        }
+
+
+        .arrow {
+
+            color:
+                #2563eb;
+
+            font-size:
+                22px;
+
+            font-weight:
+                bold;
+
+        }
+
+
+        /* =====================================================
+           ARCHITECTURE
+        ====================================================== */
+
+        .architecture {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            margin-top:
+                35px;
+
+        }
+
+
+        .architecture-box {
+
+            width:
+                min(500px, 100%);
+
+            padding:
+                18px 25px;
+
+            text-align:
+                center;
+
+            background:
+                white;
+
+            border:
+                1px solid #dbeafe;
+
+            border-radius:
+                12px;
+
+            box-shadow:
+                0 6px 20px rgba(0,0,0,0.07);
+
+        }
+
+
+        .architecture-box strong {
+
+            display:
+                block;
+
+            font-size:
+                18px;
+
+        }
+
+
+        .architecture-box small {
+
+            color:
+                #64748b;
+
+        }
+
+
+        .architecture-arrow {
+
+            color:
+                #2563eb;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .python {
+
+            background:
+                #eff6ff;
+
+        }
+
+
+        .frontend {
+
+            background:
+                #f8fafc;
+
+        }
+
+
+        /* =====================================================
+           TABLE
+        ====================================================== */
+
+        table {
+
+            width:
+                100%;
+
+            border-collapse:
+                collapse;
+
+            margin-top:
+                30px;
+
+            background:
+                white;
+
+            border-radius:
+                12px;
+
+            overflow:
+                hidden;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.06);
+
+        }
+
+
+        th,
+        td {
+
+            padding:
+                15px;
+
+            text-align:
+                left;
+
+            border-bottom:
+                1px solid #e2e8f0;
+
+        }
+
+
+        th {
+
+            background:
+                #1e3a8a;
+
+            color:
+                white;
+
+        }
+
+
+        td {
+
+            color:
+                #475569;
+
+        }
+
+
+        /* =====================================================
+           ENDPOINT
+        ====================================================== */
+
+        .endpoint {
+
+            display:
+                inline-block;
+
+            margin:
+                20px 0;
+
+            padding:
+                12px 20px;
+
+            border-radius:
+                8px;
+
+            background:
+                #0f172a;
+
+            color:
+                #93c5fd;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-weight:
+                bold;
+
+        }
+
+
+        /* =====================================================
+           PRESENTATION
+        ====================================================== */
+
+        .presentation-script {
+
+            margin-top:
+                35px;
+
+            padding:
+                30px;
+
+            border-radius:
+                15px;
+
+            background:
+                white;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.08);
+
+            border-top:
+                5px solid #2563eb;
+
+        }
+
+
+        .presentation-script h3 {
+
+            margin-top:
+                0;
+
+        }
+
+
+        /* =====================================================
+           SUCCESS
+        ====================================================== */
+
+        .success-box {
+
+            margin-top:
+                35px;
+
+            padding:
+                25px;
+
+            border-radius:
+                12px;
+
+            background:
+                #ecfdf5;
+
+            border:
+                1px solid #bbf7d0;
+
+            color:
+                #166534;
+
+            line-height:
+                2.1;
+
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        footer {
+
+            padding:
+                45px 20px;
+
+            text-align:
+                center;
+
+            background:
+                #0f172a;
+
+            color:
+                #cbd5e1;
+
+        }
+
+
+        footer p {
+
+            text-align:
+                center;
+
+            color:
+                #cbd5e1;
+
+            margin:
+                5px;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 900px) {
+
+            .nav-container {
+
+                position:
+                    relative;
+
+                flex-direction:
+                    column;
+
+                padding:
+                    15px;
+
+            }
+
+
+            nav {
+
+                justify-content:
+                    center;
+
+            }
+
+
+            .hero {
+
+                padding-top:
+                    70px;
+
+            }
+
+
+            .flow {
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .arrow {
+
+                transform:
+                    rotate(90deg);
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+====================================================== -->
+
+<header>
+
+    <div class="nav-container">
+
+        <div class="logo">
+            🎓 Private Universities ML
+        </div>
+
+        <nav>
+
+            <a href="#presentation">
+                Présentation
+            </a>
+
+            <a href="#training">
+                Entraînement
+            </a>
+
+            <a href="#pandas">
+                Pandas
+            </a>
+
+            <a href="#svr">
+                SVR
+            </a>
+
+            <a href="#joblib">
+                Joblib
+            </a>
+
+            <a href="#node">
+                Node.js
+            </a>
+
+            <a href="#route">
+                API
+            </a>
+
+            <a href="#architecture">
+                Architecture
+            </a>
+
+            <a href="#technologies">
+                Technologies
+            </a>
+
+            <a href="#oral">
+                Présentation orale
+            </a>
+
+            <a href="#conclusion">
+                Conclusion
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="badge">
+            Documentation technique
+        </span>
+
+        <h1>
+
+            Système de prédiction
+
+            <span>
+                Universités Privées
+            </span>
+
+        </h1>
+
+        <p>
+
+            Intégration d'un modèle Machine Learning
+            développé avec Python, Pandas, Scikit-learn
+            et SVR dans une application Web Node.js /
+            Express destinée à l'analyse des établissements
+            universitaires privés.
+
+        </p>
+
+        <a
+            href="#presentation"
+            class="hero-button"
+        >
+
+            Commencer la documentation
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<main>
+
+
+<!-- =====================================================
+     01 PRESENTATION
+====================================================== -->
+
+<section
+    class="section"
+    id="presentation"
+>
+
+    <div class="section-number">
+        01
+    </div>
+
+    <h2>
+        Présentation générale du système
+    </h2>
+
+    <p>
+
+        Ce système met en place une architecture de
+        Machine Learning destinée à l'analyse et à la
+        prédiction dans le contexte des universités
+        privées. L'objectif est de construire un modèle
+        capable d'étudier une relation entre la durée
+        d'un événement ou d'une activité universitaire
+        et un indicateur de réussite des diplômés. Dans
+        cet exemple, les données utilisées contiennent
+        deux variables principales : <strong>graduate_success_rate</strong>,
+        qui représente le taux de réussite des diplômés,
+        et <strong>event_duration</strong>, qui représente
+        la durée de l'événement. Le modèle est développé
+        avec Python et la bibliothèque Scikit-learn.
+        L'algorithme utilisé est une
+        <strong>SVR</strong>, c'est-à-dire une Support
+        Vector Regression, configurée avec un noyau
+        linéaire. Une fois entraîné, le modèle est
+        sauvegardé dans le fichier
+        <strong>EDUCATION_model.pkl</strong> grâce à
+        Joblib. Cette sauvegarde permet de réutiliser
+        le modèle ultérieurement sans refaire son
+        entraînement. Le backend Node.js utilise ensuite
+        le module natif <strong>child_process</strong>
+        pour lancer un script Python. La fonction
+        <strong>spawn()</strong> permet d'exécuter le
+        script Python comme un processus externe.
+        Node.js récupère ensuite la sortie standard du
+        programme Python grâce à <strong>stdout</strong>.
+        Le résultat produit par Python est interprété
+        comme du JSON grâce à <strong>JSON.parse()</strong>.
+        Enfin, Express expose une route
+        <strong>GET /plot</strong> permettant au frontend
+        de récupérer les données préparées par Python.
+        L'ensemble constitue donc une architecture dans
+        laquelle Python est responsable du traitement des
+        données et du Machine Learning tandis que Node.js
+        et Express assurent la communication avec
+        l'application Web et le dashboard.
+
+    </p>
+
+
+    <div class="flow">
+
+        <div class="flow-item">
+            <span>01</span>
+            Données universitaires
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>02</span>
+            Pandas
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>03</span>
+            SVR
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>04</span>
+            Modèle ML
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>05</span>
+            Joblib
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>06</span>
+            Python
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>07</span>
+            Node.js
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>08</span>
+            Express
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>09</span>
+            Dashboard
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     02 ENTRAINEMENT
+====================================================== -->
+
+<section
+    class="section"
+    id="training"
+>
+
+    <div class="section-number">
+        02
+    </div>
+
+    <h2>
+        Entraînement du modèle Machine Learning
+    </h2>
+
+    <p>
+
+        Le premier script Python est consacré à la
+        création et à l'entraînement du modèle de
+        prédiction. Le programme commence par importer
+        <strong>Pandas</strong>, <strong>SVR</strong> depuis
+        Scikit-learn et <strong>Joblib</strong>. Pandas
+        permet de construire un DataFrame contenant les
+        données utilisées pour l'apprentissage. Dans cet
+        exemple, le DataFrame contient le taux de réussite
+        des diplômés ainsi que la durée des événements.
+        La variable <strong>X</strong> correspond aux
+        caractéristiques utilisées comme entrée du modèle.
+        Ici, le modèle utilise
+        <strong>event_duration</strong>. La variable
+        <strong>y</strong> correspond à la variable cible,
+        c'est-à-dire <strong>graduate_success_rate</strong>.
+        Le modèle SVR est ensuite créé avec
+        <strong>SVR(kernel='linear')</strong>. Le choix
+        du noyau linéaire signifie que le modèle cherche
+        une relation de type linéaire entre la variable
+        d'entrée et la variable à prédire. La méthode
+        <strong>fit(X, y)</strong> entraîne le modèle à
+        partir des données disponibles. Une fois
+        l'apprentissage terminé, le modèle est sauvegardé
+        dans <strong>EDUCATION_model.pkl</strong> avec
+        <strong>joblib.dump()</strong>. Le fichier obtenu
+        peut ensuite être utilisé par un autre script
+        Python pour effectuer des prédictions sans refaire
+        l'entraînement.
+
+    </p>
+
+
+    <h3>
+        Importation des bibliothèques
+    </h3>
+
+    <pre><code>import pandas as pd
+
+from sklearn.svm import SVR
+
+import joblib</code></pre>
+
+
+    <p>
+
+        <strong>Pandas</strong> est utilisé pour créer et
+        manipuler les données sous forme de DataFrame.
+        <strong>SVR</strong> fournit l'algorithme de
+        régression Support Vector Regression.
+        <strong>Joblib</strong> permet de sauvegarder
+        l'objet modèle entraîné dans un fichier afin de
+        pouvoir le réutiliser ultérieurement.
+
+    </p>
+
+
+    <h3>
+        Création des données
+    </h3>
+
+    <pre><code>data = {
+
+    'graduate_success_rate': [85, 85, 90],
+
+    'event_duration': [2, 2, 2]
+
+}</code></pre>
+
+
+    <p>
+
+        Le dictionnaire <strong>data</strong> contient
+        les informations utilisées pour l'apprentissage.
+        La colonne <strong>graduate_success_rate</strong>
+        représente le taux de réussite des diplômés,
+        tandis que <strong>event_duration</strong>
+        représente la durée de l'événement. Dans un
+        véritable projet, ces données pourraient provenir
+        d'une base de données, d'un fichier CSV, d'une API
+        ou d'un système de collecte de données.
+
+    </p>
+
+
+    <h3>
+        Création du DataFrame
+    </h3>
+
+    <pre><code>df = pd.DataFrame(data)</code></pre>
+
+
+    <p>
+
+        La fonction <strong>pd.DataFrame()</strong>
+        transforme le dictionnaire Python en tableau
+        Pandas. Le DataFrame facilite ensuite la sélection
+        des colonnes utilisées pour entraîner le modèle.
+
+    </p>
+
+
+    <h3>
+        Séparation des variables
+    </h3>
+
+    <pre><code>X = df[['event_duration']]
+
+y = df['graduate_success_rate']</code></pre>
+
+
+    <p>
+
+        La variable <strong>X</strong> contient la
+        caractéristique d'entrée du modèle.
+        Dans cet exemple, il s'agit de la durée de
+        l'événement. La variable <strong>y</strong>
+        contient la valeur que le modèle doit apprendre
+        à prédire : le taux de réussite des diplômés.
+        Cette séparation correspond au principe classique
+        de l'apprentissage supervisé.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     03 SVR
+====================================================== -->
+
+<section
+    class="section"
+    id="svr"
+>
+
+    <div class="section-number">
+        03
+    </div>
+
+    <h2>
+        Algorithme SVR
+    </h2>
+
+    <p>
+
+        L'algorithme choisi dans ce projet est
+        <strong>SVR</strong>, ou Support Vector Regression.
+        Il s'agit d'une méthode de Machine Learning utilisée
+        pour résoudre des problèmes de régression, c'est-à-dire
+        lorsque l'objectif consiste à prédire une valeur
+        numérique. Contrairement à une simple régression
+        linéaire classique, SVR repose sur le principe des
+        Support Vector Machines et cherche à construire une
+        fonction qui respecte une certaine marge autour des
+        observations. Dans le code, le modèle est créé avec
+        <strong>SVR(kernel='linear')</strong>. Le paramètre
+        <strong>kernel='linear'</strong> indique que le
+        modèle utilise une relation linéaire entre les
+        variables. La méthode <strong>fit(X, y)</strong>
+        permet ensuite au modèle d'apprendre la relation
+        entre la durée de l'événement et le taux de réussite.
+        Le choix de SVR peut être intéressant lorsqu'on souhaite
+        mettre en place une approche de régression capable de
+        généraliser à partir des observations disponibles.
+        Dans un projet réel, le modèle devrait naturellement
+        être entraîné sur un volume de données suffisamment
+        important et évalué avec des métriques adaptées avant
+        d'être utilisé dans une application décisionnelle.
+
+    </p>
+
+
+    <h3>
+        Création du modèle
+    </h3>
+
+    <pre><code>model = SVR(kernel='linear')</code></pre>
+
+
+    <p>
+
+        Cette instruction crée un modèle SVR avec un noyau
+        linéaire. Le modèle est encore vide à cette étape :
+        il doit être entraîné avec les données disponibles.
+
+    </p>
+
+
+    <h3>
+        Entraînement
+    </h3>
+
+    <pre><code>model.fit(X, y)</code></pre>
+
+
+    <p>
+
+        La méthode <strong>fit()</strong> lance le processus
+        d'apprentissage. <strong>X</strong> contient les
+        variables explicatives et <strong>y</strong> contient
+        la variable cible. Le modèle analyse les relations
+        présentes dans les données afin de pouvoir ensuite
+        produire des prédictions sur de nouvelles observations.
+
+    </p>
+
+
+    <div class="highlight">
+
+        <strong>Principe :</strong>
+
+        Données universitaires →
+        X = durée de l'événement →
+        y = taux de réussite →
+        SVR →
+        Apprentissage →
+        Modèle entraîné
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     04 JOBLIB
+====================================================== -->
+
+<section
+    class="section"
+    id="joblib"
+>
+
+    <div class="section-number">
+        04
+    </div>
+
+    <h2>
+        Sauvegarde du modèle avec Joblib
+    </h2>
+
+    <p>
+
+        Après l'entraînement, il n'est pas nécessaire de
+        conserver toutes les données d'apprentissage dans
+        le backend Web. Le modèle entraîné peut être
+        sauvegardé sous forme de fichier. Dans ce projet,
+        la bibliothèque <strong>Joblib</strong> est utilisée
+        pour effectuer cette sauvegarde. L'instruction
+        <strong>joblib.dump(model, 'EDUCATION_model.pkl')</strong>
+        enregistre l'objet modèle dans un fichier appelé
+        <strong>EDUCATION_model.pkl</strong>. Ce fichier
+        représente le modèle Machine Learning entraîné.
+        Il peut ensuite être chargé par un autre script
+        Python afin de produire des prédictions. Cette
+        séparation entre l'entraînement et l'utilisation
+        du modèle est importante dans une architecture
+        professionnelle. L'entraînement peut être effectué
+        périodiquement, tandis que l'application Web peut
+        simplement utiliser la dernière version validée
+        du modèle.
+
+    </p>
+
+
+    <pre><code>joblib.dump(
+    model,
+    'EDUCATION_model.pkl'
+)</code></pre>
+
+
+    <p>
+
+        <strong>joblib.dump()</strong> prend ici deux
+        paramètres : le premier correspond à l'objet
+        modèle entraîné et le second correspond au nom
+        du fichier de sauvegarde. Le fichier PKL pourra
+        ensuite être chargé avec Joblib dans un script
+        de prédiction.
+
+    </p>
+
+
+    <div class="highlight">
+
+        <strong>Résultat :</strong>
+
+        Modèle SVR entraîné →
+        Joblib →
+        EDUCATION_model.pkl →
+        Réutilisation du modèle
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     05 PANDAS JSON
+====================================================== -->
+
+<section
+    class="section"
+    id="pandas"
+>
+
+    <div class="section-number">
+        05
+    </div>
+
+    <h2>
+        Préparation des données avec Pandas et JSON
+    </h2>
+
+    <p>
+
+        Dans le système complet, Python peut également
+        préparer des données destinées à être affichées
+        dans un graphique ou un dashboard. Pandas est
+        particulièrement adapté à cette tâche car il
+        permet de manipuler facilement des données sous
+        forme de lignes et de colonnes. Après la création
+        d'un DataFrame, la méthode
+        <strong>to_dict(orient="records")</strong> permet
+        de transformer les lignes en une liste de
+        dictionnaires Python. Cette structure est ensuite
+        placée dans un objet <strong>result</strong>.
+        La bibliothèque <strong>json</strong> permet enfin
+        de convertir cet objet Python en chaîne JSON avec
+        <strong>json.dumps()</strong>. Le JSON constitue
+        un format d'échange particulièrement adapté entre
+        Python et Node.js. Node.js récupère ainsi une
+        structure facilement interprétable par JavaScript.
+        Le frontend peut ensuite utiliser les informations
+        reçues pour construire des graphiques représentant,
+        par exemple, la relation entre la durée d'un
+        événement et le taux de réussite.
+
+    </p>
+
+
+    <h3>
+        Création du DataFrame
+    </h3>
+
+    <pre><code>data = {
+
+    "x": [1, 2, 3],
+
+    "y": [10, 20, 30]
+
+}
+
+df = pd.DataFrame(data)</code></pre>
+
+
+    <p>
+
+        Le dictionnaire contient deux séries de valeurs.
+        Pandas les transforme en deux colonnes dans le
+        DataFrame. Cette structure facilite la préparation
+        des données avant leur transmission à Node.js.
+
+    </p>
+
+
+    <h3>
+        Conversion en records
+    </h3>
+
+    <pre><code>result = {
+
+    "rows":
+        df.to_dict(
+            orient="records"
+        )
+
+}</code></pre>
+
+
+    <p>
+
+        L'option <strong>orient="records"</strong> demande
+        à Pandas de représenter chaque ligne comme un
+        dictionnaire. Le résultat peut donc prendre la
+        forme d'une liste d'objets JavaScript après
+        conversion JSON.
+
+    </p>
+
+
+    <h3>
+        Génération du JSON
+    </h3>
+
+    <pre><code>print(
+    json.dumps(result)
+)</code></pre>
+
+
+    <p>
+
+        <strong>json.dumps()</strong> transforme l'objet
+        Python en chaîne JSON. L'instruction
+        <strong>print()</strong> envoie ensuite cette
+        chaîne dans <strong>stdout</strong>, où Node.js
+        pourra la récupérer.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     06 NODE
+====================================================== -->
+
+<section
+    class="section"
+    id="node"
+>
+
+    <div class="section-number">
+        06
+    </div>
+
+    <h2>
+        Service Node.js et communication avec Python
+    </h2>
+
+    <p>
+
+        Le fichier <strong>fac.js</strong> joue le rôle
+        de passerelle entre le backend Node.js et les
+        scripts Python. Il utilise le module natif
+        <strong>child_process</strong> de Node.js et
+        particulièrement la fonction
+        <strong>spawn()</strong>. Cette fonction permet
+        de lancer un processus externe, ici le programme
+        Python. La fonction <strong>runPython(scriptName)</strong>
+        reçoit le nom du script Python à exécuter et
+        construit automatiquement son chemin grâce à
+        <strong>path.join()</strong>. Le processus Python
+        est ensuite lancé avec <strong>spawn("python",
+        [scriptPath])</strong>. Pendant l'exécution,
+        Node.js écoute <strong>stdout</strong> afin de
+        récupérer les données produites par Python et
+        <strong>stderr</strong> afin de récupérer les
+        éventuelles erreurs. Lorsque Python termine,
+        l'événement <strong>close</strong> est déclenché.
+        Node.js vérifie alors le code de sortie. Si ce
+        code est différent de zéro, la Promise est rejetée
+        avec le message d'erreur. Si l'exécution est
+        correcte, Node.js tente de transformer la sortie
+        Python en objet JavaScript grâce à
+        <strong>JSON.parse()</strong>. Cette étape est
+        essentielle lorsque Python retourne des données
+        structurées en JSON. Le service devient ainsi une
+        interface entre le monde Python, spécialisé dans
+        la Data Science, et le backend Node.js, spécialisé
+        dans la communication Web.
+
+    </p>
+
+
+    <h3>
+        Importation des modules
+    </h3>
+
+    <pre><code>const { spawn } =
+require("child_process");
+
+const path =
+require("path");</code></pre>
+
+
+    <p>
+
+        <strong>child_process</strong> permet de lancer
+        Python depuis Node.js. Le module
+        <strong>path</strong> permet de construire un
+        chemin de fichier fiable.
+
+    </p>
+
+
+    <h3>
+        Fonction runPython()
+    </h3>
+
+    <pre><code>function runPython(scriptName) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            ...
+
+        }
+    );
+
+}</code></pre>
+
+
+    <p>
+
+        La fonction retourne une
+        <strong>Promise</strong> car l'exécution du
+        processus Python est asynchrone. La Promise
+        sera résolue lorsque le script aura terminé
+        correctement ou rejetée en cas d'erreur.
+
+    </p>
+
+
+    <h3>
+        Construction du chemin Python
+    </h3>
+
+    <pre><code>const scriptPath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "python",
+    scriptName
+);</code></pre>
+
+
+    <p>
+
+        <strong>__dirname</strong> représente le dossier
+        du fichier JavaScript actuel. Les différents
+        éléments sont ensuite assemblés avec
+        <strong>path.join()</strong> afin de localiser
+        le script Python.
+
+    </p>
+
+
+    <h3>
+        Exécution de Python
+    </h3>
+
+    <pre><code>const py = spawn(
+    "python",
+    [scriptPath]
+);</code></pre>
+
+
+    <p>
+
+        Node.js lance le programme Python et lui transmet
+        le chemin du script. Cette technique permet
+        d'utiliser directement l'environnement Python
+        depuis le backend JavaScript.
+
+    </p>
+
+
+    <h3>
+        Récupération de stdout
+    </h3>
+
+    <pre><code>py.stdout.on("data", (data) => {
+
+    output += data.toString();
+
+});</code></pre>
+
+
+    <p>
+
+        Python écrit son résultat avec
+        <strong>print()</strong>. Node.js récupère ce
+        résultat grâce à <strong>stdout</strong>.
+        La méthode <strong>toString()</strong> transforme
+        les données reçues en texte et l'opérateur
+        <strong>+=</strong> permet de reconstruire la
+        sortie complète.
+
+    </p>
+
+
+    <h3>
+        Gestion de stderr
+    </h3>
+
+    <pre><code>py.stderr.on("data", (data) => {
+
+    error += data.toString();
+
+});</code></pre>
+
+
+    <p>
+
+        Les messages d'erreur générés par Python sont
+        récupérés grâce à <strong>stderr</strong>. Cela
+        permet à Node.js de connaître les éventuels
+        problèmes rencontrés pendant l'exécution.
+
+    </p>
+
+
+    <h3>
+        Transformation JSON
+    </h3>
+
+    <pre><code>try {
+
+    resolve(
+        JSON.parse(output)
+    );
+
+} catch (e) {
+
+    reject(output);
+
+}</code></pre>
+
+
+    <p>
+
+        Lorsque Python retourne une chaîne JSON,
+        <strong>JSON.parse()</strong> la transforme en
+        objet JavaScript. Node.js peut alors manipuler
+        directement les données et les transmettre à
+        Express. Si la sortie n'est pas un JSON valide,
+        le bloc <strong>catch</strong> intercepte
+        l'erreur et rejette la Promise avec la sortie
+        reçue.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     07 ROUTE
+====================================================== -->
+
+<section
+    class="section"
+    id="route"
+>
+
+    <div class="section-number">
+        07
+    </div>
+
+    <h2>
+        Route Express du système
+    </h2>
+
+    <p>
+
+        Le routeur Express constitue la couche API qui
+        permet au frontend d'accéder aux données produites
+        par Python. Le fichier commence par importer
+        Express puis crée un routeur avec
+        <strong>express.Router()</strong>. Le service
+        <strong>fac.js</strong> est ensuite importé afin
+        d'utiliser la fonction <strong>runPython()</strong>.
+        La route <strong>GET /plot</strong> constitue le
+        point d'entrée permettant de récupérer les données
+        destinées à la visualisation. Lorsque cette route
+        reçoit une requête, elle appelle
+        <strong>await runPython("plot.py")</strong>.
+        Le service Node.js lance alors le script Python
+        <strong>plot.py</strong>. Python prépare les
+        données, génère éventuellement les structures
+        nécessaires au graphique et les retourne au format
+        JSON. Node.js reçoit le résultat et Express le
+        place dans la propriété <strong>data</strong>.
+        Le serveur retourne finalement une réponse JSON
+        contenant un message de confirmation et les
+        données. Le frontend peut alors récupérer cette
+        réponse et utiliser les valeurs pour construire
+        un graphique ou alimenter un dashboard dédié aux
+        universités privées.
+
+    </p>
+
+
+    <h3>
+        Création du routeur
+    </h3>
+
+    <pre><code>const express =
+require("express");
+
+const router =
+express.Router();</code></pre>
+
+
+    <p>
+
+        Express est importé puis un routeur indépendant
+        est créé. Cette organisation permet de séparer
+        les routes relatives aux universités privées
+        des autres routes de l'application.
+
+    </p>
+
+
+    <h3>
+        Importation du service
+    </h3>
+
+    <pre><code>const { runPython } =
+require("../service/fac");</code></pre>
+
+
+    <p>
+
+        Le routeur récupère la fonction
+        <strong>runPython()</strong> depuis le service
+        Node.js. Il peut ainsi déclencher le script
+        Python lorsqu'une requête arrive.
+
+    </p>
+
+
+    <h3>
+        Route GET /plot
+    </h3>
+
+    <pre><code>router.get(
+    "/plot",
+    async (req, res) => {
+
+        ...
+
+    }
+);</code></pre>
+
+
+    <p>
+
+        La route utilise la méthode HTTP
+        <strong>GET</strong>. Le mot-clé
+        <strong>async</strong> permet d'utiliser
+        <strong>await</strong> afin d'attendre la fin
+        de l'exécution Python.
+
+    </p>
+
+
+    <h3>
+        Appel du script Python
+    </h3>
+
+    <pre><code>const result =
+    await runPython(
+        "plot.py"
+    );</code></pre>
+
+
+    <p>
+
+        Express demande au service Node.js d'exécuter
+        précisément le fichier <strong>plot.py</strong>.
+        Le résultat JSON produit par Python est récupéré
+        dans la variable <strong>result</strong>.
+
+    </p>
+
+
+    <h3>
+        Réponse API
+    </h3>
+
+    <pre><code>res.json({
+
+    message: "OK",
+
+    data: result
+
+});</code></pre>
+
+
+    <p>
+
+        Express retourne une réponse JSON contenant
+        un message de confirmation et les données
+        produites par Python. Le frontend peut alors
+        exploiter directement la propriété
+        <strong>data</strong>.
+
+    </p>
+
+
+    <h3>
+        Gestion des erreurs
+    </h3>
+
+    <pre><code>catch (err) {
+
+    res.status(500).json({
+
+        error:
+            err.toString()
+
+    });
+
+}</code></pre>
+
+
+    <p>
+
+        Le bloc <strong>catch</strong> permet de gérer
+        les erreurs provenant du service Python ou de
+        l'exécution du processus. Le serveur retourne
+        alors le statut HTTP <strong>500</strong> afin
+        d'indiquer une erreur interne.
+
+    </p>
+
+
+    <div class="endpoint">
+
+        GET /plot
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     08 ARCHITECTURE
+====================================================== -->
+
+<section
+    class="section"
+    id="architecture"
+>
+
+    <div class="section-number">
+        08
+    </div>
+
+    <h2>
+        Architecture complète du système
+    </h2>
+
+    <p>
+
+        L'architecture complète repose sur une séparation
+        des responsabilités entre la partie Machine
+        Learning et la partie application Web. Le processus
+        commence avec les données relatives aux universités
+        privées. Ces données peuvent être préparées avec
+        Pandas puis utilisées pour entraîner un modèle SVR.
+        Le modèle apprend une relation entre les variables
+        explicatives et le taux de réussite des diplômés.
+        Après l'entraînement, le modèle est sauvegardé dans
+        <strong>EDUCATION_model.pkl</strong> avec Joblib.
+        Dans la partie Web, le frontend communique avec
+        l'API Express. Lorsqu'une requête
+        <strong>GET /plot</strong> arrive, Express appelle
+        le service <strong>fac.js</strong>. Celui-ci utilise
+        <strong>spawn()</strong> pour lancer le script Python
+        <strong>plot.py</strong>. Le script Python prépare
+        les données et les retourne au format JSON grâce à
+        <strong>print(json.dumps(...))</strong>. Node.js
+        récupère cette sortie grâce à stdout puis utilise
+        <strong>JSON.parse()</strong> pour transformer la
+        chaîne JSON en objet JavaScript. Express retourne
+        ensuite les données au frontend. Le dashboard peut
+        utiliser ces données pour construire des graphiques,
+        des indicateurs ou des tableaux permettant de suivre
+        les informations relatives aux universités privées.
+        Cette architecture permet donc de conserver Python
+        pour les traitements Data Science et Machine
+        Learning tout en utilisant Node.js et Express pour
+        exposer les résultats au frontend.
+
+    </p>
+
+
+    <div class="architecture">
+
+        <div class="architecture-box frontend">
+
+            <strong>
+                Frontend
+            </strong>
+
+            <small>
+                Dashboard Universités Privées
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ HTTP GET
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Express
+            </strong>
+
+            <small>
+                API REST
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                /plot
+            </strong>
+
+            <small>
+                Route API
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                runPython()
+            </strong>
+
+            <small>
+                Service fac.js
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ spawn()
+        </div>
+
+
+        <div class="architecture-box python">
+
+            <strong>
+                Python
+            </strong>
+
+            <small>
+                plot.py
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Pandas
+            </strong>
+
+            <small>
+                Préparation des données
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                SVR
+            </strong>
+
+            <small>
+                Modèle de régression
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                EDUCATION_model.pkl
+            </strong>
+
+            <small>
+                Modèle sauvegardé
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ JSON
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                stdout
+            </strong>
+
+            <small>
+                Sortie Python
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                JSON.parse()
+            </strong>
+
+            <small>
+                Conversion Node.js
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box frontend">
+
+            <strong>
+                Dashboard
+            </strong>
+
+            <small>
+                Graphiques et indicateurs
+            </small>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     09 TECHNOLOGIES
+====================================================== -->
+
+<section
+    class="section"
+    id="technologies"
+>
+
+    <div class="section-number">
+        09
+    </div>
+
+    <h2>
+        Rôle des technologies
+    </h2>
+
+    <p>
+
+        Chaque technologie possède une fonction précise
+        dans l'architecture. Python constitue
+        l'environnement d'exécution du Machine Learning.
+        Pandas permet de créer et manipuler les données.
+        Scikit-learn fournit l'algorithme SVR utilisé pour
+        la régression. Joblib permet de sauvegarder le
+        modèle entraîné dans un fichier PKL. Node.js
+        constitue l'environnement d'exécution du backend
+        JavaScript. Le module <strong>child_process</strong>
+        permet de lancer les scripts Python depuis Node.js
+        et <strong>spawn()</strong> permet de contrôler
+        le processus externe. Express fournit l'API REST
+        et la route <strong>/plot</strong>. JSON assure
+        le transfert structuré des données entre Python,
+        Node.js et le frontend. Enfin, le dashboard
+        exploite les résultats afin de présenter les
+        informations sous forme visuelle. Cette
+        combinaison permet donc d'associer les capacités
+        Data Science de Python avec les capacités Web
+        de Node.js et Express.
+
+    </p>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Technologie
+                </th>
+
+                <th>
+                    Rôle
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    Python
+                </td>
+
+                <td>
+                    Exécution du traitement
+                    Machine Learning
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Pandas
+                </td>
+
+                <td>
+                    Création et manipulation
+                    des données
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Scikit-learn
+                </td>
+
+                <td>
+                    Bibliothèque Machine Learning
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    SVR
+                </td>
+
+                <td>
+                    Régression et prédiction
+                    d'une valeur numérique
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Joblib
+                </td>
+
+                <td>
+                    Sauvegarde du modèle entraîné
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    EDUCATION_model.pkl
+                </td>
+
+                <td>
+                    Modèle Machine Learning
+                    sauvegardé
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Node.js
+                </td>
+
+                <td>
+                    Exécution du backend JavaScript
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    child_process
+                </td>
+
+                <td>
+                    Communication entre Node.js
+                    et Python
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    spawn()
+                </td>
+
+                <td>
+                    Lancement du processus Python
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Express
+                </td>
+
+                <td>
+                    Création de l'API REST
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    JSON
+                </td>
+
+                <td>
+                    Échange des données
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Dashboard
+                </td>
+
+                <td>
+                    Visualisation des résultats
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- =====================================================
+     10 EXEMPLE
+====================================================== -->
+
+<section
+    class="section"
+    id="example"
+>
+
+    <div class="section-number">
+        10
+    </div>
+
+    <h2>
+        Exemple concret de fonctionnement
+    </h2>
+
+    <p>
+
+        Pour comprendre le fonctionnement complet,
+        imaginons que le frontend souhaite récupérer les
+        données nécessaires à l'affichage d'un graphique
+        sur les universités privées. Le frontend envoie
+        une requête HTTP <strong>GET /plot</strong> vers
+        l'API Express. La route reçoit la requête et
+        appelle <strong>runPython("plot.py")</strong>.
+        Le service Node.js construit automatiquement le
+        chemin du fichier Python et lance le processus
+        avec <strong>spawn()</strong>. Le script Python
+        prépare alors les données avec Pandas. Si les
+        données doivent être transformées en structure
+        exploitable par JavaScript, Pandas utilise
+        <strong>to_dict(orient="records")</strong>.
+        L'objet obtenu est ensuite transformé en chaîne
+        JSON avec <strong>json.dumps()</strong>. Python
+        utilise <strong>print()</strong> pour envoyer
+        cette chaîne dans stdout. Node.js récupère la
+        sortie avec <strong>py.stdout.on("data", ...)</strong>.
+        Lorsque le processus Python termine son exécution,
+        Node.js vérifie le code de sortie. Si tout s'est
+        correctement déroulé, la chaîne JSON est convertie
+        en objet JavaScript avec <strong>JSON.parse()</strong>.
+        Express place ensuite cet objet dans la propriété
+        <strong>data</strong> de la réponse. Le frontend
+        reçoit alors les données et peut les utiliser pour
+        construire un graphique représentant les résultats
+        du système de prédiction ou les données relatives
+        aux universités privées.
+
+    </p>
+
+
+    <div class="endpoint">
+
+        GET /plot
+
+    </div>
+
+
+    <pre><code>{
+    "message": "OK",
+    "data": {
+        "rows": [
+            {
+                "x": 1,
+                "y": 10
+            },
+            {
+                "x": 2,
+                "y": 20
+            },
+            {
+                "x": 3,
+                "y": 30
+            }
+        ]
+    }
+}</code></pre>
+
+
+    <p>
+
+        Cet exemple représente uniquement la structure
+        possible de la réponse. Les valeurs réelles
+        dépendent des données préparées par le script
+        Python et du traitement effectué dans le projet.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     11 PRESENTATION ORALE
+====================================================== -->
+
+<section
+    class="section"
+    id="oral"
+>
+
+    <div class="section-number">
+        11
+    </div>
+
+    <h2>
+        Explication à donner lors de la présentation
+    </h2>
+
+
+    <p>
+
+        Lors d'une présentation professionnelle, ce système
+        peut être présenté comme une architecture
+        d'intelligence artificielle intégrée à une
+        plateforme Web destinée au domaine de
+        l'enseignement supérieur privé. L'objectif est
+        d'utiliser les données disponibles afin de
+        construire un modèle de régression capable de
+        produire des estimations à partir de nouvelles
+        observations. Le modèle est développé en Python
+        avec Pandas et Scikit-learn. L'algorithme choisi
+        est SVR avec un noyau linéaire. Une fois entraîné,
+        le modèle est sauvegardé avec Joblib dans le fichier
+        <strong>EDUCATION_model.pkl</strong>. Cette
+        sauvegarde permet de réutiliser le modèle sans
+        devoir refaire l'entraînement à chaque utilisation.
+        Pour intégrer Python dans l'application Web,
+        Node.js utilise le module
+        <strong>child_process</strong> et la fonction
+        <strong>spawn()</strong>. Le service
+        <strong>fac.js</strong> lance le script Python,
+        récupère sa sortie standard et transforme le JSON
+        retourné en objet JavaScript. Express fournit
+        ensuite la route <strong>/plot</strong> qui permet
+        au frontend d'accéder aux données. Le dashboard
+        peut alors utiliser ces informations pour afficher
+        des graphiques et des indicateurs relatifs aux
+        universités privées. L'intérêt principal de cette
+        architecture est de séparer clairement les
+        responsabilités : Python est utilisé pour le
+        traitement des données et le Machine Learning,
+        Joblib pour la sauvegarde du modèle, Node.js pour
+        la communication avec Python, Express pour l'API
+        et le frontend pour la visualisation. Cette
+        organisation rend le système plus modulaire et
+        permet d'ajouter ultérieurement de nouveaux
+        indicateurs, de nouvelles données ou de nouveaux
+        modèles.
+
+    </p>
+
+
+    <div class="presentation-script">
+
+        <h3>
+            🎤 Exemple d'explication orale
+        </h3>
+
+
+        <p>
+
+            « Dans cette partie de mon projet, j'ai
+            développé un système de Machine Learning
+            destiné à l'analyse des universités privées.
+
+        </p>
+
+
+        <p>
+
+            J'utilise Python pour préparer les données
+            avec Pandas et pour construire mon modèle
+            Machine Learning avec Scikit-learn.
+
+        </p>
+
+
+        <p>
+
+            Le modèle choisi est un SVR, ou Support
+            Vector Regression, avec un noyau linéaire.
+            Il permet de réaliser une prédiction sur une
+            valeur numérique à partir des variables
+            disponibles.
+
+        </p>
+
+
+        <p>
+
+            Dans mon exemple, j'utilise la durée de
+            l'événement comme variable d'entrée et le
+            taux de réussite des diplômés comme variable
+            cible.
+
+        </p>
+
+
+        <p>
+
+            Après l'entraînement, je sauvegarde le modèle
+            dans le fichier
+            <strong>EDUCATION_model.pkl</strong> avec
+            Joblib. Cela permet de conserver le modèle
+            entraîné et de le réutiliser plus tard sans
+            refaire tout le processus d'apprentissage.
+
+        </p>
+
+
+        <p>
+
+            Pour intégrer Python dans mon application
+            Web, j'utilise Node.js et le module
+            <strong>child_process</strong>. La fonction
+            <strong>spawn()</strong> permet de lancer
+            mon script Python depuis le backend.
+
+        </p>
+
+
+        <p>
+
+            Mon service <strong>fac.js</strong> récupère
+            ensuite la sortie de Python avec
+            <strong>stdout</strong>. Comme Python retourne
+            les données au format JSON, Node.js utilise
+            <strong>JSON.parse()</strong> pour transformer
+            cette réponse en objet JavaScript.
+
+        </p>
+
+
+        <p>
+
+            Express expose ensuite la route
+            <strong>GET /plot</strong>. Le frontend peut
+            appeler cette route afin de récupérer les
+            données nécessaires au dashboard.
+
+        </p>
+
+
+        <p>
+
+            Le dashboard peut ensuite présenter ces
+            informations sous forme de graphiques,
+            statistiques et indicateurs afin de faciliter
+            l'analyse des universités privées.
+
+        </p>
+
+
+        <p>
+
+            L'architecture sépare donc clairement les
+            responsabilités : Python et Scikit-learn pour
+            le Machine Learning, Pandas pour les données,
+            Joblib pour la sauvegarde du modèle, Node.js
+            pour la communication avec Python, Express
+            pour l'API et le frontend pour la visualisation.
+
+        </p>
+
+
+        <p>
+
+            Cette architecture est évolutive et peut être
+            enrichie avec de nouvelles variables, de
+            nouveaux modèles Machine Learning et de
+            nouveaux indicateurs décisionnels. »
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     12 CONCLUSION
+====================================================== -->
+
+<section
+    class="section"
+    id="conclusion"
+>
+
+    <div class="section-number">
+        12
+    </div>
+
+    <h2>
+        Conclusion
+    </h2>
+
+
+    <p>
+
+        Ce système présente une intégration complète d'un
+        modèle Machine Learning dans une application Web
+        dédiée à l'analyse des universités privées. Les
+        données sont préparées avec Pandas puis utilisées
+        pour entraîner un modèle SVR fourni par
+        Scikit-learn. Le modèle est sauvegardé dans
+        <strong>EDUCATION_model.pkl</strong> grâce à
+        Joblib afin de pouvoir être réutilisé sans refaire
+        l'entraînement. La partie Node.js utilise le
+        module <strong>child_process</strong> et la
+        fonction <strong>spawn()</strong> pour exécuter
+        les scripts Python. Le service
+        <strong>fac.js</strong> récupère les sorties
+        Python grâce à stdout et transforme les données
+        JSON en objets JavaScript avec
+        <strong>JSON.parse()</strong>. Express expose
+        ensuite la route <strong>/plot</strong>, qui
+        permet au frontend d'accéder aux résultats.
+        Le dashboard peut enfin exploiter ces données
+        pour produire des graphiques, des tableaux et des
+        indicateurs décisionnels. L'ensemble forme une
+        chaîne technologique cohérente :
+        <strong>Données → Pandas → SVR → Modèle ML →
+        Joblib → Python → stdout → Node.js → JSON →
+        Express → Dashboard</strong>. Cette architecture
+        montre comment un modèle Data Science développé
+        en Python peut être intégré efficacement dans une
+        application Web moderne basée sur Node.js et
+        Express.
+
+    </p>
+
+
+    <div class="flow">
+
+        <div class="flow-item">
+            Données
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Pandas
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            SVR
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Joblib
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Python
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Node.js
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Express
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            JSON
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            Dashboard
+        </div>
+
+    </div>
+
+
+    <div class="success-box">
+
+        ✔ Données préparées avec Pandas
+
+        <br>
+
+        ✔ Modèle SVR utilisé pour la régression
+
+        <br>
+
+        ✔ Entraînement du modèle avec Scikit-learn
+
+        <br>
+
+        ✔ Modèle sauvegardé avec Joblib
+
+        <br>
+
+        ✔ Fichier EDUCATION_model.pkl
+
+        <br>
+
+        ✔ Communication Node.js → Python
+
+        <br>
+
+        ✔ Exécution Python avec spawn()
+
+        <br>
+
+        ✔ Récupération de stdout
+
+        <br>
+
+        ✔ Conversion JSON avec JSON.parse()
+
+        <br>
+
+        ✔ API REST avec Express
+
+        <br>
+
+        ✔ Route GET /plot
+
+        <br>
+
+        ✔ Données exploitables par le Dashboard
+
+        <br>
+
+        ✔ Architecture modulaire et évolutive
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    <p>
+
+        Documentation technique —
+        Private Universities Machine Learning
+
+    </p>
+
+    <p>
+
+        Python • Pandas • Scikit-learn • SVR •
+        Joblib • Node.js • Express • JSON
+
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

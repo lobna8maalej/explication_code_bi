@@ -1,0 +1,2606 @@
+```html
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Documentation technique du système de prédiction Commerce utilisant Python, SVR, Pickle, Node.js, Express et une communication JSON."
+    >
+
+    <title>
+        Documentation — Prédiction Commerce
+    </title>
+
+
+    <!-- =====================================================
+         LIAISON AVEC LE CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="commerce2.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+====================================================== -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <div class="logo">
+            🛒 Commerce ML
+        </div>
+
+
+        <nav>
+
+            <a href="#presentation">
+                Présentation
+            </a>
+
+            <a href="#svr">
+                Modèles SVR
+            </a>
+
+            <a href="#python">
+                Python Prediction
+            </a>
+
+            <a href="#service">
+                Service Node.js
+            </a>
+
+            <a href="#route">
+                Route API
+            </a>
+
+            <a href="#server">
+                Serveur Express
+            </a>
+
+            <a href="#architecture">
+                Architecture
+            </a>
+
+            <a href="#technologies">
+                Technologies
+            </a>
+
+            <a href="#vente">
+                Présentation commerciale
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="badge">
+            Documentation technique
+        </span>
+
+
+        <h1>
+
+            Système de prédiction
+
+            <span>
+                Commerce
+            </span>
+
+        </h1>
+
+
+        <p>
+
+            Intégration de modèles Machine Learning
+            SVR entraînés en Python, sauvegardés en
+            fichiers PKL et exploités depuis une API
+            Node.js / Express.
+
+        </p>
+
+
+        <a
+            href="#presentation"
+            class="hero-button"
+        >
+
+            Commencer la documentation
+
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CONTENU PRINCIPAL
+====================================================== -->
+
+<main class="container">
+
+
+
+<!-- =====================================================
+     01 — PRESENTATION
+====================================================== -->
+
+<section
+    id="presentation"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        01
+    </div>
+
+
+    <h2>
+        Présentation générale
+    </h2>
+
+
+    <p>
+
+        Ce module met en place une architecture de
+        prédiction destinée au domaine du commerce et
+        permettant de comparer ou d'estimer des résultats
+        pour deux enseignes : <strong>Carrefour</strong> et
+        <strong>Aziza</strong>. L'architecture repose sur
+        plusieurs technologies qui communiquent entre elles.
+        La première partie est développée en Python et utilise
+        la bibliothèque <strong>Scikit-learn</strong> ainsi
+        que l'algorithme <strong>SVR</strong>, ou Support
+        Vector Regression. Deux modèles Machine Learning
+        indépendants sont entraînés à partir des mêmes variables
+        d'entrée <strong>X</strong>, mais avec deux ensembles
+        de valeurs cibles différents : un ensemble pour
+        Carrefour et un autre pour Aziza. Une fois entraînés,
+        les modèles sont sérialisés avec la bibliothèque
+        <strong>pickle</strong> et sauvegardés sous forme de
+        fichiers <strong>carrefour.pkl</strong> et
+        <strong>aziza.pkl</strong>. La deuxième partie du
+        système concerne le script Python chargé de recevoir
+        les données depuis Node.js. Ce script lit un objet
+        JSON envoyé sur l'entrée standard, identifie le modèle
+        demandé, charge le fichier PKL correspondant, récupère
+        les variables <strong>x1</strong> et <strong>x2</strong>,
+        puis utilise la méthode <strong>predict()</strong>
+        du modèle SVR pour produire une prédiction. La troisième
+        partie est développée en Node.js. Le backend utilise
+        le module natif <strong>child_process</strong> afin
+        de lancer Python depuis Node.js. La fonction
+        <strong>runCommerce()</strong> prépare le chemin de
+        l'interpréteur Python, localise le script de prédiction,
+        lance le processus Python et lui transmet les données
+        au format JSON. Le résultat produit par Python est
+        récupéré depuis <strong>stdout</strong>, converti
+        depuis JSON vers un objet JavaScript puis retourné
+        au backend. Enfin, Express expose une API REST avec
+        une route de test <strong>/train</strong> et une route
+        POST <strong>/predict</strong>. Le frontend ou le
+        dashboard peut donc envoyer le nom du modèle ainsi que
+        les variables d'entrée, et recevoir automatiquement
+        la prédiction calculée par le véritable modèle Machine
+        Learning.
+
+    </p>
+
+
+    <div class="flow">
+
+        <div class="flow-item">
+
+            <span>
+                01
+            </span>
+
+            Données
+
+        </div>
+
+
+        <div class="arrow">
+            →
+        </div>
+
+
+        <div class="flow-item">
+
+            <span>
+                02
+            </span>
+
+            SVR
+
+        </div>
+
+
+        <div class="arrow">
+            →
+        </div>
+
+
+        <div class="flow-item">
+
+            <span>
+                03
+            </span>
+
+            PKL
+
+        </div>
+
+
+        <div class="arrow">
+            →
+        </div>
+
+
+        <div class="flow-item">
+
+            <span>
+                04
+            </span>
+
+            Python
+
+        </div>
+
+
+        <div class="arrow">
+            →
+        </div>
+
+
+        <div class="flow-item">
+
+            <span>
+                05
+            </span>
+
+            Node.js
+
+        </div>
+
+
+        <div class="arrow">
+            →
+        </div>
+
+
+        <div class="flow-item">
+
+            <span>
+                06
+            </span>
+
+            Express
+
+        </div>
+
+
+        <div class="arrow">
+            →
+        </div>
+
+
+        <div class="flow-item">
+
+            <span>
+                07
+            </span>
+
+            Dashboard
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     02 — MODELES SVR
+====================================================== -->
+
+<section
+    id="svr"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        02
+    </div>
+
+
+    <h2>
+        Entraînement des modèles SVR
+    </h2>
+
+
+    <p>
+
+        La première étape du système consiste à créer les
+        modèles Machine Learning. Le code Python importe
+        <strong>SVR</strong> depuis
+        <strong>sklearn.svm</strong>. SVR signifie
+        <strong>Support Vector Regression</strong> et
+        constitue une version de la méthode des Support
+        Vector Machines adaptée aux problèmes de régression.
+        Contrairement à une simple formule mathématique
+        codée manuellement, le modèle SVR est entraîné à
+        partir de données d'entrée et de valeurs cibles.
+        Dans ce projet, le tableau <strong>X</strong> contient
+        quatre observations et deux variables pour chaque
+        observation. La première observation possède les
+        valeurs 10 et 1, la deuxième 20 et 2, la troisième
+        30 et 3 et la quatrième 40 et 4. Ces deux variables
+        constituent les caractéristiques utilisées par le
+        modèle pour apprendre la relation avec la variable
+        cible. Pour Carrefour, le tableau
+        <strong>y_carrefour</strong> contient les valeurs
+        120, 240, 360 et 480. Un premier objet
+        <strong>SVR()</strong> est créé puis la méthode
+        <strong>fit()</strong> est appelée avec X et
+        y_carrefour. Le modèle apprend ainsi une relation
+        entre les deux variables d'entrée et les valeurs
+        cibles de Carrefour. Le modèle est ensuite sauvegardé
+        dans le fichier <strong>carrefour.pkl</strong>.
+        Le même principe est appliqué à Aziza. Le tableau
+        <strong>y_aziza</strong> contient les valeurs 100,
+        200, 300 et 400. Un deuxième modèle SVR est créé,
+        entraîné avec les mêmes variables X mais avec les
+        valeurs cibles d'Aziza, puis sauvegardé dans
+        <strong>aziza.pkl</strong>. On obtient donc deux
+        modèles indépendants capables de produire des
+        prédictions différentes à partir des mêmes variables
+        d'entrée.
+
+    </p>
+
+
+    <h3>
+        Importation de SVR
+    </h3>
+
+
+    <pre><code>from sklearn.svm import SVR</code></pre>
+
+
+    <p>
+
+        Cette instruction importe la classe
+        <strong>SVR</strong> depuis le module
+        <strong>sklearn.svm</strong>. Elle permet de créer
+        un modèle de régression basé sur les Support Vector
+        Machines. Le modèle pourra ensuite être entraîné
+        avec la méthode <strong>fit()</strong> et utilisé
+        pour produire des prédictions avec
+        <strong>predict()</strong>.
+
+    </p>
+
+
+
+    <h3>
+        Importation de Pickle
+    </h3>
+
+
+    <pre><code>import pickle</code></pre>
+
+
+    <p>
+
+        La bibliothèque <strong>pickle</strong> est utilisée
+        pour sérialiser le modèle entraîné. Après
+        l'entraînement, le modèle SVR existe comme objet
+        Python en mémoire. Pickle permet de transformer cet
+        objet en fichier afin de pouvoir le sauvegarder et
+        le recharger ultérieurement sans devoir entraîner
+        le modèle à chaque prédiction.
+
+    </p>
+
+
+
+    <h3>
+        Gestion du chemin du projet
+    </h3>
+
+
+    <pre><code>BASE_DIR = os.path.dirname(
+    os.path.abspath(__file__)
+)</code></pre>
+
+
+    <p>
+
+        Cette partie permet de déterminer automatiquement
+        le dossier dans lequel se trouve le script Python.
+        <strong>os.path.abspath(__file__)</strong> récupère
+        le chemin absolu du fichier actuel tandis que
+        <strong>os.path.dirname()</strong> récupère le
+        dossier qui contient ce fichier. Cette méthode est
+        particulièrement utile pour construire des chemins
+        fiables vers les fichiers PKL.
+
+    </p>
+
+
+
+    <h3>
+        Données communes
+    </h3>
+
+
+    <pre><code>X = [
+    [10, 1],
+    [20, 2],
+    [30, 3],
+    [40, 4]
+]</code></pre>
+
+
+    <p>
+
+        Le tableau <strong>X</strong> représente les données
+        d'entrée du Machine Learning. Chaque ligne correspond
+        à une observation et contient deux variables. Le
+        modèle reçoit donc deux caractéristiques pour chaque
+        prédiction. Par exemple, la première observation est
+        composée de 10 et 1. Ces deux valeurs seront ensuite
+        envoyées au modèle SVR afin qu'il puisse calculer
+        une estimation.
+
+    </p>
+
+
+
+    <h3>
+        Données Carrefour
+    </h3>
+
+
+    <pre><code>y_carrefour = [
+    120,
+    240,
+    360,
+    480
+]</code></pre>
+
+
+    <p>
+
+        Le tableau <strong>y_carrefour</strong> représente
+        la variable cible utilisée pour entraîner le modèle
+        Carrefour. Chaque valeur correspond à une observation
+        du tableau X. Le modèle doit donc apprendre la
+        relation entre les deux variables d'entrée et ces
+        quatre valeurs cibles.
+
+    </p>
+
+
+
+    <h3>
+        Création et entraînement du modèle Carrefour
+    </h3>
+
+
+    <pre><code>carrefour_model = SVR()
+
+carrefour_model.fit(
+    X,
+    y_carrefour
+)</code></pre>
+
+
+    <p>
+
+        <strong>SVR()</strong> crée une nouvelle instance
+        du modèle Support Vector Regression. La méthode
+        <strong>fit()</strong> lance ensuite l'apprentissage.
+        Le premier argument correspond aux variables
+        d'entrée X et le deuxième correspond aux valeurs
+        cibles y_carrefour. Le modèle analyse les données
+        fournies afin d'apprendre une relation permettant
+        ensuite de produire des prédictions sur de nouvelles
+        valeurs.
+
+    </p>
+
+
+
+    <h3>
+        Sauvegarde Carrefour
+    </h3>
+
+
+    <pre><code>carrefour_path = os.path.join(
+    BASE_DIR,
+    "carrefour.pkl"
+)
+
+with open(
+    carrefour_path,
+    "wb"
+) as f:
+
+    pickle.dump(
+        carrefour_model,
+        f
+    )</code></pre>
+
+
+    <p>
+
+        Le chemin du fichier
+        <strong>carrefour.pkl</strong> est construit avec
+        <strong>os.path.join()</strong>. Le fichier est
+        ensuite ouvert avec le mode <strong>wb</strong>,
+        c'est-à-dire écriture binaire. La fonction
+        <strong>pickle.dump()</strong> sérialise l'objet
+        carrefour_model et l'enregistre dans le fichier.
+        Le modèle entraîné peut ainsi être réutilisé plus
+        tard sans refaire l'apprentissage.
+
+    </p>
+
+
+
+    <h3>
+        Modèle Aziza
+    </h3>
+
+
+    <pre><code>y_aziza = [
+    100,
+    200,
+    300,
+    400
+]
+
+aziza_model = SVR()
+
+aziza_model.fit(
+    X,
+    y_aziza
+)</code></pre>
+
+
+    <p>
+
+        Le modèle Aziza utilise exactement les mêmes variables
+        d'entrée X, mais possède une variable cible différente.
+        Le tableau <strong>y_aziza</strong> contient les valeurs
+        100, 200, 300 et 400. Un nouvel objet
+        <strong>SVR()</strong> est créé puis entraîné avec
+        X et y_aziza. Cette séparation permet de construire
+        deux modèles distincts. Le modèle Carrefour apprend
+        les relations présentes dans les données Carrefour,
+        tandis que le modèle Aziza apprend les relations
+        présentes dans les données Aziza.
+
+    </p>
+
+
+
+    <h3>
+        Sauvegarde Aziza
+    </h3>
+
+
+    <pre><code>aziza_path = os.path.join(
+    BASE_DIR,
+    "aziza.pkl"
+)
+
+with open(
+    aziza_path,
+    "wb"
+) as f:
+
+    pickle.dump(
+        aziza_model,
+        f
+    )</code></pre>
+
+
+    <p>
+
+        Le deuxième modèle est sauvegardé dans
+        <strong>aziza.pkl</strong>. Nous avons donc à la
+        fin de l'entraînement deux fichiers indépendants :
+        <strong>carrefour.pkl</strong> pour Carrefour et
+        <strong>aziza.pkl</strong> pour Aziza. Ces fichiers
+        contiennent les modèles SVR entraînés et pourront
+        être chargés par le script Python de prédiction.
+
+    </p>
+
+
+
+    <div class="highlight">
+
+        carrefour.pkl → modèle SVR Carrefour
+
+        <br>
+
+        aziza.pkl → modèle SVR Aziza
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     03 — SCRIPT PYTHON
+====================================================== -->
+
+<section
+    id="python"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        03
+    </div>
+
+
+    <h2>
+        Script Python de prédiction
+    </h2>
+
+
+    <p>
+
+        Après avoir entraîné et sauvegardé les modèles,
+        un deuxième script Python est utilisé pour réaliser
+        les prédictions. Son rôle est particulièrement
+        important car il constitue le pont entre Node.js
+        et les modèles Machine Learning Python. Le script
+        importe <strong>sys</strong>, <strong>json</strong>,
+        <strong>pickle</strong> et <strong>os</strong>.
+        Il commence par lire les données envoyées par
+        Node.js grâce à <strong>sys.stdin.read()</strong>.
+        Ces données sont envoyées sous forme JSON et sont
+        converties en objet Python avec
+        <strong>json.loads()</strong>. Le script récupère
+        ensuite le nom du modèle avec
+        <strong>data.get("model", "carrefour")</strong>.
+        Si aucun modèle n'est fourni, Carrefour devient le
+        modèle par défaut. Un dictionnaire
+        <strong>file_map</strong> permet ensuite d'associer
+        le nom logique du modèle au fichier PKL correspondant.
+        Si le nom reçu n'existe pas dans ce dictionnaire,
+        le programme déclenche une erreur. Lorsque le modèle
+        est valide, le chemin du fichier PKL est construit
+        automatiquement puis le fichier est ouvert en mode
+        binaire. <strong>pickle.load()</strong> recharge
+        alors le modèle SVR entraîné. Une vérification de
+        sécurité utilise <strong>hasattr(model, "predict")</strong>
+        afin de vérifier que l'objet chargé possède bien
+        une méthode de prédiction. Les variables
+        <strong>x1</strong> et <strong>x2</strong> sont
+        ensuite récupérées depuis les données reçues et
+        converties en nombres décimaux avec
+        <strong>float()</strong>. Le modèle est finalement
+        appelé avec <strong>model.predict([[x1, x2]])</strong>.
+        La double liste est nécessaire car Scikit-learn
+        attend généralement une structure représentant une
+        ou plusieurs observations avec leurs caractéristiques.
+        Le résultat est récupéré puis converti en float.
+        Enfin, le script produit un objet JSON contenant
+        <strong>success</strong>, le nom du modèle et la
+        prédiction. Si une erreur se produit à n'importe
+        quelle étape, le bloc <strong>except</strong> retourne
+        également un JSON, mais avec <strong>success: false</strong>
+        et le message de l'erreur.
+
+    </p>
+
+
+    <h3>
+        Lecture des données Node.js
+    </h3>
+
+
+    <pre><code>data = json.loads(
+    sys.stdin.read()
+)</code></pre>
+
+
+    <p>
+
+        <strong>sys.stdin.read()</strong> permet au script
+        Python de lire les données envoyées par le processus
+        Node.js. Comme Node.js envoie les informations sous
+        forme JSON, <strong>json.loads()</strong> transforme
+        cette chaîne JSON en dictionnaire Python exploitable
+        par le programme.
+
+    </p>
+
+
+
+    <h3>
+        Sélection du modèle
+    </h3>
+
+
+    <pre><code>model_name = data.get(
+    "model",
+    "carrefour"
+).lower()</code></pre>
+
+
+    <p>
+
+        Cette instruction récupère le nom du modèle demandé.
+        La méthode <strong>get()</strong> utilise Carrefour
+        comme valeur par défaut si la propriété model n'est
+        pas fournie. La méthode <strong>lower()</strong>
+        transforme le texte en minuscules afin d'éviter
+        certains problèmes liés aux majuscules.
+
+    </p>
+
+
+
+    <h3>
+        Association modèle / fichier PKL
+    </h3>
+
+
+    <pre><code>file_map = {
+    "carrefour": "carrefour.pkl",
+    "aziza": "aziza.pkl"
+}</code></pre>
+
+
+    <p>
+
+        Le dictionnaire <strong>file_map</strong> permet
+        de faire correspondre le nom envoyé par le frontend
+        au fichier physique contenant le modèle. Si
+        <strong>model = carrefour</strong>, le programme
+        charge <strong>carrefour.pkl</strong>. Si
+        <strong>model = aziza</strong>, il charge
+        <strong>aziza.pkl</strong>. Cette organisation évite
+        de construire directement un nom de fichier à partir
+        d'une donnée utilisateur non contrôlée.
+
+    </p>
+
+
+
+    <h3>
+        Chargement du modèle
+    </h3>
+
+
+    <pre><code>with open(
+    model_path,
+    "rb"
+) as f:
+
+    model = pickle.load(f)</code></pre>
+
+
+    <p>
+
+        Le fichier PKL est ouvert avec le mode
+        <strong>rb</strong>, qui signifie lecture binaire.
+        <strong>pickle.load()</strong> reconstruit l'objet
+        Python sauvegardé précédemment. Le modèle SVR
+        entraîné est donc restauré en mémoire et peut
+        immédiatement être utilisé pour réaliser une
+        prédiction.
+
+    </p>
+
+
+
+    <h3>
+        Vérification du modèle
+    </h3>
+
+
+    <pre><code>if not hasattr(
+    model,
+    "predict"
+):
+
+    raise Exception(
+        "Invalid ML model loaded"
+    )</code></pre>
+
+
+    <p>
+
+        Cette vérification permet de s'assurer que l'objet
+        chargé possède bien une méthode
+        <strong>predict()</strong>. Comme le système attend
+        un modèle Machine Learning capable de produire une
+        prédiction, cette vérification permet d'éviter de
+        continuer le traitement avec un objet incompatible.
+
+    </p>
+
+
+
+    <h3>
+        Récupération des variables
+    </h3>
+
+
+    <pre><code>x1 = float(
+    data["x1"]
+)
+
+x2 = float(
+    data["x2"]
+)</code></pre>
+
+
+    <p>
+
+        Les deux variables envoyées par Node.js sont
+        récupérées depuis l'objet JSON. La fonction
+        <strong>float()</strong> permet de convertir les
+        valeurs en nombres décimaux afin qu'elles puissent
+        être utilisées correctement par le modèle SVR.
+
+    </p>
+
+
+
+    <h3>
+        Production de la prédiction
+    </h3>
+
+
+    <pre><code>prediction = model.predict(
+    [[x1, x2]]
+)[0]</code></pre>
+
+
+    <p>
+
+        Cette instruction constitue l'étape principale du
+        Machine Learning. Le modèle SVR reçoit les deux
+        variables d'entrée et utilise les paramètres appris
+        pendant l'entraînement pour calculer une prédiction.
+        La méthode <strong>predict()</strong> retourne un
+        tableau contenant le résultat. L'indice
+        <strong>[0]</strong> permet de récupérer la première
+        prédiction.
+
+    </p>
+
+
+
+    <h3>
+        Retour JSON
+    </h3>
+
+
+    <pre><code>print(json.dumps({
+    "success": True,
+    "model": model_name,
+    "prediction": float(prediction)
+}))</code></pre>
+
+
+    <p>
+
+        Le résultat est transformé en JSON avec
+        <strong>json.dumps()</strong>. Ce format est essentiel
+        car Node.js pourra facilement récupérer la réponse
+        depuis la sortie standard du processus Python puis
+        la convertir en objet JavaScript. En cas de réussite,
+        la réponse contient le statut, le nom du modèle et
+        la valeur prédite.
+
+    </p>
+
+</section>
+
+
+
+<!-- =====================================================
+     04 — SERVICE NODE.JS
+====================================================== -->
+
+<section
+    id="service"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        04
+    </div>
+
+
+    <h2>
+        Service Node.js et communication avec Python
+    </h2>
+
+
+    <p>
+
+        Le fichier <strong>server.js</strong> côté service
+        constitue la passerelle entre le backend Node.js et
+        le programme Python. Le module
+        <strong>child_process</strong> fourni par Node.js
+        permet de lancer un processus externe. Ici, la
+        fonction <strong>spawn()</strong> est utilisée pour
+        démarrer l'interpréteur Python. La fonction
+        <strong>runCommerce()</strong> retourne une Promise,
+        ce qui permet à la route Express d'utiliser
+        <strong>await</strong> et d'attendre la fin du
+        traitement Python. Le service construit d'abord
+        le chemin vers l'interpréteur Python situé dans
+        l'environnement virtuel <strong>.venv</strong>.
+        Il construit ensuite le chemin vers le script
+        <strong>commerce2.py</strong>. Avant de lancer
+        Python, le code utilise <strong>fs.existsSync()</strong>
+        afin de vérifier que l'interpréteur et le script
+        existent réellement. Cette étape est particulièrement
+        utile pour le diagnostic des erreurs de chemin.
+        Lorsque les deux fichiers sont disponibles,
+        <strong>spawn()</strong> lance Python avec le script
+        de prédiction. Node.js envoie ensuite les données
+        au processus Python grâce à
+        <strong>python.stdin.write()</strong>. Les données
+        sont converties en JSON avec
+        <strong>JSON.stringify()</strong>. Python lit ces
+        données avec <strong>sys.stdin.read()</strong>.
+        Pendant l'exécution, Node.js écoute
+        <strong>stdout</strong> pour récupérer le résultat
+        produit par Python et écoute également
+        <strong>stderr</strong> afin de récupérer les
+        éventuels messages d'erreur. Lorsque Python termine,
+        l'événement <strong>close</strong> est déclenché.
+        Le code vérifie alors le code de sortie du processus.
+        Si le code est différent de zéro, cela signifie que
+        le processus Python s'est terminé avec une erreur.
+        Si le résultat est vide, une autre erreur est
+        retournée. Enfin, si Python a produit une réponse,
+        <strong>JSON.parse()</strong> transforme le texte
+        JSON en objet JavaScript. Cet objet est ensuite
+        retourné avec <strong>resolve()</strong>. Le service
+        réalise donc une véritable communication entre
+        l'environnement JavaScript et le modèle Machine
+        Learning Python.
+
+    </p>
+
+
+    <h3>
+        Importation des modules Node.js
+    </h3>
+
+
+    <pre><code>const { spawn } =
+require("child_process");
+
+const path =
+require("path");
+
+const fs =
+require("fs");</code></pre>
+
+
+    <p>
+
+        <strong>child_process</strong> permet de lancer
+        Python depuis Node.js. <strong>path</strong> permet
+        de construire des chemins de fichiers compatibles
+        avec le système d'exploitation. <strong>fs</strong>
+        permet notamment de vérifier l'existence des fichiers.
+
+    </p>
+
+
+
+    <h3>
+        Création de la Promise
+    </h3>
+
+
+    <pre><code>function runCommerce(inputData) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+        ...
+    });
+
+}</code></pre>
+
+
+    <p>
+
+        La fonction retourne une Promise car l'exécution
+        de Python est une opération asynchrone. Node.js
+        doit lancer Python, attendre son résultat puis
+        retourner ce résultat à la route Express.
+
+    </p>
+
+
+
+    <h3>
+        Localisation de Python
+    </h3>
+
+
+    <pre><code>const pythonPath = path.resolve(
+    __dirname,
+    "../../.venv/Scripts/python.exe"
+);</code></pre>
+
+
+    <p>
+
+        Cette instruction construit le chemin absolu vers
+        l'interpréteur Python utilisé par le projet. Ici,
+        le programme utilise le Python présent dans
+        l'environnement virtuel <strong>.venv</strong>.
+        Cela permet d'utiliser précisément l'environnement
+        dans lequel les bibliothèques nécessaires, notamment
+        Scikit-learn, sont installées.
+
+    </p>
+
+
+
+    <h3>
+        Localisation du script Python
+    </h3>
+
+
+    <pre><code>const scriptPath = path.resolve(
+    __dirname,
+    "../../python/commerce2.py"
+);</code></pre>
+
+
+    <p>
+
+        Le chemin vers le script Python de prédiction est
+        également construit de manière absolue. Node.js
+        saura ainsi exactement quel fichier exécuter.
+
+    </p>
+
+
+
+    <h3>
+        Vérification des fichiers
+    </h3>
+
+
+    <pre><code>fs.existsSync(pythonPath)
+
+fs.existsSync(scriptPath)</code></pre>
+
+
+    <p>
+
+        Ces vérifications permettent de détecter rapidement
+        si Python ou le script sont introuvables. Dans un
+        projet réel, cela facilite énormément le diagnostic
+        lorsqu'un chemin est incorrect ou lorsqu'un fichier
+        a été déplacé.
+
+    </p>
+
+
+
+    <h3>
+        Lancement de Python
+    </h3>
+
+
+    <pre><code>const python = spawn(
+    pythonPath,
+    [scriptPath]
+);</code></pre>
+
+
+    <p>
+
+        <strong>spawn()</strong> lance l'interpréteur Python
+        et lui transmet le chemin du script
+        <strong>commerce2.py</strong>. Node.js possède alors
+        un processus enfant avec lequel il peut communiquer
+        grâce à stdin, stdout et stderr.
+
+    </p>
+
+
+
+    <h3>
+        Envoi des données vers Python
+    </h3>
+
+
+    <pre><code>python.stdin.write(
+    JSON.stringify(inputData)
+);
+
+python.stdin.end();</code></pre>
+
+
+    <p>
+
+        Les données reçues par Node.js sont converties en
+        chaîne JSON puis envoyées dans l'entrée standard
+        du processus Python. <strong>stdin.end()</strong>
+        indique que Node.js a terminé l'envoi des données.
+        Python peut alors lire l'ensemble du contenu avec
+        <strong>sys.stdin.read()</strong>.
+
+    </p>
+
+
+
+    <h3>
+        Récupération du résultat Python
+    </h3>
+
+
+    <pre><code>python.stdout.on(
+    "data",
+    (data) => {
+
+        result += data.toString();
+
+    }
+);</code></pre>
+
+
+    <p>
+
+        Node.js écoute les données envoyées par Python sur
+        <strong>stdout</strong>. Les morceaux reçus sont
+        convertis en texte puis ajoutés à la variable
+        <strong>result</strong>. Lorsque Python termine,
+        cette variable contient la réponse JSON.
+
+    </p>
+
+
+
+    <h3>
+        Gestion des erreurs Python
+    </h3>
+
+
+    <pre><code>python.stderr.on(
+    "data",
+    (data) => {
+
+        error += data.toString();
+
+    }
+);</code></pre>
+
+
+    <p>
+
+        <strong>stderr</strong> est utilisé pour récupérer
+        les messages d'erreur produits par Python. Cela
+        permet au backend de connaître la cause d'un
+        éventuel problème.
+
+    </p>
+
+
+
+    <h3>
+        Conversion du JSON
+    </h3>
+
+
+    <pre><code>const parsedResult =
+    JSON.parse(
+        result.trim()
+    );
+
+resolve(
+    parsedResult
+);</code></pre>
+
+
+    <p>
+
+        Python retourne une chaîne JSON. Node.js utilise
+        <strong>JSON.parse()</strong> pour transformer
+        cette chaîne en objet JavaScript. L'objet obtenu
+        est ensuite retourné à la route grâce à
+        <strong>resolve()</strong>.
+
+    </p>
+
+</section>
+
+
+
+<!-- =====================================================
+     05 — ROUTE API
+====================================================== -->
+
+<section
+    id="route"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        05
+    </div>
+
+
+    <h2>
+        Route Express de prédiction
+    </h2>
+
+
+    <p>
+
+        Le fichier <strong>serverRoutes.js</strong> définit
+        les endpoints accessibles par le frontend. Il crée
+        un routeur Express avec
+        <strong>express.Router()</strong>, puis importe le
+        service <strong>runCommerce()</strong>. Une première
+        route GET appelée <strong>/train</strong> sert de
+        route de test. Elle ne lance pas réellement
+        l'entraînement des modèles ; elle retourne simplement
+        un message indiquant que Carrefour et Aziza sont
+        prêts. L'entraînement réel est effectué par le script
+        Python de création des modèles. La deuxième route,
+        <strong>POST /predict</strong>, est la route principale
+        de prédiction. Elle récupère les informations envoyées
+        dans <strong>req.body</strong>, notamment le nom du
+        modèle, <strong>x1</strong> et <strong>x2</strong>.
+        Une validation vérifie que x1 et x2 sont présents.
+        Si une valeur est absente, l'API retourne une réponse
+        HTTP 400. Lorsque les données sont valides, la route
+        appelle <strong>runCommerce()</strong> avec les
+        informations reçues. Le service Node.js lance alors
+        le script Python, charge le modèle PKL correspondant
+        et calcule la prédiction. Une fois la réponse reçue,
+        Express la retourne directement au client avec
+        <strong>res.status(200).json(result)</strong>. Le
+        frontend peut donc appeler cette API et recevoir
+        directement le résultat du modèle Machine Learning.
+
+    </p>
+
+
+    <h3>
+        Création du routeur
+    </h3>
+
+
+    <pre><code>const express =
+require("express");
+
+const router =
+express.Router();</code></pre>
+
+
+    <p>
+
+        Cette partie importe Express puis crée un routeur
+        indépendant. Cela permet d'organiser les endpoints
+        dans un fichier séparé du serveur principal.
+
+    </p>
+
+
+
+    <h3>
+        Importation du service
+    </h3>
+
+
+    <pre><code>const serverService =
+require("../service/server");
+
+const runCommerce =
+serverService.runCommerce;</code></pre>
+
+
+    <p>
+
+        Le routeur récupère la fonction
+        <strong>runCommerce()</strong> depuis le service.
+        Cette fonction sera appelée lorsqu'une requête de
+        prédiction sera reçue.
+
+    </p>
+
+
+
+    <h3>
+        Route de test
+    </h3>
+
+
+    <pre><code>router.get(
+    "/train",
+    (req, res) => {
+
+    return res.status(200).json({
+
+        success: true,
+
+        message:
+            "Carrefour + Aziza ready"
+
+    });
+
+});</code></pre>
+
+
+    <p>
+
+        Cette route permet de vérifier rapidement que le
+        routeur fonctionne et que le backend répond
+        correctement. Elle retourne un statut HTTP 200
+        ainsi qu'un message indiquant que les deux modèles
+        sont disponibles.
+
+    </p>
+
+
+
+    <h3>
+        Route POST /predict
+    </h3>
+
+
+    <pre><code>router.post(
+    "/predict",
+    async (req, res) => {
+
+        ...
+    }
+);</code></pre>
+
+
+    <p>
+
+        Cette route reçoit les données nécessaires pour
+        réaliser une prédiction. Comme elle utilise
+        <strong>POST</strong>, les informations sont
+        envoyées dans le corps de la requête HTTP sous
+        forme JSON.
+
+    </p>
+
+
+
+    <h3>
+        Récupération des données
+    </h3>
+
+
+    <pre><code>const {
+    model,
+    x1,
+    x2
+} = req.body || {};</code></pre>
+
+
+    <p>
+
+        Les trois informations principales sont récupérées
+        depuis la requête : le modèle à utiliser et les deux
+        variables d'entrée. Le modèle peut être
+        <strong>carrefour</strong> ou <strong>aziza</strong>.
+
+    </p>
+
+
+
+    <h3>
+        Validation
+    </h3>
+
+
+    <pre><code>if (
+    x1 === undefined ||
+    x1 === null ||
+    x2 === undefined ||
+    x2 === null
+) {
+
+    return res.status(400).json({
+
+        success: false,
+
+        error:
+            "x1 and x2 required"
+
+    });
+
+}</code></pre>
+
+
+    <p>
+
+        Cette validation empêche le backend d'appeler Python
+        lorsque les variables nécessaires ne sont pas
+        fournies. Dans ce cas, le serveur retourne une erreur
+        HTTP 400 indiquant que x1 et x2 sont obligatoires.
+
+    </p>
+
+
+
+    <h3>
+        Appel du service Python
+    </h3>
+
+
+    <pre><code>const result =
+    await runCommerce({
+
+        model,
+        x1,
+        x2
+
+    });</code></pre>
+
+
+    <p>
+
+        Cette instruction constitue le lien entre la route
+        Express et le service Node.js. Grâce à
+        <strong>await</strong>, la route attend que le
+        processus Python termine le calcul avant de
+        continuer.
+
+    </p>
+
+
+
+    <h3>
+        Réponse finale
+    </h3>
+
+
+    <pre><code>return res.status(200).json(
+    result
+);</code></pre>
+
+
+    <p>
+
+        Une fois que Python a retourné le résultat, Express
+        l'envoie au client sous forme JSON. Le frontend
+        reçoit donc la prédiction calculée par le véritable
+        modèle SVR.
+
+    </p>
+
+</section>
+
+
+
+<!-- =====================================================
+     06 — SERVEUR EXPRESS
+====================================================== -->
+
+<section
+    id="server"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        06
+    </div>
+
+
+    <h2>
+        Serveur principal Node.js / Express
+    </h2>
+
+
+    <p>
+
+        Le fichier principal du backend initialise
+        l'application Express et connecte les routes de
+        prédiction. Express est importé puis une instance
+        d'application est créée avec
+        <strong>express()</strong>. Le middleware
+        <strong>express.json()</strong> est activé afin que
+        le serveur puisse recevoir et analyser les données
+        JSON envoyées par le frontend. Le fichier
+        <strong>serverRoutes</strong> est ensuite importé
+        puis monté avec le préfixe
+        <strong>/server</strong>. Cela signifie que toutes
+        les routes définies dans serverRoutes sont accessibles
+        à partir de cette base. Ainsi, la route
+        <strong>router.post("/predict")</strong> devient
+        l'endpoint complet
+        <strong>POST /server/predict</strong>. Le serveur
+        contient également une route racine
+        <strong>GET /</strong> qui retourne
+        <strong>{ status: "OK" }</strong>. Cette route peut
+        être utilisée comme Health Check afin de vérifier
+        que le backend est bien démarré. Enfin,
+        <strong>app.listen(3000)</strong> démarre le serveur
+        sur le port 3000. Le backend peut alors recevoir les
+        requêtes du frontend et déclencher les prédictions
+        Python.
+
+    </p>
+
+
+    <h3>
+        Initialisation Express
+    </h3>
+
+
+    <pre><code>const express =
+require("express");
+
+const app =
+express();</code></pre>
+
+
+    <p>
+
+        Express est importé puis une instance de l'application
+        est créée. Cette instance représente le serveur HTTP
+        qui recevra les requêtes.
+
+    </p>
+
+
+
+    <h3>
+        Middleware JSON
+    </h3>
+
+
+    <pre><code>app.use(
+    express.json()
+);</code></pre>
+
+
+    <p>
+
+        Ce middleware permet à Express de comprendre les
+        requêtes dont le corps contient des données JSON.
+        Il est indispensable ici car le frontend envoie
+        le modèle et les variables x1 et x2 au format JSON.
+
+    </p>
+
+
+
+    <h3>
+        Montage des routes
+    </h3>
+
+
+    <pre><code>const serverRoutes =
+require("./routes/serverRoutes");
+
+app.use(
+    "/server",
+    serverRoutes
+);</code></pre>
+
+
+    <p>
+
+        Le serveur importe le routeur contenant les
+        endpoints de prédiction et le monte sous le préfixe
+        <strong>/server</strong>. La route
+        <strong>/predict</strong> devient donc
+        <strong>/server/predict</strong>.
+
+    </p>
+
+
+
+    <h3>
+        Health Check
+    </h3>
+
+
+    <pre><code>app.get(
+    "/",
+    (req, res) => {
+
+    res.json({
+        status: "OK"
+    });
+
+});</code></pre>
+
+
+    <p>
+
+        Cette route permet de vérifier simplement que le
+        serveur fonctionne. Lorsqu'un client appelle
+        l'adresse racine, le backend retourne un objet JSON
+        indiquant que le serveur est opérationnel.
+
+    </p>
+
+
+
+    <h3>
+        Démarrage
+    </h3>
+
+
+    <pre><code>app.listen(
+    3000,
+    () => {
+
+    console.log(
+        "Server running on port 3000"
+    );
+
+});</code></pre>
+
+
+    <p>
+
+        Le serveur écoute sur le port 3000. Toutes les
+        requêtes envoyées vers ce port peuvent être traitées
+        par Express.
+
+    </p>
+
+</section>
+
+
+
+<!-- =====================================================
+     07 — ARCHITECTURE
+====================================================== -->
+
+<section
+    id="architecture"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        07
+    </div>
+
+
+    <h2>
+        Architecture complète du système
+    </h2>
+
+
+    <p>
+
+        L'architecture complète repose sur une communication
+        en plusieurs étapes. Tout commence avec le frontend
+        ou le dashboard qui possède les données nécessaires
+        à la prédiction. Il envoie une requête HTTP POST vers
+        l'endpoint <strong>/server/predict</strong>. Express
+        reçoit la requête et récupère les propriétés
+        <strong>model</strong>, <strong>x1</strong> et
+        <strong>x2</strong>. Après validation, la route
+        appelle le service <strong>runCommerce()</strong>.
+        Celui-ci utilise le module Node.js
+        <strong>child_process</strong> pour lancer le
+        programme Python. Node.js transmet les données au
+        programme Python sous forme JSON via stdin. Le script
+        Python lit les données, identifie le modèle demandé
+        et sélectionne le fichier PKL correspondant grâce
+        au dictionnaire <strong>file_map</strong>. Le modèle
+        SVR est ensuite rechargé avec
+        <strong>pickle.load()</strong>. Les variables x1 et
+        x2 sont récupérées et transmises au modèle grâce à
+        <strong>predict()</strong>. Le modèle produit une
+        valeur prédite. Python transforme ensuite cette
+        valeur en JSON et l'écrit dans stdout. Node.js
+        récupère le contenu de stdout, analyse le JSON avec
+        <strong>JSON.parse()</strong> et retourne le résultat
+        à la route Express. Express renvoie finalement la
+        réponse JSON au frontend. Cette architecture permet
+        donc d'utiliser un véritable modèle Machine Learning
+        développé en Python tout en conservant un backend
+        Web moderne basé sur Node.js et Express.
+
+    </p>
+
+
+    <div class="architecture">
+
+
+        <div class="architecture-box frontend">
+
+            <strong>
+                Frontend / Dashboard
+            </strong>
+
+            <small>
+                Données x1 / x2
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ HTTP POST
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Node.js
+            </strong>
+
+            <small>
+                Backend
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Express
+            </strong>
+
+            <small>
+                API REST
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                /server/predict
+            </strong>
+
+            <small>
+                Route POST
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                runCommerce()
+            </strong>
+
+            <small>
+                Service Node.js
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ spawn
+        </div>
+
+
+        <div class="architecture-box python">
+
+            <strong>
+                Python
+            </strong>
+
+            <small>
+                commerce2.py
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Pickle
+            </strong>
+
+            <small>
+                carrefour.pkl / aziza.pkl
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ predict()
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Modèle SVR
+            </strong>
+
+            <small>
+                Prédiction
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ JSON
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Node.js
+            </strong>
+
+            <small>
+                JSON.parse()
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box mysql">
+
+            <strong>
+                Dashboard
+            </strong>
+
+            <small>
+                Affichage du résultat
+            </small>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     08 — TECHNOLOGIES
+====================================================== -->
+
+<section
+    id="technologies"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        08
+    </div>
+
+
+    <h2>
+        Rôle des technologies
+    </h2>
+
+
+    <p>
+
+        Chaque technologie utilisée dans cette architecture
+        possède une responsabilité précise. Python et
+        Scikit-learn sont utilisés pour la partie Machine
+        Learning. SVR constitue l'algorithme de régression
+        utilisé pour apprendre la relation entre les variables
+        d'entrée et les valeurs cibles. Pickle permet de
+        sauvegarder les modèles entraînés et de les recharger
+        lors des prédictions. Node.js constitue
+        l'environnement d'exécution du backend JavaScript.
+        Express permet de créer l'API REST et de gérer les
+        requêtes HTTP. Le module child_process permet à
+        Node.js de lancer Python et de communiquer avec lui.
+        JSON constitue le format d'échange entre les deux
+        environnements. Enfin, le frontend ou le dashboard
+        utilise l'API pour envoyer les variables d'entrée et
+        afficher le résultat de la prédiction.
+
+    </p>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Technologie
+                </th>
+
+                <th>
+                    Rôle
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    Python
+                </td>
+
+                <td>
+                    Entraînement et exécution des modèles
+                    Machine Learning
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Scikit-learn
+                </td>
+
+                <td>
+                    Bibliothèque Machine Learning
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    SVR
+                </td>
+
+                <td>
+                    Algorithme de régression utilisé pour
+                    produire les prédictions
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Pickle
+                </td>
+
+                <td>
+                    Sauvegarde et chargement des modèles
+                    entraînés
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    carrefour.pkl
+                </td>
+
+                <td>
+                    Modèle SVR entraîné pour Carrefour
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    aziza.pkl
+                </td>
+
+                <td>
+                    Modèle SVR entraîné pour Aziza
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Node.js
+                </td>
+
+                <td>
+                    Exécution du backend JavaScript
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Express
+                </td>
+
+                <td>
+                    Création et gestion de l'API REST
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    child_process
+                </td>
+
+                <td>
+                    Lancement de Python depuis Node.js
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    JSON
+                </td>
+
+                <td>
+                    Communication des données entre
+                    Node.js et Python
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Frontend / Dashboard
+                </td>
+
+                <td>
+                    Envoi des données et visualisation
+                    des prédictions
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+
+<!-- =====================================================
+     09 — EXEMPLE DE FLUX
+====================================================== -->
+
+<section class="documentation-section">
+
+    <div class="section-number">
+        09
+    </div>
+
+
+    <h2>
+        Exemple de fonctionnement
+    </h2>
+
+
+    <p>
+
+        Pour comprendre concrètement le fonctionnement du
+        système, imaginons qu'un utilisateur sélectionne le
+        modèle Carrefour et fournisse les valeurs
+        <strong>x1 = 30</strong> et <strong>x2 = 3</strong>.
+        Le frontend envoie alors une requête POST vers
+        <strong>/server/predict</strong> avec un objet JSON
+        contenant le modèle et les deux variables. Express
+        reçoit la requête et vérifie que x1 et x2 sont bien
+        présents. La route appelle ensuite
+        <strong>runCommerce()</strong>. Node.js lance le
+        script Python <strong>commerce2.py</strong> grâce
+        à <strong>spawn()</strong> et lui transmet les
+        données JSON. Python lit le JSON, identifie
+        <strong>carrefour</strong> comme modèle demandé,
+        sélectionne <strong>carrefour.pkl</strong>, puis
+        recharge le modèle SVR avec <strong>pickle.load()</strong>.
+        Les valeurs 30 et 3 sont ensuite transmises à
+        <strong>model.predict([[30, 3]])</strong>. Le modèle
+        utilise les paramètres appris pendant l'entraînement
+        pour produire une estimation. Python transforme
+        ensuite le résultat en JSON et l'écrit dans stdout.
+        Node.js récupère ce résultat, utilise
+        <strong>JSON.parse()</strong> pour le convertir en
+        objet JavaScript puis le transmet à Express.
+        Express retourne finalement ce résultat au frontend.
+        Le dashboard peut alors afficher la valeur prédite
+        à l'utilisateur. Si le modèle demandé était
+        <strong>aziza</strong>, le même flux serait utilisé,
+        mais le script chargerait <strong>aziza.pkl</strong>
+        et utiliserait le modèle SVR entraîné sur les données
+        Aziza.
+
+    </p>
+
+
+    <div class="endpoint">
+
+        POST /server/predict
+
+    </div>
+
+
+    <pre><code>{
+    "model": "carrefour",
+    "x1": 30,
+    "x2": 3
+}</code></pre>
+
+
+    <p>
+
+        La réponse produite par Python puis retournée par
+        Express possède une structure similaire à :
+
+    </p>
+
+
+    <pre><code>{
+    "success": true,
+    "model": "carrefour",
+    "prediction": 360
+}</code></pre>
+
+
+    <p>
+
+        La valeur exacte de la prédiction dépend du modèle
+        SVR entraîné et de ses paramètres. L'exemple ci-dessus
+        sert uniquement à illustrer la structure de la réponse.
+
+    </p>
+
+</section>
+
+
+
+<!-- =====================================================
+     10 — EXPLICATION COMMERCIALE
+====================================================== -->
+
+<section
+    id="vente"
+    class="documentation-section commercial"
+>
+
+    <div class="section-number">
+        10
+    </div>
+
+
+    <h2>
+        Explication à donner lors de la vente
+    </h2>
+
+
+    <p>
+
+        Lors d'une présentation commerciale, il est préférable
+        de ne pas expliquer chaque ligne de code au client,
+        mais de présenter clairement la valeur du système et
+        son architecture. Vous pouvez expliquer que le projet
+        met en place une solution de prédiction destinée au
+        domaine du commerce. Deux modèles Machine Learning
+        indépendants ont été développés pour représenter deux
+        enseignes différentes : Carrefour et Aziza. Les modèles
+        sont entraînés en Python avec l'algorithme SVR, qui
+        permet de réaliser des problèmes de régression. Une
+        fois l'apprentissage terminé, chaque modèle est
+        sauvegardé dans un fichier PKL afin de pouvoir être
+        réutilisé rapidement sans devoir refaire l'entraînement
+        à chaque requête. Le backend de l'application est
+        développé avec Node.js et Express. Le frontend peut
+        envoyer le nom du modèle ainsi que les variables
+        nécessaires à la prédiction via une API REST. Node.js
+        communique ensuite directement avec Python grâce au
+        module child_process. Le script Python recharge le
+        modèle correspondant, effectue la prédiction avec la
+        méthode predict() puis retourne le résultat au format
+        JSON. Node.js récupère cette réponse et la transmet au
+        frontend. Cette architecture permet donc de combiner
+        la puissance des bibliothèques Machine Learning Python
+        avec une architecture Web moderne basée sur Node.js
+        et Express. Le système est également évolutif : de
+        nouveaux modèles peuvent être ajoutés, de nouvelles
+        variables peuvent être intégrées et le dashboard peut
+        exploiter les prédictions pour construire des
+        indicateurs, graphiques et outils d'aide à la décision.
+
+    </p>
+
+
+    <div class="presentation-script">
+
+        <h3>
+            🎤 Exemple d'explication orale
+        </h3>
+
+
+        <p>
+
+            « Dans cette partie du projet, j'ai développé un
+            système de prédiction destiné au domaine du
+            commerce. L'objectif est de pouvoir utiliser
+            différents modèles Machine Learning depuis une
+            application Web.
+
+        </p>
+
+
+        <p>
+
+            La première étape est réalisée en Python. J'utilise
+            l'algorithme SVR de Scikit-learn pour créer deux
+            modèles indépendants : un modèle pour Carrefour et
+            un modèle pour Aziza. Les deux modèles utilisent
+            les mêmes variables d'entrée, mais ils sont
+            entraînés avec des valeurs cibles différentes.
+
+        </p>
+
+
+        <p>
+
+            Après l'entraînement, chaque modèle est sauvegardé
+            dans un fichier PKL. Nous avons donc
+            <strong>carrefour.pkl</strong> et
+            <strong>aziza.pkl</strong>. L'intérêt du fichier
+            PKL est de pouvoir conserver le modèle entraîné
+            et de le recharger ultérieurement sans refaire
+            l'apprentissage.
+
+        </p>
+
+
+        <p>
+
+            Ensuite, j'ai créé un script Python de prédiction.
+            Ce script reçoit les données envoyées par Node.js
+            au format JSON. Il identifie le modèle demandé,
+            charge le fichier PKL correspondant et utilise la
+            méthode <strong>predict()</strong> pour calculer
+            la prédiction.
+
+        </p>
+
+
+        <p>
+
+            Pour connecter Python avec mon backend, j'utilise
+            Node.js et le module <strong>child_process</strong>.
+            Node.js lance le script Python avec
+            <strong>spawn()</strong> et lui transmet les
+            données via stdin. Python effectue le traitement
+            puis retourne le résultat via stdout.
+
+        </p>
+
+
+        <p>
+
+            Express constitue la couche API. Le frontend
+            envoie une requête POST vers
+            <strong>/server/predict</strong> avec le modèle
+            sélectionné et les variables d'entrée. Express
+            transmet ces informations au service Node.js,
+            le service appelle Python et la prédiction revient
+            ensuite jusqu'au frontend sous forme JSON.
+
+        </p>
+
+
+        <p>
+
+            L'avantage de cette architecture est de séparer
+            clairement les responsabilités. Python est
+            responsable du Machine Learning, Pickle de la
+            sauvegarde des modèles, Node.js de la communication
+            avec Python, Express de l'API et le frontend de
+            l'interaction avec l'utilisateur et de la
+            visualisation des résultats.
+
+        </p>
+
+
+        <p>
+
+            Cette architecture est donc évolutive et peut
+            être adaptée à un environnement professionnel.
+            On peut ajouter de nouveaux modèles, de nouvelles
+            enseignes, davantage de variables, de nouvelles
+            données et des tableaux de bord décisionnels sans
+            devoir reconstruire toute l'application. »
+
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     11 — CONCLUSION
+====================================================== -->
+
+<section class="documentation-section conclusion">
+
+    <div class="section-number">
+        11
+    </div>
+
+
+    <h2>
+        Conclusion
+    </h2>
+
+
+    <p>
+
+        Ce système constitue une architecture complète de
+        Machine Learning intégrée à une application Web.
+        Les données sont utilisées pour entraîner deux modèles
+        SVR indépendants, puis les modèles entraînés sont
+        sauvegardés dans des fichiers PKL. Un script Python
+        spécialisé recharge ensuite le modèle demandé et
+        produit une prédiction à partir des variables reçues.
+        Node.js joue le rôle de passerelle entre l'application
+        Web et Python grâce au module child_process et à la
+        fonction spawn(). Express fournit les endpoints HTTP
+        permettant au frontend de communiquer avec le système.
+        Le format JSON assure la communication entre les
+        différents composants. La chaîne globale peut donc
+        être représentée par : <strong>Données →
+        Entraînement SVR → Fichier PKL → Python →
+        Node.js → Express → Prédiction → Dashboard</strong>.
+        Cette organisation permet d'utiliser de véritables
+        modèles Machine Learning Python dans une application
+        Web moderne tout en conservant une architecture
+        modulaire et évolutive.
+
+    </p>
+
+
+    <div class="final-flow">
+
+        <span>
+            Données
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            SVR
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            PKL
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            Python
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            Node.js
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            Express
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            Prédiction
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            Dashboard
+        </span>
+
+    </div>
+
+
+    <div class="success-box">
+
+        ✔ Deux modèles SVR indépendants
+
+        <br>
+
+        ✔ Sauvegarde des modèles avec Pickle
+
+        <br>
+
+        ✔ Communication Node.js → Python
+
+        <br>
+
+        ✔ API REST avec Express
+
+        <br>
+
+        ✔ Échange de données au format JSON
+
+        <br>
+
+        ✔ Prédictions exploitables dans un dashboard
+
+        <br>
+
+        ✔ Architecture évolutive
+
+    </div>
+
+</section>
+
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    <p>
+
+        Documentation technique —
+        Commerce Prediction
+
+    </p>
+
+
+    <p>
+
+        Python • Scikit-learn • SVR • Pickle •
+        Node.js • Express • JSON
+
+    </p>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
+```

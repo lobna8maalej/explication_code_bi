@@ -1,0 +1,617 @@
+
+/* =========================================================
+   RESET GLOBAL
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f7fb;
+    color: #263238;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CONTENEUR PRINCIPAL
+   ========================================================= */
+
+.documentation {
+    width: 92%;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.documentation-header {
+    background: linear-gradient(
+        135deg,
+        #0f172a,
+        #1e3a8a
+    );
+
+    color: white;
+
+    padding: 55px 45px;
+
+    border-radius: 18px;
+
+    margin-bottom: 35px;
+
+    text-align: center;
+
+    box-shadow:
+        0 15px 40px rgba(15, 23, 42, 0.18);
+}
+
+.documentation-header h1 {
+    font-size: 2.5rem;
+
+    margin-bottom: 20px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.3px;
+}
+
+.documentation-header p {
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    font-size: 1.05rem;
+
+    color: #e2e8f0;
+}
+
+
+/* =========================================================
+   CHAPITRES
+   ========================================================= */
+
+.chapter {
+    background: white;
+
+    padding: 35px;
+
+    margin-bottom: 28px;
+
+    border-radius: 16px;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.07);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.chapter:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 32px rgba(15, 23, 42, 0.10);
+}
+
+
+/* =========================================================
+   TITRES
+   ========================================================= */
+
+.chapter h2 {
+    color: #1e3a8a;
+
+    font-size: 1.65rem;
+
+    margin-bottom: 22px;
+
+    padding-bottom: 12px;
+
+    border-bottom: 2px solid #dbeafe;
+
+    position: relative;
+}
+
+.chapter h2::before {
+    content: "";
+
+    display: inline-block;
+
+    width: 5px;
+
+    height: 25px;
+
+    background: #2563eb;
+
+    border-radius: 5px;
+
+    margin-right: 12px;
+
+    vertical-align: -4px;
+}
+
+
+/* =========================================================
+   SOUS-TITRES / TEXTE
+   ========================================================= */
+
+.chapter p {
+    margin-bottom: 16px;
+
+    color: #475569;
+
+    font-size: 1rem;
+}
+
+.chapter strong {
+    color: #172554;
+}
+
+.chapter ul {
+    margin: 15px 0 20px 25px;
+}
+
+.chapter li {
+    margin-bottom: 8px;
+
+    color: #475569;
+}
+
+.chapter li::marker {
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   CODE
+   ========================================================= */
+
+pre {
+    background: #0f172a;
+
+    color: #e2e8f0;
+
+    padding: 22px;
+
+    margin: 20px 0;
+
+    border-radius: 12px;
+
+    overflow-x: auto;
+
+    border-left: 5px solid #2563eb;
+
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+
+    font-size: 0.92rem;
+
+    line-height: 1.7;
+
+    box-shadow:
+        0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+code {
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        Consolas,
+        monospace;
+}
+
+p code,
+li code,
+td code,
+h2 code {
+    background: #eff6ff;
+
+    color: #1d4ed8;
+
+    padding: 3px 7px;
+
+    border-radius: 5px;
+
+    font-size: 0.9em;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   TABLEAUX
+   ========================================================= */
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin: 25px 0;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+
+    border: 1px solid #dbe3ee;
+}
+
+thead {
+    background: #1e3a8a;
+
+    color: white;
+}
+
+th {
+    text-align: left;
+
+    padding: 15px 16px;
+
+    font-size: 0.95rem;
+
+    font-weight: 600;
+}
+
+td {
+    padding: 14px 16px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    color: #475569;
+
+    vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+tbody tr:hover {
+    background: #eff6ff;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   BLOCS DE FLUX
+   ========================================================= */
+
+.flow {
+    margin: 25px 0;
+}
+
+.flow pre {
+    background:
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #172554
+        );
+
+    color: #dbeafe;
+
+    border-left: 5px solid #38bdf8;
+
+    font-size: 0.9rem;
+
+    text-align: left;
+
+    white-space: pre;
+
+    overflow-x: auto;
+}
+
+
+/* =========================================================
+   IMPORTANT / CONCLUSION
+   ========================================================= */
+
+.important {
+    background: #eff6ff;
+
+    border-left: 6px solid #2563eb;
+
+    padding: 25px;
+
+    margin: 25px 0;
+
+    border-radius: 10px;
+}
+
+.important p {
+    margin-bottom: 0;
+
+    color: #1e3a8a;
+
+    line-height: 1.9;
+}
+
+.important strong {
+    color: #1e3a8a;
+}
+
+
+/* =========================================================
+   CHAPITRE CONCLUSION
+   ========================================================= */
+
+.conclusion {
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #f8fbff
+        );
+
+    border: 2px solid #dbeafe;
+}
+
+.conclusion h2 {
+    color: #1e3a8a;
+}
+
+.conclusion .flow pre {
+    border-left-color: #22c55e;
+
+    background:
+        linear-gradient(
+            135deg,
+            #052e16,
+            #14532d
+        );
+
+    color: #dcfce7;
+}
+
+
+/* =========================================================
+   FOOTER NOTE
+   ========================================================= */
+
+.footer-note {
+    text-align: center;
+
+    margin-top: 35px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid #cbd5e1;
+
+    color: #64748b !important;
+
+    font-weight: 600;
+
+    font-size: 0.95rem !important;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 10px;
+
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e2e8f0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #64748b;
+
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1e3a8a;
+}
+
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+    background: #2563eb;
+
+    color: white;
+}
+
+
+/* =========================================================
+   RESPONSIVE TABLETTE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .documentation {
+        width: 94%;
+
+        margin: 25px auto;
+    }
+
+    .documentation-header {
+        padding: 40px 25px;
+    }
+
+    .documentation-header h1 {
+        font-size: 2rem;
+    }
+
+    .chapter {
+        padding: 28px;
+    }
+
+    .chapter h2 {
+        font-size: 1.4rem;
+    }
+
+    table {
+        display: block;
+
+        overflow-x: auto;
+
+        white-space: normal;
+    }
+
+    th,
+    td {
+        min-width: 160px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    .documentation {
+        width: 94%;
+
+        margin: 15px auto;
+    }
+
+    .documentation-header {
+        padding: 30px 20px;
+
+        border-radius: 14px;
+    }
+
+    .documentation-header h1 {
+        font-size: 1.65rem;
+
+        line-height: 1.3;
+    }
+
+    .documentation-header p {
+        font-size: 0.95rem;
+    }
+
+    .chapter {
+        padding: 22px 18px;
+
+        margin-bottom: 20px;
+
+        border-radius: 12px;
+    }
+
+    .chapter h2 {
+        font-size: 1.25rem;
+
+        line-height: 1.4;
+    }
+
+    .chapter h2::before {
+        width: 4px;
+
+        height: 20px;
+
+        margin-right: 8px;
+    }
+
+    .chapter p {
+        font-size: 0.95rem;
+    }
+
+    pre {
+        padding: 16px;
+
+        font-size: 0.78rem;
+
+        line-height: 1.6;
+
+        border-radius: 8px;
+    }
+
+    .flow pre {
+        font-size: 0.72rem;
+    }
+
+    th,
+    td {
+        padding: 11px;
+
+        font-size: 0.85rem;
+    }
+
+    .important {
+        padding: 18px;
+    }
+
+    .important p {
+        font-size: 0.9rem;
+
+        line-height: 1.7;
+    }
+}
+
+
+/* =========================================================
+   IMPRESSION
+   ========================================================= */
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+    .documentation {
+        width: 100%;
+
+        max-width: none;
+
+        margin: 0;
+    }
+
+    .chapter {
+        box-shadow: none;
+
+        border: 1px solid #ddd;
+
+        page-break-inside: avoid;
+    }
+
+    .documentation-header {
+        box-shadow: none;
+    }
+
+    pre {
+        box-shadow: none;
+
+        white-space: pre-wrap;
+
+        word-wrap: break-word;
+    }
+}
+

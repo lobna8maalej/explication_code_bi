@@ -1,0 +1,3949 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+    name="description"
+    content="Documentation détaillée du composant VoyageDashboard.jsx et du fichier voyageSlice.js : React, Redux Toolkit, Axios, Recharts, BarChart, Power BI et Machine Learning."
+>
+
+<title>
+    Voyage ML Dashboard — Documentation technique
+</title>
+
+<link
+    rel="stylesheet"
+    href="VoyageDashboard.css"
+>
+```
+
+</head>
+
+<body>
+
+<main class="documentation">
+
+```
+<!-- ===================================================== -->
+<!-- HEADER -->
+<!-- ===================================================== -->
+
+<header class="documentation-header">
+
+    <h1>
+        ✈️ Voyage ML Dashboard — Documentation technique
+    </h1>
+
+    <p>
+        Cette documentation explique en détail le fonctionnement du
+        composant <strong>VoyageDashboard.jsx</strong>, du fichier
+        <strong>voyageSlice.js</strong>, de la communication avec le
+        backend grâce à <strong>Axios</strong>, de la gestion d'état
+        avec <strong>Redux Toolkit</strong>, de la visualisation avec
+        <strong>Recharts</strong>, ainsi que l'intégration de
+        <strong>Power BI</strong> et du système de
+        <strong>Machine Learning</strong>.
+    </p>
+
+</header>
+
+
+<!-- ===================================================== -->
+<!-- INTRODUCTION -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        Introduction
+    </h2>
+
+    <p>
+        Le Dashboard Voyage permet de transmettre automatiquement
+        des données concernant les prix d'un voyage vers le backend.
+    </p>
+
+    <p>
+        Les données envoyées au backend sont :
+    </p>
+
+    <ul>
+
+        <li>
+            <strong>prix_concurrent_2 = 1900</strong>
+        </li>
+
+        <li>
+            <strong>prix_concurrent_agence2 = 2000</strong>
+        </li>
+
+        <li>
+            <strong>prix_extra = 50</strong>
+        </li>
+
+    </ul>
+
+    <p>
+        La requête est envoyée avec la méthode HTTP
+        <strong>POST</strong> vers :
+    </p>
+
+    <pre><code>http://localhost:3000/voyage</code></pre>
+
+    <p>
+        Le backend traite ensuite les données et retourne une réponse
+        JSON contenant notamment une prédiction.
+    </p>
+
+    <p>
+        Cette réponse est récupérée par Redux Toolkit et stockée
+        dans l'état du module <strong>voyage</strong>.
+    </p>
+
+    <p>
+        La valeur de la prédiction est ensuite utilisée pour construire
+        un graphique en barres avec <strong>Recharts</strong>.
+    </p>
+
+    <p>
+        En parallèle, un rapport <strong>Power BI</strong> est intégré
+        directement dans le Dashboard grâce à une
+        <code>iframe</code>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- FLUX GLOBAL -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        🔄 Flux global du Dashboard Voyage
+    </h2>
+
+    <div class="flow">
+```
+
+<pre>
+Chargement de VoyageDashboard
+        ↓
+useEffect()
+        ↓
+dispatch()
+        ↓
+createVoyagePrediction()
+        ↓
+Axios POST
+        ↓
+/voyage
+        ↓
+Backend Node.js
+        ↓
+Traitement des données
+        ↓
+Machine Learning
+        ↓
+Réponse JSON
+        ↓
+Redux Toolkit
+        ↓
+fulfilled
+        ↓
+action.payload
+        ↓
+state.items
+        ↓
+predictionData
+        ↓
+chartData
+        ↓
+Recharts
+        ↓
+BarChart
+        ↓
+Affichage du résultat
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 1 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        1. Présentation générale du projet
+    </h2>
+
+    <p>
+        Le composant <strong>VoyageDashboard.jsx</strong> représente
+        l'interface React du Dashboard consacré à l'analyse et à la
+        prédiction des données de voyage.
+    </p>
+
+    <p>
+        Son objectif est d'envoyer automatiquement plusieurs variables
+        concernant les prix d'un voyage vers le backend.
+    </p>
+
+    <p>
+        Le backend traite ensuite ces données selon la logique définie
+        dans le système de <strong>Machine Learning</strong>.
+    </p>
+
+    <p>
+        Le résultat retourné par le backend est récupéré par
+        <strong>Redux Toolkit</strong>.
+    </p>
+
+    <p>
+        Le Dashboard affiche ensuite la prédiction ainsi qu'un graphique
+        permettant de comparer une valeur réelle avec la valeur prédite.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 2 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        2. Fichiers et technologies utilisés
+    </h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>
+                    Fichier / technologie
+                </th>
+
+                <th>
+                    Rôle
+                </th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    VoyageDashboard.jsx
+                </td>
+
+                <td>
+                    Construit l'interface du Dashboard Voyage.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    voyageSlice.js
+                </td>
+
+                <td>
+                    Gère la prédiction Voyage avec Redux Toolkit
+                    et Axios.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    VoyageDashboard.css
+                </td>
+
+                <td>
+                    Contrôle la présentation visuelle du Dashboard.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    React
+                </td>
+
+                <td>
+                    Construit l'interface utilisateur.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    useEffect
+                </td>
+
+                <td>
+                    Déclenche automatiquement la prédiction lors
+                    du chargement du composant.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    useDispatch
+                </td>
+
+                <td>
+                    Permet d'envoyer une action Redux.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    useSelector
+                </td>
+
+                <td>
+                    Permet de récupérer les données depuis le
+                    Redux Store.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Redux Toolkit
+                </td>
+
+                <td>
+                    Gère l'état de la prédiction Voyage.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    createAsyncThunk
+                </td>
+
+                <td>
+                    Gère la requête asynchrone vers le backend.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Axios
+                </td>
+
+                <td>
+                    Envoie la requête HTTP POST vers le backend.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Recharts
+                </td>
+
+                <td>
+                    Permet de construire le graphique.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    BarChart
+                </td>
+
+                <td>
+                    Représente les valeurs sous forme de barres.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Power BI
+                </td>
+
+                <td>
+                    Affiche le rapport analytique intégré.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Machine Learning
+                </td>
+
+                <td>
+                    Produit la prédiction à partir des données
+                    transmises au backend.
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 3 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        3. Importation de React
+    </h2>
+
+    <pre><code>import React, { useEffect } from "react";</code></pre>
+
+    <p>
+        Cette instruction importe React ainsi que le Hook
+        <code>useEffect</code>.
+    </p>
+
+    <h3>
+        useEffect
+    </h3>
+
+    <p>
+        <code>useEffect</code> permet d'exécuter automatiquement
+        une opération lorsque le composant est chargé.
+    </p>
+
+    <p>
+        Dans ce projet, il est utilisé pour déclencher automatiquement
+        la prédiction Voyage.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 4 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        4. Importation de Redux
+    </h2>
+
+    <pre><code>import {
+useDispatch,
+useSelector
+```
+
+} from "react-redux";</code></pre>
+
+```
+    <p>
+        Ces deux Hooks permettent au composant React de communiquer
+        avec Redux.
+    </p>
+
+    <h3>
+        useDispatch
+    </h3>
+
+    <p>
+        <code>useDispatch()</code> permet d'envoyer une action Redux.
+    </p>
+
+    <h3>
+        useSelector
+    </h3>
+
+    <p>
+        <code>useSelector()</code> permet de récupérer une partie
+        de l'état stocké dans le Redux Store.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 5 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        5. Importation de createVoyagePrediction
+    </h2>
+
+    <pre><code>import {
+createVoyagePrediction
+```
+
+} from "../redux/voyageSlice";</code></pre>
+
+```
+    <p>
+        Cette instruction importe l'action asynchrone définie dans
+        <strong>voyageSlice.js</strong>.
+    </p>
+
+    <p>
+        Cette action est responsable de l'envoi des données Voyage
+        vers le backend.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 6 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        6. Importation des composants Recharts
+    </h2>
+
+    <pre><code>import {
+ResponsiveContainer,
+BarChart,
+Bar,
+XAxis,
+YAxis,
+Tooltip,
+CartesianGrid,
+Legend
+```
+
+} from "recharts";</code></pre>
+
+```
+    <p>
+        Ces composants permettent de construire le graphique
+        de comparaison entre la valeur réelle et la prédiction.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 7 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        7. Importation du fichier CSS
+    </h2>
+
+    <pre><code>import "./VoyageDashboard.css";</code></pre>
+
+    <p>
+        Cette instruction charge le fichier CSS utilisé pour
+        personnaliser l'apparence du Dashboard.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 8 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        8. Création de useDispatch
+    </h2>
+
+    <pre><code>const dispatch = useDispatch();</code></pre>
+
+    <p>
+        <code>useDispatch()</code> retourne la fonction
+        <code>dispatch</code>.
+    </p>
+
+    <p>
+        Cette fonction permet d'envoyer une action au Redux Store.
+    </p>
+
+    <p>
+        Dans ce projet, elle sera utilisée pour lancer :
+    </p>
+
+    <pre><code>createVoyagePrediction()</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 9 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        9. Récupération de l'état Redux
+    </h2>
+
+    <pre><code>const {
+items,
+loading,
+error
+```
+
+} = useSelector(
+(state) => state.voyage
+);</code></pre>
+
+```
+    <p>
+        Cette instruction récupère les propriétés du module
+        <code>voyage</code> depuis le Redux Store.
+    </p>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>
+                    Variable
+                </th>
+
+                <th>
+                    Rôle
+                </th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    items
+                </td>
+
+                <td>
+                    Contient la réponse retournée par le backend.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    loading
+                </td>
+
+                <td>
+                    Indique si la requête est actuellement en cours.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    error
+                </td>
+
+                <td>
+                    Contient une éventuelle erreur.
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 10 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        10. Utilisation de useEffect
+    </h2>
+
+    <pre><code>useEffect(() => {
+dispatch(
+    createVoyagePrediction({
+        prix_concurrent_2: 1900,
+        prix_concurrent_agence2: 2000,
+        prix_extra: 50,
+    })
+);
+```
+
+}, [dispatch]);</code></pre>
+
+```
+    <p>
+        Cet effet est exécuté lorsque le composant
+        <strong>VoyageDashboard</strong> est monté.
+    </p>
+
+    <p>
+        Il déclenche l'action :
+    </p>
+
+    <pre><code>createVoyagePrediction()</code></pre>
+
+    <p>
+        grâce à :
+    </p>
+
+    <pre><code>dispatch()</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 11 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        11. Pourquoi utiliser dispatch ?
+    </h2>
+
+    <p>
+        Le composant ne communique pas directement avec Axios.
+    </p>
+
+    <p>
+        Il passe par l'action Redux définie dans
+        <strong>voyageSlice.js</strong>.
+    </p>
+
+    <div class="flow">
+```
+
+<pre>
+VoyageDashboard
+       ↓
+dispatch()
+       ↓
+createVoyagePrediction()
+       ↓
+Axios
+       ↓
+Backend
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 12 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        12. Données envoyées pour la prédiction
+    </h2>
+
+    <pre><code>{
+prix_concurrent_2: 1900,
+prix_concurrent_agence2: 2000,
+prix_extra: 50
+```
+
+}</code></pre>
+
+```
+    <p>
+        Ces trois valeurs constituent le
+        <strong>payload</strong> envoyé au backend.
+    </p>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>
+                    Variable
+                </th>
+
+                <th>
+                    Valeur
+                </th>
+
+                <th>
+                    Rôle
+                </th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    prix_concurrent_2
+                </td>
+
+                <td>
+                    1900
+                </td>
+
+                <td>
+                    Prix provenant d'un concurrent.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    prix_concurrent_agence2
+                </td>
+
+                <td>
+                    2000
+                </td>
+
+                <td>
+                    Prix associé à l'agence concurrente.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    prix_extra
+                </td>
+
+                <td>
+                    50
+                </td>
+
+                <td>
+                    Prix supplémentaire utilisé par le modèle.
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 13 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        13. Présentation du fichier voyageSlice.js
+    </h2>
+
+    <p>
+        Le fichier <strong>voyageSlice.js</strong> contient la logique
+        Redux destinée au module Voyage.
+    </p>
+
+    <p>
+        Il utilise <strong>Redux Toolkit</strong> ainsi que
+        <strong>Axios</strong>.
+    </p>
+
+    <p>
+        Son rôle principal est de gérer la requête de prédiction
+        et de stocker le résultat dans Redux.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 14 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        14. Importation de Redux Toolkit
+    </h2>
+
+    <pre><code>import {
+createSlice,
+createAsyncThunk
+```
+
+} from "@reduxjs/toolkit";</code></pre>
+
+```
+    <p>
+        <code>createSlice</code> permet de créer le Slice Redux.
+    </p>
+
+    <p>
+        <code>createAsyncThunk</code> permet de gérer une opération
+        asynchrone comme une requête HTTP.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 15 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        15. Importation d'Axios
+    </h2>
+
+    <pre><code>import axios from "axios";</code></pre>
+
+    <p>
+        Axios est utilisé pour communiquer avec le backend.
+    </p>
+
+    <p>
+        Dans ce projet, Axios effectue une requête
+        <strong>POST</strong>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 16 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        16. Création de createVoyagePrediction
+    </h2>
+
+    <pre><code>export const createVoyagePrediction =
+createAsyncThunk(
+    "voyage/create",
+    async (payload, thunkAPI) => {
+        ...
+    }
+);</code></pre>
+
+    <p>
+        Cette instruction crée une action Redux asynchrone.
+    </p>
+
+    <p>
+        Le nom de l'action est :
+    </p>
+
+    <pre><code>voyage/create</code></pre>
+
+    <p>
+        Cette action reçoit un paramètre appelé
+        <code>payload</code>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 17 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        17. Rôle du payload
+    </h2>
+
+    <pre><code>async (payload, thunkAPI) =&gt; {</code></pre>
+
+    <p>
+        Le paramètre <code>payload</code> représente les données
+        transmises depuis le composant React.
+    </p>
+
+    <p>
+        Dans notre cas :
+    </p>
+
+    <pre><code>{
+prix_concurrent_2: 1900,
+prix_concurrent_agence2: 2000,
+prix_extra: 50
+```
+
+}</code></pre>
+
+```
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 18 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        18. Requête POST avec Axios
+    </h2>
+
+    <pre><code>const res = await axios.post(
+"http://localhost:3000/voyage",
+payload
+```
+
+);</code></pre>
+
+```
+    <p>
+        Axios envoie une requête HTTP
+        <strong>POST</strong> vers le endpoint :
+    </p>
+
+    <pre><code>http://localhost:3000/voyage</code></pre>
+
+    <p>
+        Le deuxième argument :
+    </p>
+
+    <pre><code>payload</code></pre>
+
+    <p>
+        contient les données utilisées pour effectuer la prédiction.
+    </p>
+
+    <div class="flow">
+```
+
+<pre>
+payload
+   ↓
+Axios POST
+   ↓
+/voyage
+   ↓
+Backend
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 19 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        19. Communication avec le backend
+    </h2>
+
+    <p>
+        Le frontend React communique avec le serveur Node.js
+        grâce à la requête HTTP POST.
+    </p>
+
+    <div class="flow">
+```
+
+<pre>
+React
+  ↓
+Redux
+  ↓
+Axios
+  ↓
+POST /voyage
+  ↓
+Backend Node.js
+  ↓
+Machine Learning
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 20 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        20. Affichage de la réponse backend dans la console
+    </h2>
+
+    <pre><code>console.log(
+"BACKEND RESPONSE:",
+res.data
+```
+
+);</code></pre>
+
+```
+    <p>
+        Cette instruction permet de vérifier dans la console
+        du navigateur ou de l'environnement de développement
+        la réponse retournée par le backend.
+    </p>
+
+    <p>
+        Elle est particulièrement utile pendant le développement
+        et le débogage.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 21 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        21. Retour de res.data
+    </h2>
+
+    <pre><code>return res.data;</code></pre>
+
+    <p>
+        Cette instruction retourne les données reçues du backend
+        vers le système Redux Toolkit.
+    </p>
+
+    <p>
+        D'après la structure indiquée dans le code, le backend
+        retourne une réponse de la forme :
+    </p>
+
+    <pre><code>{
+message: "...",
+data: {
+    prediction: ...
+}
+```
+
+}</code></pre>
+
+```
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 22 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        22. Gestion des erreurs
+    </h2>
+
+    <pre><code>catch (error) {
+return thunkAPI.rejectWithValue(
+    error.response?.data?.error ||
+    error.message
+);
+```
+
+}</code></pre>
+
+```
+    <p>
+        Si la requête échoue, le bloc
+        <code>catch</code> est exécuté.
+    </p>
+
+    <p>
+        <code>rejectWithValue()</code> permet de transmettre
+        un message d'erreur personnalisé au Redux Store.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 23 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        23. Optional chaining dans la gestion des erreurs
+    </h2>
+
+    <pre><code>error.response?.data?.error</code></pre>
+
+    <p>
+        L'opérateur <code>?.</code> permet d'accéder à une propriété
+        uniquement si l'objet précédent existe.
+    </p>
+
+    <p>
+        Cela évite notamment une erreur si
+        <code>error.response</code> n'existe pas.
+    </p>
+
+    <p>
+        Si le message du backend n'est pas disponible,
+        le code utilise :
+    </p>
+
+    <pre><code>error.message</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 24 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        24. Création du Slice Voyage
+    </h2>
+
+    <pre><code>const voyageSlice = createSlice({
+name: "voyage",
+
+initialState: {
+    items: null,
+    loading: false,
+    error: null,
+},
+
+reducers: {},
+
+extraReducers: (builder) =&gt; {
+    ...
+}
+```
+
+});</code></pre>
+
+```
+    <p>
+        Cette instruction crée le Slice Redux appelé
+        <strong>voyage</strong>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 25 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        25. InitialState
+    </h2>
+
+    <pre><code>initialState: {
+items: null,
+loading: false,
+error: null,
+```
+
+}</code></pre>
+
+```
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>
+                    Propriété
+                </th>
+
+                <th>
+                    Valeur initiale
+                </th>
+
+                <th>
+                    Rôle
+                </th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    items
+                </td>
+
+                <td>
+                    null
+                </td>
+
+                <td>
+                    Contiendra la réponse du backend.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    loading
+                </td>
+
+                <td>
+                    false
+                </td>
+
+                <td>
+                    Indique si la requête est en cours.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    error
+                </td>
+
+                <td>
+                    null
+                </td>
+
+                <td>
+                    Contient une éventuelle erreur.
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 26 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        26. extraReducers
+    </h2>
+
+    <pre><code>extraReducers: (builder) =&gt; {
+builder
+    ...
+```
+
+}</code></pre>
+
+```
+    <p>
+        <code>extraReducers</code> permet au Slice de réagir
+        aux différents états de l'action asynchrone.
+    </p>
+
+    <p>
+        Trois états principaux sont gérés :
+    </p>
+
+    <ul>
+
+        <li>
+            <code>pending</code>
+        </li>
+
+        <li>
+            <code>fulfilled</code>
+        </li>
+
+        <li>
+            <code>rejected</code>
+        </li>
+
+    </ul>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 27 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        27. État pending
+    </h2>
+
+    <pre><code>.addCase(
+createVoyagePrediction.pending,
+(state) =&gt; {
+    state.loading = true;
+    state.error = null;
+}
+```
+
+)</code></pre>
+
+```
+    <p>
+        Lorsque la requête commence, Redux met :
+    </p>
+
+    <pre><code>loading = true</code></pre>
+
+    <p>
+        L'erreur précédente est supprimée avec :
+    </p>
+
+    <pre><code>error = null</code></pre>
+
+    <div class="flow">
+```
+
+<pre>
+createVoyagePrediction()
+        ↓
+pending
+        ↓
+loading = true
+        ↓
+Requête en cours
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 28 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        28. État fulfilled
+    </h2>
+
+    <pre><code>.addCase(
+createVoyagePrediction.fulfilled,
+(state, action) =&gt; {
+    state.loading = false;
+
+    console.log(
+        "REDUX PAYLOAD:",
+        action.payload
+    );
+
+    state.items = action.payload;
+}
+```
+
+)</code></pre>
+
+```
+    <p>
+        Lorsque la requête réussit, Redux passe dans l'état
+        <code>fulfilled</code>.
+    </p>
+
+    <p>
+        Le chargement est terminé :
+    </p>
+
+    <pre><code>loading = false</code></pre>
+
+    <p>
+        Puis la réponse retournée par le backend est stockée dans :
+    </p>
+
+    <pre><code>state.items</code></pre>
+
+    <p>
+        La valeur :
+    </p>
+
+    <pre><code>action.payload</code></pre>
+
+    <p>
+        correspond à la valeur retournée par :
+    </p>
+
+    <pre><code>return res.data;</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 29 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        29. Structure de action.payload
+    </h2>
+
+    <p>
+        D'après la structure indiquée dans le code, le payload
+        peut être représenté ainsi :
+    </p>
+
+    <pre><code>{
+message: "...",
+data: {
+    prediction: ...
+}
+```
+
+}</code></pre>
+
+```
+    <p>
+        Ainsi :
+    </p>
+
+    <pre><code>action.payload.message</code></pre>
+
+    <p>
+        représente le message retourné par le backend.
+    </p>
+
+    <p>
+        Et :
+    </p>
+
+    <pre><code>action.payload.data.prediction</code></pre>
+
+    <p>
+        représente la prédiction produite par le système.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 30 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        30. État rejected
+    </h2>
+
+    <pre><code>.addCase(
+createVoyagePrediction.rejected,
+(state, action) =&gt; {
+    state.loading = false;
+    state.error = action.payload;
+}
+```
+
+)</code></pre>
+
+```
+    <p>
+        Si la requête échoue, Redux passe dans l'état
+        <code>rejected</code>.
+    </p>
+
+    <p>
+        Le chargement est arrêté :
+    </p>
+
+    <pre><code>loading = false</code></pre>
+
+    <p>
+        Le message d'erreur est ensuite stocké dans :
+    </p>
+
+    <pre><code>error = action.payload</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 31 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        31. Cycle complet de createVoyagePrediction
+    </h2>
+
+    <div class="flow">
+```
+
+<pre>
+dispatch(createVoyagePrediction())
+        ↓
+pending
+        ↓
+loading = true
+        ↓
+Axios POST /voyage
+        ↓
+        ┌─────────────────────┐
+        │                     │
+        │      Succès         │
+        │        ↓            │
+        │    fulfilled        │
+        │        ↓            │
+        │ loading = false     │
+        │ items = payload     │
+        │                     │
+        └─────────────────────┘
+
+ou
+
+        ┌─────────────────────┐
+        │                     │
+        │       Erreur        │
+        │         ↓           │
+        │      rejected       │
+        │         ↓           │
+        │  loading = false    │
+        │  error = payload    │
+        │                     │
+        └─────────────────────┘
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 32 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        32. Extraction des données de prédiction
+    </h2>
+
+    <pre><code>const predictionData =
+items?.data || null;</code></pre>
+
+    <p>
+        Cette instruction récupère la propriété
+        <code>data</code> de <code>items</code>.
+    </p>
+
+    <p>
+        Si <code>items</code> n'existe pas encore,
+        la valeur utilisée est :
+    </p>
+
+    <pre><code>null</code></pre>
+
+    <div class="flow">
+```
+
+<pre>
+items existe ?
+      ↓
+Oui → items.data
+      ↓
+predictionData
+
+Non
+      ↓
+null
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 33 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        33. Optional chaining avec items?.data
+    </h2>
+
+    <pre><code>items?.data</code></pre>
+
+    <p>
+        L'opérateur <code>?.</code> permet d'accéder à
+        <code>data</code> uniquement lorsque
+        <code>items</code> existe.
+    </p>
+
+    <p>
+        Cela protège le composant contre une tentative d'accès
+        à une propriété d'un objet encore égal à
+        <code>null</code>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 34 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        34. Construction de chartData
+    </h2>
+
+    <pre><code>const chartData =
+predictionData?.prediction !== undefined
+    ? [
+        {
+            name: "Voyage",
+            Reel: 2000,
+            Prediction:
+                predictionData.prediction,
+        },
+      ]
+    : [];</code></pre>
+
+    <p>
+        Cette partie prépare les données nécessaires au graphique
+        Recharts.
+    </p>
+
+    <p>
+        Le graphique utilise deux valeurs principales :
+    </p>
+
+    <ul>
+
+        <li>
+            <strong>Reel</strong> = 2000
+        </li>
+
+        <li>
+            <strong>Prediction</strong> =
+            <code>predictionData.prediction</code>
+        </li>
+
+    </ul>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 35 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        35. Vérification de l'existence de la prédiction
+    </h2>
+
+    <pre><code>predictionData?.prediction !== undefined</code></pre>
+
+    <p>
+        Cette condition vérifie si une prédiction existe réellement.
+    </p>
+
+    <p>
+        Si la prédiction existe, <code>chartData</code> est construit.
+    </p>
+
+    <p>
+        Sinon :
+    </p>
+
+    <pre><code>chartData = []</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 36 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        36. Valeur réelle utilisée dans le graphique
+    </h2>
+
+    <pre><code>Reel: 2000</code></pre>
+
+    <p>
+        Le graphique utilise une valeur réelle fixée à :
+    </p>
+
+    <pre><code>2000</code></pre>
+
+    <p>
+        Cette valeur constitue la référence avec laquelle
+        la prédiction est comparée.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 37 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        37. Valeur prédite
+    </h2>
+
+    <pre><code>Prediction:
+predictionData.prediction</code></pre>
+
+    <p>
+        Cette propriété contient la valeur retournée par
+        le modèle de Machine Learning via le backend.
+    </p>
+
+    <p>
+        Elle est utilisée dans le graphique pour représenter
+        le résultat de la prédiction.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 38 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        38. Structure finale de chartData
+    </h2>
+
+    <p>
+        Si la prédiction retournée était par exemple
+        <strong>2050.50</strong>, la structure serait :
+    </p>
+
+    <pre><code>[
+{
+    name: "Voyage",
+    Reel: 2000,
+    Prediction: 2050.50
+}
+```
+
+]</code></pre>
+
+```
+    <p>
+        Cette structure peut ensuite être directement utilisée
+        par <code>BarChart</code>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 39 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        39. Conteneur principal du Dashboard
+    </h2>
+
+    <pre><code>&lt;div className="voyage-container"&gt;</code></pre>
+
+    <p>
+        Ce conteneur représente la structure principale
+        du Dashboard Voyage.
+    </p>
+
+    <p>
+        La classe <code>voyage-container</code> est définie
+        dans <strong>VoyageDashboard.css</strong>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 40 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        40. Titre du Dashboard
+    </h2>
+
+    <pre><code>&lt;h1 className="voyage-title"&gt;
+Voyage ML Dashboard
+```
+
+</h1></code></pre>
+
+```
+    <p>
+        Ce titre permet d'identifier le Dashboard consacré
+        aux données de voyage et au Machine Learning.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 41 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        41. Intégration de Power BI
+    </h2>
+
+    <pre><code>&lt;div className="voyage-iframe-wrapper"&gt;
+
+&lt;iframe
+    className="voyage-iframe"
+    title="LOBNA@VOYAGE"
+    src="https://app.powerbi.com/view?r=..."
+    allowFullScreen
+/&gt;
+```
+
+</div></code></pre>
+
+```
+    <p>
+        Le rapport Power BI est intégré directement dans le Dashboard
+        grâce à une balise <code>iframe</code>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 42 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        42. Rôle de l'iframe
+    </h2>
+
+    <p>
+        Une <code>iframe</code> permet d'intégrer une ressource
+        externe directement dans une page web.
+    </p>
+
+    <p>
+        Ici, la ressource externe est un rapport
+        <strong>Power BI</strong>.
+    </p>
+
+    <div class="flow">
+```
+
+<pre>
+Rapport Power BI
+       ↓
+URL Power BI
+       ↓
+iframe
+       ↓
+voyage-iframe
+       ↓
+VoyageDashboard
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 43 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        43. allowFullScreen
+    </h2>
+
+    <pre><code>allowFullScreen</code></pre>
+
+    <p>
+        Cette propriété permet à l'iframe d'autoriser
+        l'affichage en mode plein écran lorsque cela est pris
+        en charge par le contenu intégré.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 44 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        44. Gestion du chargement
+    </h2>
+
+    <pre><code>{loading &amp;&amp; (
+&lt;p className="voyage-loading"&gt;
+    Loading prediction...
+&lt;/p&gt;
+```
+
+)}</code></pre>
+
+```
+    <p>
+        Lorsque <code>loading</code> vaut <code>true</code>,
+        le Dashboard affiche :
+    </p>
+
+    <pre><code>Loading prediction...</code></pre>
+
+    <p>
+        Cela informe l'utilisateur que la prédiction est encore
+        en cours de traitement.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 45 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        45. Affichage des erreurs
+    </h2>
+
+    <pre><code>{error &amp;&amp; (
+&lt;p className="voyage-error"&gt;
+    {error}
+&lt;/p&gt;
+```
+
+)}</code></pre>
+
+```
+    <p>
+        Si une erreur existe, elle est affichée dans le Dashboard.
+    </p>
+
+    <p>
+        Le contenu affiché correspond à la valeur de :
+    </p>
+
+    <pre><code>error</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 46 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        46. Message d'attente
+    </h2>
+
+    <pre><code>{!loading &amp;&amp; !error &amp;&amp; !predictionData &amp;&amp; (
+&lt;p className="voyage-wait"&gt;
+    ⏳ Waiting for prediction result...
+&lt;/p&gt;
+```
+
+)}</code></pre>
+
+```
+    <p>
+        Ce message apparaît lorsque :
+    </p>
+
+    <ul>
+
+        <li>
+            la requête n'est pas en cours ;
+        </li>
+
+        <li>
+            aucune erreur n'est présente ;
+        </li>
+
+        <li>
+            aucune prédiction n'est encore disponible.
+        </li>
+
+    </ul>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 47 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        47. Affichage du résultat
+    </h2>
+
+    <pre><code>{predictionData &amp;&amp; (
+&lt;&gt;
+    ...
+&lt;/&gt;
+```
+
+)}</code></pre>
+
+```
+    <p>
+        Lorsque <code>predictionData</code> existe,
+        React affiche le bloc contenant le résultat.
+    </p>
+
+    <p>
+        Ce bloc contient :
+    </p>
+
+    <ul>
+
+        <li>
+            le titre Résultat ;
+        </li>
+
+        <li>
+            la valeur prédite ;
+        </li>
+
+        <li>
+            le message du backend ;
+        </li>
+
+        <li>
+            le graphique de comparaison.
+        </li>
+
+    </ul>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 48 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        48. Affichage de la prédiction
+    </h2>
+
+    <pre><code>&lt;h1 className="voyage-result"&gt;
+{predictionData.prediction?.toFixed(2)}
+```
+
+</h1></code></pre>
+
+```
+    <p>
+        La valeur de la prédiction est affichée avec :
+    </p>
+
+    <pre><code>predictionData.prediction</code></pre>
+
+    <p>
+        La méthode :
+    </p>
+
+    <pre><code>.toFixed(2)</code></pre>
+
+    <p>
+        permet d'afficher la valeur avec deux chiffres après
+        la virgule.
+    </p>
+
+    <p>
+        Par exemple :
+    </p>
+
+    <pre><code>2050.50</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 49 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        49. Affichage du message backend
+    </h2>
+
+    <pre><code>&lt;p&gt;
+&lt;b&gt;Status:&lt;/b&gt;
+{items.message}
+```
+
+</p></code></pre>
+
+```
+    <p>
+        Le Dashboard récupère la propriété
+        <code>message</code> retournée par le backend.
+    </p>
+
+    <p>
+        Cette propriété permet d'afficher l'état ou le message
+        associé à la prédiction.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 50 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        50. Conteneur du graphique
+    </h2>
+
+    <pre><code>&lt;div className="voyage-chart"&gt;</code></pre>
+
+    <p>
+        Ce conteneur permet de définir la zone dans laquelle
+        le graphique Recharts sera affiché.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 51 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        51. ResponsiveContainer
+    </h2>
+
+    <pre><code>&lt;ResponsiveContainer
+width="100%"
+height={350}
+```
+
+></code></pre>
+
+```
+    <p>
+        <code>ResponsiveContainer</code> permet au graphique
+        de s'adapter automatiquement à la largeur disponible.
+    </p>
+
+    <p>
+        La hauteur du graphique est fixée à :
+    </p>
+
+    <pre><code>350 pixels</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 52 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        52. BarChart
+    </h2>
+
+    <pre><code>&lt;BarChart data={chartData}&gt;</code></pre>
+
+    <p>
+        <code>BarChart</code> crée un graphique en barres.
+    </p>
+
+    <p>
+        Il reçoit les données préparées précédemment dans :
+    </p>
+
+    <pre><code>chartData</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 53 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        53. CartesianGrid
+    </h2>
+
+    <pre><code>&lt;CartesianGrid
+strokeDasharray="3 3"
+```
+
+/></code></pre>
+
+```
+    <p>
+        <code>CartesianGrid</code> ajoute une grille au graphique.
+    </p>
+
+    <p>
+        Cette grille facilite la lecture et la comparaison
+        des valeurs.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 54 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        54. XAxis
+    </h2>
+
+    <pre><code>&lt;XAxis dataKey="name" /&gt;</code></pre>
+
+    <p>
+        L'axe horizontal utilise la propriété
+        <code>name</code>.
+    </p>
+
+    <p>
+        Dans notre structure :
+    </p>
+
+    <pre><code>name: "Voyage"</code></pre>
+
+    <p>
+        Le graphique affiche donc une catégorie appelée
+        <strong>Voyage</strong>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 55 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        55. YAxis
+    </h2>
+
+    <pre><code>&lt;YAxis /&gt;</code></pre>
+
+    <p>
+        <code>YAxis</code> représente l'axe vertical du graphique.
+    </p>
+
+    <p>
+        Il permet de représenter les valeurs numériques de :
+    </p>
+
+    <ul>
+
+        <li>
+            <strong>Reel</strong>
+        </li>
+
+        <li>
+            <strong>Prediction</strong>
+        </li>
+
+    </ul>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 56 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        56. Tooltip
+    </h2>
+
+    <pre><code>&lt;Tooltip /&gt;</code></pre>
+
+    <p>
+        <code>Tooltip</code> affiche des informations supplémentaires
+        lorsque l'utilisateur survole les barres du graphique.
+    </p>
+
+    <p>
+        Il permet donc de connaître précisément les valeurs
+        représentées.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 57 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        57. Legend
+    </h2>
+
+    <pre><code>&lt;Legend /&gt;</code></pre>
+
+    <p>
+        <code>Legend</code> affiche une légende permettant
+        d'identifier les différentes séries du graphique.
+    </p>
+
+    <p>
+        Dans ce projet, les deux séries sont :
+    </p>
+
+    <ul>
+
+        <li>
+            <strong>Reel</strong>
+        </li>
+
+        <li>
+            <strong>Prediction</strong>
+        </li>
+
+    </ul>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 58 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        58. Barre Reel
+    </h2>
+
+    <pre><code>&lt;Bar
+dataKey="Reel"
+fill="#22c55e"
+```
+
+/></code></pre>
+
+```
+    <p>
+        Cette barre représente la valeur réelle utilisée
+        comme référence.
+    </p>
+
+    <p>
+        Sa valeur provient de :
+    </p>
+
+    <pre><code>Reel: 2000</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 59 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        59. Barre Prediction
+    </h2>
+
+    <pre><code>&lt;Bar
+dataKey="Prediction"
+fill="#ef4444"
+```
+
+/></code></pre>
+
+```
+    <p>
+        Cette barre représente la valeur prédite par le système
+        de Machine Learning.
+    </p>
+
+    <p>
+        Sa valeur provient de :
+    </p>
+
+    <pre><code>predictionData.prediction</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 60 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        60. Flux complet du graphique
+    </h2>
+
+    <div class="flow">
+```
+
+<pre>
+Réponse backend
+      ↓
+items
+      ↓
+items.data
+      ↓
+predictionData
+      ↓
+predictionData.prediction
+      ↓
+chartData
+      ↓
+BarChart
+      ↓
+Reel + Prediction
+      ↓
+Bar
+      ↓
+Graphique final
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 61 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        61. Architecture du composant React
+    </h2>
+
+    <div class="flow">
+```
+
+<pre>
+VoyageDashboard.jsx
+        │
+        ├── useDispatch
+        │      ↓
+        │    dispatch()
+        │      ↓
+        │    createVoyagePrediction()
+        │
+        ├── useSelector
+        │      ↓
+        │    state.voyage
+        │      ↓
+        │    items / loading / error
+        │
+        ├── useEffect
+        │      ↓
+        │    déclenche la prédiction
+        │
+        ├── predictionData
+        │      ↓
+        │    items.data
+        │
+        ├── chartData
+        │      ↓
+        │    Reel / Prediction
+        │
+        ├── Power BI
+        │      ↓
+        │    iframe
+        │
+        └── Recharts
+               ↓
+            BarChart
+               ↓
+        Reel + Prediction
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 62 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        62. Architecture de voyageSlice.js
+    </h2>
+
+    <div class="flow">
+```
+
+<pre>
+createVoyagePrediction()
+        ↓
+createAsyncThunk
+        ↓
+Axios POST
+        ↓
+/voyage
+        ↓
+Backend
+        ↓
+Machine Learning
+        ↓
+res.data
+        ↓
+action.payload
+        ↓
+Redux State
+        │
+        ├── items
+        │
+        ├── loading
+        │
+        └── error
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 63 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        63. Flux complet Frontend → Backend → Machine Learning
+    </h2>
+
+    <div class="flow">
+```
+
+<pre>
+1. L'utilisateur ouvre le Dashboard
+        ↓
+2. React monte VoyageDashboard
+        ↓
+3. useEffect() est exécuté
+        ↓
+4. dispatch() est appelé
+        ↓
+5. createVoyagePrediction() démarre
+        ↓
+6. Redux passe à pending
+        ↓
+7. loading = true
+        ↓
+8. Axios prépare la requête POST
+        ↓
+9. Les données Voyage sont envoyées
+        ↓
+10. POST /voyage
+        ↓
+11. Backend Node.js
+        ↓
+12. Traitement des données
+        ↓
+13. Machine Learning
+        ↓
+14. Génération de la prédiction
+        ↓
+15. Réponse JSON
+        ↓
+16. Axios reçoit res.data
+        ↓
+17. return res.data
+        ↓
+18. Redux reçoit action.payload
+        ↓
+19. fulfilled
+        ↓
+20. loading = false
+        ↓
+21. state.items = action.payload
+        ↓
+22. useSelector récupère items
+        ↓
+23. predictionData = items.data
+        ↓
+24. chartData est construit
+        ↓
+25. BarChart reçoit chartData
+        ↓
+26. Reel et Prediction sont affichés
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 64 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        64. Exemple concret de réponse backend
+    </h2>
+
+    <p>
+        Supposons que le backend retourne :
+    </p>
+
+    <pre><code>{
+message: "Prediction completed",
+data: {
+    prediction: 2050.50
+}
+```
+
+}</code></pre>
+
+```
+    <p>
+        Redux stocke cette réponse dans :
+    </p>
+
+    <pre><code>state.items</code></pre>
+
+    <p>
+        Le composant récupère ensuite :
+    </p>
+
+    <pre><code>items.data</code></pre>
+
+    <p>
+        ce qui donne :
+    </p>
+
+    <pre><code>{
+prediction: 2050.50
+```
+
+}</code></pre>
+
+```
+    <p>
+        La valeur affichée dans le Dashboard devient :
+    </p>
+
+    <pre><code>2050.50</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 65 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        65. Exemple concret de chartData
+    </h2>
+
+    <pre><code>const chartData = [
+{
+    name: "Voyage",
+    Reel: 2000,
+    Prediction: 2050.50
+}
+```
+
+];</code></pre>
+
+```
+    <p>
+        Recharts reçoit alors deux valeurs à comparer :
+    </p>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>
+                    Série
+                </th>
+
+                <th>
+                    Valeur
+                </th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    Reel
+                </td>
+
+                <td>
+                    2000
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Prediction
+                </td>
+
+                <td>
+                    2050.50
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 66 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        66. Différence entre voyageSlice.js et VoyageDashboard.jsx
+    </h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Fichier
+                </th>
+
+                <th>
+                    Technologie
+                </th>
+
+                <th>
+                    Fonction
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    VoyageDashboard.jsx
+                </td>
+
+                <td>
+                    React
+                </td>
+
+                <td>
+                    Interface, déclenchement de l'action Redux,
+                    affichage du résultat et du graphique.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    voyageSlice.js
+                </td>
+
+                <td>
+                    Redux Toolkit + Axios
+                </td>
+
+                <td>
+                    Requête POST, gestion de loading/error,
+                    stockage de la réponse.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    VoyageDashboard.css
+                </td>
+
+                <td>
+                    CSS
+                </td>
+
+                <td>
+                    Présentation visuelle du Dashboard.
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 67 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        67. Pourquoi utiliser Redux Toolkit ?
+    </h2>
+
+    <p>
+        Redux Toolkit permet de centraliser l'état du module Voyage.
+    </p>
+
+    <p>
+        Au lieu de conserver la réponse uniquement dans un état local
+        du composant, elle est stockée dans le Redux Store.
+    </p>
+
+    <div class="flow">
+```
+
+<pre>
+Backend
+   ↓
+Redux Toolkit
+   ↓
+Redux Store
+   ↓
+state.voyage
+   ↓
+VoyageDashboard
+</pre>
+
+```
+    </div>
+
+    <p>
+        Le composant peut ainsi récupérer :
+    </p>
+
+    <pre><code>items
+```
+
+loading
+error</code></pre>
+
+```
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 68 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        68. Gestion des trois états Redux
+    </h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>
+                    État
+                </th>
+
+                <th>
+                    loading
+                </th>
+
+                <th>
+                    items
+                </th>
+
+                <th>
+                    error
+                </th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    Avant la requête
+                </td>
+
+                <td>
+                    false
+                </td>
+
+                <td>
+                    null
+                </td>
+
+                <td>
+                    null
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    pending
+                </td>
+
+                <td>
+                    true
+                </td>
+
+                <td>
+                    éventuellement ancienne valeur
+                </td>
+
+                <td>
+                    null
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    fulfilled
+                </td>
+
+                <td>
+                    false
+                </td>
+
+                <td>
+                    réponse backend
+                </td>
+
+                <td>
+                    null
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    rejected
+                </td>
+
+                <td>
+                    false
+                </td>
+
+                <td>
+                    éventuellement null
+                </td>
+
+                <td>
+                    message d'erreur
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 69 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        69. Architecture globale du projet Voyage
+    </h2>
+
+    <div class="flow">
+```
+
+<pre>
+                    VoyageDashboard.jsx
+                              │
+              ┌───────────────┼────────────────┐
+              │               │                │
+              ▼               ▼                ▼
+         useDispatch      useSelector       Power BI
+              │               │                │
+              ▼               ▼                ▼
+          dispatch()      state.voyage       iframe
+              │               │
+              ▼               │
+   createVoyagePrediction    │
+              │               │
+              ▼               │
+       createAsyncThunk       │
+              │               │
+              ▼               │
+         Axios POST           │
+              │               │
+              ▼               │
+        /voyage               │
+              │               │
+              ▼               │
+         Backend              │
+              │               │
+              ▼               │
+     Traitement / ML          │
+              │               │
+              ▼               │
+       Réponse JSON           │
+              │               │
+              ▼               │
+          Redux Store ◄───────┘
+              │
+      ┌───────┼────────┐
+      ▼       ▼        ▼
+    items   loading   error
+      │
+      ▼
+predictionData
+      │
+      ▼
+chartData
+      │
+      ▼
+   Recharts
+      │
+      ▼
+   BarChart
+      │
+      ├── Reel
+      │
+      └── Prediction
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 70 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        70. Correspondance des classes CSS
+    </h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Dans VoyageDashboard.jsx
+                </th>
+
+                <th>
+                    Dans VoyageDashboard.css
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    voyage-container
+                </td>
+
+                <td>
+                    .voyage-container
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    voyage-title
+                </td>
+
+                <td>
+                    .voyage-title
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    voyage-iframe-wrapper
+                </td>
+
+                <td>
+                    .voyage-iframe-wrapper
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    voyage-iframe
+                </td>
+
+                <td>
+                    .voyage-iframe
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    voyage-loading
+                </td>
+
+                <td>
+                    .voyage-loading
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    voyage-error
+                </td>
+
+                <td>
+                    .voyage-error
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    voyage-wait
+                </td>
+
+                <td>
+                    .voyage-wait
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    voyage-result
+                </td>
+
+                <td>
+                    .voyage-result
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    voyage-chart
+                </td>
+
+                <td>
+                    .voyage-chart
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 71 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        71. Rôle du Machine Learning dans le projet
+    </h2>
+
+    <p>
+        Le frontend React ne réalise pas directement le calcul
+        de Machine Learning.
+    </p>
+
+    <p>
+        Son rôle consiste à transmettre les données nécessaires
+        au backend.
+    </p>
+
+    <p>
+        Le backend reçoit notamment :
+    </p>
+
+    <pre><code>{
+prix_concurrent_2: 1900,
+prix_concurrent_agence2: 2000,
+prix_extra: 50
+```
+
+}</code></pre>
+
+```
+    <p>
+        Le backend utilise ensuite la logique de Machine Learning
+        prévue dans le projet afin de produire une prédiction.
+    </p>
+
+    <p>
+        Cette prédiction est ensuite retournée au frontend
+        sous forme de réponse JSON.
+    </p>
+
+    <div class="flow">
+```
+
+<pre>
+Données Voyage
+      ↓
+Backend
+      ↓
+Modèle Machine Learning
+      ↓
+Prediction
+      ↓
+Réponse JSON
+      ↓
+Redux
+      ↓
+Dashboard
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 72 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        72. Rôle de Power BI et du Machine Learning
+    </h2>
+
+    <p>
+        Le Dashboard combine deux parties complémentaires.
+    </p>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Élément
+                </th>
+
+                <th>
+                    Fonction
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    Power BI
+                </td>
+
+                <td>
+                    Présente les données analytiques et
+                    les visualisations du rapport.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Machine Learning
+                </td>
+
+                <td>
+                    Produit une prédiction à partir des variables
+                    envoyées au backend.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Redux Toolkit
+                </td>
+
+                <td>
+                    Centralise la réponse de la prédiction.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Recharts
+                </td>
+
+                <td>
+                    Compare visuellement la valeur réelle
+                    et la prédiction.
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 73 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        73. Flux global complet du système
+    </h2>
+
+    <div class="flow">
+```
+
+<pre>
+Utilisateur
+     ↓
+VoyageDashboard.jsx
+     ↓
+useEffect()
+     ↓
+dispatch()
+     ↓
+createVoyagePrediction()
+     ↓
+Redux Toolkit
+     ↓
+Axios
+     ↓
+POST /voyage
+     ↓
+Backend Node.js
+     ↓
+Machine Learning
+     ↓
+Prediction
+     ↓
+JSON
+     ↓
+Redux fulfilled
+     ↓
+state.items
+     ↓
+predictionData
+     ↓
+chartData
+     ↓
+Recharts
+     ↓
+BarChart
+     ↓
+Reel + Prediction
+     ↓
+Dashboard final
+
+En parallèle :
+
+Power BI
+     ↓
+iframe
+     ↓
+Dashboard final
+</pre>
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 74 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>
+        74. Résumé du rôle de chaque technologie
+    </h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Technologie
+                </th>
+
+                <th>
+                    Rôle
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    React
+                </td>
+
+                <td>
+                    Construit l'interface du Dashboard.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    useEffect
+                </td>
+
+                <td>
+                    Déclenche automatiquement la prédiction.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    useDispatch
+                </td>
+
+                <td>
+                    Envoie l'action Redux.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    useSelector
+                </td>
+
+                <td>
+                    Récupère les données depuis Redux.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Redux Toolkit
+                </td>
+
+                <td>
+                    Gère l'état du module Voyage.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Axios
+                </td>
+
+                <td>
+                    Communique avec le backend.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Backend
+                </td>
+
+                <td>
+                    Reçoit les données et orchestre le traitement.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Machine Learning
+                </td>
+
+                <td>
+                    Produit la prédiction.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Recharts
+                </td>
+
+                <td>
+                    Visualise la comparaison.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    Power BI
+                </td>
+
+                <td>
+                    Affiche le rapport analytique.
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>
+                    CSS
+                </td>
+
+                <td>
+                    Assure la présentation visuelle.
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 75 -->
+<!-- ===================================================== -->
+
+<section class="chapter conclusion">
+
+    <h2>
+        75. Résumé final à retenir
+    </h2>
+
+    <div class="important">
+
+        <p>
+
+            <strong>
+                React construit l'interface →
+                useEffect déclenche automatiquement la prédiction →
+                dispatch envoie l'action Redux →
+                createVoyagePrediction reçoit le payload →
+                Axios envoie une requête POST vers /voyage →
+                le backend reçoit les variables
+                prix_concurrent_2, prix_concurrent_agence2 et
+                prix_extra →
+                le backend traite les données →
+                le système Machine Learning produit une prédiction →
+                le serveur retourne une réponse JSON →
+                Axios reçoit res.data →
+                createAsyncThunk retourne les données →
+                Redux reçoit action.payload →
+                l'état fulfilled est exécuté →
+                loading devient false →
+                state.items reçoit la réponse →
+                useSelector récupère items →
+                predictionData récupère items.data →
+                chartData prépare Reel et Prediction →
+                Recharts utilise BarChart →
+                Reel représente la valeur réelle →
+                Prediction représente la valeur prédite →
+                Power BI est affiché parallèlement grâce à iframe →
+                VoyageDashboard.css assure la présentation visuelle.
+            </strong>
+
+        </p>
+
+    </div>
+
+
+    <div class="flow">
+```
+
+<pre>
+React
+  ↓
+VoyageDashboard
+  ↓
+useEffect
+  ↓
+dispatch
+  ↓
+createVoyagePrediction
+  ↓
+Redux Toolkit
+  ↓
+Axios POST
+  ↓
+/voyage
+  ↓
+Backend
+  ↓
+Machine Learning
+  ↓
+Prediction
+  ↓
+Réponse JSON
+  ↓
+fulfilled
+  ↓
+state.items
+  ↓
+predictionData
+  ↓
+chartData
+  ↓
+Recharts
+  ↓
+BarChart
+  ↓
+Reel + Prediction
+  ↓
+Power BI
+  ↓
+iframe
+  ↓
+CSS
+  ↓
+Dashboard Voyage final
+</pre>
+
+```
+    </div>
+
+
+    <p class="footer-note">
+        ✈️ Documentation technique — Voyage ML Dashboard
+    </p>
+
+</section>
+```
+
+</main>
+
+</body>
+
+</html>

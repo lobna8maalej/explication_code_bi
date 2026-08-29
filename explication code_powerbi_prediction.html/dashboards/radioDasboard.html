@@ -1,0 +1,2840 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+```
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="description"
+    content="Documentation détaillée du composant RadioDashboard.jsx, de sa liaison avec radioSlice.js, RadioDashboard.css, Redux Toolkit, Recharts et Power BI."
+>
+
+<title>Documentation — Radio Analytics Dashboard</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.8;
+        background: #f4f6f8;
+        color: #222;
+    }
+
+    .documentation {
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
+        padding: 50px 0;
+    }
+
+    .documentation-header {
+        background: white;
+        padding: 35px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .chapter {
+        background: white;
+        padding: 30px;
+        margin-bottom: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+        margin-top: 0;
+        color: #1f2937;
+    }
+
+    h2 {
+        margin-top: 0;
+        color: #2563eb;
+    }
+
+    h3 {
+        color: #374151;
+    }
+
+    p {
+        text-align: justify;
+    }
+
+    code {
+        background: #eef2ff;
+        color: #4338ca;
+        padding: 3px 6px;
+        border-radius: 5px;
+        font-family: Consolas, monospace;
+    }
+
+    pre {
+        background: #111827;
+        color: #f9fafb;
+        padding: 20px;
+        border-radius: 10px;
+        overflow-x: auto;
+        line-height: 1.6;
+    }
+
+    .flow {
+        background: #f8fafc;
+        border-left: 5px solid #2563eb;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+        font-family: Consolas, monospace;
+        white-space: pre-line;
+    }
+
+    .important {
+        background: #eff6ff;
+        border-left: 5px solid #2563eb;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+    }
+
+    .warning {
+        background: #fff7ed;
+        border-left: 5px solid #f97316;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    th,
+    td {
+        border: 1px solid #d1d5db;
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background: #2563eb;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background: #f9fafb;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 40px;
+        color: #6b7280;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<main class="documentation">
+
+```
+<header class="documentation-header">
+
+    <h1>
+        📡 Radio Analytics Dashboard — Documentation technique
+    </h1>
+
+    <p>
+        Cette documentation explique en détail le fonctionnement du
+        composant <strong>RadioDashboard.jsx</strong>, sa liaison avec
+        <strong>radioSlice.js</strong>, son fichier
+        <strong>RadioDashboard.css</strong>, ainsi que l'utilisation
+        de Redux Toolkit, Axios à travers le slice, Recharts et Power BI.
+    </p>
+
+    <p>
+        Le composant constitue une interface d'analyse permettant
+        d'afficher un rapport Power BI, de récupérer des informations
+        depuis le store Redux et de représenter certaines données
+        sous forme de graphique Scatter Plot.
+    </p>
+
+</header>
+
+
+<!-- ===================================================== -->
+<!-- 1 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>1. Présentation générale du projet</h2>
+
+    <p>
+        Le composant <strong>RadioDashboard.jsx</strong> représente
+        l'interface principale du Dashboard consacré aux données
+        RADIO.
+    </p>
+
+    <p>
+        Il utilise <strong>React</strong> pour construire l'interface,
+        <strong>Redux Toolkit</strong> pour récupérer et gérer les
+        données globales, et <strong>Recharts</strong> pour créer
+        un graphique de type Scatter Plot.
+    </p>
+
+    <p>
+        Le Dashboard contient également un rapport
+        <strong>Power BI</strong> intégré directement dans la page
+        grâce à un élément <code>iframe</code>.
+    </p>
+
+    <p>
+        Lors du chargement du composant, l'action
+        <code>fetchRadio()</code> est exécutée afin de récupérer
+        les informations disponibles dans le store Redux.
+    </p>
+
+    <div class="flow">
+```
+
+RadioDashboard.jsx
+↓
+useEffect()
+↓
+dispatch(fetchRadio())
+↓
+radioSlice.js
+↓
+Récupération des données
+↓
+Redux
+↓
+data / loading / error
+↓
+RadioDashboard.jsx
+↓
+Informations + Scatter Plot
+↓
+RadioDashboard.css
+↓
+Interface finale
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 2 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>2. Les fichiers et technologies utilisés</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Fichier / technologie</th>
+                <th>Rôle</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>RadioDashboard.jsx</td>
+                <td>
+                    Construit l'interface React du Dashboard RADIO.
+                </td>
+            </tr>
+
+            <tr>
+                <td>radioSlice.js</td>
+                <td>
+                    Fournit l'action <code>fetchRadio()</code> et
+                    l'état Redux utilisé par le composant.
+                </td>
+            </tr>
+
+            <tr>
+                <td>RadioDashboard.css</td>
+                <td>
+                    Contrôle la présentation visuelle du Dashboard.
+                </td>
+            </tr>
+
+            <tr>
+                <td>React</td>
+                <td>
+                    Permet de construire le composant et son interface.
+                </td>
+            </tr>
+
+            <tr>
+                <td>useEffect</td>
+                <td>
+                    Permet de lancer la récupération des données au
+                    chargement du composant.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Redux Toolkit</td>
+                <td>
+                    Gère l'état global utilisé par le Dashboard.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Recharts</td>
+                <td>
+                    Génère le graphique Scatter Plot.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Power BI</td>
+                <td>
+                    Affiche le rapport analytique intégré.
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 3 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>3. Importation de fetchRadio</h2>
+
+    <p>
+        Le composant commence par importer l'action
+        <strong>fetchRadio</strong> depuis le fichier
+        <strong>radioSlice.js</strong>.
+    </p>
+
+    <pre><code>import { fetchRadio } from "../redux/radioSlice";</code></pre>
+
+    <p>
+        Cette instruction crée la liaison entre le composant React
+        et le slice Redux consacré aux données RADIO.
+    </p>
+
+    <p>
+        Le composant pourra ensuite utiliser :
+    </p>
+
+    <pre><code>dispatch(fetchRadio());</code></pre>
+
+    <p>
+        pour demander la récupération des données.
+    </p>
+
+    <div class="flow">
+```
+
+RadioDashboard.jsx
+↓
+fetchRadio()
+↓
+radioSlice.js
+↓
+Traitement de la récupération
+↓
+Redux Store
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 4 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>4. Importation de React et useEffect</h2>
+
+    <pre><code>import React, { useEffect } from "react";</code></pre>
+
+    <p>
+        <strong>React</strong> permet de construire le composant
+        fonctionnel.
+    </p>
+
+    <p>
+        <code>useEffect</code> est un Hook React permettant
+        d'exécuter une opération après le rendu du composant.
+    </p>
+
+    <p>
+        Dans ce Dashboard, <code>useEffect</code> est utilisé pour
+        lancer automatiquement <code>fetchRadio()</code> lorsque
+        le composant est chargé.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 5 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>5. Importation de useDispatch et useSelector</h2>
+
+    <pre><code>import {
+useDispatch,
+useSelector
+```
+
+} from "react-redux";</code></pre>
+
+```
+    <p>
+        Ces deux Hooks assurent la communication entre React et
+        Redux.
+    </p>
+
+    <h3>useDispatch</h3>
+
+    <p>
+        <code>useDispatch</code> permet d'obtenir la fonction
+        <code>dispatch</code>.
+    </p>
+
+    <p>
+        Cette fonction permet d'envoyer une action Redux, ici :
+    </p>
+
+    <pre><code>dispatch(fetchRadio());</code></pre>
+
+    <h3>useSelector</h3>
+
+    <p>
+        <code>useSelector</code> permet de lire une partie de l'état
+        global Redux.
+    </p>
+
+    <p>
+        Dans ce composant, il récupère l'état :
+    </p>
+
+    <pre><code>state.radio</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 6 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>6. Importation des composants Recharts</h2>
+
+    <p>
+        Le composant utilise plusieurs éléments provenant de
+        <strong>Recharts</strong>.
+    </p>
+
+    <pre><code>import {
+ResponsiveContainer,
+ScatterChart,
+Scatter,
+XAxis,
+YAxis,
+CartesianGrid,
+Tooltip,
+```
+
+} from "recharts";</code></pre>
+
+```
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Composant</th>
+                <th>Rôle</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>ResponsiveContainer</td>
+                <td>
+                    Adapte le graphique à la largeur disponible.
+                </td>
+            </tr>
+
+            <tr>
+                <td>ScatterChart</td>
+                <td>
+                    Définit le graphique de type Scatter.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Scatter</td>
+                <td>
+                    Représente les points du graphique.
+                </td>
+            </tr>
+
+            <tr>
+                <td>XAxis</td>
+                <td>
+                    Définit l'axe horizontal.
+                </td>
+            </tr>
+
+            <tr>
+                <td>YAxis</td>
+                <td>
+                    Définit l'axe vertical.
+                </td>
+            </tr>
+
+            <tr>
+                <td>CartesianGrid</td>
+                <td>
+                    Ajoute une grille au graphique.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Tooltip</td>
+                <td>
+                    Affiche les informations lorsque l'utilisateur
+                    survole un point.
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 7 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>7. Liaison avec RadioDashboard.css</h2>
+
+    <p>
+        Le composant importe son fichier CSS avec :
+    </p>
+
+    <pre><code>import "./RadioDashboard.css";</code></pre>
+
+    <p>
+        Cette instruction rend disponibles les styles définis dans
+        <strong>RadioDashboard.css</strong>.
+    </p>
+
+    <p>
+        Le JSX utilise ensuite plusieurs classes CSS :
+    </p>
+
+    <pre><code>radio-container
+```
+
+radio-title
+radio-iframe-wrapper
+radio-iframe
+radio-loading
+radio-error
+radio-info
+radio-chart</code></pre>
+
+```
+    <p>
+        Ces classes permettent de séparer la logique fonctionnelle
+        de la présentation visuelle.
+    </p>
+
+    <div class="flow">
+```
+
+RadioDashboard.jsx
+↓
+className="radio-container"
+↓
+RadioDashboard.css
+↓
+.radio-container
+↓
+Style visuel
+
+```
+    </div>
+
+    <div class="important">
+
+        <strong>Principe important :</strong>
+
+        <p>
+            Le fichier CSS ne récupère pas les données et ne réalise
+            pas la prédiction ou l'analyse. Il contrôle uniquement
+            l'apparence des éléments générés par React.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 8 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>8. Création du composant RadioDashboard</h2>
+
+    <pre><code>function RadioDashboard() {
+...
+```
+
+}</code></pre>
+
+```
+    <p>
+        Cette fonction définit le composant React principal.
+    </p>
+
+    <p>
+        Elle contient toute la logique nécessaire pour :
+    </p>
+
+    <ul>
+
+        <li>récupérer les données Redux ;</li>
+        <li>déclencher <code>fetchRadio()</code> ;</li>
+        <li>gérer l'état de chargement ;</li>
+        <li>afficher les erreurs ;</li>
+        <li>afficher les informations récupérées ;</li>
+        <li>préparer les données du graphique ;</li>
+        <li>afficher Power BI ;</li>
+        <li>afficher le Scatter Plot.</li>
+
+    </ul>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 9 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>9. Utilisation de useDispatch</h2>
+
+    <pre><code>const dispatch = useDispatch();</code></pre>
+
+    <p>
+        Cette instruction récupère la fonction
+        <code>dispatch</code> fournie par Redux.
+    </p>
+
+    <p>
+        Le composant pourra donc envoyer des actions au store Redux.
+    </p>
+
+    <p>
+        Dans ce cas, l'action envoyée sera :
+    </p>
+
+    <pre><code>fetchRadio()</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 10 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>10. Récupération de l'état Redux</h2>
+
+    <pre><code>const {
+data,
+loading,
+error
+```
+
+} = useSelector((state) => state.radio);</code></pre>
+
+```
+    <p>
+        Cette instruction récupère la partie
+        <code>radio</code> du store Redux.
+    </p>
+
+    <p>
+        Trois propriétés sont utilisées :
+    </p>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Propriété</th>
+                <th>Rôle</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>data</td>
+                <td>
+                    Contient les données récupérées.
+                </td>
+            </tr>
+
+            <tr>
+                <td>loading</td>
+                <td>
+                    Indique si les données sont en cours de chargement.
+                </td>
+            </tr>
+
+            <tr>
+                <td>error</td>
+                <td>
+                    Contient une éventuelle erreur.
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 11 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>11. Le rôle de data</h2>
+
+    <p>
+        La variable <code>data</code> représente les informations
+        récupérées par l'intermédiaire du slice Redux.
+    </p>
+
+    <p>
+        Le composant vérifie également si <code>data</code> existe
+        avant d'afficher les informations.
+    </p>
+
+    <pre><code>{data &amp;&amp; (
+...
+```
+
+)}</code></pre>
+
+```
+    <p>
+        Cette condition signifie que le bloc JSX sera affiché
+        uniquement lorsque <code>data</code> possède une valeur
+        considérée comme vraie.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 12 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>12. Le rôle de loading</h2>
+
+    <p>
+        La variable <code>loading</code> représente l'état de
+        chargement des données.
+    </p>
+
+    <pre><code>{loading &amp;&amp; (
+&lt;p className="radio-loading"&gt;
+    Chargement...
+&lt;/p&gt;
+```
+
+)}</code></pre>
+
+```
+    <p>
+        Si <code>loading</code> vaut <code>true</code>, le message
+        <strong>Chargement...</strong> est affiché.
+    </p>
+
+    <p>
+        Cela permet d'informer l'utilisateur qu'une opération de
+        récupération des données est en cours.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 13 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>13. Gestion de error</h2>
+
+    <pre><code>{error &amp;&amp; (
+&lt;p className="radio-error"&gt;
+    {error}
+&lt;/p&gt;
+```
+
+)}</code></pre>
+
+```
+    <p>
+        Si une erreur existe, le composant affiche son contenu.
+    </p>
+
+    <p>
+        La classe :
+    </p>
+
+    <pre><code>radio-error</code></pre>
+
+    <p>
+        permet à <strong>RadioDashboard.css</strong> de contrôler
+        l'apparence du message d'erreur.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 14 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>14. useEffect et récupération automatique des données</h2>
+
+    <pre><code>useEffect(() =&gt; {
+dispatch(fetchRadio());
+```
+
+}, [dispatch]);</code></pre>
+
+```
+    <p>
+        Ce bloc est exécuté après le rendu du composant.
+    </p>
+
+    <p>
+        À l'intérieur, le composant appelle :
+    </p>
+
+    <pre><code>dispatch(fetchRadio());</code></pre>
+
+    <p>
+        Cela permet de déclencher la récupération des données RADIO
+        automatiquement lorsque le Dashboard est chargé.
+    </p>
+
+    <h3>Le tableau [dispatch]</h3>
+
+    <pre><code>[dispatch]</code></pre>
+
+    <p>
+        indique la dépendance du Hook <code>useEffect</code>.
+    </p>
+
+    <p>
+        Le composant utilise ainsi le mécanisme standard de React
+        pour lancer cette opération au chargement.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 15 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>15. Liaison avec radioSlice.js</h2>
+
+    <p>
+        Le composant utilise une action provenant de
+        <strong>radioSlice.js</strong> :
+    </p>
+
+    <pre><code>fetchRadio()</code></pre>
+
+    <p>
+        Le code fourni ne contient pas le contenu complet de
+        <strong>radioSlice.js</strong>. Il est donc possible de
+        documenter avec certitude sa partie visible depuis
+        <strong>RadioDashboard.jsx</strong>, mais pas d'inventer
+        son implémentation interne.
+    </p>
+
+    <p>
+        Le composant montre cependant que le slice fournit au
+        minimum les informations suivantes :
+    </p>
+
+    <pre><code>state.radio.data
+```
+
+state.radio.loading
+state.radio.error</code></pre>
+
+```
+    <div class="flow">
+```
+
+RadioDashboard.jsx
+↓
+dispatch(fetchRadio())
+↓
+radioSlice.js
+↓
+state.radio
+↓
+data
+loading
+error
+↓
+RadioDashboard.jsx
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 16 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>16. Création de chartData</h2>
+
+    <p>
+        Le composant prépare les données destinées au graphique
+        avec :
+    </p>
+
+    <pre><code>const chartData = data
+? [
+    {
+        reputation_ranking: 120,
+        tuition_fee: 18000,
+        Target: "A"
+    },
+    {
+        reputation_ranking: 200,
+        tuition_fee: 22000,
+        Target: "B"
+    },
+  ]
+: [];</code></pre>
+
+    <p>
+        Le code utilise ici une expression conditionnelle.
+    </p>
+
+    <p>
+        Si <code>data</code> existe, le tableau contient deux
+        objets.
+    </p>
+
+    <p>
+        Si <code>data</code> n'existe pas, le tableau devient :
+    </p>
+
+    <pre><code>[]</code></pre>
+
+    <p>
+        Cela permet d'éviter d'afficher le graphique tant que
+        <code>data</code> n'est pas disponible.
+    </p>
+
+    <div class="warning">
+
+        <strong>Point important :</strong>
+
+        <p>
+            Dans le code fourni, les valeurs
+            <code>reputation_ranking</code>,
+            <code>tuition_fee</code> et <code>Target</code>
+            sont écrites directement dans le composant.
+        </p>
+
+        <p>
+            Elles ne sont donc pas extraites directement de
+            <code>data</code> dans ce code.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 17 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>17. Les propriétés de chartData</h2>
+
+    <p>
+        Chaque objet du tableau possède trois propriétés.
+    </p>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Propriété</th>
+                <th>Valeur exemple</th>
+                <th>Utilisation</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>reputation_ranking</td>
+                <td>120</td>
+                <td>
+                    Utilisée sur l'axe X.
+                </td>
+            </tr>
+
+            <tr>
+                <td>tuition_fee</td>
+                <td>18000</td>
+                <td>
+                    Utilisée sur l'axe Y.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Target</td>
+                <td>A</td>
+                <td>
+                    Information présente dans les données.
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 18 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>18. Conteneur principal</h2>
+
+    <pre><code>&lt;div className="radio-container"&gt;</code></pre>
+
+    <p>
+        Cet élément représente le conteneur principal de
+        l'interface.
+    </p>
+
+    <p>
+        La classe <code>radio-container</code> est destinée à être
+        stylisée dans <strong>RadioDashboard.css</strong>.
+    </p>
+
+    <p>
+        Elle peut notamment contrôler la largeur, les marges,
+        les espacements et la disposition générale du Dashboard.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 19 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>19. Titre du Dashboard</h2>
+
+    <pre><code>&lt;h1 className="radio-title"&gt;
+📡 Radio Analytics Dashboard
+```
+
+</h1></code></pre>
+
+```
+    <p>
+        Cet élément affiche le titre principal du Dashboard.
+    </p>
+
+    <p>
+        Le texte :
+    </p>
+
+    <pre><code>📡 Radio Analytics Dashboard</code></pre>
+
+    <p>
+        identifie clairement la fonction de la page.
+    </p>
+
+    <p>
+        La classe <code>radio-title</code> permet au CSS de
+        modifier l'apparence du titre.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 20 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>20. Conteneur de l'iframe Power BI</h2>
+
+    <pre><code>&lt;div
+className="radio-iframe-wrapper"
+style={{
+    width: "85%",
+    maxWidth: "950px",
+    margin: "20px auto",
+}}
+```
+
+></code></pre>
+
+```
+    <p>
+        Cet élément constitue le conteneur du rapport Power BI.
+    </p>
+
+    <p>
+        La classe :
+    </p>
+
+    <pre><code>radio-iframe-wrapper</code></pre>
+
+    <p>
+        permet une personnalisation supplémentaire dans
+        <strong>RadioDashboard.css</strong>.
+    </p>
+
+    <p>
+        Le composant utilise également du style directement dans
+        le JSX avec la propriété <code>style</code>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 21 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>21. Style inline du conteneur Power BI</h2>
+
+    <pre><code>style={{
+width: "85%",
+maxWidth: "950px",
+margin: "20px auto",
+```
+
+}}</code></pre>
+
+```
+    <p>
+        <code>width: "85%"</code> signifie que le conteneur utilise
+        85 % de la largeur disponible.
+    </p>
+
+    <p>
+        <code>maxWidth: "950px"</code> empêche le conteneur de
+        dépasser une largeur maximale de 950 pixels.
+    </p>
+
+    <p>
+        <code>margin: "20px auto"</code> ajoute une marge verticale
+        de 20 pixels et centre horizontalement le conteneur.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 22 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>22. Intégration du rapport Power BI</h2>
+
+    <pre><code>&lt;iframe
+className="radio-iframe"
+title="RADIO"
+src="https://app.powerbi.com/view?r=..."
+style={{
+    width: "100%",
+    height: "600px",
+    border: "none",
+}}
+allowFullScreen
+```
+
+/></code></pre>
+
+```
+    <p>
+        L'élément <code>iframe</code> permet d'intégrer un contenu
+        externe directement dans la page.
+    </p>
+
+    <p>
+        Ici, le contenu externe correspond au rapport
+        <strong>Power BI</strong>.
+    </p>
+
+    <h3>title</h3>
+
+    <pre><code>title="RADIO"</code></pre>
+
+    <p>
+        Cette propriété donne un titre à l'iframe.
+    </p>
+
+    <h3>src</h3>
+
+    <p>
+        La propriété <code>src</code> contient l'adresse du rapport
+        Power BI publié.
+    </p>
+
+    <h3>allowFullScreen</h3>
+
+    <pre><code>allowFullScreen</code></pre>
+
+    <p>
+        Cette propriété autorise l'affichage du rapport en mode
+        plein écran lorsque cette fonctionnalité est disponible.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 23 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>23. Dimensions de l'iframe</h2>
+
+    <pre><code>style={{
+width: "100%",
+height: "600px",
+border: "none",
+```
+
+}}</code></pre>
+
+```
+    <p>
+        L'iframe occupe toute la largeur de son conteneur grâce à :
+    </p>
+
+    <pre><code>width: "100%"</code></pre>
+
+    <p>
+        Sa hauteur est fixée à :
+    </p>
+
+    <pre><code>height: "600px"</code></pre>
+
+    <p>
+        La propriété :
+    </p>
+
+    <pre><code>border: "none"</code></pre>
+
+    <p>
+        supprime la bordure par défaut de l'iframe.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 24 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>24. Flux Power BI</h2>
+
+    <div class="flow">
+```
+
+Rapport Power BI
+↓
+URL du rapport
+↓
+iframe
+↓
+radio-iframe-wrapper
+↓
+radio-iframe
+↓
+RadioDashboard.css
+↓
+Affichage dans le Dashboard
+
+```
+    </div>
+
+    <p>
+        Le rapport Power BI constitue donc une partie indépendante
+        de l'interface React.
+    </p>
+
+    <p>
+        React fournit l'emplacement du rapport grâce à
+        <code>iframe</code>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 25 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>25. Affichage du statut de chargement</h2>
+
+    <pre><code>{loading &amp;&amp; (
+&lt;p className="radio-loading"&gt;
+    Chargement...
+&lt;/p&gt;
+```
+
+)}</code></pre>
+
+```
+    <p>
+        Cette condition utilise l'opérateur logique
+        <code>&amp;&amp;</code>.
+    </p>
+
+    <p>
+        Lorsque <code>loading</code> vaut <code>true</code>, React
+        affiche le paragraphe.
+    </p>
+
+    <p>
+        Lorsque <code>loading</code> vaut <code>false</code>, le
+        paragraphe n'est pas affiché.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 26 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>26. Affichage de l'erreur</h2>
+
+    <pre><code>{error &amp;&amp; (
+&lt;p className="radio-error"&gt;
+    {error}
+&lt;/p&gt;
+```
+
+)}</code></pre>
+
+```
+    <p>
+        Le message d'erreur est affiché uniquement si
+        <code>error</code> contient une valeur.
+    </p>
+
+    <p>
+        Le texte est directement inséré dans le paragraphe :
+    </p>
+
+    <pre><code>{error}</code></pre>
+
+    <p>
+        La classe <code>radio-error</code> permet ensuite de
+        contrôler son style avec le CSS.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 27 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>27. Affichage des informations récupérées</h2>
+
+    <pre><code>{data &amp;&amp; (
+&lt;div className="radio-info"&gt;
+    ...
+&lt;/div&gt;
+```
+
+)}</code></pre>
+
+```
+    <p>
+        Le bloc d'information est affiché uniquement lorsque
+        <code>data</code> existe.
+    </p>
+
+    <p>
+        Le conteneur possède la classe :
+    </p>
+
+    <pre><code>radio-info</code></pre>
+
+    <p>
+        Cette classe est destinée à être contrôlée par
+        <strong>RadioDashboard.css</strong>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 28 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>28. Affichage du message</h2>
+
+    <pre><code>&lt;p&gt;
+&lt;strong&gt;Message :&lt;/strong&gt;
+{data.message}
+```
+
+</p></code></pre>
+
+```
+    <p>
+        Le composant récupère la propriété
+        <code>message</code> de l'objet <code>data</code>.
+    </p>
+
+    <p>
+        Le texte <strong>Message :</strong> est affiché en gras
+        grâce à la balise <code>strong</code>.
+    </p>
+
+    <p>
+        La valeur réelle est ensuite affichée avec :
+    </p>
+
+    <pre><code>{data.message}</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 29 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>29. Affichage des colonnes</h2>
+
+    <pre><code>&lt;p&gt;
+&lt;strong&gt;Colonnes :&lt;/strong&gt;
+{data.columns.join(", ")}
+```
+
+</p></code></pre>
+
+```
+    <p>
+        Le code récupère le tableau :
+    </p>
+
+    <pre><code>data.columns</code></pre>
+
+    <p>
+        puis utilise la méthode :
+    </p>
+
+    <pre><code>join(", ")</code></pre>
+
+    <p>
+        afin de transformer le tableau en une chaîne de caractères
+        séparée par des virgules.
+    </p>
+
+    <p>
+        Par exemple, un tableau :
+    </p>
+
+    <pre><code>[
+"name",
+"price",
+"category"
+```
+
+]</code></pre>
+
+```
+    <p>
+        pourrait être affiché sous la forme :
+    </p>
+
+    <pre><code>name, price, category</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 30 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>30. Affichage du nombre de données</h2>
+
+    <pre><code>&lt;p&gt;
+&lt;strong&gt;Count :&lt;/strong&gt;
+{data.count}
+```
+
+</p></code></pre>
+
+```
+    <p>
+        Le composant récupère la propriété :
+    </p>
+
+    <pre><code>data.count</code></pre>
+
+    <p>
+        Cette valeur est affichée directement dans l'interface.
+    </p>
+
+    <p>
+        Le nom <code>count</code> indique qu'il s'agit d'une valeur
+        représentant un nombre d'éléments, selon la structure
+        fournie par les données du composant.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 31 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>31. Condition d'affichage du graphique</h2>
+
+    <pre><code>{chartData.length &gt; 0 &amp;&amp; (
+...
+```
+
+)}</code></pre>
+
+```
+    <p>
+        Le graphique est affiché uniquement si le tableau
+        <code>chartData</code> contient au moins un élément.
+    </p>
+
+    <p>
+        Lorsque :
+    </p>
+
+    <pre><code>chartData.length &gt; 0</code></pre>
+
+    <p>
+        est vrai, React affiche le graphique.
+    </p>
+
+    <p>
+        Si le tableau est vide, aucun graphique n'est affiché.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 32 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>32. Conteneur du graphique</h2>
+
+    <pre><code>&lt;div className="radio-chart"&gt;
+
+&lt;h2&gt;📈 Scatter Plot&lt;/h2&gt;
+
+...
+```
+
+</div></code></pre>
+
+```
+    <p>
+        Ce conteneur regroupe le titre et le graphique.
+    </p>
+
+    <p>
+        La classe :
+    </p>
+
+    <pre><code>radio-chart</code></pre>
+
+    <p>
+        permet au fichier CSS de contrôler la présentation de
+        cette zone.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 33 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>33. Titre du Scatter Plot</h2>
+
+    <pre><code>&lt;h2&gt;📈 Scatter Plot&lt;/h2&gt;</code></pre>
+
+    <p>
+        Ce titre identifie le type de visualisation utilisée.
+    </p>
+
+    <p>
+        Le graphique est un <strong>Scatter Plot</strong>, c'est-à-dire
+        un graphique permettant de représenter des observations sous
+        forme de points selon deux dimensions numériques.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 34 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>34. ResponsiveContainer</h2>
+
+    <pre><code>&lt;ResponsiveContainer
+width="100%"
+height={350}
+```
+
+></code></pre>
+
+```
+    <p>
+        <code>ResponsiveContainer</code> permet au graphique de
+        s'adapter à la largeur disponible.
+    </p>
+
+    <p>
+        La propriété :
+    </p>
+
+    <pre><code>width="100%"</code></pre>
+
+    <p>
+        signifie que le graphique utilise toute la largeur
+        disponible dans son conteneur.
+    </p>
+
+    <p>
+        La propriété :
+    </p>
+
+    <pre><code>height={350}</code></pre>
+
+    <p>
+        définit une hauteur de 350 pixels.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 35 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>35. ScatterChart</h2>
+
+    <pre><code>&lt;ScatterChart&gt;
+
+...
+```
+
+</ScatterChart></code></pre>
+
+```
+    <p>
+        <code>ScatterChart</code> constitue le composant principal
+        du graphique.
+    </p>
+
+    <p>
+        Il contient les axes, la grille, le tooltip et les points
+        représentant les données.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 36 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>36. CartesianGrid</h2>
+
+    <pre><code>&lt;CartesianGrid /&gt;</code></pre>
+
+    <p>
+        <code>CartesianGrid</code> ajoute une grille de référence
+        au graphique.
+    </p>
+
+    <p>
+        Cette grille facilite la lecture des coordonnées des points.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 37 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>37. Axe X</h2>
+
+    <pre><code>&lt;XAxis
+type="number"
+dataKey="reputation_ranking"
+```
+
+/></code></pre>
+
+```
+    <p>
+        L'axe horizontal utilise la propriété :
+    </p>
+
+    <pre><code>reputation_ranking</code></pre>
+
+    <p>
+        provenant de chaque objet de <code>chartData</code>.
+    </p>
+
+    <p>
+        La propriété :
+    </p>
+
+    <pre><code>type="number"</code></pre>
+
+    <p>
+        indique que l'axe contient des valeurs numériques.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 38 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>38. Axe Y</h2>
+
+    <pre><code>&lt;YAxis
+type="number"
+dataKey="tuition_fee"
+```
+
+/></code></pre>
+
+```
+    <p>
+        L'axe vertical utilise la propriété :
+    </p>
+
+    <pre><code>tuition_fee</code></pre>
+
+    <p>
+        présente dans les objets du tableau
+        <code>chartData</code>.
+    </p>
+
+    <p>
+        Comme pour l'axe X, la propriété :
+    </p>
+
+    <pre><code>type="number"</code></pre>
+
+    <p>
+        indique que les données de l'axe sont numériques.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 39 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>39. Tooltip</h2>
+
+    <pre><code>&lt;Tooltip
+cursor={{
+    strokeDasharray: "3 3"
+}}
+```
+
+/></code></pre>
+
+```
+    <p>
+        Le composant <code>Tooltip</code> permet d'afficher des
+        informations supplémentaires lorsque l'utilisateur
+        survole un point du graphique.
+    </p>
+
+    <p>
+        La propriété :
+    </p>
+
+    <pre><code>cursor={{
+strokeDasharray: "3 3"
+```
+
+}}</code></pre>
+
+```
+    <p>
+        personnalise l'apparence du curseur de référence affiché
+        lors du survol.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 40 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>40. Composant Scatter</h2>
+
+    <pre><code>&lt;Scatter
+data={chartData}
+fill="#6366f1"
+```
+
+/></code></pre>
+
+```
+    <p>
+        Le composant <code>Scatter</code> représente les données
+        sous forme de points.
+    </p>
+
+    <p>
+        La propriété :
+    </p>
+
+    <pre><code>data={chartData}</code></pre>
+
+    <p>
+        indique que les points sont construits à partir du tableau
+        <code>chartData</code>.
+    </p>
+
+    <p>
+        Le graphique utilise donc les valeurs :
+    </p>
+
+    <pre><code>reputation_ranking
+```
+
+tuition_fee
+Target</code></pre>
+
+```
+    <p>
+        présentes dans les objets du tableau.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 41 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>41. Positionnement des points</h2>
+
+    <p>
+        Les points du Scatter Plot sont positionnés à partir de
+        deux propriétés numériques.
+    </p>
+
+    <div class="flow">
+```
+
+reputation_ranking
+↓
+Axe X
+
+tuition_fee
+↓
+Axe Y
+
+Target
+↓
+Information associée au point
+
+```
+    </div>
+
+    <p>
+        Par exemple, le premier objet :
+    </p>
+
+    <pre><code>{
+reputation_ranking: 120,
+tuition_fee: 18000,
+Target: "A"
+```
+
+}</code></pre>
+
+```
+    <p>
+        correspond à un point dont la coordonnée X est
+        <strong>120</strong> et la coordonnée Y est
+        <strong>18000</strong>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 42 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>42. Deuxième observation</h2>
+
+    <pre><code>{
+reputation_ranking: 200,
+tuition_fee: 22000,
+Target: "B"
+```
+
+}</code></pre>
+
+```
+    <p>
+        Cette deuxième observation représente un autre point dans
+        le graphique.
+    </p>
+
+    <p>
+        Sa coordonnée horizontale est <strong>200</strong> et sa
+        coordonnée verticale est <strong>22000</strong>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 43 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>43. Condition data → chartData → graphique</h2>
+
+    <div class="flow">
+```
+
+data existe
+↓
+chartData contient les observations
+↓
+chartData.length > 0
+↓
+Affichage du ScatterChart
+↓
+Scatter reçoit chartData
+↓
+Les points sont affichés
+
+```
+    </div>
+
+    <p>
+        Cette chaîne permet de contrôler l'affichage du graphique
+        en fonction de l'existence de <code>data</code>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 44 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>44. Liaison complète entre React et Redux</h2>
+
+    <div class="flow">
+```
+
+Redux Store
+│
+└── state.radio
+│
+├── data
+├── loading
+└── error
+│
+▼
+useSelector()
+│
+▼
+RadioDashboard.jsx
+│
+┌──────┼──────┐
+▼      ▼      ▼
+data  loading error
+│
+▼
+chartData
+│
+▼
+ScatterChart
+
+```
+    </div>
+
+    <p>
+        Redux fournit donc les informations nécessaires au composant.
+    </p>
+
+    <p>
+        React utilise ensuite ces informations pour décider quoi
+        afficher.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 45 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>45. Relation entre Redux et CSS</h2>
+
+    <p>
+        Redux ne communique pas directement avec le fichier CSS.
+    </p>
+
+    <p>
+        Redux gère les données et les états.
+    </p>
+
+    <p>
+        React récupère ces informations avec
+        <code>useSelector</code> et construit ensuite les éléments
+        JSX.
+    </p>
+
+    <p>
+        Les classes <code>className</code> permettent ensuite au
+        CSS de contrôler leur apparence.
+    </p>
+
+    <div class="flow">
+```
+
+Redux
+↓
+data / loading / error
+↓
+RadioDashboard.jsx
+↓
+JSX
+↓
+className
+↓
+RadioDashboard.css
+↓
+Interface visuelle
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 46 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>46. Liaison complète avec RadioDashboard.css</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Dans RadioDashboard.jsx</th>
+                <th>Classe CSS correspondante</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>radio-container</td>
+                <td>.radio-container</td>
+            </tr>
+
+            <tr>
+                <td>radio-title</td>
+                <td>.radio-title</td>
+            </tr>
+
+            <tr>
+                <td>radio-iframe-wrapper</td>
+                <td>.radio-iframe-wrapper</td>
+            </tr>
+
+            <tr>
+                <td>radio-iframe</td>
+                <td>.radio-iframe</td>
+            </tr>
+
+            <tr>
+                <td>radio-loading</td>
+                <td>.radio-loading</td>
+            </tr>
+
+            <tr>
+                <td>radio-error</td>
+                <td>.radio-error</td>
+            </tr>
+
+            <tr>
+                <td>radio-info</td>
+                <td>.radio-info</td>
+            </tr>
+
+            <tr>
+                <td>radio-chart</td>
+                <td>.radio-chart</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <p>
+        La correspondance entre les <code>className</code> du JSX
+        et les sélecteurs CSS permet de séparer la logique React
+        de la présentation.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 47 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>47. Exemple complet du chargement du Dashboard</h2>
+
+    <p>
+        Lorsque l'utilisateur ouvre la page du Dashboard RADIO,
+        React crée le composant <strong>RadioDashboard</strong>.
+    </p>
+
+    <p>
+        Le Hook <code>useEffect</code> est ensuite exécuté.
+    </p>
+
+    <pre><code>useEffect(() =&gt; {
+dispatch(fetchRadio());
+```
+
+}, [dispatch]);</code></pre>
+
+```
+    <p>
+        L'action <code>fetchRadio()</code> est envoyée à Redux.
+    </p>
+
+    <p>
+        Le composant lit ensuite :
+    </p>
+
+    <pre><code>data
+```
+
+loading
+error</code></pre>
+
+```
+    <p>
+        selon l'état actuel du store.
+    </p>
+
+    <p>
+        Si les données sont en cours de chargement,
+        <strong>Chargement...</strong> peut être affiché.
+    </p>
+
+    <p>
+        Lorsque les données sont disponibles, le bloc
+        <code>radio-info</code> est affiché et
+        <code>chartData</code> est préparé.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 48 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>48. Exemple du fonctionnement du graphique</h2>
+
+    <p>
+        Lorsque <code>data</code> existe, le code crée :
+    </p>
+
+    <pre><code>const chartData = [
+{
+    reputation_ranking: 120,
+    tuition_fee: 18000,
+    Target: "A"
+},
+{
+    reputation_ranking: 200,
+    tuition_fee: 22000,
+    Target: "B"
+}
+```
+
+];</code></pre>
+
+```
+    <p>
+        Le tableau est ensuite envoyé à :
+    </p>
+
+    <pre><code>&lt;Scatter
+data={chartData}
+```
+
+/></code></pre>
+
+```
+    <p>
+        Recharts utilise les données pour créer les points du
+        graphique.
+    </p>
+
+    <div class="flow">
+```
+
+chartData
+↓
+ScatterChart
+↓
+XAxis → reputation_ranking
+↓
+YAxis → tuition_fee
+↓
+Scatter → points
+↓
+Tooltip → informations au survol
+↓
+Graphique final
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 49 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>49. Flux global complet du Dashboard RADIO</h2>
+
+    <div class="flow">
+```
+
+Utilisateur
+↓
+Ouverture du Dashboard RADIO
+↓
+React crée RadioDashboard
+↓
+useEffect()
+↓
+dispatch(fetchRadio())
+↓
+radioSlice.js
+↓
+Récupération des données
+↓
+Redux Store
+↓
+state.radio
+↓
+data / loading / error
+↓
+useSelector()
+↓
+RadioDashboard.jsx
+↓
+Affichage du statut
+↓
+Affichage des informations
+↓
+Création de chartData
+↓
+ResponsiveContainer
+↓
+ScatterChart
+↓
+XAxis + YAxis
+↓
+Scatter
+↓
+Tooltip
+↓
+Graphique
+↓
+RadioDashboard.css
+↓
+Interface finale
+
+```
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 50 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>50. Architecture globale des fichiers</h2>
+
+    <div class="flow">
+
+                radioSlice.js
+                     │
+              fetchRadio()
+                     │
+                     ▼
+               Redux Store
+                     │
+            ┌────────┼────────┐
+            ▼        ▼        ▼
+          data    loading    error
+            │        │        │
+            └────────┼────────┘
+                     ▼
+            RadioDashboard.jsx
+                     │
+   ┌─────────────────┼─────────────────┐
+   ▼                 ▼                 ▼
+Power BI          Informations       ChartData
+   │                 │                 │
+   │                 │                 ▼
+   │                 │            ScatterChart
+   │                 │                 │
+   │                 │          ┌──────┼──────┐
+   │                 │          ▼      ▼      ▼
+   │                 │        XAxis  YAxis  Tooltip
+   │                 │          │      │      │
+   └─────────────────┴──────────┼──────┼──────┘
+                                ▼
+                       RadioDashboard.css
+                                │
+                                ▼
+                         Interface finale
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 51 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>51. Rôle de chaque technologie</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Technologie</th>
+                <th>Rôle dans le Dashboard</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>React</td>
+                <td>
+                    Construit l'interface utilisateur.
+                </td>
+            </tr>
+
+            <tr>
+                <td>useEffect</td>
+                <td>
+                    Déclenche la récupération des données au
+                    chargement du composant.
+                </td>
+            </tr>
+
+            <tr>
+                <td>useDispatch</td>
+                <td>
+                    Permet d'envoyer l'action fetchRadio à Redux.
+                </td>
+            </tr>
+
+            <tr>
+                <td>useSelector</td>
+                <td>
+                    Permet de récupérer data, loading et error
+                    depuis Redux.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Redux Toolkit</td>
+                <td>
+                    Gère l'état global du Dashboard.
+                </td>
+            </tr>
+
+            <tr>
+                <td>radioSlice.js</td>
+                <td>
+                    Fournit fetchRadio et l'état radio utilisé
+                    par le composant.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Recharts</td>
+                <td>
+                    Génère le Scatter Plot.
+                </td>
+            </tr>
+
+            <tr>
+                <td>ResponsiveContainer</td>
+                <td>
+                    Rend le graphique adaptable à la largeur
+                    disponible.
+                </td>
+            </tr>
+
+            <tr>
+                <td>ScatterChart</td>
+                <td>
+                    Définit le graphique de dispersion.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Power BI</td>
+                <td>
+                    Affiche le rapport analytique intégré.
+                </td>
+            </tr>
+
+            <tr>
+                <td>RadioDashboard.css</td>
+                <td>
+                    Contrôle la présentation visuelle du composant.
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 52 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>52. Séparation des responsabilités</h2>
+
+    <p>
+        L'architecture du Dashboard respecte une séparation entre
+        les différentes responsabilités.
+    </p>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Élément</th>
+                <th>Responsabilité</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>radioSlice.js</td>
+                <td>
+                    Gestion des données et de l'état Redux.
+                </td>
+            </tr>
+
+            <tr>
+                <td>RadioDashboard.jsx</td>
+                <td>
+                    Gestion de l'interface et de l'affichage.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Recharts</td>
+                <td>
+                    Visualisation des données.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Power BI</td>
+                <td>
+                    Analyse et visualisation décisionnelle intégrée.
+                </td>
+            </tr>
+
+            <tr>
+                <td>RadioDashboard.css</td>
+                <td>
+                    Présentation visuelle.
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 53 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>53. Ce que fait réellement RadioDashboard.jsx</h2>
+
+    <p>
+        Le composant <strong>RadioDashboard.jsx</strong> joue
+        principalement le rôle de couche de présentation et
+        d'orchestration.
+    </p>
+
+    <p>
+        Il ne contient pas directement la logique interne de
+        récupération des données de <code>fetchRadio()</code>.
+    </p>
+
+    <p>
+        Il demande cette récupération grâce à :
+    </p>
+
+    <pre><code>dispatch(fetchRadio());</code></pre>
+
+    <p>
+        puis il récupère le résultat depuis Redux avec :
+    </p>
+
+    <pre><code>useSelector((state) =&gt; state.radio)</code></pre>
+
+    <p>
+        Il transforme ensuite certaines informations en données
+        compatibles avec Recharts.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 54 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>54. Résumé du fonctionnement de Redux</h2>
+
+    <div class="flow">
+```
+
+fetchRadio()
+↓
+Action Redux
+↓
+radioSlice.js
+↓
+Mise à jour de state.radio
+↓
+data / loading / error
+↓
+useSelector()
+↓
+RadioDashboard.jsx
+↓
+React re-render
+↓
+Nouvel affichage
+
+```
+    </div>
+
+    <p>
+        Lorsque l'état Redux change, le composant qui utilise
+        <code>useSelector</code> est automatiquement actualisé
+        avec les nouvelles données.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 55 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>55. Résumé final à retenir</h2>
+
+    <div class="important">
+
+        <p>
+            <strong>
+                React construit l'interface → useEffect déclenche
+                fetchRadio() → Redux gère l'état → useSelector
+                récupère data, loading et error → React affiche
+                les informations → chartData prépare les données
+                du graphique → Recharts construit le Scatter Plot
+                → Power BI affiche le rapport analytique →
+                RadioDashboard.css contrôle la présentation.
+            </strong>
+        </p>
+
+    </div>
+
+    <p>
+        Le composant <strong>RadioDashboard.jsx</strong> constitue
+        donc l'interface principale du Dashboard RADIO.
+    </p>
+
+    <p>
+        Il récupère les données depuis le store Redux à travers
+        <code>useSelector</code> et déclenche leur récupération
+        grâce à <code>dispatch(fetchRadio())</code>.
+    </p>
+
+    <p>
+        Le composant gère également les différents états de
+        l'interface : chargement, erreur et disponibilité des
+        données.
+    </p>
+
+    <p>
+        Lorsque les données sont disponibles, il affiche les
+        informations <code>message</code>, <code>columns</code>
+        et <code>count</code>.
+    </p>
+
+    <p>
+        Il prépare également <code>chartData</code> afin de
+        construire un Scatter Plot avec Recharts. L'axe X utilise
+        <code>reputation_ranking</code> et l'axe Y utilise
+        <code>tuition_fee</code>.
+    </p>
+
+    <p>
+        En parallèle, le rapport Power BI est intégré dans un
+        <code>iframe</code>, permettant d'afficher le Dashboard
+        décisionnel directement dans l'application React.
+    </p>
+
+    <p>
+        Enfin, <strong>RadioDashboard.css</strong> est chargé de
+        la présentation visuelle, tandis que
+        <strong>radioSlice.js</strong> est responsable de la
+        gestion Redux associée aux données RADIO.
+    </p>
+
+</section>
+
+
+<footer class="footer">
+
+    <p>
+        📡 Documentation technique — Radio Analytics Dashboard
+    </p>
+
+</footer>
+```
+
+</main>
+
+</body>
+
+</html>

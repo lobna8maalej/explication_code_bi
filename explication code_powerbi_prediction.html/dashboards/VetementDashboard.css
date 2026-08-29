@@ -1,0 +1,470 @@
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CONTENEUR PRINCIPAL
+   ========================================================= */
+
+.documentation {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 25px 70px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.documentation-header {
+    background: linear-gradient(
+        135deg,
+        #4f46e5,
+        #6366f1,
+        #7c3aed
+    );
+
+    color: white;
+
+    padding: 50px 40px;
+
+    border-radius: 20px;
+
+    margin-bottom: 35px;
+
+    box-shadow: 0 15px 35px rgba(79, 70, 229, 0.25);
+
+    text-align: center;
+}
+
+.documentation-header h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.documentation-header p {
+    max-width: 950px;
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.documentation-header strong {
+    color: #fef08a;
+}
+
+
+/* =========================================================
+   CHAPTER
+   ========================================================= */
+
+.chapter {
+    background: #ffffff;
+
+    margin-bottom: 30px;
+
+    padding: 35px;
+
+    border-radius: 16px;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.chapter:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+}
+
+
+/* =========================================================
+   TITRES
+   ========================================================= */
+
+.chapter h2 {
+    font-size: 27px;
+
+    color: #4338ca;
+
+    margin-bottom: 22px;
+
+    padding-bottom: 12px;
+
+    border-bottom: 2px solid #e0e7ff;
+}
+
+.chapter h3 {
+    font-size: 21px;
+
+    color: #4f46e5;
+
+    margin-top: 25px;
+
+    margin-bottom: 10px;
+}
+
+
+/* =========================================================
+   PARAGRAPHES
+   ========================================================= */
+
+.chapter p {
+    margin-bottom: 16px;
+
+    font-size: 16px;
+}
+
+.chapter strong {
+    color: #3730a3;
+}
+
+.chapter code {
+    background: #eef2ff;
+
+    color: #4338ca;
+
+    padding: 3px 7px;
+
+    border-radius: 5px;
+
+    font-family: Consolas, Monaco, monospace;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   LISTES
+   ========================================================= */
+
+.chapter ul {
+    margin: 15px 0 20px 25px;
+}
+
+.chapter li {
+    margin-bottom: 8px;
+
+    padding-left: 5px;
+}
+
+
+/* =========================================================
+   CODE
+   ========================================================= */
+
+pre {
+    background: #0f172a;
+
+    color: #e2e8f0;
+
+    padding: 22px;
+
+    border-radius: 12px;
+
+    overflow-x: auto;
+
+    margin: 20px 0;
+
+    border-left: 5px solid #6366f1;
+
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+pre code {
+    background: transparent !important;
+
+    color: #e2e8f0 !important;
+
+    padding: 0 !important;
+
+    border-radius: 0;
+
+    font-family:
+        Consolas,
+        Monaco,
+        "Courier New",
+        monospace;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   FLOW / DIAGRAMMES
+   ========================================================= */
+
+.flow {
+    background: #f8fafc;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 12px;
+
+    padding: 5px;
+
+    margin: 25px 0;
+}
+
+.flow pre {
+    margin: 0;
+
+    background: #111827;
+
+    border-left: 5px solid #8b5cf6;
+}
+
+
+/* =========================================================
+   IMPORTANT
+   ========================================================= */
+
+.important {
+    background: #eef2ff;
+
+    border-left: 6px solid #4f46e5;
+
+    padding: 20px 25px;
+
+    border-radius: 10px;
+
+    margin: 20px 0;
+}
+
+.important p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   TABLEAUX
+   ========================================================= */
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin: 25px 0;
+
+    background: white;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+
+    border: 1px solid #cbd5e1;
+}
+
+thead {
+    background: #4f46e5;
+
+    color: white;
+}
+
+th {
+    padding: 15px;
+
+    text-align: left;
+
+    font-size: 15px;
+}
+
+td {
+    padding: 14px 15px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    font-size: 15px;
+
+    vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+tbody tr:hover {
+    background: #eef2ff;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   FOOTER NOTE
+   ========================================================= */
+
+.footer-note {
+    text-align: center;
+
+    margin-top: 35px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid #cbd5e1;
+
+    color: #64748b;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   CONCLUSION
+   ========================================================= */
+
+.conclusion {
+    border-top: 5px solid #6366f1;
+}
+
+
+/* =========================================================
+   SCROLLBAR CODE
+   ========================================================= */
+
+pre::-webkit-scrollbar {
+    height: 8px;
+}
+
+pre::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+
+pre::-webkit-scrollbar-thumb {
+    background: #6366f1;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   RESPONSIVE TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .documentation {
+        padding: 25px 18px 50px;
+    }
+
+    .documentation-header {
+        padding: 40px 25px;
+    }
+
+    .documentation-header h1 {
+        font-size: 30px;
+    }
+
+    .chapter {
+        padding: 25px;
+    }
+
+    .chapter h2 {
+        font-size: 24px;
+    }
+
+    table {
+        display: block;
+
+        overflow-x: auto;
+
+        white-space: normal;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .documentation {
+        padding: 15px 10px 40px;
+    }
+
+    .documentation-header {
+        padding: 30px 18px;
+
+        border-radius: 14px;
+    }
+
+    .documentation-header h1 {
+        font-size: 25px;
+    }
+
+    .documentation-header p {
+        font-size: 15px;
+    }
+
+    .chapter {
+        padding: 20px;
+
+        border-radius: 12px;
+    }
+
+    .chapter h2 {
+        font-size: 21px;
+    }
+
+    .chapter h3 {
+        font-size: 18px;
+    }
+
+    .chapter p {
+        font-size: 15px;
+    }
+
+    pre {
+        padding: 15px;
+
+        font-size: 12px;
+    }
+
+    pre code {
+        font-size: 12px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+
+        font-size: 13px;
+    }
+
+    .important {
+        padding: 15px;
+    }
+
+}

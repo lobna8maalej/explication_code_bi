@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+    name="description"
+    content="Documentation technique du système de prédiction Sanitaire utilisant Python, Machine Learning, Joblib, NumPy, Node.js, Express et MySQL."
+>
+
+<title>
+    Documentation — Sanitaire Prediction
+</title>
+
+<!-- =====================================================
+     LIAISON AVEC LE CSS
+====================================================== -->
+
+<link
+    rel="stylesheet"
+    href="sanitaire.css"
+>
+```
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     NAVIGATION
+====================================================== -->
+
+<header class="navbar">
+
+```
+<div class="nav-container">
+
+    <div class="logo">
+        🏥 Sanitaire ML
+    </div>
+
+    <nav>
+
+        <a href="#presentation">
+            Présentation
+        </a>
+
+        <a href="#python">
+            Python
+        </a>
+
+        <a href="#model">
+            Modèle CASA
+        </a>
+
+        <a href="#node">
+            Node.js
+        </a>
+
+        <a href="#api">
+            API
+        </a>
+
+        <a href="#mysql">
+            MySQL
+        </a>
+
+        <a href="#architecture">
+            Architecture
+        </a>
+
+        <a href="#technologies">
+            Technologies
+        </a>
+
+        <a href="#oral">
+            Présentation
+        </a>
+
+        <a href="#conclusion">
+            Conclusion
+        </a>
+
+    </nav>
+
+</div>
+```
+
+</header>
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+```
+<div class="hero-content">
+
+    <span class="badge">
+        Documentation technique
+    </span>
+
+    <h1>
+
+        Système de prédiction
+
+        <span>
+            Sanitaire
+        </span>
+
+    </h1>
+
+    <p>
+
+        Intégration d'un modèle Machine Learning
+        Python dans une application Web Node.js /
+        Express avec communication JSON et
+        connexion à une base de données MySQL.
+
+    </p>
+
+    <a
+        href="#presentation"
+        class="hero-button"
+    >
+        Commencer la documentation
+    </a>
+
+</div>
+```
+
+</section>
+
+<main>
+
+<!-- =====================================================
+     01 — PRESENTATION
+====================================================== -->
+
+<section
+    id="presentation"
+    class="documentation-section"
+>
+
+```
+<div class="section-number">
+    01
+</div>
+
+<h2>
+    Présentation générale du système
+</h2>
+
+<p>
+
+    Le système Sanitaire constitue une architecture
+    Web intégrant un modèle de Machine Learning afin
+    de produire automatiquement une prédiction à
+    partir de variables numériques. L'objectif de
+    cette architecture est de séparer clairement
+    la partie Intelligence Artificielle de la partie
+    application Web. Le modèle Machine Learning est
+    développé et entraîné en Python puis sauvegardé
+    dans un fichier appelé <strong>CASA.pkl</strong>.
+    Ce fichier contient le modèle déjà entraîné et
+    permet de réutiliser les connaissances apprises
+    sans devoir effectuer à nouveau la phase
+    d'entraînement à chaque prédiction. Le script
+    Python <strong>sanitaire.py</strong> représente
+    le moteur de prédiction. Il charge le modèle avec
+    la bibliothèque <strong>joblib</strong>, récupère
+    les valeurs envoyées par Node.js, les convertit
+    en nombres avec <strong>float()</strong>, construit
+    un tableau NumPy puis utilise la méthode
+    <strong>predict()</strong> du modèle pour obtenir
+    la prédiction. Le résultat est ensuite transformé
+    en objet JSON afin de pouvoir être récupéré
+    facilement par le backend Node.js. Du côté
+    JavaScript, le service
+    <strong>sanitaireService.js</strong> utilise le
+    module natif <strong>child_process</strong> et
+    la fonction <strong>spawn()</strong> pour lancer
+    le programme Python depuis Node.js. Le service
+    transmet le type de modèle ainsi que les valeurs
+    numériques comme arguments du processus Python.
+    Node.js récupère ensuite la sortie standard
+    <strong>stdout</strong> produite par Python et
+    recherche la ligne contenant le résultat JSON.
+    Cette ligne est ensuite analysée avec
+    <strong>JSON.parse()</strong>. Le routeur Express
+    <strong>sanitaireRoute.js</strong> expose ensuite
+    une API permettant au frontend de demander une
+    prédiction. Dans l'exemple fourni, la route
+    appelle le service avec le modèle identifié par
+    <strong>"1"</strong> et les valeurs
+    <strong>10</strong> et <strong>20</strong>. Le
+    résultat est ensuite retourné au frontend sous
+    forme JSON avec une propriété
+    <strong>message</strong> et une propriété
+    <strong>data</strong>. Enfin, le projet contient
+    également un module de connexion MySQL permettant
+    d'établir une connexion avec la base de données
+    <strong>POWERBI_PREDICTION</strong>. L'ensemble
+    forme donc une architecture dans laquelle Python
+    assure le traitement Machine Learning, Node.js
+    assure l'exécution et la communication avec
+    Python, Express fournit l'API Web et MySQL peut
+    assurer la persistance des données.
+
+</p>
+
+
+<div class="flow">
+
+    <div class="flow-item">
+        <span>01</span>
+        Données
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>02</span>
+        Modèle ML
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>03</span>
+        CASA.pkl
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>04</span>
+        Python
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>05</span>
+        Node.js
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>06</span>
+        Express
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>07</span>
+        Dashboard
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- =====================================================
+     02 — PYTHON
+====================================================== -->
+
+<section
+    id="python"
+    class="documentation-section"
+>
+
+```
+<div class="section-number">
+    02
+</div>
+
+<h2>
+    Script Python de prédiction
+</h2>
+
+<p>
+
+    Le fichier <strong>sanitaire.py</strong> constitue
+    le cœur du traitement Machine Learning. Son rôle
+    principal est de charger le modèle
+    <strong>CASA.pkl</strong>, de récupérer les
+    variables transmises par Node.js, de préparer ces
+    données sous forme numérique et d'exécuter la
+    prédiction. Le script commence par importer
+    plusieurs bibliothèques. La fonction
+    <strong>load</strong> provenant de
+    <strong>joblib</strong> permet de recharger le
+    modèle Machine Learning sauvegardé. La bibliothèque
+    <strong>NumPy</strong> permet de construire le
+    tableau numérique transmis au modèle. Le module
+    <strong>sys</strong> permet d'accéder aux arguments
+    envoyés par Node.js et le module
+    <strong>os</strong> permet de construire un chemin
+    fiable vers le fichier du modèle. Enfin,
+    <strong>json</strong> permet de convertir le
+    résultat de la prédiction en format JSON. Le
+    programme détermine d'abord le dossier contenant
+    le script avec <strong>os.path.dirname(__file__)</strong>.
+    Le chemin du fichier <strong>CASA.pkl</strong>
+    est ensuite construit avec
+    <strong>os.path.join()</strong>. Le modèle est
+    chargé grâce à <strong>load()</strong>. Le script
+    récupère ensuite les arguments à partir de
+    <strong>sys.argv[2:]</strong>. Le deuxième élément
+    et les suivants correspondent aux valeurs
+    numériques, car le premier argument après le script
+    représente ici le type de modèle. Les valeurs sont
+    converties en nombres décimaux avec
+    <strong>map(float, ...)</strong>. Elles sont ensuite
+    placées dans un tableau NumPy avec
+    <strong>np.array([values])</strong>. Cette structure
+    correspond au format attendu par les modèles
+    Machine Learning de type Scikit-learn. Le script
+    affiche également plusieurs informations de debug :
+    les valeurs reçues, la forme du tableau et le nombre
+    de caractéristiques attendues par le modèle grâce
+    à <strong>model.n_features_in_</strong>. Ces
+    informations permettent de contrôler que les données
+    transmises par Node.js correspondent bien à la
+    structure utilisée lors de l'entraînement. La
+    méthode <strong>model.predict(X)</strong> effectue
+    ensuite la prédiction. Enfin, le script construit
+    un objet JSON contenant le nom du modèle, la
+    prédiction et les valeurs utilisées. Cet objet est
+    envoyé avec <strong>print()</strong>, ce qui permet
+    à Node.js de le récupérer grâce à stdout.
+
+</p>
+
+
+<h3>
+    Importation des bibliothèques
+</h3>
+
+<pre><code>from joblib import load
+```
+
+import numpy as np
+import sys
+import os
+import json</code></pre>
+
+```
+<p>
+
+    <strong>joblib</strong> est utilisé pour charger
+    le modèle sauvegardé. <strong>NumPy</strong> sert
+    à créer le tableau numérique d'entrée.
+    <strong>sys</strong> permet de récupérer les
+    arguments transmis par Node.js.
+    <strong>os</strong> permet de gérer les chemins
+    de fichiers et <strong>json</strong> permet de
+    produire une réponse structurée compatible avec
+    JavaScript.
+
+</p>
+
+
+<h3>
+    Détermination du dossier du modèle
+</h3>
+
+<pre><code>BASE_DIR = os.path.dirname(__file__)
+```
+
+model = load(
+os.path.join(
+BASE_DIR,
+"CASA.pkl"
+)
+)</code></pre>
+
+```
+<p>
+
+    <strong>BASE_DIR</strong> représente le dossier
+    dans lequel se trouve le script Python.
+    <strong>os.path.join()</strong> permet ensuite de
+    construire le chemin vers <strong>CASA.pkl</strong>.
+    Le modèle est chargé avec
+    <strong>joblib.load()</strong>. Cette approche
+    permet d'éviter de dépendre du dossier depuis
+    lequel Node.js lance le programme.
+
+</p>
+
+
+<h3>
+    Récupération des arguments
+</h3>
+
+<pre><code>values = list(
+map(float, sys.argv[2:])
+```
+
+)</code></pre>
+
+```
+<p>
+
+    Le programme récupère les arguments à partir de
+    <strong>sys.argv[2:]</strong>. Le premier argument
+    transmis après le script correspond au type de
+    modèle et les arguments suivants correspondent aux
+    valeurs utilisées pour la prédiction. Chaque valeur
+    est convertie en nombre décimal avec
+    <strong>float()</strong> afin d'obtenir des données
+    compatibles avec le modèle Machine Learning.
+
+</p>
+
+
+<h3>
+    Création du tableau NumPy
+</h3>
+
+<pre><code>X = np.array([values])</code></pre>
+
+<p>
+
+    Les valeurs sont transformées en tableau NumPy.
+    L'utilisation de crochets autour de
+    <strong>values</strong> permet de représenter les
+    données comme une observation contenant plusieurs
+    caractéristiques. Cette structure est compatible
+    avec la méthode <strong>predict()</strong> utilisée
+    par le modèle.
+
+</p>
+
+
+<h3>
+    Vérification des données
+</h3>
+
+<pre><code>print("VALUES =", values)
+```
+
+print("SHAPE =", X.shape)
+print("FEATURES =", model.n_features_in_)</code></pre>
+
+```
+<p>
+
+    Ces trois instructions servent principalement au
+    débogage. La première affiche les valeurs reçues,
+    la deuxième affiche la dimension du tableau NumPy
+    et la troisième affiche le nombre de caractéristiques
+    attendu par le modèle. Cela permet de détecter
+    rapidement une incompatibilité entre les données
+    envoyées par Node.js et celles utilisées pendant
+    l'entraînement du modèle.
+
+</p>
+
+
+<h3>
+    Exécution de la prédiction
+</h3>
+
+<pre><code>prediction = model.predict(X)</code></pre>
+
+<p>
+
+    La méthode <strong>predict()</strong> applique le
+    modèle Machine Learning aux données préparées.
+    Le modèle utilise les paramètres appris pendant
+    son entraînement pour calculer la valeur prédite.
+
+</p>
+
+
+<h3>
+    Création de la réponse JSON
+</h3>
+
+<pre><code>print(json.dumps({
+"model": "CASA",
+"prediction": float(prediction[0]),
+"values": values
+```
+
+}))</code></pre>
+
+```
+<p>
+
+    Le résultat de la prédiction est placé dans un
+    objet contenant trois informations : le nom du
+    modèle, la valeur prédite et les valeurs d'entrée.
+    <strong>prediction[0]</strong> récupère la première
+    prédiction et <strong>float()</strong> transforme
+    cette valeur en nombre Python standard.
+    <strong>json.dumps()</strong> transforme ensuite
+    l'objet Python en chaîne JSON. Cette chaîne sera
+    récupérée par Node.js grâce à stdout.
+
+</p>
+```
+
+</section>
+
+<!-- =====================================================
+     03 — MODELE
+====================================================== -->
+
+<section
+    id="model"
+    class="documentation-section"
+>
+
+```
+<div class="section-number">
+    03
+</div>
+
+<h2>
+    Modèle Machine Learning CASA
+</h2>
+
+<p>
+
+    Le fichier <strong>CASA.pkl</strong> représente
+    le modèle Machine Learning utilisé par le système
+    Sanitaire. Contrairement à un programme Python qui
+    devrait entraîner le modèle à chaque exécution,
+    le fichier PKL contient directement le modèle
+    déjà entraîné. Le script Python n'a donc qu'à
+    charger cet objet avec Joblib puis à lui fournir
+    les nouvelles données à prédire. Cette séparation
+    entre entraînement et prédiction est importante
+    dans une architecture professionnelle car
+    l'entraînement peut être effectué périodiquement
+    sur un jeu de données complet tandis que le modèle
+    sauvegardé peut être utilisé ensuite par
+    l'application Web. La propriété
+    <strong>model.n_features_in_</strong> permet
+    également de connaître le nombre de variables
+    attendues par le modèle. Dans le code fourni,
+    Node.js transmet par exemple deux valeurs :
+    <strong>10</strong> et <strong>20</strong>.
+    Le modèle doit donc être compatible avec cette
+    structure d'entrée. Si le nombre de variables
+    envoyées ne correspond pas au nombre attendu par
+    le modèle, une erreur de dimension peut se produire.
+    Les informations affichées par le mode debug
+    permettent justement de contrôler cette
+    correspondance.
+
+</p>
+
+
+<div class="highlight">
+
+    <strong>
+        Fonctionnement du modèle :
+    </strong>
+
+    Données d'entrée →
+    Tableau NumPy →
+    CASA.pkl →
+    predict() →
+    Valeur prédite
+
+</div>
+```
+
+</section>
+
+<!-- =====================================================
+     04 — NODE
+====================================================== -->
+
+<section
+    id="node"
+    class="documentation-section"
+>
+
+```
+<div class="section-number">
+    04
+</div>
+
+<h2>
+    Service Node.js et communication avec Python
+</h2>
+
+<p>
+
+    Le fichier <strong>sanitaireService.js</strong>
+    joue le rôle de passerelle entre Node.js et Python.
+    Node.js ne réalise pas directement la prédiction
+    Machine Learning ; il lance le programme Python
+    grâce au module natif <strong>child_process</strong>.
+    La fonction <strong>runPlotPython()</strong> retourne
+    une Promise, ce qui permet de gérer l'exécution
+    asynchrone du processus Python. La fonction reçoit
+    deux paramètres : <strong>modelType</strong> et
+    <strong>values</strong>. Le paramètre
+    <strong>modelType</strong> représente le type de
+    modèle à utiliser, tandis que <strong>values</strong>
+    contient les variables numériques. La fonction
+    <strong>spawn()</strong> lance ensuite Python avec
+    le chemin du script <strong>sanitaire.py</strong>.
+    Le tableau transmis à spawn contient le chemin du
+    programme Python, le type du modèle et toutes les
+    valeurs converties en chaînes grâce à
+    <strong>values.map(String)</strong>. Python reçoit
+    donc les données sous forme d'arguments de ligne de
+    commande. Node.js écoute ensuite l'événement
+    <strong>data</strong> de <strong>stdout</strong>
+    afin de récupérer progressivement la sortie du
+    programme Python. Comme Python affiche également
+    des informations de debug avant le JSON, le service
+    ne tente pas de parser immédiatement toute la sortie.
+    Lorsque le processus se termine, le code utilise
+    <strong>split("\n")</strong> pour séparer les lignes,
+    <strong>map(l =&gt; l.trim())</strong> pour supprimer
+    les espaces inutiles, puis
+    <strong>filter(l =&gt; l.startsWith("{"))</strong>
+    pour rechercher les lignes qui commencent par une
+    accolade et qui correspondent donc potentiellement
+    au JSON final. La méthode <strong>pop()</strong>
+    récupère ensuite la dernière ligne JSON trouvée.
+    Enfin, <strong>JSON.parse()</strong> transforme la
+    chaîne JSON en objet JavaScript. Cet objet peut alors
+    être retourné à la route Express. Cette technique
+    permet donc à Node.js de récupérer proprement le
+    résultat Python même lorsque le script produit
+    également des informations de debug.
+
+</p>
+
+
+<h3>
+    Importation des modules
+</h3>
+
+<pre><code>const { spawn } =
+```
+
+require("child_process");
+
+const path =
+require("path");</code></pre>
+
+```
+<p>
+
+    Le module <strong>child_process</strong> fournit
+    <strong>spawn()</strong>, qui permet de lancer un
+    processus externe. Le module <strong>path</strong>
+    permet de construire le chemin du script Python
+    de manière fiable.
+
+</p>
+
+
+<h3>
+    Création du chemin Python
+</h3>
+
+<pre><code>path.join(
+__dirname,
+"../../python/sanitaire.py"
+```
+
+)</code></pre>
+
+```
+<p>
+
+    <strong>__dirname</strong> représente le dossier
+    du fichier JavaScript actuel. La fonction
+    <strong>path.join()</strong> permet de remonter
+    vers le dossier Python et de localiser
+    <strong>sanitaire.py</strong>.
+
+</p>
+
+
+<h3>
+    Lancement du processus Python
+</h3>
+
+<pre><code>const py = spawn("python", [
+path.join(
+    __dirname,
+    "../../python/sanitaire.py"
+),
+modelType,
+...values.map(String)
+```
+
+]);</code></pre>
+
+```
+<p>
+
+    Cette instruction lance Python et transmet les
+    différents paramètres. Le premier paramètre est
+    le chemin du script, le deuxième est le type du
+    modèle et les suivants correspondent aux valeurs
+    numériques. L'opérateur spread
+    <strong>...</strong> permet d'ajouter chaque valeur
+    individuellement au tableau des arguments.
+
+</p>
+
+
+<h3>
+    Récupération de stdout
+</h3>
+
+<pre><code>py.stdout.on("data", (data) => {
+output += data.toString();
+```
+
+});</code></pre>
+
+```
+<p>
+
+    Python utilise <strong>print()</strong> pour
+    retourner les informations vers Node.js.
+    Node.js récupère ces données grâce à
+    <strong>stdout</strong>. Les morceaux reçus sont
+    ajoutés à la variable <strong>output</strong> afin
+    de reconstruire l'ensemble de la sortie Python.
+
+</p>
+
+
+<h3>
+    Gestion des erreurs
+</h3>
+
+<pre><code>py.stderr.on("data", (data) => {
+error += data.toString();
+```
+
+});</code></pre>
+
+```
+<p>
+
+    <strong>stderr</strong> est utilisé pour récupérer
+    les éventuels messages d'erreur générés par Python.
+    Cela permet à Node.js de disposer d'informations
+    supplémentaires lorsqu'une erreur survient.
+
+</p>
+
+
+<h3>
+    Analyse de la réponse Python
+</h3>
+
+<pre><code>const jsonLine = output
+.split("\n")
+.map(l => l.trim())
+.filter(l => l.startsWith("{"))
+.pop();</code></pre>
+
+<p>
+
+    Cette partie est particulièrement importante
+    puisque le script Python affiche d'abord des
+    informations de debug avant d'afficher le JSON.
+    Le service sépare la sortie en plusieurs lignes,
+    supprime les espaces inutiles, conserve les lignes
+    commençant par une accolade et récupère la dernière
+    ligne correspondante. Cette dernière ligne est
+    ensuite considérée comme le résultat JSON.
+
+</p>
+
+
+<h3>
+    Conversion JSON
+</h3>
+
+<pre><code>resolve(
+JSON.parse(jsonLine)
+```
+
+);</code></pre>
+
+```
+<p>
+
+    <strong>JSON.parse()</strong> transforme la chaîne
+    JSON produite par Python en objet JavaScript.
+    <strong>resolve()</strong> transmet ensuite cet
+    objet à la fonction qui a appelé le service.
+
+</p>
+```
+
+</section>
+
+<!-- =====================================================
+     05 — API
+====================================================== -->
+
+<section
+    id="api"
+    class="documentation-section"
+>
+
+```
+<div class="section-number">
+    05
+</div>
+
+<h2>
+    Route Express et API Sanitaire
+</h2>
+
+<p>
+
+    Le fichier <strong>sanitaireRoute.js</strong>
+    constitue la couche API du système. Express est
+    importé puis un routeur est créé avec
+    <strong>express.Router()</strong>. Le service
+    <strong>sanitaireService</strong> est ensuite
+    importé afin que la route puisse déclencher le
+    programme Python. La route
+    <strong>GET /</strong> est déclarée comme une
+    fonction asynchrone grâce au mot-clé
+    <strong>async</strong>. Lorsqu'une requête est
+    reçue, la route appelle
+    <strong>runPlotPython("1", [10, 20])</strong>.
+    Le premier argument représente le type du modèle
+    et le tableau contient les variables numériques.
+    La route utilise <strong>await</strong> afin
+    d'attendre que Python termine son exécution.
+    Lorsque le service retourne l'objet JSON,
+    Express construit une réponse contenant
+    <strong>message: "OK"</strong> et
+    <strong>data: result</strong>. Cette réponse peut
+    ensuite être consommée par le frontend. Si une
+    erreur se produit pendant l'exécution Python ou
+    lors de l'analyse JSON, le bloc
+    <strong>catch</strong> intercepte l'erreur et
+    retourne un statut HTTP <strong>500</strong>.
+    Cette architecture permet donc au frontend de ne
+    pas communiquer directement avec Python. Le
+    frontend communique uniquement avec l'API Express,
+    tandis qu'Express utilise le service Node.js pour
+    lancer le modèle Python.
+
+</p>
+
+
+<h3>
+    Création du routeur
+</h3>
+
+<pre><code>const express =
+```
+
+require("express");
+
+const router =
+express.Router();</code></pre>
+
+```
+<p>
+
+    Express fournit les fonctionnalités nécessaires
+    pour créer l'API. Le routeur permet de regrouper
+    les endpoints liés au domaine sanitaire.
+
+</p>
+
+
+<h3>
+    Appel du service Python
+</h3>
+
+<pre><code>const result =
+```
+
+await runPlotPython(
+"1",
+[10, 20]
+);</code></pre>
+
+```
+<p>
+
+    La route demande au service Node.js d'exécuter
+    Python avec le type de modèle <strong>"1"</strong>
+    et deux variables numériques. Le mot-clé
+    <strong>await</strong> permet d'attendre le résultat
+    avant de continuer.
+
+</p>
+
+
+<h3>
+    Réponse API
+</h3>
+
+<pre><code>res.json({
+message: "OK",
+data: result
+```
+
+});</code></pre>
+
+```
+<p>
+
+    Express retourne une réponse JSON. La propriété
+    <strong>message</strong> indique que l'opération
+    s'est terminée correctement tandis que
+    <strong>data</strong> contient le résultat obtenu
+    depuis Python.
+
+</p>
+
+
+<h3>
+    Gestion des erreurs
+</h3>
+
+<pre><code>catch (err) {
+
+res.status(500).json({
+    error: err.toString()
+});
+```
+
+}</code></pre>
+
+```
+<p>
+
+    En cas d'erreur, Express retourne le statut HTTP
+    500 ainsi qu'une description de l'erreur. Cette
+    gestion permet au frontend d'identifier qu'un
+    problème est survenu au niveau du backend.
+
+</p>
+```
+
+</section>
+
+<!-- =====================================================
+     06 — MYSQL
+====================================================== -->
+
+<section
+    id="mysql"
+    class="documentation-section"
+>
+
+```
+<div class="section-number">
+    06
+</div>
+
+<h2>
+    Connexion à MySQL
+</h2>
+
+<p>
+
+    Le projet contient également un module dédié à
+    la connexion avec une base de données MySQL.
+    Le fichier <strong>sanitaireDb.js</strong> utilise
+    le package <strong>mysql2/promise</strong>, qui
+    permet de communiquer avec MySQL en utilisant
+    les Promises et donc une syntaxe
+    <strong>async/await</strong>. La configuration
+    contient l'adresse du serveur avec
+    <strong>localhost</strong>, l'utilisateur
+    <strong>root</strong>, un mot de passe vide dans
+    l'environnement présenté et la base de données
+    <strong>POWERBI_PREDICTION</strong>. La fonction
+    <strong>getConnection()</strong> crée une nouvelle
+    connexion avec <strong>mysql.createConnection()</strong>
+    puis retourne cette connexion grâce à
+    <strong>await</strong>. Cette séparation dans un
+    fichier spécifique permet de centraliser la
+    configuration de la base de données et de pouvoir
+    réutiliser facilement la fonction dans différents
+    contrôleurs ou services. Dans la route Sanitaire,
+    la fonction <strong>getConnection</strong> est
+    importée afin de permettre, si nécessaire, de
+    récupérer ou d'enregistrer des données dans MySQL.
+    La base de données peut ainsi compléter la partie
+    Machine Learning en stockant les informations
+    nécessaires au fonctionnement de l'application,
+    les résultats de prédiction ou d'autres données
+    utilisées par le dashboard.
+
+</p>
+
+
+<pre><code>const mysql =
+```
+
+require("mysql2/promise");
+
+const dbConfig = {
+
+```
+host: "localhost",
+
+user: "root",
+
+password: "",
+
+database:
+    "POWERBI_PREDICTION"
+```
+
+};
+
+async function getConnection() {
+
+```
+return await
+    mysql.createConnection(
+        dbConfig
+    );
+```
+
+}
+
+module.exports = {
+getConnection
+};</code></pre>
+
+```
+<p>
+
+    Le module exporte <strong>getConnection</strong>
+    afin que les autres fichiers du backend puissent
+    l'utiliser. L'utilisation de
+    <strong>mysql2/promise</strong> facilite la gestion
+    asynchrone des connexions et permet d'intégrer
+    MySQL dans l'architecture Node.js.
+
+</p>
+```
+
+</section>
+
+<!-- =====================================================
+     07 — SERVER
+====================================================== -->
+
+<section
+    class="documentation-section"
+>
+
+```
+<div class="section-number">
+    07
+</div>
+
+<h2>
+    Démarrage du serveur Express
+</h2>
+
+<p>
+
+    Le fichier principal du serveur initialise
+    l'application Express. La constante
+    <strong>express</strong> importe le framework
+    et <strong>app = express()</strong> crée
+    l'application. Le middleware
+    <strong>express.json()</strong> permet au serveur
+    de traiter les données JSON envoyées dans les
+    requêtes HTTP. Le projet démarre ensuite le
+    processus Python avec <strong>spawn()</strong>
+    et définit le dossier de travail grâce à
+    <strong>cwd</strong>. La route Sanitaire est
+    ensuite importée depuis
+    <strong>sanitaireRoute</strong> et enregistrée
+    avec <strong>app.use("/sanitaire", sanitaireRoute)</strong>.
+    Cela signifie que les endpoints définis dans le
+    routeur seront accessibles sous le préfixe
+    <strong>/sanitaire</strong>. Enfin,
+    <strong>app.listen(3000)</strong> démarre le
+    serveur HTTP sur le port 3000. Le message affiché
+    dans la console confirme que l'API est démarrée.
+    L'ensemble permet donc de rendre accessible le
+    système Machine Learning à travers une API Web
+    Node.js / Express.
+
+</p>
+
+
+<pre><code>const express =
+```
+
+require("express");
+
+const app =
+express();
+
+app.use(
+express.json()
+);
+
+console.log(
+"sanitaire API STARTED"
+);
+
+const sanitaireRoute =
+require(
+"./routes/sanitaireRoute"
+);
+
+app.use(
+"/sanitaire",
+sanitaireRoute
+);
+
+app.listen(
+3000,
+() => {
+
+```
+    console.log(
+        "Server running on port 3000"
+    );
+
+}
+```
+
+);</code></pre>
+
+```
+<p>
+
+    Le serveur devient ainsi le point d'entrée de
+    l'application Web. Le frontend peut appeler
+    l'API sous le chemin <strong>/sanitaire</strong>,
+    puis Express déclenche le service Node.js qui
+    lance Python et récupère la prédiction.
+
+</p>
+```
+
+</section>
+
+<!-- =====================================================
+     08 — ARCHITECTURE
+====================================================== -->
+
+<section
+    id="architecture"
+    class="documentation-section"
+>
+
+```
+<div class="section-number">
+    08
+</div>
+
+<h2>
+    Architecture complète du système
+</h2>
+
+<p>
+
+    L'architecture complète repose sur une communication
+    en plusieurs niveaux. Le processus commence au
+    niveau du frontend ou du dashboard, qui envoie une
+    requête HTTP vers l'API Express. Express reçoit la
+    requête sur la route Sanitaire et appelle la fonction
+    <strong>runPlotPython()</strong> du service Node.js.
+    Cette fonction utilise <strong>spawn()</strong> pour
+    créer un processus Python indépendant. Python reçoit
+    le type du modèle et les variables numériques.
+    Le script <strong>sanitaire.py</strong> charge alors
+    <strong>CASA.pkl</strong> grâce à Joblib. Les
+    variables reçues sont converties en nombres puis
+    transformées en tableau NumPy. Le modèle applique
+    ensuite la méthode <strong>predict()</strong> afin
+    de calculer la prédiction. Python construit un objet
+    JSON contenant le nom du modèle, la prédiction et
+    les valeurs d'entrée. Node.js récupère la sortie
+    Python grâce à <strong>stdout</strong>. Comme le
+    script affiche également des informations de debug,
+    le service recherche la dernière ligne commençant
+    par une accolade afin d'identifier le JSON final.
+    <strong>JSON.parse()</strong> transforme ensuite
+    cette chaîne en objet JavaScript. Le résultat est
+    retourné à Express, qui construit la réponse HTTP
+    destinée au frontend. Parallèlement, le module
+    MySQL permet au backend d'établir une connexion avec
+    la base <strong>POWERBI_PREDICTION</strong>. Cette
+    base peut être utilisée pour stocker les données
+    nécessaires au fonctionnement de l'application ou
+    pour conserver les résultats générés par le système.
+    L'ensemble forme donc une architecture séparant les
+    responsabilités : le frontend s'occupe de la
+    visualisation, Express de l'API, Node.js de
+    l'orchestration, Python du Machine Learning, Joblib
+    du chargement du modèle, NumPy de la préparation des
+    données et MySQL de la persistance.
+
+</p>
+
+
+<div class="architecture">
+
+    <div class="architecture-box frontend">
+
+        <strong>
+            Frontend
+        </strong>
+
+        <small>
+            Dashboard
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ HTTP
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            Express
+        </strong>
+
+        <small>
+            API REST
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            /sanitaire
+        </strong>
+
+        <small>
+            Route API
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            runPlotPython()
+        </strong>
+
+        <small>
+            Service Node.js
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ spawn()
+    </div>
+
+    <div class="architecture-box python">
+
+        <strong>
+            Python
+        </strong>
+
+        <small>
+            sanitaire.py
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            CASA.pkl
+        </strong>
+
+        <small>
+            Modèle ML
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ predict()
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            NumPy
+        </strong>
+
+        <small>
+            Données X
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            Prediction
+        </strong>
+
+        <small>
+            Résultat ML
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ stdout
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            JSON.parse()
+        </strong>
+
+        <small>
+            Résultat JS
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            MySQL
+        </strong>
+
+        <small>
+            POWERBI_PREDICTION
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box frontend">
+
+        <strong>
+            Dashboard
+        </strong>
+
+        <small>
+            Visualisation
+        </small>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- =====================================================
+     09 — TECHNOLOGIES
+====================================================== -->
+
+<section
+    id="technologies"
+    class="documentation-section"
+>
+
+```
+<div class="section-number">
+    09
+</div>
+
+<h2>
+    Rôle des technologies
+</h2>
+
+<p>
+
+    Chaque technologie utilisée dans cette architecture
+    possède une responsabilité précise. Python constitue
+    l'environnement d'exécution du modèle Machine
+    Learning. Joblib permet de sauvegarder et de
+    recharger le modèle dans le fichier
+    <strong>CASA.pkl</strong>. NumPy permet de préparer
+    les variables numériques sous forme de tableau
+    compatible avec le modèle. Le module
+    <strong>sys</strong> permet de transmettre les
+    paramètres entre Node.js et Python et
+    <strong>json</strong> permet de structurer les
+    résultats. Node.js constitue l'environnement
+    d'exécution du backend JavaScript. Le module
+    <strong>child_process</strong> fournit la fonction
+    <strong>spawn()</strong>, qui permet de lancer le
+    script Python. Express fournit l'API REST et
+    organise les différentes routes de l'application.
+    JSON sert de format d'échange entre Python,
+    Node.js et le frontend. Enfin, MySQL permet de
+    gérer les données persistantes du système. Cette
+    complémentarité permet de construire une architecture
+    dans laquelle chaque technologie est utilisée pour
+    une tâche spécifique.
+
+</p>
+
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>
+                Technologie
+            </th>
+
+            <th>
+                Rôle
+            </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>
+                Python
+            </td>
+
+            <td>
+                Exécution du Machine Learning
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Joblib
+            </td>
+
+            <td>
+                Chargement du modèle
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                CASA.pkl
+            </td>
+
+            <td>
+                Modèle Machine Learning entraîné
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                NumPy
+            </td>
+
+            <td>
+                Préparation des variables
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Node.js
+            </td>
+
+            <td>
+                Backend JavaScript
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                child_process
+            </td>
+
+            <td>
+                Communication avec Python
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                spawn()
+            </td>
+
+            <td>
+                Lancement du script Python
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Express
+            </td>
+
+            <td>
+                Création de l'API REST
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                JSON
+            </td>
+
+            <td>
+                Échange des résultats
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                MySQL
+            </td>
+
+            <td>
+                Stockage des données
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Dashboard
+            </td>
+
+            <td>
+                Visualisation des résultats
+            </td>
+        </tr>
+
+    </tbody>
+
+</table>
+```
+
+</section>
+
+<!-- =====================================================
+     10 — EXEMPLE
+====================================================== -->
+
+<section
+    class="documentation-section"
+>
+
+```
+<div class="section-number">
+    10
+</div>
+
+<h2>
+    Exemple concret du fonctionnement
+</h2>
+
+<p>
+
+    Pour comprendre le fonctionnement complet, imaginons
+    que le frontend appelle l'API Sanitaire. Express
+    reçoit la requête et exécute la fonction
+    <strong>runPlotPython("1", [10, 20])</strong>.
+    Node.js lance alors le programme
+    <strong>sanitaire.py</strong> avec Python. Les
+    paramètres transmis sont le type de modèle
+    <strong>1</strong>, puis les valeurs
+    <strong>10</strong> et <strong>20</strong>. Python
+    récupère ces paramètres grâce à
+    <strong>sys.argv</strong>. L'expression
+    <strong>sys.argv[2:]</strong> récupère les deux
+    valeurs numériques et les convertit en nombres
+    décimaux. Le programme construit ensuite
+    <strong>X = np.array([values])</strong>. Le modèle
+    <strong>CASA.pkl</strong> est chargé grâce à Joblib
+    et reçoit le tableau avec la méthode
+    <strong>predict()</strong>. Python obtient alors
+    la prédiction et construit un objet JSON contenant
+    le modèle CASA, la valeur prédite et les valeurs
+    utilisées. Node.js récupère toute la sortie Python
+    dans <strong>stdout</strong>. Comme Python affiche
+    également les informations de debug
+    <strong>VALUES</strong>, <strong>SHAPE</strong> et
+    <strong>FEATURES</strong>, le service filtre les
+    lignes afin de récupérer uniquement la dernière
+    ligne JSON. Cette chaîne est ensuite convertie en
+    objet JavaScript avec <strong>JSON.parse()</strong>.
+    Express reçoit finalement cet objet et retourne une
+    réponse JSON au frontend. Le dashboard peut alors
+    exploiter la prédiction pour afficher un indicateur,
+    une carte statistique, un graphique ou un tableau.
+    Cette chaîne montre clairement comment une prédiction
+    développée en Python peut être intégrée dans une
+    application Web Node.js sans que le frontend ait
+    besoin d'exécuter directement Python.
+
+</p>
+
+
+<div class="endpoint">
+    GET /sanitaire/
+</div>
+
+
+<pre><code>{
+"message": "OK",
+
+"data": {
+    "model": "CASA",
+    "prediction": 123.45,
+    "values": [
+        10,
+        20
+    ]
+}
+```
+
+}</code></pre>
+
+```
+<p>
+
+    La valeur <strong>123.45</strong> est uniquement
+    illustrative. La prédiction réelle dépend du modèle
+    contenu dans <strong>CASA.pkl</strong> et des
+    valeurs réellement transmises au système.
+
+</p>
+```
+
+</section>
+
+<!-- =====================================================
+     11 — PRESENTATION ORALE
+====================================================== -->
+
+<section
+    id="oral"
+    class="documentation-section"
+>
+
+```
+<div class="section-number">
+    11
+</div>
+
+<h2>
+    Explication à donner lors de la présentation
+</h2>
+
+<p>
+
+    Lors d'une présentation professionnelle, ce système
+    peut être présenté comme une architecture
+    d'intelligence artificielle intégrée à une
+    application Web du domaine sanitaire. Le modèle
+    Machine Learning est préalablement entraîné puis
+    sauvegardé dans <strong>CASA.pkl</strong>. Lorsqu'une
+    prédiction est demandée, Node.js utilise le module
+    <strong>child_process</strong> et la fonction
+    <strong>spawn()</strong> afin de lancer le script
+    Python. Python récupère les variables, les transforme
+    en données numériques et les prépare avec NumPy.
+    Le modèle CASA est ensuite chargé avec Joblib et
+    la méthode <strong>predict()</strong> permet de
+    calculer le résultat. Python retourne ensuite le
+    résultat au format JSON. Node.js récupère cette
+    réponse via stdout et la transforme en objet
+    JavaScript grâce à JSON.parse(). Express expose
+    ensuite le résultat à travers une API REST. Le
+    frontend peut donc appeler l'API et afficher les
+    prédictions dans un dashboard. MySQL complète
+    l'architecture en fournissant une solution de
+    stockage des données. L'intérêt de cette approche
+    est de séparer clairement les responsabilités :
+    Python est spécialisé dans le Machine Learning,
+    Node.js orchestre l'exécution, Express gère les
+    requêtes HTTP, JSON assure l'échange des résultats
+    et MySQL assure la persistance. Cette organisation
+    rend le système plus modulaire et permet d'ajouter
+    ultérieurement d'autres modèles, d'autres variables
+    ou de nouvelles fonctionnalités au dashboard.
+
+</p>
+
+
+<div class="presentation-script">
+
+    <h3>
+        🎤 Exemple d'explication orale
+    </h3>
+
+    <p>
+
+        « Dans cette partie de mon projet, j'ai intégré
+        un modèle Machine Learning développé en Python
+        dans une application Web Node.js et Express.
+
+    </p>
+
+    <p>
+
+        Le modèle est sauvegardé dans le fichier
+        <strong>CASA.pkl</strong>. Cela permet de
+        conserver le modèle entraîné et de le recharger
+        directement lorsqu'une prédiction est demandée.
+
+    </p>
+
+    <p>
+
+        J'ai développé un script Python appelé
+        <strong>sanitaire.py</strong>. Il récupère les
+        valeurs envoyées par Node.js, les convertit en
+        nombres et les transforme en tableau NumPy.
+
+    </p>
+
+    <p>
+
+        Le modèle CASA est ensuite utilisé avec la
+        méthode <strong>predict()</strong> afin de
+        calculer la prédiction.
+
+    </p>
+
+    <p>
+
+        Pour connecter Python avec mon application Web,
+        j'utilise Node.js et le module
+        <strong>child_process</strong>. La fonction
+        <strong>spawn()</strong> permet de lancer le
+        script Python et de récupérer son résultat.
+
+    </p>
+
+    <p>
+
+        Le service Node.js récupère la sortie Python
+        grâce à <strong>stdout</strong>. Comme le script
+        contient des informations de debug, le service
+        recherche la dernière ligne JSON puis utilise
+        <strong>JSON.parse()</strong> pour transformer
+        cette réponse en objet JavaScript.
+
+    </p>
+
+    <p>
+
+        Express fournit ensuite l'API permettant au
+        frontend de récupérer la prédiction. Le résultat
+        peut être affiché dans un dashboard sous forme
+        de cartes, graphiques ou indicateurs.
+
+    </p>
+
+    <p>
+
+        J'ai également prévu une connexion MySQL avec
+        la base <strong>POWERBI_PREDICTION</strong> afin
+        de pouvoir gérer les données persistantes de
+        l'application.
+
+    </p>
+
+    <p>
+
+        L'intérêt principal de cette architecture est
+        donc de séparer les responsabilités : Python
+        pour le Machine Learning, Joblib pour le modèle,
+        NumPy pour les données, Node.js pour la
+        communication, Express pour l'API et MySQL pour
+        le stockage.
+
+    </p>
+
+    <p>
+
+        Cette architecture peut être facilement
+        évolutive en ajoutant de nouveaux modèles,
+        de nouvelles variables et de nouvelles
+        fonctionnalités décisionnelles. »
+
+    </p>
+
+</div>
+```
+
+</section>
+
+<!-- =====================================================
+     12 — CONCLUSION
+====================================================== -->
+
+<section
+    id="conclusion"
+    class="documentation-section"
+>
+
+```
+<div class="section-number">
+    12
+</div>
+
+<h2>
+    Conclusion
+</h2>
+
+<p>
+
+    Le système Sanitaire constitue une intégration
+    complète entre Machine Learning et développement
+    Web. Le modèle entraîné est sauvegardé dans
+    <strong>CASA.pkl</strong> et chargé par le script
+    Python grâce à Joblib. Les variables reçues depuis
+    Node.js sont converties en nombres puis préparées
+    avec NumPy avant d'être transmises au modèle avec
+    <strong>predict()</strong>. Python retourne ensuite
+    les informations sous forme JSON. Node.js utilise
+    <strong>child_process</strong> et
+    <strong>spawn()</strong> pour lancer le programme
+    Python et récupérer son résultat. Le service filtre
+    la sortie Python afin d'identifier le JSON final,
+    puis utilise <strong>JSON.parse()</strong> pour
+    convertir la réponse en objet JavaScript. Express
+    expose ensuite une API accessible au frontend.
+    Enfin, MySQL permet de gérer la partie stockage des
+    données à travers la base
+    <strong>POWERBI_PREDICTION</strong>. L'ensemble
+    forme une chaîne technologique cohérente :
+    <strong>Données → Node.js → spawn() → Python →
+    CASA.pkl → NumPy → predict() → JSON → Express →
+    Dashboard</strong>. Cette architecture démontre
+    comment un modèle de Data Science peut être intégré
+    dans une application Web moderne tout en séparant
+    clairement les responsabilités entre le Machine
+    Learning, le backend, l'API, la base de données et
+    l'interface utilisateur.
+
+</p>
+
+
+<div class="final-flow">
+
+    <span>
+        Données
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Node.js
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        spawn()
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Python
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        CASA.pkl
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        NumPy
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Predict
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        JSON
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Express
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Dashboard
+    </span>
+
+</div>
+
+
+<div class="success-box">
+
+    ✔ Modèle Machine Learning chargé avec Joblib
+
+    <br>
+
+    ✔ Modèle CASA sauvegardé dans CASA.pkl
+
+    <br>
+
+    ✔ Préparation des données avec NumPy
+
+    <br>
+
+    ✔ Vérification des dimensions du modèle
+
+    <br>
+
+    ✔ Communication Node.js → Python
+
+    <br>
+
+    ✔ Exécution Python avec spawn()
+
+    <br>
+
+    ✔ Récupération de stdout
+
+    <br>
+
+    ✔ Conversion JSON avec JSON.parse()
+
+    <br>
+
+    ✔ API REST avec Express
+
+    <br>
+
+    ✔ Connexion possible à MySQL
+
+    <br>
+
+    ✔ Intégration dans un Dashboard
+
+    <br>
+
+    ✔ Architecture modulaire et évolutive
+
+</div>
+```
+
+</section>
+
+</main>
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+```
+<p>
+
+    Documentation technique —
+    Sanitaire Prediction
+
+</p>
+
+<p>
+
+    Python • Machine Learning • Joblib • NumPy •
+    Node.js • Express • MySQL • JSON
+
+</p>
+```
+
+</footer>
+
+</body>
+
+</html>

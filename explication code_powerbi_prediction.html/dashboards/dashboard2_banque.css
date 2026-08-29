@@ -1,0 +1,693 @@
+/* =========================================================
+   DASHBOARD 2 — BANQUE
+   CSS DE LA DOCUMENTATION
+   ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f7fb;
+    color: #1f2937;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.documentation-header {
+    background: linear-gradient(
+        135deg,
+        #0f172a,
+        #1e3a8a,
+        #2563eb
+    );
+
+    color: white;
+
+    padding: 70px 20px;
+
+    text-align: center;
+
+    border-bottom: 5px solid #60a5fa;
+}
+
+
+.documentation-header h1 {
+    font-size: 42px;
+    font-weight: 800;
+
+    margin-bottom: 18px;
+}
+
+
+.documentation-header p {
+    max-width: 900px;
+
+    margin: auto;
+
+    font-size: 18px;
+
+    color: #dbeafe;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.documentation-nav {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+
+.documentation-nav ul {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    list-style: none;
+
+    padding: 12px 20px;
+}
+
+
+.documentation-nav a {
+    display: block;
+
+    padding: 9px 14px;
+
+    border-radius: 8px;
+
+    color: #334155;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+}
+
+
+.documentation-nav a:hover {
+    background: #2563eb;
+
+    color: white;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   CONTENEUR PRINCIPAL
+   ========================================================= */
+
+.documentation-container {
+    width: 92%;
+
+    max-width: 1200px;
+
+    margin: 50px auto;
+}
+
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+.documentation-section {
+    background: white;
+
+    margin-bottom: 40px;
+
+    padding: 40px;
+
+    border-radius: 18px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.06);
+
+    scroll-margin-top: 90px;
+}
+
+
+.documentation-section:nth-child(even) {
+    background: #f8fafc;
+}
+
+
+/* =========================================================
+   TITRES
+   ========================================================= */
+
+.documentation-section h2 {
+    font-size: 30px;
+
+    color: #0f172a;
+
+    margin-bottom: 25px;
+
+    padding-bottom: 12px;
+
+    border-bottom: 3px solid #2563eb;
+}
+
+
+.documentation-section h3 {
+    font-size: 22px;
+
+    color: #1e3a8a;
+
+    margin-top: 30px;
+
+    margin-bottom: 12px;
+}
+
+
+.documentation-section h4 {
+    font-size: 18px;
+
+    color: #334155;
+
+    margin-top: 25px;
+
+    margin-bottom: 10px;
+}
+
+
+.documentation-section p {
+    margin-bottom: 18px;
+
+    color: #475569;
+
+    font-size: 16px;
+}
+
+
+.documentation-section strong {
+    color: #1e3a8a;
+}
+
+
+.documentation-section code {
+    background: #e2e8f0;
+
+    color: #be123c;
+
+    padding: 3px 7px;
+
+    border-radius: 5px;
+
+    font-family: Consolas, monospace;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   LISTES
+   ========================================================= */
+
+.documentation-section ul {
+    margin: 15px 0 20px 25px;
+}
+
+
+.documentation-section li {
+    margin-bottom: 8px;
+
+    color: #475569;
+}
+
+
+/* =========================================================
+   BLOCS DE CODE
+   ========================================================= */
+
+.documentation-section pre {
+    background: #0f172a;
+
+    color: #e2e8f0;
+
+    padding: 25px;
+
+    margin: 20px 0;
+
+    border-radius: 12px;
+
+    overflow-x: auto;
+
+    border-left: 5px solid #2563eb;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.15);
+}
+
+
+.documentation-section pre code {
+    background: transparent;
+
+    color: #e2e8f0;
+
+    padding: 0;
+
+    font-family:
+        "Consolas",
+        "Courier New",
+        monospace;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   SECTION PRESENTATION
+   ========================================================= */
+
+#presentation {
+    border-top: 5px solid #2563eb;
+}
+
+
+#presentation::before {
+    content: "📊";
+
+    display: block;
+
+    font-size: 35px;
+
+    margin-bottom: 10px;
+}
+
+
+/* =========================================================
+   WEB SCRAPING
+   ========================================================= */
+
+#scraping {
+    border-left: 5px solid #0ea5e9;
+}
+
+
+#scraping h2 {
+    border-color: #0ea5e9;
+}
+
+
+/* =========================================================
+   PYTHON
+   ========================================================= */
+
+#python {
+    border-left: 5px solid #f59e0b;
+}
+
+
+#python h2 {
+    border-color: #f59e0b;
+}
+
+
+#python h3 {
+    color: #b45309;
+}
+
+
+/* =========================================================
+   TALEND
+   ========================================================= */
+
+#talend {
+    border-left: 5px solid #8b5cf6;
+}
+
+
+#talend h2 {
+    border-color: #8b5cf6;
+}
+
+
+#talend pre {
+    border-left-color: #8b5cf6;
+}
+
+
+/* =========================================================
+   DATA WAREHOUSE
+   ========================================================= */
+
+#warehouse {
+    border-left: 5px solid #10b981;
+}
+
+
+#warehouse h2 {
+    border-color: #10b981;
+}
+
+
+/* =========================================================
+   POWER BI
+   ========================================================= */
+
+#powerbi {
+    border-left: 5px solid #f59e0b;
+}
+
+
+#powerbi h2 {
+    border-color: #f59e0b;
+}
+
+
+/* =========================================================
+   MACHINE LEARNING
+   ========================================================= */
+
+#machine-learning {
+    border-left: 5px solid #7c3aed;
+}
+
+
+#machine-learning h2 {
+    border-color: #7c3aed;
+}
+
+
+#machine-learning h3 {
+    color: #6d28d9;
+}
+
+
+#machine-learning h4 {
+    color: #4c1d95;
+}
+
+
+#machine-learning pre {
+    border-left-color: #7c3aed;
+}
+
+
+/* =========================================================
+   NODE.JS / EXPRESS
+   ========================================================= */
+
+#integration {
+    border-left: 5px solid #16a34a;
+}
+
+
+#integration h2 {
+    border-color: #16a34a;
+}
+
+
+#integration h3 {
+    color: #15803d;
+}
+
+
+/* =========================================================
+   RESULTATS
+   ========================================================= */
+
+#resultats {
+    border-left: 5px solid #2563eb;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eff6ff,
+            #ffffff
+        );
+}
+
+
+#resultats h2 {
+    border-color: #2563eb;
+}
+
+
+/* =========================================================
+   ELEMENTS CODE INLINE
+   ========================================================= */
+
+code {
+    font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.documentation-footer {
+    background: #0f172a;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 35px 20px;
+
+    margin-top: 50px;
+}
+
+
+.documentation-footer p {
+    color: #cbd5e1;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+::-webkit-scrollbar-track {
+    background: #e2e8f0;
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: #2563eb;
+
+    border-radius: 10px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1d4ed8;
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLETTE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .documentation-header {
+        padding: 55px 20px;
+    }
+
+
+    .documentation-header h1 {
+        font-size: 34px;
+    }
+
+
+    .documentation-nav ul {
+        justify-content: flex-start;
+
+        overflow-x: auto;
+
+        flex-wrap: nowrap;
+    }
+
+
+    .documentation-nav a {
+        white-space: nowrap;
+    }
+
+
+    .documentation-container {
+        width: 94%;
+
+        margin: 35px auto;
+    }
+
+
+    .documentation-section {
+        padding: 30px;
+    }
+
+
+    .documentation-section h2 {
+        font-size: 26px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .documentation-header {
+        padding: 45px 15px;
+    }
+
+
+    .documentation-header h1 {
+        font-size: 27px;
+    }
+
+
+    .documentation-header p {
+        font-size: 15px;
+    }
+
+
+    .documentation-nav {
+        position: relative;
+    }
+
+
+    .documentation-nav ul {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 5px;
+
+        padding: 10px;
+    }
+
+
+    .documentation-nav a {
+        text-align: center;
+
+        font-size: 12px;
+
+        padding: 8px 5px;
+    }
+
+
+    .documentation-container {
+        width: 94%;
+
+        margin: 25px auto;
+    }
+
+
+    .documentation-section {
+        padding: 22px;
+
+        border-radius: 14px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .documentation-section h2 {
+        font-size: 23px;
+
+        line-height: 1.3;
+    }
+
+
+    .documentation-section h3 {
+        font-size: 19px;
+    }
+
+
+    .documentation-section h4 {
+        font-size: 17px;
+    }
+
+
+    .documentation-section p {
+        font-size: 15px;
+    }
+
+
+    .documentation-section pre {
+        padding: 17px;
+
+        border-radius: 9px;
+    }
+
+
+    .documentation-section pre code {
+        font-size: 12px;
+    }
+
+
+    .documentation-footer {
+        padding: 28px 15px;
+    }
+
+}
+
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+    background: #2563eb;
+
+    color: white;
+}

@@ -1,0 +1,1649 @@
+
+
+:root {
+
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --secondary: #7c3aed;
+
+    --dark: #0f172a;
+    --dark-soft: #1e293b;
+
+    --text: #334155;
+    --text-light: #64748b;
+
+    --background: #f8fafc;
+    --white: #ffffff;
+
+    --border: #e2e8f0;
+
+    --success: #16a34a;
+    --success-bg: #f0fdf4;
+
+    --warning: #d97706;
+    --warning-bg: #fffbeb;
+
+    --code-bg: #0f172a;
+
+    --shadow:
+        0 10px 30px rgba(15, 23, 42, 0.08);
+
+    --shadow-hover:
+        0 18px 45px rgba(15, 23, 42, 0.14);
+
+    --radius: 18px;
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
+
+body {
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        var(--background);
+
+    color:
+        var(--text);
+
+    line-height:
+        1.8;
+
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.nav-container {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    min-height: 78px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding:
+        15px 6%;
+
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    backdrop-filter:
+        blur(14px);
+
+    border-bottom:
+        1px solid var(--border);
+
+    box-shadow:
+        0 4px 20px rgba(15, 23, 42, 0.05);
+
+    z-index: 1000;
+
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo {
+
+    font-size:
+        1.25rem;
+
+    font-weight:
+        800;
+
+    color:
+        var(--dark);
+
+    white-space:
+        nowrap;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+nav {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        flex-end;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        8px;
+
+}
+
+
+nav a {
+
+    text-decoration:
+        none;
+
+    color:
+        var(--text);
+
+    font-size:
+        0.9rem;
+
+    font-weight:
+        600;
+
+    padding:
+        8px 12px;
+
+    border-radius:
+        10px;
+
+    transition:
+        all 0.25s ease;
+
+}
+
+
+nav a:hover {
+
+    color:
+        var(--primary);
+
+    background:
+        #eff6ff;
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+
+    min-height:
+        650px;
+
+    padding:
+        150px 7% 100px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    text-align:
+        center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eff6ff 0%,
+            #ffffff 50%,
+            #f5f3ff 100%
+        );
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+}
+
+
+/* Décorations */
+
+.hero::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    width:
+        350px;
+
+    height:
+        350px;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(37, 99, 235, 0.08);
+
+    top:
+        -120px;
+
+    left:
+        -100px;
+
+}
+
+
+.hero::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    width:
+        300px;
+
+    height:
+        300px;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(124, 58, 237, 0.08);
+
+    bottom:
+        -130px;
+
+    right:
+        -80px;
+
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.hero-content {
+
+    max-width:
+        950px;
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+}
+
+
+.badge {
+
+    display:
+        inline-block;
+
+    padding:
+        7px 16px;
+
+    margin-bottom:
+        20px;
+
+    border-radius:
+        999px;
+
+    background:
+        #dbeafe;
+
+    color:
+        var(--primary-dark);
+
+    font-size:
+        0.85rem;
+
+    font-weight:
+        700;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.08em;
+
+}
+
+
+.hero h1 {
+
+    font-size:
+        clamp(2.5rem, 6vw, 5rem);
+
+    line-height:
+        1.1;
+
+    color:
+        var(--dark);
+
+    margin-bottom:
+        25px;
+
+}
+
+
+.hero h1 span {
+
+    display:
+        block;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    -webkit-background-clip:
+        text;
+
+    background-clip:
+        text;
+
+    color:
+        transparent;
+
+}
+
+
+.hero p {
+
+    max-width:
+        800px;
+
+    margin:
+        0 auto 35px;
+
+    font-size:
+        1.15rem;
+
+    color:
+        var(--text-light);
+
+}
+
+
+/* =========================================================
+   HERO BUTTON
+========================================================= */
+
+.hero-button {
+
+    display:
+        inline-block;
+
+    padding:
+        14px 28px;
+
+    border-radius:
+        12px;
+
+    background:
+        var(--primary);
+
+    color:
+        white;
+
+    text-decoration:
+        none;
+
+    font-weight:
+        700;
+
+    box-shadow:
+        0 10px 25px rgba(37, 99, 235, 0.25);
+
+    transition:
+        all 0.25s ease;
+
+}
+
+
+.hero-button:hover {
+
+    background:
+        var(--primary-dark);
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 15px 30px rgba(37, 99, 235, 0.3);
+
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+
+    width:
+        min(1150px, 92%);
+
+    margin:
+        0 auto;
+
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+section {
+
+    padding:
+        100px 0;
+
+    scroll-margin-top:
+        90px;
+
+    border-bottom:
+        1px solid var(--border);
+
+}
+
+
+section:last-child {
+
+    border-bottom:
+        none;
+
+}
+
+
+/* =========================================================
+   SECTION NUMBER
+========================================================= */
+
+.section-number {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    width:
+        52px;
+
+    height:
+        52px;
+
+    margin-bottom:
+        15px;
+
+    border-radius:
+        14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    color:
+        white;
+
+    font-size:
+        1rem;
+
+    font-weight:
+        800;
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.2);
+
+}
+
+
+/* =========================================================
+   TITRES
+========================================================= */
+
+h2 {
+
+    font-size:
+        clamp(2rem, 4vw, 3rem);
+
+    line-height:
+        1.2;
+
+    color:
+        var(--dark);
+
+    margin-bottom:
+        30px;
+
+}
+
+
+h3 {
+
+    font-size:
+        1.25rem;
+
+    color:
+        var(--dark);
+
+    margin:
+        35px 0 15px;
+
+}
+
+
+p {
+
+    margin-bottom:
+        20px;
+
+}
+
+
+strong {
+
+    color:
+        var(--primary-dark);
+
+    font-weight:
+        700;
+
+}
+
+
+/* =========================================================
+   FLOW
+========================================================= */
+
+.flow {
+
+    margin-top:
+        45px;
+
+    padding:
+        25px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        12px;
+
+    background:
+        white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        var(--shadow);
+
+}
+
+
+.flow-item {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    padding:
+        12px 16px;
+
+    background:
+        #f8fafc;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        12px;
+
+    font-weight:
+        700;
+
+    color:
+        var(--dark);
+
+}
+
+
+.flow-item span {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    width:
+        27px;
+
+    height:
+        27px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--primary);
+
+    color:
+        white;
+
+    font-size:
+        0.75rem;
+
+}
+
+
+.arrow {
+
+    color:
+        var(--primary);
+
+    font-size:
+        1.4rem;
+
+    font-weight:
+        800;
+
+}
+
+
+/* =========================================================
+   CODE
+========================================================= */
+
+pre {
+
+    margin:
+        20px 0 25px;
+
+    padding:
+        25px;
+
+    background:
+        var(--code-bg);
+
+    color:
+        #e2e8f0;
+
+    border-radius:
+        14px;
+
+    overflow-x:
+        auto;
+
+    border-left:
+        4px solid var(--primary);
+
+    box-shadow:
+        0 10px 25px rgba(15, 23, 42, 0.12);
+
+}
+
+
+pre code {
+
+    font-family:
+        "Consolas",
+        "Courier New",
+        monospace;
+
+    font-size:
+        0.92rem;
+
+    line-height:
+        1.7;
+
+}
+
+
+code {
+
+    font-family:
+        "Consolas",
+        "Courier New",
+        monospace;
+
+}
+
+
+/* =========================================================
+   INLINE CODE
+========================================================= */
+
+p code {
+
+    padding:
+        3px 7px;
+
+    border-radius:
+        6px;
+
+    background:
+        #e2e8f0;
+
+    color:
+        var(--primary-dark);
+
+    font-size:
+        0.9em;
+
+}
+
+
+/* =========================================================
+   HIGHLIGHT
+========================================================= */
+
+.highlight {
+
+    margin:
+        35px 0;
+
+    padding:
+        25px 30px;
+
+    border-left:
+        5px solid var(--primary);
+
+    background:
+        #eff6ff;
+
+    color:
+        var(--dark);
+
+    border-radius:
+        12px;
+
+    font-size:
+        1.05rem;
+
+    box-shadow:
+        var(--shadow);
+
+}
+
+
+/* =========================================================
+   ENDPOINT
+========================================================= */
+
+.endpoint {
+
+    display:
+        inline-block;
+
+    margin:
+        25px 0;
+
+    padding:
+        12px 20px;
+
+    border-radius:
+        10px;
+
+    background:
+        var(--dark);
+
+    color:
+        #ffffff;
+
+    font-family:
+        "Consolas",
+        monospace;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.03em;
+
+}
+
+
+/* =========================================================
+   ARCHITECTURE
+========================================================= */
+
+.architecture {
+
+    margin:
+        50px auto;
+
+    max-width:
+        750px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+}
+
+
+.architecture-box {
+
+    width:
+        min(100%, 600px);
+
+    padding:
+        20px 25px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        16px;
+
+    box-shadow:
+        var(--shadow);
+
+    transition:
+        all 0.25s ease;
+
+}
+
+
+.architecture-box:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        var(--shadow-hover);
+
+}
+
+
+.architecture-box strong {
+
+    font-size:
+        1.15rem;
+
+    color:
+        var(--dark);
+
+}
+
+
+.architecture-box small {
+
+    margin-top:
+        4px;
+
+    color:
+        var(--text-light);
+
+}
+
+
+.architecture-box.frontend {
+
+    border:
+        2px solid var(--primary);
+
+}
+
+
+.architecture-box.python {
+
+    border:
+        2px solid var(--secondary);
+
+}
+
+
+.architecture-arrow {
+
+    margin:
+        12px 0;
+
+    color:
+        var(--primary);
+
+    font-weight:
+        800;
+
+    font-size:
+        0.95rem;
+
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+table {
+
+    width:
+        100%;
+
+    border-collapse:
+        collapse;
+
+    margin:
+        35px 0;
+
+    background:
+        white;
+
+    border-radius:
+        16px;
+
+    overflow:
+        hidden;
+
+    box-shadow:
+        var(--shadow);
+
+}
+
+
+thead {
+
+    background:
+        var(--dark);
+
+    color:
+        white;
+
+}
+
+
+th,
+td {
+
+    padding:
+        17px 20px;
+
+    text-align:
+        left;
+
+    border-bottom:
+        1px solid var(--border);
+
+}
+
+
+th {
+
+    font-weight:
+        700;
+
+}
+
+
+td {
+
+    color:
+        var(--text);
+
+}
+
+
+tbody tr {
+
+    transition:
+        background 0.2s ease;
+
+}
+
+
+tbody tr:hover {
+
+    background:
+        #f8fafc;
+
+}
+
+
+tbody tr:last-child td {
+
+    border-bottom:
+        none;
+
+}
+
+
+/* =========================================================
+   PRESENTATION SCRIPT
+========================================================= */
+
+.presentation-script {
+
+    margin-top:
+        45px;
+
+    padding:
+        35px;
+
+    background:
+        white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        var(--shadow);
+
+}
+
+
+.presentation-script h3 {
+
+    margin-top:
+        0;
+
+    color:
+        var(--primary-dark);
+
+}
+
+
+.presentation-script p {
+
+    position:
+        relative;
+
+    padding-left:
+        20px;
+
+}
+
+
+.presentation-script p::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    top:
+        11px;
+
+    width:
+        6px;
+
+    height:
+        6px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--primary);
+
+}
+
+
+/* =========================================================
+   SUCCESS BOX
+========================================================= */
+
+.success-box {
+
+    margin-top:
+        40px;
+
+    padding:
+        30px;
+
+    background:
+        var(--success-bg);
+
+    border:
+        1px solid #bbf7d0;
+
+    border-left:
+        5px solid var(--success);
+
+    border-radius:
+        14px;
+
+    color:
+        #166534;
+
+    font-weight:
+        600;
+
+    line-height:
+        2;
+
+}
+
+
+/* =========================================================
+   FINAL FLOW
+========================================================= */
+
+.final-flow {
+
+    margin:
+        45px 0;
+
+    padding:
+        25px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eff6ff,
+            #f5f3ff
+        );
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        var(--shadow);
+
+}
+
+
+.final-flow span {
+
+    padding:
+        10px 15px;
+
+    border-radius:
+        10px;
+
+    background:
+        white;
+
+    border:
+        1px solid var(--border);
+
+    color:
+        var(--dark);
+
+    font-weight:
+        700;
+
+}
+
+
+.final-flow b {
+
+    color:
+        var(--primary);
+
+    font-size:
+        1.2rem;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    margin-top:
+        40px;
+
+    padding:
+        45px 20px;
+
+    text-align:
+        center;
+
+    background:
+        var(--dark);
+
+    color:
+        #cbd5e1;
+
+}
+
+
+footer p {
+
+    margin:
+        5px 0;
+
+}
+
+
+footer p:first-child {
+
+    color:
+        white;
+
+    font-weight:
+        700;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .nav-container {
+
+        padding:
+            14px 3%;
+
+    }
+
+    nav {
+
+        gap:
+            3px;
+
+    }
+
+    nav a {
+
+        font-size:
+            0.8rem;
+
+        padding:
+            7px 9px;
+
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .nav-container {
+
+        position:
+            relative;
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+        padding:
+            18px;
+
+    }
+
+
+    .logo {
+
+        text-align:
+            center;
+
+    }
+
+
+    nav {
+
+        justify-content:
+            center;
+
+    }
+
+
+    nav a {
+
+        font-size:
+            0.78rem;
+
+    }
+
+
+    .hero {
+
+        min-height:
+            560px;
+
+        padding:
+            70px 20px;
+
+    }
+
+
+    .hero h1 {
+
+        font-size:
+            2.5rem;
+
+    }
+
+
+    .hero p {
+
+        font-size:
+            1rem;
+
+    }
+
+
+    main {
+
+        width:
+            90%;
+
+    }
+
+
+    section {
+
+        padding:
+            65px 0;
+
+        scroll-margin-top:
+            20px;
+
+    }
+
+
+    h2 {
+
+        font-size:
+            2rem;
+
+    }
+
+
+    h3 {
+
+        font-size:
+            1.15rem;
+
+    }
+
+
+    .flow {
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .arrow {
+
+        transform:
+            rotate(90deg);
+
+    }
+
+
+    .flow-item {
+
+        width:
+            100%;
+
+        justify-content:
+            center;
+
+    }
+
+
+    .architecture-box {
+
+        width:
+            100%;
+
+    }
+
+
+    table {
+
+        display:
+            block;
+
+        overflow-x:
+            auto;
+
+        white-space:
+            nowrap;
+
+    }
+
+
+    th,
+    td {
+
+        padding:
+            13px 15px;
+
+    }
+
+
+    pre {
+
+        padding:
+            18px;
+
+    }
+
+
+    pre code {
+
+        font-size:
+            0.78rem;
+
+    }
+
+
+    .presentation-script {
+
+        padding:
+            22px;
+
+    }
+
+
+    .final-flow {
+
+        flex-direction:
+            column;
+
+    }
+
+
+    .final-flow b {
+
+        transform:
+            rotate(90deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .hero h1 {
+
+        font-size:
+            2.1rem;
+
+    }
+
+
+    .badge {
+
+        font-size:
+            0.72rem;
+
+    }
+
+
+    .section-number {
+
+        width:
+            45px;
+
+        height:
+            45px;
+
+    }
+
+
+    .hero-button {
+
+        width:
+            100%;
+
+        text-align:
+            center;
+
+    }
+
+
+    .highlight {
+
+        padding:
+            20px;
+
+    }
+
+
+    .success-box {
+
+        padding:
+            22px;
+
+    }
+
+}

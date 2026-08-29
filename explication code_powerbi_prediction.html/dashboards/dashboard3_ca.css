@@ -1,0 +1,667 @@
+
+/* =====================================================
+   DASHBOARD BANQUE — CSS
+   Documentation technique
+===================================================== */
+
+
+/* =====================================================
+   1. RESET
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =====================================================
+   2. BODY
+===================================================== */
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f7fb;
+    color: #263238;
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   3. HEADER
+===================================================== */
+
+.documentation-header {
+    background: linear-gradient(
+        135deg,
+        #0b3d91,
+        #1565c0,
+        #1976d2
+    );
+
+    color: white;
+
+    text-align: center;
+
+    padding: 55px 25px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+
+.documentation-header h1 {
+    font-size: 42px;
+
+    font-weight: 700;
+
+    margin-bottom: 12px;
+}
+
+
+.documentation-header p {
+    font-size: 18px;
+
+    opacity: 0.95;
+
+    max-width: 900px;
+
+    margin: auto;
+}
+
+
+/* =====================================================
+   4. NAVIGATION
+===================================================== */
+
+.documentation-nav {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #dbe3ec;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+
+.documentation-nav ul {
+    list-style: none;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    padding: 12px 20px;
+}
+
+
+.documentation-nav li {
+    display: inline-block;
+}
+
+
+.documentation-nav a {
+    display: block;
+
+    text-decoration: none;
+
+    color: #0b3d91;
+
+    font-weight: 600;
+
+    font-size: 14px;
+
+    padding: 8px 13px;
+
+    border-radius: 6px;
+
+    transition: all 0.3s ease;
+}
+
+
+.documentation-nav a:hover {
+    background: #0b3d91;
+
+    color: white;
+
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   5. MAIN CONTAINER
+===================================================== */
+
+.documentation-container {
+    width: 92%;
+
+    max-width: 1200px;
+
+    margin: 40px auto 70px;
+}
+
+
+/* =====================================================
+   6. DOCUMENTATION SECTIONS
+===================================================== */
+
+.documentation-section {
+    background: white;
+
+    margin-bottom: 35px;
+
+    padding: 35px 40px;
+
+    border-radius: 12px;
+
+    border-left: 5px solid #1565c0;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+
+    scroll-margin-top: 90px;
+}
+
+
+/* =====================================================
+   7. TITRES PRINCIPAUX
+===================================================== */
+
+.documentation-section h2 {
+    color: #0b3d91;
+
+    font-size: 28px;
+
+    margin-bottom: 22px;
+
+    padding-bottom: 12px;
+
+    border-bottom: 2px solid #e3eaf2;
+}
+
+
+.documentation-section h3 {
+    color: #1565c0;
+
+    font-size: 21px;
+
+    margin-top: 30px;
+
+    margin-bottom: 12px;
+}
+
+
+.documentation-section h4 {
+    color: #37474f;
+
+    font-size: 18px;
+
+    margin-top: 25px;
+
+    margin-bottom: 10px;
+}
+
+
+.documentation-section p {
+    margin-bottom: 16px;
+
+    color: #455a64;
+
+    font-size: 16px;
+}
+
+
+/* =====================================================
+   8. CODE INLINE
+===================================================== */
+
+code {
+    background: #eef3f8;
+
+    color: #c62828;
+
+    padding: 3px 7px;
+
+    border-radius: 4px;
+
+    font-family: Consolas, "Courier New", monospace;
+
+    font-size: 0.92em;
+}
+
+
+/* =====================================================
+   9. BLOCS DE CODE
+===================================================== */
+
+pre {
+    background: #17202a;
+
+    color: #e8f1f8;
+
+    padding: 22px;
+
+    margin: 20px 0 25px;
+
+    border-radius: 8px;
+
+    overflow-x: auto;
+
+    border: 1px solid #263746;
+
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+
+pre code {
+    background: transparent;
+
+    color: #e8f1f8;
+
+    padding: 0;
+
+    font-family: Consolas, "Courier New", monospace;
+
+    font-size: 14px;
+
+    line-height: 1.65;
+
+    white-space: pre;
+}
+
+
+/* =====================================================
+   10. LISTES
+===================================================== */
+
+.documentation-section ul,
+.documentation-section ol {
+    margin: 15px 0 25px;
+
+    padding-left: 30px;
+}
+
+
+.documentation-section li {
+    margin-bottom: 10px;
+
+    color: #455a64;
+}
+
+
+.documentation-section ul li::marker {
+    color: #1565c0;
+}
+
+
+.documentation-section ol li::marker {
+    color: #0b3d91;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   11. STRONG
+===================================================== */
+
+.documentation-section strong {
+    color: #0b3d91;
+}
+
+
+/* =====================================================
+   12. ZONE MACHINE LEARNING
+===================================================== */
+
+#prediction {
+    border-left-color: #7b1fa2;
+}
+
+
+#prediction h2 {
+    color: #6a1b9a;
+}
+
+
+#prediction h3 {
+    color: #7b1fa2;
+}
+
+
+/* =====================================================
+   13. ZONE NODE.JS
+===================================================== */
+
+#node-service {
+    border-left-color: #00897b;
+}
+
+
+#node-service h2 {
+    color: #00695c;
+}
+
+
+#node-service h3 {
+    color: #00897b;
+}
+
+
+/* =====================================================
+   14. ZONE API EXPRESS
+===================================================== */
+
+#api {
+    border-left-color: #ef6c00;
+}
+
+
+#api h2 {
+    color: #e65100;
+}
+
+
+#api h3 {
+    color: #ef6c00;
+}
+
+
+/* =====================================================
+   15. ZONE POWER BI
+===================================================== */
+
+#powerbi {
+    border-left-color: #f9a825;
+}
+
+
+#powerbi h2 {
+    color: #ef8f00;
+}
+
+
+#powerbi h3 {
+    color: #f9a825;
+}
+
+
+/* =====================================================
+   16. ZONE TALEND
+===================================================== */
+
+#talend {
+    border-left-color: #00838f;
+}
+
+
+#talend h2 {
+    color: #006064;
+}
+
+
+#talend h3 {
+    color: #00838f;
+}
+
+
+/* =====================================================
+   17. ZONE DATA WAREHOUSE
+===================================================== */
+
+#warehouse {
+    border-left-color: #3949ab;
+}
+
+
+#warehouse h2 {
+    color: #283593;
+}
+
+
+/* =====================================================
+   18. WORKFLOW
+===================================================== */
+
+#workflow pre {
+    background: #111827;
+
+    text-align: center;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    line-height: 2;
+}
+
+
+/* =====================================================
+   19. RESULTATS
+===================================================== */
+
+#resultats {
+    border-left-color: #2e7d32;
+
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #f3faf4
+    );
+}
+
+
+#resultats h2 {
+    color: #2e7d32;
+}
+
+
+/* =====================================================
+   20. FOOTER
+===================================================== */
+
+.documentation-footer {
+    background: #0b3d91;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 25px 20px;
+
+    margin-top: 40px;
+}
+
+
+.documentation-footer p {
+    margin: 0;
+
+    font-size: 15px;
+
+    opacity: 0.95;
+}
+
+
+/* =====================================================
+   21. ANIMATION DES SECTIONS
+===================================================== */
+
+.documentation-section {
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.documentation-section:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+}
+
+
+/* =====================================================
+   22. RESPONSIVE TABLETTE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .documentation-header h1 {
+        font-size: 34px;
+    }
+
+    .documentation-header p {
+        font-size: 16px;
+    }
+
+    .documentation-nav ul {
+        gap: 3px;
+    }
+
+    .documentation-nav a {
+        font-size: 13px;
+
+        padding: 7px 9px;
+    }
+
+    .documentation-container {
+        width: 94%;
+    }
+
+    .documentation-section {
+        padding: 30px;
+    }
+
+    .documentation-section h2 {
+        font-size: 25px;
+    }
+
+}
+
+
+/* =====================================================
+   23. RESPONSIVE MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .documentation-header {
+        padding: 40px 18px;
+    }
+
+    .documentation-header h1 {
+        font-size: 28px;
+    }
+
+    .documentation-header p {
+        font-size: 14px;
+    }
+
+
+    .documentation-nav {
+        position: relative;
+    }
+
+
+    .documentation-nav ul {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 5px;
+
+        padding: 10px;
+    }
+
+
+    .documentation-nav a {
+        text-align: center;
+
+        font-size: 12px;
+
+        padding: 8px 5px;
+    }
+
+
+    .documentation-container {
+        width: 94%;
+
+        margin-top: 25px;
+    }
+
+
+    .documentation-section {
+        padding: 22px 18px;
+
+        margin-bottom: 25px;
+
+        border-left-width: 4px;
+
+        border-radius: 9px;
+    }
+
+
+    .documentation-section h2 {
+        font-size: 22px;
+
+        line-height: 1.4;
+    }
+
+
+    .documentation-section h3 {
+        font-size: 18px;
+    }
+
+
+    .documentation-section p {
+        font-size: 15px;
+
+        text-align: left;
+    }
+
+
+    pre {
+        padding: 15px;
+
+        font-size: 12px;
+
+        border-radius: 6px;
+    }
+
+
+    pre code {
+        font-size: 12px;
+    }
+
+
+    .documentation-section ul,
+    .documentation-section ol {
+        padding-left: 23px;
+    }
+
+
+    .documentation-footer {
+        padding: 20px 15px;
+    }
+
+}
+
+
+/* =====================================================
+   24. SMOOTH SCROLL
+===================================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+

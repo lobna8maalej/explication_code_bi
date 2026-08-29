@@ -1,0 +1,722 @@
+/* =========================================================
+   RESET GLOBAL
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    background: #f4f8fb;
+    color: #263238;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   DOCUMENTATION PRINCIPALE
+   ========================================================= */
+
+.documentation {
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 40px 25px 80px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.documentation-header {
+    position: relative;
+    text-align: center;
+    padding: 55px 35px;
+    margin-bottom: 45px;
+
+    background: linear-gradient(
+        135deg,
+        #0f766e,
+        #14b8a6,
+        #38bdf8
+    );
+
+    color: white;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 20px 45px rgba(15, 118, 110, 0.20);
+
+    overflow: hidden;
+}
+
+
+/* Effet décoratif */
+
+.documentation-header::before {
+    content: "";
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.10);
+
+    top: -100px;
+    left: -70px;
+}
+
+.documentation-header::after {
+    content: "";
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    bottom: -130px;
+    right: -80px;
+}
+
+
+.documentation-header h1 {
+    position: relative;
+    z-index: 2;
+
+    font-size: 2.5rem;
+    font-weight: 800;
+
+    margin-bottom: 18px;
+
+    letter-spacing: -0.5px;
+}
+
+
+.documentation-header p {
+    position: relative;
+    z-index: 2;
+
+    max-width: 900px;
+
+    margin: auto;
+
+    font-size: 1.08rem;
+
+    line-height: 1.8;
+
+    color: rgba(255, 255, 255, 0.95);
+}
+
+
+/* =========================================================
+   CHAPTER
+   ========================================================= */
+
+.chapter {
+    position: relative;
+
+    background: white;
+
+    margin-bottom: 30px;
+
+    padding: 35px 40px;
+
+    border-radius: 18px;
+
+    border: 1px solid #e4edf2;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.06);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+
+.chapter:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 15px 35px rgba(15, 23, 42, 0.09);
+
+    border-color: #b8e6df;
+}
+
+
+/* =========================================================
+   NUMÉRO DU CHAPITRE
+   ========================================================= */
+
+.chapter::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 28px;
+
+    width: 5px;
+    height: 65px;
+
+    background: linear-gradient(
+        to bottom,
+        #0f766e,
+        #38bdf8
+    );
+
+    border-radius: 0 8px 8px 0;
+}
+
+
+/* =========================================================
+   TITRES
+   ========================================================= */
+
+.chapter h2 {
+    color: #0f766e;
+
+    font-size: 1.55rem;
+
+    font-weight: 750;
+
+    margin-bottom: 20px;
+
+    padding-left: 5px;
+
+    line-height: 1.4;
+}
+
+
+.chapter h2::first-letter {
+    color: #0ea5e9;
+}
+
+
+/* =========================================================
+   PARAGRAPHES
+   ========================================================= */
+
+.chapter p {
+    font-size: 1rem;
+
+    color: #455a64;
+
+    text-align: justify;
+
+    margin-bottom: 10px;
+}
+
+
+/* =========================================================
+   STRONG
+   ========================================================= */
+
+.chapter strong {
+    color: #0f766e;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   CODE INLINE
+   ========================================================= */
+
+.chapter code {
+    font-family:
+        "Cascadia Code",
+        "Consolas",
+        monospace;
+
+    font-size: 0.9rem;
+
+    color: #0f766e;
+
+    background: #ecfdf5;
+
+    padding: 3px 7px;
+
+    border-radius: 6px;
+
+    border: 1px solid #ccfbf1;
+}
+
+
+/* =========================================================
+   FLOW / SCHÉMA
+   ========================================================= */
+
+.flow {
+    width: 100%;
+
+    margin: 35px auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   FLOW BOX
+   ========================================================= */
+
+.flow-box {
+    width: min(500px, 90%);
+
+    padding: 16px 25px;
+
+    text-align: center;
+
+    font-weight: 700;
+
+    font-size: 1rem;
+
+    color: #0f766e;
+
+    background: linear-gradient(
+        135deg,
+        #ecfeff,
+        #f0fdfa
+    );
+
+    border: 2px solid #99f6e4;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 6px 18px rgba(15, 118, 110, 0.08);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+
+.flow-box:hover {
+    transform: scale(1.02);
+
+    background: #ccfbf1;
+
+    box-shadow:
+        0 10px 25px rgba(15, 118, 110, 0.13);
+}
+
+
+/* =========================================================
+   FLÈCHES
+   ========================================================= */
+
+.arrow {
+    font-size: 1.8rem;
+
+    color: #0ea5e9;
+
+    font-weight: 800;
+
+    margin: 7px 0;
+}
+
+
+/* =========================================================
+   IFRAME POWER BI
+   ========================================================= */
+
+.iframe-wrapper {
+    width: 100%;
+
+    margin: 30px 0;
+
+    padding: 12px;
+
+    background: #f0fdfa;
+
+    border: 1px solid #ccfbf1;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 10px 30px rgba(15, 118, 110, 0.08);
+}
+
+
+.para-iframe {
+    display: block;
+
+    width: 100%;
+
+    min-height: 650px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: white;
+}
+
+
+/* =========================================================
+   INFO CARD
+   ========================================================= */
+
+.info-card {
+    margin-top: 25px;
+
+    padding: 25px;
+
+    background: linear-gradient(
+        135deg,
+        #f0fdfa,
+        #ecfeff
+    );
+
+    border: 1px solid #99f6e4;
+
+    border-left: 6px solid #0f766e;
+
+    border-radius: 14px;
+}
+
+
+.info-card h2 {
+    margin-bottom: 8px;
+
+    color: #0f766e;
+}
+
+
+.info-card p {
+    margin: 0;
+
+    color: #455a64;
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.loading {
+    display: inline-block;
+
+    margin: 25px 0;
+
+    padding: 14px 22px;
+
+    background: #eff6ff;
+
+    color: #0369a1;
+
+    border: 1px solid #bae6fd;
+
+    border-radius: 10px;
+
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.error {
+    margin: 25px 0;
+
+    padding: 16px 20px;
+
+    background: #fef2f2;
+
+    color: #b91c1c;
+
+    border-left: 5px solid #ef4444;
+
+    border-radius: 10px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   LISTE DES DONNÉES
+   ========================================================= */
+
+.list-box {
+    margin-top: 30px;
+
+    padding: 25px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 16px;
+}
+
+
+.list-box ul {
+    list-style: none;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(260px, 1fr));
+
+    gap: 14px;
+
+    margin: 0;
+}
+
+
+.list-box li {
+    padding: 15px 18px;
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 10px;
+
+    color: #37474f;
+
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.list-box li:hover {
+    transform: translateY(-2px);
+
+    border-color: #5eead4;
+}
+
+
+/* =========================================================
+   CHART BOX
+   ========================================================= */
+
+.chart-box {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 25px;
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.06);
+}
+
+
+/* =========================================================
+   TITRE GRAPHIQUE
+   ========================================================= */
+
+.chart-box h3 {
+    color: #0f766e;
+
+    margin-bottom: 20px;
+
+    font-size: 1.25rem;
+}
+
+
+/* =========================================================
+   RESPONSIVE TABLETTE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .documentation {
+        padding: 25px 18px 60px;
+    }
+
+    .documentation-header {
+        padding: 45px 25px;
+    }
+
+    .documentation-header h1 {
+        font-size: 2rem;
+    }
+
+    .documentation-header p {
+        font-size: 1rem;
+    }
+
+    .chapter {
+        padding: 30px;
+    }
+
+    .chapter h2 {
+        font-size: 1.35rem;
+    }
+
+    .para-iframe {
+        min-height: 550px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        line-height: 1.7;
+    }
+
+    .documentation {
+        padding: 15px 10px 40px;
+    }
+
+    .documentation-header {
+        padding: 35px 18px;
+
+        border-radius: 18px;
+
+        margin-bottom: 25px;
+    }
+
+    .documentation-header h1 {
+        font-size: 1.65rem;
+    }
+
+    .documentation-header p {
+        font-size: 0.95rem;
+    }
+
+    .chapter {
+        padding: 25px 20px;
+
+        margin-bottom: 20px;
+
+        border-radius: 14px;
+    }
+
+    .chapter::before {
+        top: 22px;
+
+        height: 55px;
+
+        width: 4px;
+    }
+
+    .chapter h2 {
+        font-size: 1.2rem;
+
+        margin-bottom: 15px;
+    }
+
+    .chapter p {
+        font-size: 0.94rem;
+
+        text-align: left;
+    }
+
+    .flow-box {
+        width: 95%;
+
+        font-size: 0.9rem;
+
+        padding: 14px 15px;
+    }
+
+    .arrow {
+        font-size: 1.5rem;
+    }
+
+    .para-iframe {
+        min-height: 450px;
+    }
+
+    .iframe-wrapper {
+        padding: 7px;
+    }
+
+    .list-box {
+        padding: 15px;
+    }
+
+    .list-box ul {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-box {
+        padding: 15px;
+    }
+}
+
+
+/* =========================================================
+   IMPRESSION
+   ========================================================= */
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+    .documentation {
+        max-width: 100%;
+
+        padding: 0;
+    }
+
+    .documentation-header {
+        color: black;
+
+        background: white;
+
+        border: 2px solid #0f766e;
+
+        box-shadow: none;
+    }
+
+    .chapter {
+        box-shadow: none;
+
+        border: 1px solid #ccc;
+
+        break-inside: avoid;
+    }
+
+    .chapter:hover,
+    .flow-box:hover,
+    .list-box li:hover {
+        transform: none;
+    }
+
+    .para-iframe {
+        display: none;
+    }
+}

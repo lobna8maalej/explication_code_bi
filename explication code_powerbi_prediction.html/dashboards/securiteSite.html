@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Documentation détaillée du système de sécurité et d'authentification Node.js, Express, Sequelize, MySQL, bcrypt et JWT."
+    >
+
+    <title>Sécurité et Authentification | Node.js, Express, MySQL et JWT</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+            line-height: 1.8;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        header p {
+            max-width: 900px;
+            margin: auto;
+            color: #d1d5db;
+            font-size: 17px;
+        }
+
+        nav {
+            background: #1f2937;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 12px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #60a5fa;
+        }
+
+        main {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        section {
+            background: white;
+            padding: 35px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            color: #111827;
+            margin-bottom: 20px;
+            font-size: 28px;
+            border-left: 5px solid #2563eb;
+            padding-left: 15px;
+        }
+
+        h3 {
+            color: #1d4ed8;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+            font-size: 16px;
+        }
+
+        code {
+            background: #eef2ff;
+            color: #1e3a8a;
+            padding: 3px 7px;
+            border-radius: 5px;
+            font-family: Consolas, monospace;
+        }
+
+        pre {
+            background: #111827;
+            color: #e5e7eb;
+            padding: 25px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .architecture {
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-family: Consolas, monospace;
+            white-space: pre-line;
+        }
+
+        .security {
+            background: #ecfdf5;
+            border-left: 5px solid #059669;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .warning {
+            background: #fff7ed;
+            border-left: 5px solid #ea580c;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        footer {
+            background: #111827;
+            color: #d1d5db;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        footer strong {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 28px;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 5px;
+            }
+
+            section {
+                padding: 22px;
+            }
+
+            pre {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>🔐 Sécurité et Authentification de l'Application</h1>
+
+    <p>
+        Documentation technique du système d'inscription, de connexion,
+        de protection des mots de passe, d'authentification JWT et de
+        sécurisation des routes avec Node.js, Express, Sequelize et MySQL.
+    </p>
+
+</header>
+
+<nav>
+
+    <a href="#presentation">Présentation</a>
+    <a href="#database">Base de données</a>
+    <a href="#user">Modèle User</a>
+    <a href="#register">Register</a>
+    <a href="#login">Login</a>
+    <a href="#jwt">JWT</a>
+    <a href="#middleware">Middleware</a>
+    <a href="#routes">Routes</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#conclusion">Conclusion</a>
+
+</nav>
+
+<main>
+
+    <!-- =====================================================
+         PRESENTATION
+    ====================================================== -->
+
+    <section id="presentation">
+
+        <h2>1. Présentation générale de la sécurité</h2>
+
+        <p>
+            Dans cette partie du projet, un système complet d'authentification
+            et de sécurisation des routes a été mis en place afin de protéger
+            l'accès aux fonctionnalités sensibles de l'application. Le système
+            repose principalement sur plusieurs technologies complémentaires :
+            Node.js pour l'exécution du backend, Express pour la création des
+            routes HTTP, Sequelize comme ORM permettant de communiquer avec
+            MySQL, bcryptjs pour protéger les mots de passe et JSON Web Token,
+            appelé JWT, pour gérer l'authentification des utilisateurs. Le
+            principe général est de permettre à un utilisateur de créer un
+            compte avec un nom, une adresse email et un mot de passe, puis de
+            pouvoir se connecter avec ces informations. Lors de l'inscription,
+            le mot de passe original n'est jamais enregistré directement dans
+            la base de données. Il est transformé en une valeur hachée grâce
+            à bcrypt. Lors de la connexion, le mot de passe fourni par
+            l'utilisateur est comparé au hash enregistré dans MySQL. Si les
+            informations sont correctes, le serveur génère un token JWT
+            contenant certaines informations permettant d'identifier
+            l'utilisateur. Le frontend reçoit ensuite ce token et doit le
+            transmettre lors de l'accès aux routes protégées. Le middleware
+            <code>autorize</code> récupère alors le token dans l'en-tête HTTP
+            <code>Authorization</code>, vérifie sa validité avec
+            <code>jwt.verify()</code> et la clé secrète
+            <code>JWT_SECRET</code>. Lorsque le token est valide, les
+            informations décodées sont placées dans <code>req.user</code> et
+            la fonction <code>next()</code> permet à la requête de continuer.
+            Si aucun token n'est fourni ou si le token est invalide ou expiré,
+            le serveur bloque l'accès et retourne une réponse HTTP
+            <code>401 Unauthorized</code>. L'architecture permet donc de
+            séparer clairement plusieurs niveaux de sécurité : la gestion des
+            utilisateurs dans MySQL, la protection des mots de passe avec
+            bcrypt, l'authentification avec JWT et la protection des routes
+            avec un middleware Express.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         DATABASE
+    ====================================================== -->
+
+    <section id="database">
+
+        <h2>2. Connexion à MySQL avec Sequelize</h2>
+
+        <p>
+            Le premier niveau du système correspond à la connexion entre le
+            serveur Node.js et la base de données MySQL. Pour réaliser cette
+            connexion, le projet utilise Sequelize. Sequelize est un ORM
+            permettant de manipuler une base de données relationnelle à
+            travers des modèles JavaScript. Cela signifie que le développeur
+            peut utiliser des méthodes comme <code>findOne()</code> ou
+            <code>create()</code> au lieu d'écrire directement toutes les
+            requêtes SQL. Dans le fichier <code>config/db.js</code>, la
+            bibliothèque Sequelize est importée avec
+            <code>const { Sequelize, DataTypes } = require("sequelize")</code>.
+            L'objet <code>sequelize</code> est ensuite créé avec le nom de la
+            base de données <code>POWERBI_PREDICTION</code>, l'utilisateur
+            MySQL <code>root</code>, un mot de passe vide dans cet
+            environnement de développement, l'hôte <code>localhost</code> et
+            le dialecte <code>mysql</code>. Le paramètre
+            <code>localhost</code> indique que MySQL fonctionne sur la même
+            machine que le serveur Node.js, tandis que
+            <code>dialect: "mysql"</code> indique à Sequelize que le système
+            de gestion de base de données utilisé est MySQL. Enfin, la
+            connexion est exportée avec <code>module.exports</code> afin
+            qu'elle puisse être utilisée par les modèles et les contrôleurs
+            de l'application. Cette organisation permet de centraliser la
+            configuration de la base de données et de réutiliser la même
+            connexion dans les différentes parties du backend.
+        </p>
+
+        <pre><code>const { Sequelize, DataTypes } = require("sequelize");
+
+const sequelize = new Sequelize(
+    "POWERBI_PREDICTION",
+    "root",
+    "",
+    {
+        host: "localhost",
+        dialect: "mysql"
+    }
+);
+
+module.exports = {
+    sequelize,
+};</code></pre>
+
+    </section>
+
+
+    <!-- =====================================================
+         USER MODEL
+    ====================================================== -->
+
+    <section id="user">
+
+        <h2>3. Création du modèle User</h2>
+
+        <p>
+            Le modèle <code>User</code> représente la structure des utilisateurs
+            enregistrés dans la base de données. Le fichier commence par
+            importer <code>DataTypes</code> depuis Sequelize ainsi que la
+            connexion <code>sequelize</code> définie dans
+            <code>config/db.js</code>. La fonction
+            <code>sequelize.define("User", ...)</code> permet ensuite de
+            créer un modèle appelé <code>User</code>. Ce modèle contient
+            quatre informations principales : l'identifiant, le nom, l'email
+            et le mot de passe. Le champ <code>id</code> est de type entier
+            grâce à <code>DataTypes.INTEGER</code>, il est automatiquement
+            incrémenté avec <code>autoIncrement: true</code> et constitue la
+            clé primaire avec <code>primaryKey: true</code>. Le champ
+            <code>name</code> est une chaîne de caractères et
+            <code>allowNull: false</code> indique que le nom est obligatoire.
+            Le champ <code>email</code> est également une chaîne de caractères,
+            il est obligatoire et possède la propriété
+            <code>unique: true</code>. Cette dernière permet d'empêcher que
+            plusieurs comptes utilisent la même adresse email. Enfin, le
+            champ <code>password</code> est obligatoire et est utilisé pour
+            enregistrer le mot de passe sous sa forme hachée. Il est très
+            important de préciser que la valeur enregistrée dans cette
+            colonne ne doit pas être le mot de passe original. Le contrôleur
+            utilise bcrypt avant l'enregistrement afin de transformer le
+            mot de passe en hash.
+        </p>
+
+        <pre><code>const { DataTypes } = require("sequelize");
+const { sequelize } = require("../config/db");
+
+const User = sequelize.define("User", {
+
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+    },
+
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+
+});
+
+module.exports = User;</code></pre>
+
+    </section>
+
+
+    <!-- =====================================================
+         REGISTER
+    ====================================================== -->
+
+    <section id="register">
+
+        <h2>4. Fonction Register : inscription d'un utilisateur</h2>
+
+        <p>
+            La fonction <code>register</code> est responsable de l'inscription
+            d'un nouvel utilisateur. Elle est déclarée avec
+            <code>async</code> car elle réalise plusieurs opérations
+            asynchrones, notamment les recherches dans la base de données,
+            le hachage du mot de passe et la création de l'utilisateur. Les
+            informations <code>name</code>, <code>email</code> et
+            <code>password</code> sont récupérées depuis
+            <code>req.body</code>, ce qui signifie qu'elles sont envoyées par
+            le frontend dans le corps de la requête HTTP. Avant de créer le
+            compte, le serveur utilise <code>User.findOne()</code> avec
+            <code>where: { email }</code> afin de rechercher si un utilisateur
+            possède déjà cette adresse email. Si un utilisateur existe,
+            l'inscription est immédiatement arrêtée et le serveur retourne
+            une réponse HTTP <code>400</code> avec le message
+            <code>Email déjà utilisé</code>. Cette vérification est
+            importante car elle empêche la création de plusieurs comptes avec
+            la même adresse email. Si aucun compte n'existe, le serveur
+            utilise ensuite <code>bcrypt.hash(password, 10)</code>. Cette
+            opération transforme le mot de passe original en une valeur
+            hachée. Le nombre <code>10</code> représente le coût de calcul
+            utilisé par bcrypt pour générer le hash. Le mot de passe original
+            n'est donc pas directement enregistré dans MySQL. Après cette
+            étape, <code>User.create()</code> crée l'utilisateur avec son nom,
+            son email et le mot de passe haché. Une fois l'utilisateur créé,
+            le serveur génère un token JWT grâce à <code>jwt.sign()</code>.
+            Le payload du token contient notamment l'identifiant et l'email de
+            l'utilisateur. Le token est signé avec la clé secrète située dans
+            <code>process.env.JWT_SECRET</code> et sa durée de validité est
+            fixée à sept jours avec <code>expiresIn: "7d"</code>. Enfin, le
+            serveur retourne une réponse HTTP <code>201</code> contenant
+            l'utilisateur et le token. Le frontend peut alors utiliser ce
+            token pour les futures requêtes nécessitant une authentification.
+        </p>
+
+        <pre><code>exports.register = async (req, res) => {
+    try {
+
+        const { name, email, password } = req.body;
+
+        const exist = await User.findOne({
+            where: { email }
+        });
+
+        if (exist) {
+            return res.status(400).json(
+                "Email déjà utilisé"
+            );
+        }
+
+        const hashedPassword =
+            await bcrypt.hash(password, 10);
+
+        const user = await User.create({
+            name,
+            email,
+            password: hashedPassword,
+        });
+
+        const token = jwt.sign(
+            {
+                id: user.id,
+                email: user.email,
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "7d"
+            }
+        );
+
+        res.status(201).json({
+            user,
+            token,
+        });
+
+    } catch (err) {
+
+        res.status(500).json(err.message);
+
+    }
+};</code></pre>
+
+    </section>
+
+
+    <!-- =====================================================
+         LOGIN
+    ====================================================== -->
+
+    <section id="login">
+
+        <h2>5. Fonction Login : connexion de l'utilisateur</h2>
+
+        <p>
+            La fonction <code>login</code> permet à un utilisateur déjà
+            enregistré de se connecter à l'application. Le serveur récupère
+            l'email et le mot de passe depuis <code>req.body</code>, puis
+            utilise <code>User.findOne()</code> pour rechercher l'utilisateur
+            correspondant à cette adresse email dans MySQL. Si aucun
+            utilisateur n'est trouvé, le serveur retourne une réponse HTTP
+            <code>400</code> avec le message <code>Utilisateur introuvable</code>.
+            Si l'utilisateur existe, le serveur ne compare pas directement
+            deux mots de passe en clair. Il utilise
+            <code>bcrypt.compare(password, user.password)</code> afin de
+            comparer le mot de passe saisi avec le hash enregistré dans la
+            base de données. Si la comparaison retourne <code>false</code>,
+            le serveur refuse la connexion avec le message
+            <code>Mot de passe incorrect</code>. Si le mot de passe est
+            correct, le serveur génère un nouveau token JWT avec
+            <code>jwt.sign()</code>. Comme lors de l'inscription, le token
+            contient l'identifiant et l'email de l'utilisateur, il est signé
+            avec <code>JWT_SECRET</code> et possède une durée de validité de
+            sept jours. Le serveur retourne ensuite un objet JSON contenant
+            l'utilisateur et son token. Le frontend peut conserver ce token
+            et l'envoyer lors de l'accès aux fonctionnalités protégées.
+            Cette étape constitue donc le mécanisme d'authentification de
+            l'application : l'utilisateur prouve son identité grâce à son
+            email et son mot de passe, puis reçoit un token permettant au
+            serveur de reconnaître cette authentification lors des requêtes
+            suivantes.
+        </p>
+
+        <pre><code>exports.login = async (req, res) => {
+    try {
+
+        const { email, password } = req.body;
+
+        const user = await User.findOne({
+            where: { email },
+        });
+
+        if (!user) {
+            return res.status(400).json(
+                "Utilisateur introuvable"
+            );
+        }
+
+        const validPassword =
+            await bcrypt.compare(
+                password,
+                user.password
+            );
+
+        if (!validPassword) {
+            return res.status(400).json(
+                "Mot de passe incorrect"
+            );
+        }
+
+        const token = jwt.sign(
+            {
+                id: user.id,
+                email: user.email,
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "7d"
+            }
+        );
+
+        res.json({
+            user,
+            token,
+        });
+
+    } catch (err) {
+
+        res.status(500).json(err.message);
+
+    }
+};</code></pre>
+
+    </section>
+
+
+    <!-- =====================================================
+         JWT
+    ====================================================== -->
+
+    <section id="jwt">
+
+        <h2>6. Authentification avec JSON Web Token</h2>
+
+        <p>
+            JSON Web Token, généralement appelé JWT, est utilisé dans ce projet
+            pour gérer l'authentification entre le frontend et le backend.
+            Après une inscription ou une connexion réussie, le serveur
+            génère un token grâce à <code>jwt.sign()</code>. Ce token contient
+            un payload avec des informations permettant d'identifier
+            l'utilisateur, notamment son <code>id</code> et son
+            <code>email</code>. Le token est signé avec
+            <code>process.env.JWT_SECRET</code>. Cette clé secrète est
+            importante car elle permet au serveur de vérifier que le token
+            présenté par le client correspond bien à un token signé par le
+            serveur. La clé doit être conservée dans une variable
+            d'environnement et ne doit pas être publiée directement dans le
+            code source. Le token possède également une durée de validité de
+            sept jours grâce à <code>expiresIn: "7d"</code>. Cela signifie
+            qu'un token expiré ne doit plus permettre l'accès aux routes
+            protégées. Le JWT permet donc d'éviter de transmettre le mot de
+            passe à chaque requête. Une fois connecté, le frontend utilise le
+            token comme preuve d'authentification et l'envoie au backend
+            lorsqu'il souhaite accéder à une route protégée.
+        </p>
+
+        <div class="security">
+
+            <strong>Principe important :</strong>
+
+            <p>
+                Le JWT ne remplace pas le mot de passe et ne doit pas être
+                considéré comme le mot de passe. Il représente une preuve
+                temporaire d'authentification créée par le serveur.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MIDDLEWARE
+    ====================================================== -->
+
+    <section id="middleware">
+
+        <h2>7. Middleware autorize : protection des routes</h2>
+
+        <p>
+            Le fichier <code>autorize.js</code> contient un middleware Express
+            dont le rôle est de contrôler l'accès aux routes protégées. Le
+            middleware importe d'abord la bibliothèque
+            <code>jsonwebtoken</code>. La fonction <code>autorize</code>
+            reçoit trois paramètres : <code>req</code>, qui représente la
+            requête HTTP, <code>res</code>, qui permet d'envoyer la réponse au
+            client, et <code>next</code>, qui permet de continuer vers la
+            prochaine fonction lorsque l'utilisateur est autorisé. Le
+            middleware récupère ensuite le token depuis
+            <code>req.headers.authorization</code>. Le frontend doit envoyer
+            l'en-tête sous la forme <code>Authorization: Bearer TOKEN</code>.
+            La méthode <code>split(" ")</code> sépare le mot
+            <code>Bearer</code> du token et l'index <code>[1]</code> récupère
+            uniquement le token. L'opérateur <code>?.</code> permet d'éviter
+            une erreur si l'en-tête n'existe pas. Le middleware vérifie
+            ensuite si le token est présent. Si aucun token n'est trouvé,
+            l'accès est immédiatement refusé avec le statut HTTP
+            <code>401</code> et le message <code>Token manquant</code>. Si le
+            token existe, le serveur utilise <code>jwt.verify()</code> avec le
+            token et <code>process.env.JWT_SECRET</code>. Cette opération
+            permet de vérifier que le token est valide et qu'il n'est pas
+            expiré. Si la vérification réussit, les informations décodées sont
+            placées dans <code>req.user</code>. Cette étape est très utile car
+            les fonctions suivantes peuvent maintenant connaître
+            l'utilisateur authentifié. Enfin, <code>next()</code> permet à la
+            requête de continuer vers la route protégée. Si la vérification
+            échoue, par exemple parce que le token est invalide ou expiré,
+            l'exécution passe dans le bloc <code>catch</code> et le serveur
+            retourne une réponse HTTP <code>401</code> avec le message
+            <code>Token invalide</code>. Ainsi, le middleware constitue une
+            véritable barrière de sécurité devant les routes sensibles.
+        </p>
+
+        <pre><code>const jwt = require("jsonwebtoken");
+
+const autorize = (req, res, next) => {
+
+    const token =
+        req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+
+        return res.status(401).json({
+            message: "Token manquant",
+        });
+
+    }
+
+    try {
+
+        const decoded = jwt.verify(
+            token,
+            process.env.JWT_SECRET
+        );
+
+        req.user = decoded;
+
+        next();
+
+    } catch (error) {
+
+        return res.status(401).json({
+            message: "Token invalide",
+        });
+
+    }
+};
+
+module.exports = autorize;</code></pre>
+
+    </section>
+
+
+    <!-- =====================================================
+         ROUTES USER
+    ====================================================== -->
+
+    <section id="routes">
+
+        <h2>8. Routes d'inscription et de connexion</h2>
+
+        <p>
+            Le fichier des routes utilisateur permet de connecter les
+            fonctions du contrôleur aux endpoints HTTP de l'application.
+            Express fournit la fonction <code>Router()</code> permettant de
+            créer un ensemble de routes indépendantes. Le fichier importe
+            ensuite les fonctions <code>register</code> et
+            <code>login</code> depuis le contrôleur utilisateur. La première
+            route est <code>router.post("/register", register)</code>. Elle
+            indique que lorsqu'une requête HTTP de type POST est envoyée vers
+            <code>/register</code>, Express exécute la fonction
+            <code>register</code>. Cette fonction reçoit les données du
+            formulaire, vérifie l'email, hache le mot de passe, crée
+            l'utilisateur et génère le JWT. La deuxième route est
+            <code>router.post("/login", login)</code>. Lorsqu'une requête POST
+            est envoyée vers <code>/login</code>, Express exécute la fonction
+            <code>login</code>. Cette fonction vérifie l'utilisateur, compare
+            le mot de passe avec bcrypt et génère un nouveau token JWT si les
+            informations sont correctes. Enfin,
+            <code>module.exports = router</code> permet d'exporter le routeur
+            afin qu'il puisse être utilisé dans le fichier principal du
+            serveur. Cette séparation entre les routes et les contrôleurs
+            permet d'organiser correctement le backend : les routes
+            définissent les URLs et les méthodes HTTP, tandis que les
+            contrôleurs contiennent la logique métier.
+        </p>
+
+        <pre><code>const express = require("express");
+
+const router = express.Router();
+
+const { sequelize } = require("../config/db");
+
+const {
+    register,
+    login,
+} = require("../Controllers/userController");
+
+router.post("/register", register);
+
+router.post("/login", login);
+
+module.exports = router;</code></pre>
+
+    </section>
+
+
+    <!-- =====================================================
+         ADMIN ROUTE
+    ====================================================== -->
+
+    <section>
+
+        <h2>9. Route Admin protégée par JWT</h2>
+
+        <p>
+            Une route spéciale permet également de démontrer concrètement
+            l'utilisation du middleware de sécurité. Le routeur Express
+            définit la route <code>GET /admin</code> et place le middleware
+            <code>autorize</code> entre l'URL et le contrôleur. L'ordre est
+            très important : lorsqu'une requête arrive sur cette route,
+            Express exécute d'abord <code>autorize</code>. Le middleware
+            récupère le token JWT depuis l'en-tête Authorization, vérifie sa
+            validité avec <code>jwt.verify()</code>, place les informations
+            de l'utilisateur dans <code>req.user</code>, puis appelle
+            <code>next()</code>. Ce n'est qu'après cette vérification que la
+            fonction de la route est exécutée. Si le token est absent, le
+            contrôleur de la route n'est jamais exécuté et le serveur retourne
+            une erreur 401. Si le token est invalide ou expiré, le même
+            principe s'applique. Lorsque le token est valide, la route peut
+            retourner le message <code>Bienvenue Admin</code> ainsi que
+            l'utilisateur contenu dans <code>req.user</code>. Cette route
+            montre donc comment le middleware devient une barrière entre le
+            client et une fonctionnalité protégée. Il faut toutefois
+            distinguer l'authentification de l'autorisation : le middleware
+            présenté vérifie que le token est valide et identifie
+            l'utilisateur, mais le code fourni ne vérifie pas encore que
+            l'utilisateur possède réellement un rôle administrateur. Pour
+            avoir une véritable autorisation basée sur les rôles, il faudrait
+            également stocker un rôle, par exemple <code>admin</code> ou
+            <code>user</code>, dans le modèle utilisateur et vérifier ce rôle
+            avant d'autoriser l'accès à une route strictement réservée aux
+            administrateurs.
+        </p>
+
+        <pre><code>const express = require("express");
+const router = express.Router();
+
+const autorize =
+    require("../middleware/autorize");
+
+/* =========================
+   ADMIN ROUTE
+========================= */
+
+router.get(
+    "/admin",
+    autorize,
+    (req, res) => {
+
+        res.json({
+            message: "Bienvenue Admin",
+            user: req.user,
+        });
+
+    }
+);
+
+module.exports = router;</code></pre>
+
+        <div class="warning">
+
+            <strong>⚠️ Point important :</strong>
+
+            <p>
+                Dans le code actuel, le middleware vérifie que l'utilisateur
+                possède un JWT valide, mais il ne vérifie pas encore que cet
+                utilisateur possède réellement le rôle
+                <code>admin</code>. Le nom de la route <code>/admin</code>
+                indique une route destinée à l'administration, mais la
+                sécurité actuelle correspond principalement à une
+                <strong>authentification</strong>. Une vérification de rôle
+                supplémentaire serait nécessaire pour mettre en place une
+                véritable autorisation administrateur.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         COMPLETE FLOW
+    ====================================================== -->
+
+    <section id="architecture">
+
+        <h2>10. Fonctionnement complet du système</h2>
+
+        <p>
+            Le fonctionnement global de la sécurité commence lorsque
+            l'utilisateur utilise le frontend pour créer un compte. Le
+            frontend envoie une requête POST vers la route
+            <code>/register</code> avec le nom, l'email et le mot de passe.
+            Express reçoit cette requête et appelle le contrôleur
+            <code>register</code>. Le contrôleur vérifie dans MySQL, via
+            Sequelize, si l'email existe déjà. Si l'adresse est disponible,
+            bcrypt transforme le mot de passe en hash puis Sequelize crée le
+            nouvel utilisateur dans la base de données. Le serveur génère
+            ensuite un JWT signé avec <code>JWT_SECRET</code> et valide
+            pendant sept jours. Lors d'une connexion, le frontend utilise la
+            route <code>/login</code>. Le contrôleur recherche l'utilisateur
+            par son email puis utilise <code>bcrypt.compare()</code> pour
+            vérifier le mot de passe. Si les informations sont correctes, un
+            JWT est généré et envoyé au frontend. Pour accéder ensuite à une
+            route protégée comme <code>/admin</code>, le frontend doit envoyer
+            le token dans l'en-tête <code>Authorization</code> avec le format
+            <code>Bearer TOKEN</code>. Express exécute alors le middleware
+            <code>autorize</code>. Celui-ci récupère le token, utilise
+            <code>jwt.verify()</code> pour contrôler sa validité et place les
+            informations de l'utilisateur dans <code>req.user</code>. Si la
+            vérification réussit, <code>next()</code> autorise la requête à
+            poursuivre son exécution. Si le token est absent, invalide ou
+            expiré, l'accès est refusé avec une erreur HTTP 401. Cette
+            architecture crée donc une chaîne de sécurité complète allant du
+            frontend vers Express, puis vers le middleware JWT, le contrôleur,
+            Sequelize et enfin MySQL.
+        </p>
+
+        <div class="architecture">
+
+Frontend
+    ↓
+POST /register
+    ↓
+Express Router
+    ↓
+register()
+    ↓
+Vérification de l'email
+    ↓
+bcrypt.hash()
+    ↓
+MySQL / Sequelize
+    ↓
+Création User
+    ↓
+jwt.sign()
+    ↓
+JWT
+    ↓
+Frontend
+    ↓
+Authorization: Bearer TOKEN
+    ↓
+GET /admin
+    ↓
+autorize()
+    ↓
+jwt.verify()
+    ↓
+┌──────────────────────────┐
+│ Token valide ?           │
+└──────────────────────────┘
+       ↓             ↓
+      NON           OUI
+       ↓             ↓
+     401          req.user
+                     ↓
+                   next()
+                     ↓
+                /admin
+                     ↓
+                  Réponse
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SECURITY LAYERS
+    ====================================================== -->
+
+    <section>
+
+        <h2>11. Les différentes couches de sécurité</h2>
+
+        <p>
+            La sécurité de l'application repose sur plusieurs mécanismes
+            complémentaires et non sur une seule technologie. Premièrement,
+            Sequelize permet de structurer les données utilisateurs et de
+            communiquer avec MySQL. Deuxièmement, le modèle User impose
+            certaines contraintes comme l'obligation du nom, de l'email et du
+            mot de passe ainsi que l'unicité de l'adresse email.
+            Troisièmement, bcrypt protège les mots de passe grâce au
+            hachage avant leur enregistrement. Quatrièmement,
+            <code>bcrypt.compare()</code> permet de vérifier les mots de passe
+            sans avoir besoin de stocker le mot de passe original.
+            Cinquièmement, JWT fournit un mécanisme permettant au serveur de
+            reconnaître un utilisateur authentifié. Sixièmement,
+            <code>JWT_SECRET</code> permet de signer et de vérifier les tokens.
+            Septièmement, l'expiration du token après sept jours limite sa
+            durée de validité. Huitièmement, le middleware
+            <code>autorize</code> constitue une barrière devant les routes
+            protégées. Enfin, les codes HTTP comme <code>400</code>,
+            <code>401</code> et <code>500</code> permettent de gérer
+            différentes situations d'erreur. Tous ces éléments travaillent
+            ensemble afin de créer une architecture d'authentification
+            structurée et plus sûre qu'une application qui stockerait les
+            mots de passe en clair ou qui laisserait toutes les routes
+            accessibles sans contrôle.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         SECURITY ERRORS
+    ====================================================== -->
+
+    <section>
+
+        <h2>12. Gestion des erreurs de sécurité</h2>
+
+        <p>
+            Le système prévoit plusieurs situations d'erreur. Lorsqu'un
+            utilisateur tente de créer un compte avec une adresse email déjà
+            utilisée, le serveur retourne le statut <code>400</code> avec le
+            message <code>Email déjà utilisé</code>. Lorsqu'un utilisateur
+            tente de se connecter avec une adresse qui n'existe pas, le
+            serveur retourne <code>Utilisateur introuvable</code>. Lorsque
+            l'adresse existe mais que le mot de passe est incorrect,
+            <code>bcrypt.compare()</code> retourne false et le serveur
+            retourne <code>Mot de passe incorrect</code>. Pour les routes
+            protégées, si aucun JWT n'est envoyé, le middleware retourne
+            <code>401</code> avec <code>Token manquant</code>. Si le JWT est
+            invalide ou expiré, <code>jwt.verify()</code> déclenche une erreur
+            qui est récupérée par le bloc <code>catch</code>, puis le serveur
+            retourne <code>401</code> avec <code>Token invalide</code>. Enfin,
+            les erreurs inattendues provenant du serveur ou de la base de
+            données peuvent être récupérées par les blocs
+            <code>try/catch</code> des contrôleurs et retourner un statut
+            <code>500</code>. Cette gestion permet au frontend de comprendre
+            le résultat de la requête et d'afficher un message adapté à
+            l'utilisateur.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         ORAL PRESENTATION
+    ====================================================== -->
+
+    <section>
+
+        <h2>13. Explication orale pour la présentation</h2>
+
+        <p>
+            Pour présenter cette partie devant un jury, on peut expliquer que
+            le projet possède un système de sécurité basé sur
+            l'authentification JWT. Lorsqu'un utilisateur crée un compte, le
+            backend reçoit son nom, son email et son mot de passe à travers la
+            route <code>/register</code>. Avant de créer le compte, Sequelize
+            vérifie dans MySQL si l'email existe déjà. Ensuite, le mot de
+            passe est haché avec bcrypt afin qu'il ne soit jamais enregistré
+            en clair dans la base de données. Après la création de
+            l'utilisateur, le serveur génère un token JWT signé avec une clé
+            secrète stockée dans <code>JWT_SECRET</code>. Lors de la
+            connexion, la route <code>/login</code> recherche l'utilisateur
+            avec son email puis utilise <code>bcrypt.compare()</code> pour
+            vérifier le mot de passe. Si les identifiants sont corrects, un
+            JWT est généré et transmis au frontend. Pour protéger une route,
+            par exemple <code>/admin</code>, j'utilise un middleware appelé
+            <code>autorize</code>. Ce middleware récupère le token dans
+            l'en-tête Authorization sous la forme Bearer token et utilise
+            <code>jwt.verify()</code> pour vérifier sa validité. Si aucun
+            token n'est fourni ou si le token est invalide ou expiré, le
+            serveur retourne une erreur 401 et bloque l'accès. Si le token
+            est valide, les informations de l'utilisateur sont placées dans
+            <code>req.user</code> et <code>next()</code> permet à la requête
+            d'accéder à la route protégée. Cette architecture permet donc de
+            séparer clairement l'inscription, la connexion, le hachage des
+            mots de passe, la génération du JWT et la protection des routes.
+            Elle constitue la base de la sécurité backend de mon application.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONCLUSION
+    ====================================================== -->
+
+    <section id="conclusion">
+
+        <h2>14. Conclusion</h2>
+
+        <p>
+            Le système développé permet de mettre en place une authentification
+            complète entre le frontend, le backend et la base de données
+            MySQL. Sequelize assure la communication avec MySQL et permet de
+            définir le modèle User. Les routes Express
+            <code>/register</code> et <code>/login</code> permettent
+            respectivement de créer un compte et de s'authentifier.
+            L'utilisation de bcrypt garantit que les mots de passe ne sont
+            pas stockés directement sous leur forme originale. JWT permet
+            ensuite de représenter l'état d'authentification de l'utilisateur
+            pendant une durée limitée. Le middleware
+            <code>autorize</code> vérifie le token avant de laisser une
+            requête accéder à une route protégée. Grâce à
+            <code>jwt.verify()</code>, le serveur peut vérifier le token et
+            récupérer les informations de l'utilisateur dans
+            <code>req.user</code>. Les routes protégées peuvent ainsi
+            contrôler l'accès aux fonctionnalités sensibles. L'architecture
+            actuelle constitue donc une base solide de sécurité backend avec
+            Node.js, Express, Sequelize, MySQL, bcrypt et JWT. Pour une
+            sécurisation encore plus complète d'une véritable application de
+            production, cette base peut ensuite être renforcée avec une
+            gestion des rôles et permissions, une validation stricte des
+            données, une protection contre les attaques par force brute,
+            HTTPS, une gestion sécurisée du stockage des tokens et une
+            meilleure gestion des informations sensibles.
+        </p>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        <strong>Documentation technique — Sécurité et Authentification</strong>
+    </p>
+
+    <p>
+        Node.js • Express • Sequelize • MySQL • bcryptjs • JWT
+    </p>
+
+</footer>
+
+</body>
+</html>

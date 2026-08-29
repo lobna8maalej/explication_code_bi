@@ -1,0 +1,3528 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Documentation technique détaillée de l'architecture React, React Router, Redux Toolkit, authentification utilisateur, inscription, connexion, PrivateRoute et Footer du projet Dashboard Web."
+    >
+
+    <title>
+        Web Dashboard — Authentification, Redux et Footer
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="conclusion.css"
+    >
+</head>
+
+<body>
+
+<main class="documentation">
+
+    <!-- ===================================================== -->
+    <!-- EN-TÊTE -->
+    <!-- ===================================================== -->
+
+    <header class="documentation-header">
+
+        <h1>
+            🌐 Web Dashboard — Documentation technique
+        </h1>
+
+        <p>
+            Cette documentation explique en détail le fonctionnement
+            de l'application React, de React Router, de Redux Toolkit,
+            de l'inscription et de la connexion des utilisateurs,
+            de la protection des routes privées ainsi que du Footer.
+        </p>
+
+    </header>
+
+
+    <!-- ===================================================== -->
+    <!-- INTRODUCTION -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            Introduction
+        </h2>
+
+        <p>
+            Cette partie du projet constitue la structure générale
+            de l'application Web.
+        </p>
+
+        <p>
+            Elle permet de gérer plusieurs fonctionnalités importantes :
+        </p>
+
+        <ul>
+            <li>
+                la navigation entre les différentes pages ;
+            </li>
+
+            <li>
+                l'inscription d'un utilisateur ;
+            </li>
+
+            <li>
+                la connexion d'un utilisateur ;
+            </li>
+
+            <li>
+                la gestion de l'utilisateur avec Redux Toolkit ;
+            </li>
+
+            <li>
+                la conservation du token d'authentification ;
+            </li>
+
+            <li>
+                la protection du Dashboard ;
+            </li>
+
+            <li>
+                l'affichage des informations de contact ;
+            </li>
+
+            <li>
+                la présentation des informations relatives
+                au paiement par virement bancaire.
+            </li>
+        </ul>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- FLUX GLOBAL -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            🔄 Flux global de l'application
+        </h2>
+
+        <div class="flow">
+
+<pre>
+Utilisateur
+      ↓
+React
+      ↓
+App.jsx
+      ↓
+React Router
+      ↓
+Home / Login / Register / Dashboard
+      ↓
+Register.jsx
+      ↓
+dispatch(RegisterUser)
+      ↓
+Redux Toolkit
+      ↓
+createAsyncThunk
+      ↓
+Axios POST
+      ↓
+Backend Node.js
+      ↓
+Création du compte
+      ↓
+Réponse JSON
+      ↓
+Redux
+      ↓
+user + token
+      ↓
+localStorage
+      ↓
+Navigate /dashboard
+      ↓
+PrivateRoute
+      ↓
+Dashboard
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 1 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            1. Présentation de App.jsx
+        </h2>
+
+        <p>
+            Le fichier <strong>App.jsx</strong> constitue l'un des
+            fichiers principaux de l'application React.
+        </p>
+
+        <p>
+            Son rôle principal est de définir les différentes routes
+            accessibles dans l'application.
+        </p>
+
+        <p>
+            Il utilise pour cela
+            <strong>React Router DOM</strong>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 2 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            2. Importation de React
+        </h2>
+
+<pre><code>import React from "react";</code></pre>
+
+        <p>
+            Cette instruction importe React dans le composant
+            <strong>App.jsx</strong>.
+        </p>
+
+        <p>
+            React est utilisé pour construire l'interface utilisateur
+            de l'application.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 3 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            3. Importation de React Router
+        </h2>
+
+<pre><code>import {
+    BrowserRouter,
+    Routes,
+    Route
+} from "react-router-dom";</code></pre>
+
+        <p>
+            Ces trois éléments permettent de gérer la navigation
+            entre les différentes pages de l'application.
+        </p>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Élément</th>
+                    <th>Rôle</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>BrowserRouter</td>
+                    <td>
+                        Active le système de navigation de React Router.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Routes</td>
+                    <td>
+                        Contient l'ensemble des routes de l'application.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Route</td>
+                    <td>
+                        Associe une URL à un composant React.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 4 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            4. Importation des pages principales
+        </h2>
+
+<pre><code>import Home from "./components/Home";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import DashboardPage from "./components/DashboardPage";</code></pre>
+
+        <p>
+            Ces instructions importent les différents composants
+            utilisés par le système de navigation.
+        </p>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Composant</th>
+                    <th>Fonction</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Home</td>
+                    <td>
+                        Représente la page d'accueil.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Login</td>
+                    <td>
+                        Représente la page de connexion.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Register</td>
+                    <td>
+                        Représente la page de création de compte.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>DashboardPage</td>
+                    <td>
+                        Contient le Dashboard principal.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 5 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            5. Création du composant App
+        </h2>
+
+<pre><code>export default function App() {
+    return (
+        ...
+    );
+}</code></pre>
+
+        <p>
+            Cette fonction représente le composant racine
+            de l'application React.
+        </p>
+
+        <p>
+            Elle retourne la structure de navigation
+            de l'application.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 6 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            6. BrowserRouter
+        </h2>
+
+<pre><code>&lt;BrowserRouter&gt;
+    ...
+&lt;/BrowserRouter&gt;</code></pre>
+
+        <p>
+            <code>BrowserRouter</code> permet à React de gérer
+            les changements d'URL sans recharger entièrement la page.
+        </p>
+
+        <p>
+            Il constitue donc la base du système de navigation
+            de l'application.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 7 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            7. Routes
+        </h2>
+
+<pre><code>&lt;Routes&gt;
+    ...
+&lt;/Routes&gt;</code></pre>
+
+        <p>
+            Le composant <code>Routes</code> regroupe
+            toutes les routes disponibles dans l'application.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 8 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            8. Route de la page d'accueil
+        </h2>
+
+<pre><code>&lt;Route
+    path="/"
+    element={&lt;Home /&gt;}
+/&gt;</code></pre>
+
+        <p>
+            Lorsque l'utilisateur accède à la racine de l'application :
+        </p>
+
+<pre><code>/</code></pre>
+
+        <p>
+            React affiche le composant :
+        </p>
+
+<pre><code>&lt;Home /&gt;</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 9 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            9. Route Login
+        </h2>
+
+<pre><code>&lt;Route
+    path="/login"
+    element={&lt;Login /&gt;}
+/&gt;</code></pre>
+
+        <p>
+            Cette route permet d'afficher la page de connexion.
+        </p>
+
+        <p>
+            URL :
+        </p>
+
+<pre><code>/login</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 10 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            10. Route Register
+        </h2>
+
+<pre><code>&lt;Route
+    path="/register"
+    element={&lt;Register /&gt;}
+/&gt;</code></pre>
+
+        <p>
+            Cette route affiche le formulaire de création
+            d'un nouveau compte utilisateur.
+        </p>
+
+        <p>
+            URL :
+        </p>
+
+<pre><code>/register</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 11 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            11. Route Dashboard
+        </h2>
+
+<pre><code>&lt;Route
+    path="/dashboard/*"
+    element={&lt;DashboardPage /&gt;}
+/&gt;</code></pre>
+
+        <p>
+            Cette route correspond à l'espace Dashboard.
+        </p>
+
+        <p>
+            L'utilisation de <code>*</code> permet de prendre en charge
+            les éventuelles routes enfants situées à l'intérieur
+            de la partie Dashboard.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 12 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            12. Architecture des routes
+        </h2>
+
+        <div class="flow">
+
+<pre>
+/
+ ↓
+Home
+
+/login
+ ↓
+Login
+
+/register
+ ↓
+Register
+
+/dashboard/*
+ ↓
+DashboardPage
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 13 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            13. Présentation de store.js
+        </h2>
+
+        <p>
+            Le fichier <strong>store.js</strong> configure le
+            <strong>Redux Store</strong> de l'application.
+        </p>
+
+        <p>
+            Il centralise les différents états Redux du projet
+            afin de les rendre accessibles aux composants de l'application.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 14 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            14. Importation de configureStore
+        </h2>
+
+<pre><code>import {
+    configureStore
+} from "@reduxjs/toolkit";</code></pre>
+
+        <p>
+            <code>configureStore</code> permet de créer
+            et de configurer le Redux Store.
+        </p>
+
+        <p>
+            Le Store représente l'espace central dans lequel
+            Redux conserve les différents états de l'application.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 15 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            15. Importation des différents Reducers
+        </h2>
+
+<pre><code>import caReducer from "./caSlice";
+import banqueReducer from "./banqueSlice";
+import voyageReducer from "./voyageSlice";
+import webReducer from "./webSlice";
+import vetementReducer from "./vetementSlice";
+import immobilierReducer from "./immobilierSlice";
+import kantraReducer from "./kantraSlice";
+import transactionReducer from "./transactionSlice";
+import radioReducer from "./radioSlice";
+import parapharmaReducer from "./parapharmaSlice";
+import serverReducer from "./serverSlice";
+import plotReducer from "./plotSlice";
+import etudeReducer from "./etudeSlice";
+import sanitaireReducer from "./sanitaireSlice";
+import infoReducer from "./infoSlice";
+import commerceReducer from "./commerceSlice";
+import predictReducer from "./predictSlice";
+import userReducer from "./userSlice";</code></pre>
+
+        <p>
+            Chaque fichier Slice gère une partie spécifique
+            de l'état global de l'application.
+        </p>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Reducer</th>
+                    <th>État géré</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>caReducer</td>
+                    <td>Module CA.</td>
+                </tr>
+
+                <tr>
+                    <td>banqueReducer</td>
+                    <td>Module Banque.</td>
+                </tr>
+
+                <tr>
+                    <td>voyageReducer</td>
+                    <td>Module Voyage.</td>
+                </tr>
+
+                <tr>
+                    <td>webReducer</td>
+                    <td>Module Web.</td>
+                </tr>
+
+                <tr>
+                    <td>vetementReducer</td>
+                    <td>Module Vêtement.</td>
+                </tr>
+
+                <tr>
+                    <td>immobilierReducer</td>
+                    <td>Module Immobilier.</td>
+                </tr>
+
+                <tr>
+                    <td>kantraReducer</td>
+                    <td>Module Kantra.</td>
+                </tr>
+
+                <tr>
+                    <td>transactionReducer</td>
+                    <td>Module Transaction.</td>
+                </tr>
+
+                <tr>
+                    <td>radioReducer</td>
+                    <td>Module Radio.</td>
+                </tr>
+
+                <tr>
+                    <td>parapharmaReducer</td>
+                    <td>Module Parapharmacie.</td>
+                </tr>
+
+                <tr>
+                    <td>serverReducer</td>
+                    <td>Module Server.</td>
+                </tr>
+
+                <tr>
+                    <td>plotReducer</td>
+                    <td>Module Plot.</td>
+                </tr>
+
+                <tr>
+                    <td>etudeReducer</td>
+                    <td>Module Étude.</td>
+                </tr>
+
+                <tr>
+                    <td>sanitaireReducer</td>
+                    <td>Module Sanitaire.</td>
+                </tr>
+
+                <tr>
+                    <td>infoReducer</td>
+                    <td>Module Information.</td>
+                </tr>
+
+                <tr>
+                    <td>commerceReducer</td>
+                    <td>Module Commerce.</td>
+                </tr>
+
+                <tr>
+                    <td>predictReducer</td>
+                    <td>Module de prédiction.</td>
+                </tr>
+
+                <tr>
+                    <td>userReducer</td>
+                    <td>
+                        Gestion de l'utilisateur et de l'authentification.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 16 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            16. Création du Redux Store
+        </h2>
+
+<pre><code>export const store = configureStore({
+    reducer: {
+        ca: caReducer,
+        banque: banqueReducer,
+        voyage: voyageReducer,
+        web: webReducer,
+        vetement: vetementReducer,
+        immobilier: immobilierReducer,
+        kantra: kantraReducer,
+        transaction: transactionReducer,
+        radio: radioReducer,
+        parapharma: parapharmaReducer,
+        server: serverReducer,
+        plot: plotReducer,
+        etude: etudeReducer,
+        sanitaire: sanitaireReducer,
+        info: infoReducer,
+        commerce: commerceReducer,
+        predict: predictReducer,
+        users: userReducer,
+    },
+});</code></pre>
+
+        <p>
+            Cette configuration crée le Store Redux global
+            de l'application.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 17 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            17. Pourquoi <code>users</code> utilise
+            <code>userReducer</code> ?
+        </h2>
+
+<pre><code>users: userReducer</code></pre>
+
+        <p>
+            Cette ligne indique que l'état géré par
+            <code>userReducer</code> est accessible dans Redux avec :
+        </p>
+
+<pre><code>state.users</code></pre>
+
+        <p>
+            Le composant Register utilise ensuite :
+        </p>
+
+<pre><code>useSelector(
+    (state) => state.users
+)</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 18 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            18. Présentation de userSlice.js
+        </h2>
+
+        <p>
+            Le fichier <strong>userSlice.js</strong> gère
+            l'inscription, la connexion, le token,
+            l'utilisateur connecté ainsi que la déconnexion.
+        </p>
+
+        <p>
+            Il utilise notamment :
+        </p>
+
+        <ul>
+            <li>Redux Toolkit ;</li>
+            <li>createAsyncThunk ;</li>
+            <li>Axios ;</li>
+            <li>localStorage.</li>
+        </ul>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 19 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            19. Importation de Redux Toolkit
+        </h2>
+
+<pre><code>import {
+    createSlice,
+    createAsyncThunk
+} from "@reduxjs/toolkit";</code></pre>
+
+        <p>
+            <code>createSlice</code> permet de créer un Slice Redux
+            contenant l'état initial, les reducers et les actions associées.
+        </p>
+
+        <p>
+            <code>createAsyncThunk</code> permet de gérer
+            les opérations asynchrones, comme les requêtes HTTP.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 20 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            20. Importation d'Axios
+        </h2>
+
+<pre><code>import axios from "axios";</code></pre>
+
+        <p>
+            Axios permet au frontend React de communiquer
+            avec le backend Node.js à travers des requêtes HTTP.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 21 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            21. Création de RegisterUser
+        </h2>
+
+<pre><code>export const RegisterUser = createAsyncThunk(
+    "users/register",
+    async (
+        userdata,
+        { rejectWithValue }
+    ) => {
+        ...
+    }
+);</code></pre>
+
+        <p>
+            Cette fonction crée une action Redux asynchrone
+            destinée à gérer l'inscription d'un utilisateur.
+        </p>
+
+        <p>
+            Son identifiant Redux est :
+        </p>
+
+<pre><code>users/register</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 22 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            22. Le paramètre userdata
+        </h2>
+
+<pre><code>async (
+    userdata,
+    { rejectWithValue }
+) =></code></pre>
+
+        <p>
+            <code>userdata</code> contient les informations
+            saisies par l'utilisateur dans le formulaire.
+        </p>
+
+        <p>
+            Dans le composant Register, ces données sont :
+        </p>
+
+<pre><code>{
+    name: username,
+    email: email,
+    password: password
+}</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 23 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            23. Requête POST Register
+        </h2>
+
+<pre><code>const response = await axios.post(
+    "http://localhost:3000/api/users/register",
+    userdata
+);</code></pre>
+
+        <p>
+            Axios envoie les données d'inscription
+            vers le backend avec une requête HTTP
+            <strong>POST</strong>.
+        </p>
+
+        <p>
+            Le endpoint utilisé est :
+        </p>
+
+<pre><code>POST /api/users/register</code></pre>
+
+        <div class="flow">
+
+<pre>
+Register.jsx
+      ↓
+dispatch(RegisterUser)
+      ↓
+createAsyncThunk
+      ↓
+Axios POST
+      ↓
+/api/users/register
+      ↓
+Backend Node.js
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 24 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            24. Retour de la réponse du backend
+        </h2>
+
+<pre><code>return response.data;</code></pre>
+
+        <p>
+            Cette instruction retourne les données reçues
+            depuis le backend.
+        </p>
+
+        <p>
+            Redux pourra ensuite les récupérer dans :
+        </p>
+
+<pre><code>action.payload</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 25 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            25. Gestion des erreurs lors de l'inscription
+        </h2>
+
+<pre><code>catch (error) {
+    return rejectWithValue(
+        error.response?.data
+    );
+}</code></pre>
+
+        <p>
+            Si la requête échoue, le bloc
+            <code>catch</code> est exécuté.
+        </p>
+
+        <p>
+            <code>rejectWithValue()</code> permet de transmettre
+            une valeur d'erreur personnalisée au reducer
+            correspondant à l'état <code>rejected</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 26 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            26. Création de LoginUser
+        </h2>
+
+<pre><code>export const LoginUser = createAsyncThunk(
+    "users/login",
+    async (
+        userdata,
+        { rejectWithValue }
+    ) => {
+        ...
+    }
+);</code></pre>
+
+        <p>
+            Cette action asynchrone permet de connecter
+            un utilisateur existant.
+        </p>
+
+        <p>
+            Son identifiant Redux est :
+        </p>
+
+<pre><code>users/login</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 27 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            27. Requête POST Login
+        </h2>
+
+<pre><code>const response = await axios.post(
+    "http://localhost:3000/api/users/login",
+    userdata
+);</code></pre>
+
+        <p>
+            Le frontend envoie les informations de connexion
+            au backend.
+        </p>
+
+        <p>
+            Endpoint :
+        </p>
+
+<pre><code>POST /api/users/login</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 28 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            28. Création du userSlice
+        </h2>
+
+<pre><code>const userSlice = createSlice({
+    name: "users",
+    ...
+});</code></pre>
+
+        <p>
+            Le Slice est nommé :
+        </p>
+
+<pre><code>users</code></pre>
+
+        <p>
+            Il correspond donc à la propriété :
+        </p>
+
+<pre><code>state.users</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 29 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            29. Initialisation de l'utilisateur
+        </h2>
+
+<pre><code>user:
+JSON.parse(
+    localStorage.getItem("user")
+) || null</code></pre>
+
+        <p>
+            Le code vérifie si un utilisateur a déjà été enregistré
+            dans le navigateur.
+        </p>
+
+        <p>
+            Si l'utilisateur existe, il est récupéré depuis
+            <code>localStorage</code> puis converti depuis son format JSON.
+        </p>
+
+        <p>
+            Sinon, la valeur utilisée est :
+        </p>
+
+<pre><code>null</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 30 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            30. Initialisation du token
+        </h2>
+
+<pre><code>token:
+localStorage.getItem("token")
+|| null</code></pre>
+
+        <p>
+            Cette instruction récupère le token d'authentification
+            sauvegardé dans le navigateur.
+        </p>
+
+        <p>
+            Si aucun token n'existe, la valeur utilisée est :
+        </p>
+
+<pre><code>null</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 31 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            31. Initialisation de error
+        </h2>
+
+<pre><code>error: null</code></pre>
+
+        <p>
+            Au départ, aucune erreur d'authentification
+            n'est enregistrée.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 32 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            32. Structure initiale de users
+        </h2>
+
+<pre><code>state.users = {
+    user: ...,
+    token: ...,
+    error: null
+}</code></pre>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Propriété</th>
+                    <th>Rôle</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>user</td>
+                    <td>
+                        Contient les informations de l'utilisateur.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>token</td>
+                    <td>
+                        Contient le token d'authentification.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>error</td>
+                    <td>
+                        Contient une éventuelle erreur.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 33 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            33. Création de logout
+        </h2>
+
+<pre><code>reducers: {
+    logout: (state) => {
+        state.user = null;
+        state.token = null;
+        state.error = null;
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+    }
+}</code></pre>
+
+        <p>
+            L'action <code>logout</code> permet de déconnecter
+            l'utilisateur.
+        </p>
+
+        <p>
+            Elle supprime également les données d'authentification
+            enregistrées dans le navigateur.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 34 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            34. Fonctionnement du logout
+        </h2>
+
+        <div class="flow">
+
+<pre>
+Utilisateur connecté
+       ↓
+logout()
+       ↓
+user = null
+       ↓
+token = null
+       ↓
+error = null
+       ↓
+localStorage.removeItem("token")
+       ↓
+localStorage.removeItem("user")
+       ↓
+Utilisateur déconnecté
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 35 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            35. RegisterUser.fulfilled
+        </h2>
+
+<pre><code>.addCase(
+    RegisterUser.fulfilled,
+    (state, action) => {
+        state.user =
+            action.payload.user;
+
+        state.token =
+            action.payload.token;
+
+        state.error = null;
+    }
+)</code></pre>
+
+        <p>
+            Lorsque l'inscription réussit,
+            Redux récupère la réponse du backend.
+        </p>
+
+        <p>
+            L'utilisateur est enregistré dans :
+        </p>
+
+<pre><code>state.user</code></pre>
+
+        <p>
+            Le token est enregistré dans :
+        </p>
+
+<pre><code>state.token</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 36 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            36. Sauvegarde dans localStorage
+        </h2>
+
+<pre><code>localStorage.setItem(
+    "user",
+    JSON.stringify(
+        action.payload.user
+    )
+);
+
+localStorage.setItem(
+    "token",
+    action.payload.token
+);</code></pre>
+
+        <p>
+            Les informations sont également sauvegardées
+            dans le navigateur.
+        </p>
+
+        <p>
+            Cela permet à l'application de récupérer l'utilisateur
+            et le token lors d'un nouveau chargement de la page.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 37 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            37. RegisterUser.rejected
+        </h2>
+
+<pre><code>.addCase(
+    RegisterUser.rejected,
+    (state, action) => {
+        state.error =
+            action.payload;
+    }
+)</code></pre>
+
+        <p>
+            Si l'inscription échoue,
+            Redux stocke l'erreur dans :
+        </p>
+
+<pre><code>state.error</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 38 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            38. LoginUser.fulfilled
+        </h2>
+
+<pre><code>.addCase(
+    LoginUser.fulfilled,
+    (state, action) => {
+
+        state.user =
+            action.payload.user;
+
+        state.token =
+            action.payload.token;
+
+        state.error = null;
+
+        localStorage.setItem(
+            "user",
+            JSON.stringify(
+                action.payload.user
+            )
+        );
+
+        localStorage.setItem(
+            "token",
+            action.payload.token
+        );
+    }
+)</code></pre>
+
+        <p>
+            Lorsque la connexion réussit, Redux récupère
+            l'utilisateur et le token retournés par le backend.
+        </p>
+
+        <p>
+            Ces informations sont ensuite enregistrées
+            à la fois dans Redux et dans <code>localStorage</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 39 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            39. LoginUser.rejected
+        </h2>
+
+<pre><code>.addCase(
+    LoginUser.rejected,
+    (state, action) => {
+        state.error =
+            action.payload;
+    }
+)</code></pre>
+
+        <p>
+            Si la connexion échoue,
+            le message ou les données d'erreur sont enregistrés
+            dans <code>state.error</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 40 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            40. Exportation de logout
+        </h2>
+
+<pre><code>export const {
+    logout
+} = userSlice.actions;</code></pre>
+
+        <p>
+            Cette instruction rend l'action
+            <code>logout</code> disponible dans les autres composants.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 41 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            41. Exportation du reducer
+        </h2>
+
+<pre><code>export default userSlice.reducer;</code></pre>
+
+        <p>
+            Le reducer est exporté afin d'être utilisé
+            dans le Redux Store.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 42 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            42. Présentation de Register.jsx
+        </h2>
+
+        <p>
+            Le composant <strong>Register.jsx</strong> représente
+            le formulaire d'inscription d'un utilisateur.
+        </p>
+
+        <p>
+            Il permet de saisir :
+        </p>
+
+        <ul>
+            <li>le nom ;</li>
+            <li>l'adresse e-mail ;</li>
+            <li>le mot de passe.</li>
+        </ul>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 43 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            43. Importation de React
+        </h2>
+
+<pre><code>import React from "react";</code></pre>
+
+        <p>
+            React est importé afin de créer le composant
+            d'inscription.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 44 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            44. Importation de useState
+        </h2>
+
+<pre><code>import {
+    useState
+} from "react";</code></pre>
+
+        <p>
+            <code>useState</code> permet de conserver
+            les valeurs saisies dans les champs du formulaire.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 45 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            45. États du formulaire
+        </h2>
+
+<pre><code>const [
+    username,
+    setUsername
+] = useState("");
+
+const [
+    email,
+    setEmail
+] = useState("");
+
+const [
+    password,
+    setPassword
+] = useState("");</code></pre>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>État</th>
+                    <th>Fonction</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>username</td>
+                    <td>
+                        Stocke le nom saisi par l'utilisateur.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>email</td>
+                    <td>
+                        Stocke l'adresse e-mail saisie.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>password</td>
+                    <td>
+                        Stocke le mot de passe saisi.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 46 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            46. Importation de RegisterUser
+        </h2>
+
+<pre><code>import {
+    RegisterUser
+} from "../redux/userSlice";</code></pre>
+
+        <p>
+            Le composant importe l'action Redux
+            permettant d'effectuer l'inscription.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 47 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            47. Importation des hooks Redux
+        </h2>
+
+<pre><code>import {
+    useDispatch,
+    useSelector
+} from "react-redux";</code></pre>
+
+        <p>
+            <code>useDispatch</code> permet d'envoyer
+            une action à Redux.
+        </p>
+
+        <p>
+            Dans ce composant, il permet notamment d'envoyer
+            l'action <code>RegisterUser</code>.
+        </p>
+
+        <p>
+            <code>useSelector</code> permet de récupérer
+            des informations depuis le Redux Store,
+            notamment l'erreur d'inscription.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 48 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            48. Importation de useNavigate et Link
+        </h2>
+
+<pre><code>import {
+    useNavigate,
+    Link
+} from "react-router-dom";</code></pre>
+
+        <p>
+            <code>useNavigate</code> permet de changer
+            de page de manière programmatique.
+        </p>
+
+        <p>
+            <code>Link</code> permet de créer un lien
+            de navigation entre les différentes routes
+            sans recharger entièrement la page.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 49 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            49. Création de dispatch
+        </h2>
+
+<pre><code>const dispatch = useDispatch();</code></pre>
+
+        <p>
+            Cette fonction permet d'envoyer des actions
+            au Redux Store, notamment <code>RegisterUser</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 50 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            50. Création de nav
+        </h2>
+
+<pre><code>const nav = useNavigate();</code></pre>
+
+        <p>
+            <code>nav</code> permet de naviguer
+            programmatiquement vers une autre route.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 51 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            51. Récupération de error
+        </h2>
+
+<pre><code>const {
+    error
+} = useSelector(
+    (state) => state.users
+);</code></pre>
+
+        <p>
+            Cette instruction récupère la propriété
+            <code>error</code> du module <code>users</code>.
+        </p>
+
+        <p>
+            Elle correspond à :
+        </p>
+
+<pre><code>state.users.error</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 52 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            52. Fonction create
+        </h2>
+
+<pre><code>const create = async (e) => {
+    e.preventDefault();
+    ...
+};</code></pre>
+
+        <p>
+            Cette fonction est exécutée lorsque
+            le formulaire est soumis.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 53 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            53. e.preventDefault()
+        </h2>
+
+<pre><code>e.preventDefault();</code></pre>
+
+        <p>
+            Cette instruction empêche le comportement par défaut
+            du navigateur, notamment le rechargement de la page
+            lors de la soumission du formulaire.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 54 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            54. Envoi de RegisterUser
+        </h2>
+
+<pre><code>let result = await dispatch(
+    RegisterUser({
+        name: username,
+        email: email,
+        password: password,
+    })
+);</code></pre>
+
+        <p>
+            Le formulaire transmet les données saisies
+            à l'action Redux <code>RegisterUser</code>.
+        </p>
+
+        <p>
+            Le payload envoyé contient :
+        </p>
+
+<pre><code>{
+    name: username,
+    email: email,
+    password: password
+}</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 55 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            55. Flux de l'inscription
+        </h2>
+
+        <div class="flow">
+
+<pre>
+Formulaire Register
+        ↓
+username
+email
+password
+        ↓
+dispatch()
+        ↓
+RegisterUser()
+        ↓
+Redux Toolkit
+        ↓
+Axios
+        ↓
+POST /api/users/register
+        ↓
+Backend
+        ↓
+Création du compte
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 56 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            56. Vérification du résultat
+        </h2>
+
+<pre><code>if (!result.error) {
+    nav("/dashboard");
+}</code></pre>
+
+        <p>
+            Après l'inscription, le code vérifie si une erreur
+            est présente dans le résultat retourné par Redux.
+        </p>
+
+        <p>
+            Si aucune erreur n'est présente :
+        </p>
+
+<pre><code>nav("/dashboard");</code></pre>
+
+        <p>
+            L'utilisateur est redirigé vers le Dashboard.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 57 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            57. Affichage de l'erreur
+        </h2>
+
+<pre><code>{error ? (
+    &lt;div className="error-message"&gt;
+        {error}
+    &lt;/div&gt;
+) : null}</code></pre>
+
+        <p>
+            Si une erreur est disponible,
+            elle est affichée dans l'interface.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 58 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            58. Champ Username
+        </h2>
+
+<pre><code>&lt;input
+    id="name"
+    type="text"
+    placeholder="username"
+    value={username}
+    onChange={(e) =&gt;
+        setUsername(e.target.value)
+    }
+/&gt;</code></pre>
+
+        <p>
+            Ce champ permet à l'utilisateur de saisir son nom.
+        </p>
+
+        <p>
+            La valeur saisie est stockée dans :
+        </p>
+
+<pre><code>username</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 59 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            59. Champ Email
+        </h2>
+
+<pre><code>&lt;input
+    id="email"
+    type="email"
+    placeholder="email"
+    value={email}
+    onChange={(e) =&gt;
+        setEmail(e.target.value)
+    }
+/&gt;</code></pre>
+
+        <p>
+            Ce champ permet à l'utilisateur de saisir
+            son adresse e-mail.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 60 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            60. Champ Password
+        </h2>
+
+<pre><code>&lt;input
+    id="password"
+    type="password"
+    placeholder="••••••••"
+    value={password}
+    onChange={(e) =&gt;
+        setPassword(e.target.value)
+    }
+/&gt;</code></pre>
+
+        <p>
+            Le type <code>password</code> masque visuellement
+            le mot de passe saisi.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 61 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            61. Bouton Create Account
+        </h2>
+
+<pre><code>&lt;button
+    type="submit"
+    className="auth-submit"
+&gt;
+    Create Account
+&lt;/button&gt;</code></pre>
+
+        <p>
+            Le bouton déclenche la soumission du formulaire.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 62 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            62. Link vers Login
+        </h2>
+
+<pre><code>&lt;Link to="/login"&gt;
+    Sign in
+&lt;/Link&gt;</code></pre>
+
+        <p>
+            Ce lien permet à un utilisateur qui possède déjà
+            un compte d'accéder directement à la page Login.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 63 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            63. Présentation de PrivateRoute.jsx
+        </h2>
+
+        <p>
+            <strong>PrivateRoute.jsx</strong> permet de protéger
+            une partie de l'application.
+        </p>
+
+        <p>
+            Son objectif est de vérifier si l'utilisateur
+            possède les informations nécessaires pour accéder
+            à une route protégée.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 64 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            64. Importation de Navigate
+        </h2>
+
+<pre><code>import {
+    Navigate
+} from "react-router-dom";</code></pre>
+
+        <p>
+            <code>Navigate</code> permet de rediriger
+            automatiquement l'utilisateur vers une autre route.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 65 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            65. Récupération de user
+        </h2>
+
+<pre><code>const user =
+    useSelector(
+        (state) =>
+            state.users.user
+    );</code></pre>
+
+        <p>
+            Cette instruction récupère l'utilisateur
+            enregistré dans Redux.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 66 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            66. Récupération du token
+        </h2>
+
+<pre><code>const token =
+    useSelector(
+        (state) =>
+            state.users.token
+    );</code></pre>
+
+        <p>
+            Cette instruction récupère le token
+            d'authentification depuis Redux.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 67 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            67. Vérification du localStorage
+        </h2>
+
+<pre><code>const storedUser =
+    localStorage.getItem("user");</code></pre>
+
+        <p>
+            Le composant vérifie également si un utilisateur
+            est enregistré dans le navigateur.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 68 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            68. Condition de protection
+        </h2>
+
+<pre><code>if (
+    !user &&
+    !token &&
+    !storedUser
+) {
+    return (
+        &lt;Navigate
+            to="/login"
+            replace
+        /&gt;
+    );
+}</code></pre>
+
+        <p>
+            Cette condition vérifie trois éléments :
+        </p>
+
+        <ul>
+            <li>
+                l'utilisateur présent dans Redux ;
+            </li>
+
+            <li>
+                le token présent dans Redux ;
+            </li>
+
+            <li>
+                l'utilisateur sauvegardé dans localStorage.
+            </li>
+        </ul>
+
+        <p>
+            Si ces trois éléments sont absents,
+            l'utilisateur est considéré comme non authentifié
+            et il est redirigé vers la page Login.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 69 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            69. Redirection vers Login
+        </h2>
+
+<pre><code>&lt;Navigate
+    to="/login"
+    replace
+/&gt;</code></pre>
+
+        <p>
+            L'utilisateur non authentifié est envoyé vers :
+        </p>
+
+<pre><code>/login</code></pre>
+
+        <p>
+            La propriété <code>replace</code> permet de remplacer
+            l'entrée actuelle dans l'historique de navigation
+            au lieu d'en ajouter une nouvelle.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 70 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            70. Autorisation d'accès
+        </h2>
+
+<pre><code>return children;</code></pre>
+
+        <p>
+            Si la condition de blocage n'est pas satisfaite,
+            le composant retourne <code>children</code>.
+        </p>
+
+        <p>
+            Cela signifie que l'utilisateur est autorisé
+            à accéder au contenu protégé.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 71 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            71. Flux de PrivateRoute
+        </h2>
+
+        <div class="flow">
+
+<pre>
+Utilisateur
+      ↓
+PrivateRoute
+      ↓
+Vérification de user
+      ↓
+Vérification du token
+      ↓
+Vérification de localStorage
+      ↓
+┌─────────────────────┐
+│     Authentifié     │
+│          ↓          │
+│   return children   │
+│          ↓          │
+│      Dashboard      │
+└─────────────────────┘
+
+ou
+
+┌─────────────────────┐
+│  Non authentifié    │
+│          ↓          │
+│   Navigate /login   │
+└─────────────────────┘
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 72 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            72. Présentation du Footer.jsx
+        </h2>
+
+        <p>
+            Le composant <strong>Footer.jsx</strong> représente
+            le pied de page de l'application.
+        </p>
+
+        <p>
+            Il contient trois blocs d'informations :
+        </p>
+
+        <ul>
+            <li>
+                les informations de contact ;
+            </li>
+
+            <li>
+                les informations bancaires ;
+            </li>
+
+            <li>
+                les informations concernant la plateforme.
+            </li>
+        </ul>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 73 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            73. Importation du CSS du Footer
+        </h2>
+
+<pre><code>import "./Footer.css";</code></pre>
+
+        <p>
+            Cette instruction permet d'appliquer les styles
+            définis dans <strong>Footer.css</strong>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 74 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            74. Création du composant Footer
+        </h2>
+
+<pre><code>const Footer = () =&gt; {
+    return (
+        &lt;footer className="footer"&gt;
+            ...
+        &lt;/footer&gt;
+    );
+};</code></pre>
+
+        <p>
+            Le composant retourne la structure HTML
+            du pied de page.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 75 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            75. Bloc Contact
+        </h2>
+
+<pre><code>&lt;div className="footer-block"&gt;
+
+    &lt;h4&gt;
+        Contact
+    &lt;/h4&gt;
+
+    &lt;p&gt;
+        Email: ...
+    &lt;/p&gt;
+
+    &lt;p&gt;
+        Tél.: ...
+    &lt;/p&gt;
+
+&lt;/div&gt;</code></pre>
+
+        <p>
+            Ce bloc permet à une personne intéressée par le projet
+            de connaître les moyens de contact disponibles.
+        </p>
+
+        <p>
+            Il présente notamment une adresse e-mail
+            et un numéro de téléphone.
+        </p>
+
+        <p>
+            Dans un portfolio professionnel, ce bloc facilite
+            donc la prise de contact avec un éventuel client,
+            recruteur ou partenaire.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 76 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            76. Bloc Bank Info
+        </h2>
+
+<pre><code>&lt;div className="footer-block"&gt;
+
+    &lt;h4&gt;
+        Bank Info
+    &lt;/h4&gt;
+
+    &lt;p&gt;
+        Bank: Zitouna Bank
+    &lt;/p&gt;
+
+    &lt;p&gt;
+        RIB bancaire: ...
+    &lt;/p&gt;
+
+&lt;/div&gt;</code></pre>
+
+        <p>
+            Ce bloc indique les informations bancaires
+            permettant à une personne intéressée par le projet
+            de connaître le moyen de paiement prévu.
+        </p>
+
+        <p>
+            Dans votre projet, le moyen de paiement présenté
+            est le <strong>virement bancaire</strong>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 77 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            77. Fonctionnement du paiement par virement
+        </h2>
+
+        <p>
+            Le Footer peut servir de point d'information
+            pour un client qui souhaite rémunérer le travail réalisé.
+        </p>
+
+        <div class="flow">
+
+<pre>
+Personne intéressée
+        ↓
+Consulte le Dashboard
+        ↓
+Consulte le Footer
+        ↓
+Bloc Contact
+        ↓
+Prise de contact
+        ↓
+Accord sur le travail ou le service
+        ↓
+Transmission des informations bancaires
+        ↓
+Virement bancaire
+        ↓
+Réception du paiement
+</pre>
+
+        </div>
+
+        <p>
+            Il est cependant préférable, pour un site public,
+            de ne pas afficher le RIB complet directement dans
+            le code source ou dans une publication accessible à tous.
+        </p>
+
+        <p>
+            Une meilleure approche consiste à afficher :
+        </p>
+
+<pre><code>Paiement par virement bancaire
+
+Les informations bancaires sont disponibles
+sur demande après validation du projet.</code></pre>
+
+        <p>
+            Le RIB complet peut ensuite être communiqué
+            directement au client par e-mail ou par un autre
+            moyen privé.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 78 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            78. Bloc Platform
+        </h2>
+
+<pre><code>&lt;div className="footer-block"&gt;
+
+    &lt;h4&gt;
+        Platform
+    &lt;/h4&gt;
+
+    &lt;p&gt;
+        Power BI &amp; AI Dashboard
+    &lt;/p&gt;
+
+    &lt;p&gt;
+        © 2026 All rights reserved
+    &lt;/p&gt;
+
+&lt;/div&gt;</code></pre>
+
+        <p>
+            Ce bloc identifie la plateforme et indique
+            l'année du copyright.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 79 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            79. Architecture globale de l'authentification
+        </h2>
+
+        <div class="flow">
+
+<pre>
+                    App.jsx
+                       │
+                       ▼
+                React Router
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+        Home         Login       Register
+                                      │
+                                      ▼
+                               RegisterUser
+                                      │
+                                      ▼
+                                Redux Toolkit
+                                      │
+                                      ▼
+                                   Axios
+                                      │
+                                      ▼
+                              Backend Node.js
+                                      │
+                                      ▼
+                                Réponse JSON
+                                      │
+                                      ▼
+                                user + token
+                                      │
+                                      ▼
+                                localStorage
+                                      │
+                                      ▼
+                                /dashboard
+                                      │
+                                      ▼
+                                PrivateRoute
+                                      │
+                            ┌─────────┴─────────┐
+                            ▼                   ▼
+                      Authentifié       Non authentifié
+                            │                   │
+                            ▼                   ▼
+                       Dashboard             /login
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 80 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            80. Architecture globale de Redux
+        </h2>
+
+        <div class="flow">
+
+<pre>
+                    Redux Store
+                         │
+        ┌────────────────┼─────────────────┐
+        │                │                 │
+        ▼                ▼                 ▼
+    state.web       state.voyage      state.users
+        │                │                 │
+        ▼                ▼                 ▼
+      Web ML          Voyage ML      Authentification
+                                          │
+                                  ┌───────┴────────┐
+                                  ▼                ▼
+                                user             token
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 81 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            81. Flux complet Register
+        </h2>
+
+        <div class="flow">
+
+<pre>
+Utilisateur
+      ↓
+Page Register
+      ↓
+Saisie du username
+      ↓
+Saisie de l'e-mail
+      ↓
+Saisie du mot de passe
+      ↓
+Submit
+      ↓
+create()
+      ↓
+preventDefault()
+      ↓
+dispatch(RegisterUser())
+      ↓
+createAsyncThunk
+      ↓
+Axios POST
+      ↓
+/api/users/register
+      ↓
+Backend
+      ↓
+Création de l'utilisateur
+      ↓
+Réponse
+      ↓
+RegisterUser.fulfilled
+      ↓
+state.user
+      ↓
+state.token
+      ↓
+localStorage
+      ↓
+nav("/dashboard")
+      ↓
+Dashboard
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 82 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            82. Flux complet Login
+        </h2>
+
+        <div class="flow">
+
+<pre>
+Utilisateur
+      ↓
+Login
+      ↓
+E-mail + mot de passe
+      ↓
+LoginUser
+      ↓
+createAsyncThunk
+      ↓
+Axios POST
+      ↓
+/api/users/login
+      ↓
+Backend
+      ↓
+Vérification de l'utilisateur
+      ↓
+Réponse JSON
+      ↓
+LoginUser.fulfilled
+      ↓
+user + token
+      ↓
+Redux Store
+      ↓
+localStorage
+      ↓
+Dashboard
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 83 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            83. Flux de sécurité de PrivateRoute
+        </h2>
+
+        <div class="flow">
+
+<pre>
+Accès à une route protégée
+          ↓
+PrivateRoute
+          ↓
+state.users.user
+          ↓
+state.users.token
+          ↓
+localStorage user
+          ↓
+Vérification
+          ↓
+Utilisateur authentifié ?
+
+       /          \
+     Oui           Non
+      ↓             ↓
+ children         /login
+      ↓
+ Dashboard
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 84 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            84. Flux du Footer
+        </h2>
+
+        <div class="flow">
+
+<pre>
+Dashboard
+    ↓
+Footer
+    ↓
+┌───────────────┬────────────────┬──────────────────┐
+│               │                │                  │
+▼               ▼                ▼
+Contact       Bank Info       Platform
+│               │                │
+▼               ▼                ▼
+E-mail        Virement        Power BI &amp; AI
+Téléphone     bancaire        Dashboard
+│               │                │
+└───────────────┴────────────────┘
+                ↓
+        Personne intéressée
+                ↓
+          Prise de contact
+                ↓
+         Accord commercial
+                ↓
+        Paiement bancaire
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 85 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            85. Différence entre les principaux fichiers
+        </h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Fichier</th>
+                    <th>Rôle</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>App.jsx</td>
+                    <td>
+                        Définit les routes principales de l'application.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>store.js</td>
+                    <td>
+                        Configure le Redux Store global.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>userSlice.js</td>
+                    <td>
+                        Gère l'inscription, la connexion,
+                        le token et la déconnexion.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Register.jsx</td>
+                    <td>
+                        Affiche et traite le formulaire d'inscription.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>PrivateRoute.jsx</td>
+                    <td>
+                        Protège l'accès aux parties privées
+                        de l'application.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Footer.jsx</td>
+                    <td>
+                        Affiche les informations de contact,
+                        de plateforme et le moyen de paiement.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Footer.css</td>
+                    <td>
+                        Contrôle l'apparence visuelle du Footer.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 86 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            86. Rôle de Redux Toolkit dans l'authentification
+        </h2>
+
+        <p>
+            Redux Toolkit centralise les informations
+            relatives à l'utilisateur et à son authentification.
+        </p>
+
+        <div class="flow">
+
+<pre>
+Backend
+   ↓
+Réponse utilisateur
+   ↓
+Redux Toolkit
+   ↓
+state.users
+   ├── user
+   ├── token
+   └── error
+</pre>
+
+        </div>
+
+        <p>
+            Les autres composants peuvent ensuite récupérer
+            ces informations grâce à <code>useSelector</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 87 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            87. Rôle de localStorage
+        </h2>
+
+        <p>
+            <code>localStorage</code> permet de conserver certaines
+            informations dans le navigateur.
+        </p>
+
+        <p>
+            Dans votre projet, il est utilisé pour conserver :
+        </p>
+
+        <ul>
+            <li>
+                les informations de l'utilisateur ;
+            </li>
+
+            <li>
+                le token d'authentification.
+            </li>
+        </ul>
+
+        <p>
+            Cela permet à l'application de récupérer
+            ces informations après un rechargement de la page.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 88 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            88. Architecture globale de l'application
+        </h2>
+
+        <div class="flow">
+
+<pre>
+                         Application React
+                                │
+                                ▼
+                             App.jsx
+                                │
+                                ▼
+                         React Router
+                                │
+         ┌──────────────────────┼──────────────────────┐
+         │                      │                      │
+         ▼                      ▼                      ▼
+       Home                   Login                 Register
+                                                        │
+                                                        ▼
+                                                    userSlice
+                                                        │
+                                                        ▼
+                                                      Axios
+                                                        │
+                                                        ▼
+                                                     Backend
+                                                        │
+                                                        ▼
+                                                  user + token
+                                                        │
+                                                        ▼
+                                                  Redux Store
+                                                        │
+                                                        ▼
+                                                  localStorage
+                                                        │
+                                                        ▼
+                                                  PrivateRoute
+                                                        │
+                                                        ▼
+                                                   Dashboard
+                                                        │
+                                                        ▼
+                                                     Footer
+                                                        │
+                         ┌──────────────────────────────┼──────────────────┐
+                         ▼                              ▼                  ▼
+                      Contact                       Bank Info          Platform
+                         │                              │                  │
+                         ▼                              ▼                  ▼
+                   Communication                Virement bancaire    Power BI &amp; AI
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 89 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            89. Sécurité et informations bancaires
+        </h2>
+
+        <p>
+            Le Footer peut informer les visiteurs qu'un paiement
+            par virement bancaire est possible.
+        </p>
+
+        <p>
+            Cependant, les informations bancaires complètes
+            ne devraient pas être exposées publiquement dans
+            le code source d'un portfolio ou dans une publication
+            LinkedIn.
+        </p>
+
+        <p>
+            Une meilleure organisation consiste à afficher
+            une information générale :
+        </p>
+
+<pre><code>Paiement par virement bancaire
+
+Les informations bancaires sont disponibles
+sur demande après confirmation du projet.</code></pre>
+
+        <p>
+            Après accord avec le client, les coordonnées bancaires
+            peuvent être communiquées directement par un moyen privé.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 90 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            90. Résumé du parcours d'un client intéressé
+        </h2>
+
+        <div class="flow">
+
+<pre>
+Une personne découvre le portfolio
+          ↓
+Découvre les projets
+          ↓
+Consulte le Dashboard
+          ↓
+Observe les fonctionnalités
+          ↓
+Consulte le Footer
+          ↓
+Trouve les informations de contact
+          ↓
+Prend contact
+          ↓
+Discussion sur le projet
+          ↓
+Validation du travail
+          ↓
+Informations bancaires communiquées
+          ↓
+Virement bancaire
+          ↓
+Confirmation du paiement
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 91 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            91. Résumé du rôle de chaque technologie
+        </h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Technologie</th>
+                    <th>Rôle</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>React</td>
+                    <td>
+                        Construit les composants et l'interface
+                        utilisateur de l'application.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>React Router</td>
+                    <td>
+                        Gère la navigation entre les différentes pages.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Redux Toolkit</td>
+                    <td>
+                        Centralise et gère l'état global de l'application.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>createAsyncThunk</td>
+                    <td>
+                        Gère les opérations asynchrones,
+                        notamment les requêtes vers le backend.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Axios</td>
+                    <td>
+                        Permet au frontend de communiquer
+                        avec le backend.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>localStorage</td>
+                    <td>
+                        Conserve certaines informations
+                        d'authentification dans le navigateur.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>PrivateRoute</td>
+                    <td>
+                        Contrôle l'accès aux pages protégées.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Node.js / Backend</td>
+                    <td>
+                        Traite les requêtes d'inscription
+                        et de connexion.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Footer</td>
+                    <td>
+                        Présente les informations de contact,
+                        de plateforme et de paiement.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>CSS</td>
+                    <td>
+                        Assure la présentation visuelle
+                        de l'application.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 92 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter conclusion">
+
+        <h2>
+            92. Résumé final à retenir
+        </h2>
+
+        <div class="important">
+
+            <p>
+                <strong>
+                    App.jsx constitue le point central de la navigation →
+                    BrowserRouter active React Router →
+                    Routes contient les différentes routes →
+                    Home représente la page d'accueil →
+                    Login représente la connexion →
+                    Register représente l'inscription →
+                    DashboardPage représente le Dashboard →
+                    Redux Toolkit centralise l'état global →
+                    userSlice gère l'authentification →
+                    RegisterUser gère l'inscription →
+                    LoginUser gère la connexion →
+                    Axios communique avec le backend Node.js →
+                    le backend retourne une réponse JSON →
+                    Redux reçoit les données dans action.payload →
+                    user et token sont enregistrés dans Redux →
+                    user et token sont également sauvegardés dans localStorage →
+                    PrivateRoute vérifie les informations d'authentification →
+                    un utilisateur non authentifié est redirigé vers /login →
+                    un utilisateur autorisé peut accéder au Dashboard →
+                    Footer présente les informations de contact →
+                    Footer peut informer qu'un paiement par virement bancaire
+                    est disponible →
+                    les coordonnées bancaires complètes doivent de préférence
+                    être transmises au client de manière privée →
+                    le client peut ensuite effectuer le virement après
+                    validation du projet.
+                </strong>
+            </p>
+
+        </div>
+
+        <div class="flow">
+
+<pre>
+React
+  ↓
+App.jsx
+  ↓
+React Router
+  ↓
+Register / Login
+  ↓
+Redux Toolkit
+  ↓
+Axios
+  ↓
+Backend Node.js
+  ↓
+user + token
+  ↓
+Redux Store
+  ↓
+localStorage
+  ↓
+PrivateRoute
+  ↓
+Dashboard
+  ↓
+Footer
+  ↓
+Contact
+  ↓
+Accord sur le projet
+  ↓
+Paiement par virement bancaire
+</pre>
+
+        </div>
+
+        <p class="footer-note">
+            🌐 Web Dashboard — Documentation technique
+        </p>
+
+    </section>
+
+</main>
+
+</body>
+</html>

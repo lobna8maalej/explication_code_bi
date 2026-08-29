@@ -1,0 +1,3416 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+name="description"
+content="Documentation détaillée du composant ServerDashboard.jsx, de sa liaison avec serverSlice.js, ServerDashboard.css, Redux Toolkit, React, Power BI et le système de prédiction Machine Learning."
+
+>
+
+<title>Documentation — Machine Learning Server Dashboard</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.8;
+        background: #f4f6f8;
+        color: #222;
+    }
+
+    .documentation {
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
+        padding: 50px 0;
+    }
+
+    .documentation-header {
+        background: white;
+        padding: 35px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .chapter {
+        background: white;
+        padding: 30px;
+        margin-bottom: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+        margin-top: 0;
+        color: #1f2937;
+    }
+
+    h2 {
+        margin-top: 0;
+        color: #2563eb;
+    }
+
+    h3 {
+        color: #374151;
+    }
+
+    p {
+        text-align: justify;
+    }
+
+    code {
+        background: #eef2ff;
+        color: #4338ca;
+        padding: 3px 6px;
+        border-radius: 5px;
+        font-family: Consolas, monospace;
+    }
+
+    pre {
+        background: #111827;
+        color: #f9fafb;
+        padding: 20px;
+        border-radius: 10px;
+        overflow-x: auto;
+        line-height: 1.6;
+    }
+
+    .flow {
+        background: #f8fafc;
+        border-left: 5px solid #2563eb;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+        font-family: Consolas, monospace;
+        white-space: pre-line;
+    }
+
+    .important {
+        background: #eff6ff;
+        border-left: 5px solid #2563eb;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+    }
+
+    .warning {
+        background: #fff7ed;
+        border-left: 5px solid #f97316;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    th,
+    td {
+        border: 1px solid #d1d5db;
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background: #2563eb;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background: #f9fafb;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 40px;
+        color: #6b7280;
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<main class="documentation">
+
+<header class="documentation-header">
+
+```
+<h1>
+    🤖 Machine Learning Server Dashboard — Documentation technique
+</h1>
+
+<p>
+    Cette documentation explique en détail le fonctionnement du
+    composant <strong>ServerDashboard.jsx</strong>, sa liaison avec
+    <strong>serverSlice.js</strong>, son fichier
+    <strong>ServerDashboard.css</strong>, ainsi que l'utilisation
+    de React, Redux Toolkit, useState, Power BI et du système
+    de prédiction Machine Learning.
+</p>
+
+<p>
+    Le Dashboard permet à l'utilisateur de sélectionner un modèle
+    de Machine Learning, de saisir deux variables numériques
+    <strong>X1</strong> et <strong>X2</strong>, puis de lancer
+    une prédiction grâce à Redux.
+</p>
+
+<p>
+    Le résultat de la prédiction est ensuite affiché dans
+    l'interface et ajouté à un historique des prédictions.
+</p>
+```
+
+</header>
+
+<!-- ===================================================== -->
+
+<!-- 1 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>1. Présentation générale du projet</h2>
+
+<p>
+    Le composant <strong>ServerDashboard.jsx</strong> représente
+    l'interface principale d'un Dashboard consacré à la
+    prédiction Machine Learning.
+</p>
+
+<p>
+    Il utilise <strong>React</strong> pour construire
+    l'interface utilisateur et gérer les états locaux.
+</p>
+
+<p>
+    Il utilise également <strong>Redux Toolkit</strong> pour
+    gérer les résultats de prédiction, l'état de chargement,
+    les erreurs et l'historique.
+</p>
+
+<p>
+    Le Dashboard contient aussi un rapport
+    <strong>Power BI</strong> intégré grâce à un élément
+    <code>iframe</code>.
+</p>
+
+<div class="flow">
+```
+
+Utilisateur
+↓
+ServerDashboard.jsx
+↓
+Sélection du modèle
+↓
+Saisie de X1 et X2
+↓
+Validation
+↓
+dispatch(fetchServerPrediction())
+↓
+serverSlice.js
+↓
+Traitement de la prédiction
+↓
+Redux Store
+↓
+result / loading / error / history
+↓
+ServerDashboard.jsx
+↓
+Affichage du résultat
+↓
+Historique des prédictions
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 2 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>2. Les fichiers et technologies utilisés</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Fichier / technologie</th>
+            <th>Rôle</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>ServerDashboard.jsx</td>
+            <td>
+                Construit l'interface du Dashboard Machine Learning.
+            </td>
+        </tr>
+
+        <tr>
+            <td>serverSlice.js</td>
+            <td>
+                Gère la récupération de la prédiction avec Redux.
+            </td>
+        </tr>
+
+        <tr>
+            <td>ServerDashboard.css</td>
+            <td>
+                Contrôle la présentation visuelle du Dashboard.
+            </td>
+        </tr>
+
+        <tr>
+            <td>React</td>
+            <td>
+                Construit l'interface utilisateur.
+            </td>
+        </tr>
+
+        <tr>
+            <td>useState</td>
+            <td>
+                Gère les valeurs locales du modèle, X1 et X2.
+            </td>
+        </tr>
+
+        <tr>
+            <td>useDispatch</td>
+            <td>
+                Permet d'envoyer l'action de prédiction à Redux.
+            </td>
+        </tr>
+
+        <tr>
+            <td>useSelector</td>
+            <td>
+                Permet de récupérer les données depuis Redux.
+            </td>
+        </tr>
+
+        <tr>
+            <td>Redux Toolkit</td>
+            <td>
+                Gère l'état global de la prédiction.
+            </td>
+        </tr>
+
+        <tr>
+            <td>Power BI</td>
+            <td>
+                Affiche le rapport analytique intégré.
+            </td>
+        </tr>
+
+        <tr>
+            <td>Machine Learning</td>
+            <td>
+                Produit une valeur prédite à partir des variables
+                X1 et X2.
+            </td>
+        </tr>
+
+    </tbody>
+
+</table>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 3 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>3. Importation de React et useState</h2>
+
+<pre><code>import React, { useState } from "react";</code></pre>
+
+<p>
+    <strong>React</strong> permet de construire le composant
+    fonctionnel.
+</p>
+
+<p>
+    <code>useState</code> est un Hook React permettant de
+    créer et modifier des états locaux dans le composant.
+</p>
+
+<p>
+    Dans ce Dashboard, trois états locaux sont utilisés :
+</p>
+
+<pre><code>model
+```
+
+x1
+x2</code></pre>
+
+```
+<p>
+    Ils permettent de mémoriser les choix et les valeurs
+    saisies par l'utilisateur.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 4 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>4. Importation de Redux</h2>
+
+<pre><code>import {
+useDispatch,
+useSelector
+```
+
+} from "react-redux";</code></pre>
+
+```
+<p>
+    Ces deux Hooks permettent au composant React de
+    communiquer avec Redux.
+</p>
+
+<h3>useDispatch</h3>
+
+<p>
+    <code>useDispatch</code> permet d'obtenir la fonction
+    <code>dispatch</code>.
+</p>
+
+<p>
+    Cette fonction est utilisée pour envoyer l'action :
+</p>
+
+<pre><code>fetchServerPrediction()</code></pre>
+
+<h3>useSelector</h3>
+
+<p>
+    <code>useSelector</code> permet de lire une partie de
+    l'état global Redux.
+</p>
+
+<p>
+    Ici, le composant récupère :
+</p>
+
+<pre><code>state.server</code></pre>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 5 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>5. Importation de fetchServerPrediction</h2>
+
+<pre><code>import {
+fetchServerPrediction
+```
+
+} from "../redux/serverSlice";</code></pre>
+
+```
+<p>
+    Cette instruction crée la liaison entre
+    <strong>ServerDashboard.jsx</strong> et
+    <strong>serverSlice.js</strong>.
+</p>
+
+<p>
+    Le composant peut ensuite déclencher une prédiction
+    avec :
+</p>
+
+<pre><code>dispatch(
+fetchServerPrediction({
+    model: model,
+    x1: valueX1,
+    x2: valueX2
+})
+```
+
+);</code></pre>
+
+```
+<div class="flow">
+```
+
+ServerDashboard.jsx
+↓
+fetchServerPrediction()
+↓
+serverSlice.js
+↓
+Traitement de la prédiction
+↓
+Redux Store
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 6 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>6. Liaison avec ServerDashboard.css</h2>
+
+<pre><code>import "./ServerDashboard.css";</code></pre>
+
+<p>
+    Cette instruction charge le fichier CSS associé au
+    composant.
+</p>
+
+<p>
+    Le JSX utilise ensuite plusieurs classes CSS :
+</p>
+
+<pre><code>
+```
+
+server-container
+server-header
+server-powerbi
+server-section-title
+server-iframe-wrapper
+server-iframe
+server-prediction
+server-inputs
+server-field
+server-button
+server-error
+server-result-card
+server-result-header
+server-result-content
+server-history
+history-list
+history-item
+history-model
+history-prediction </code></pre>
+
+```
+<p>
+    Ces classes permettent de séparer la logique fonctionnelle
+    de la présentation visuelle.
+</p>
+
+<div class="flow">
+```
+
+ServerDashboard.jsx
+↓
+className="server-container"
+↓
+ServerDashboard.css
+↓
+.server-container
+↓
+Style visuel
+
+```
+</div>
+
+<div class="important">
+
+    <strong>Principe important :</strong>
+
+    <p>
+        Redux et React gèrent les données et le comportement
+        du Dashboard, tandis que
+        <strong>ServerDashboard.css</strong> contrôle
+        uniquement la présentation visuelle.
+    </p>
+
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 7 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>7. Création du composant ServerDashboard</h2>
+
+<pre><code>const ServerDashboard = () => {
+...
+```
+
+};</code></pre>
+
+```
+<p>
+    Cette fonction définit le composant React principal.
+</p>
+
+<p>
+    Elle contient toute la logique nécessaire pour :
+</p>
+
+<ul>
+
+    <li>récupérer l'état Redux ;</li>
+
+    <li>gérer les valeurs saisies par l'utilisateur ;</li>
+
+    <li>sélectionner le modèle Machine Learning ;</li>
+
+    <li>valider X1 et X2 ;</li>
+
+    <li>convertir les valeurs en nombres ;</li>
+
+    <li>lancer la prédiction ;</li>
+
+    <li>afficher Power BI ;</li>
+
+    <li>afficher les erreurs ;</li>
+
+    <li>afficher le résultat ;</li>
+
+    <li>afficher l'historique.</li>
+
+</ul>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 8 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>8. Utilisation de useDispatch</h2>
+
+<pre><code>const dispatch = useDispatch();</code></pre>
+
+<p>
+    Cette instruction récupère la fonction
+    <code>dispatch</code> fournie par Redux.
+</p>
+
+<p>
+    Le composant peut ainsi envoyer des actions au store Redux.
+</p>
+
+<p>
+    Dans ce projet, l'action principale est :
+</p>
+
+<pre><code>fetchServerPrediction()</code></pre>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 9 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>9. Récupération de l'état Redux</h2>
+
+<pre><code>const {
+result,
+loading,
+error,
+history
+```
+
+} = useSelector(
+(state) => state.server
+);</code></pre>
+
+```
+<p>
+    Cette instruction récupère la partie
+    <code>server</code> du store Redux.
+</p>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Propriété</th>
+            <th>Rôle</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>result</td>
+            <td>
+                Contient le résultat de la dernière prédiction.
+            </td>
+        </tr>
+
+        <tr>
+            <td>loading</td>
+            <td>
+                Indique si une prédiction est en cours.
+            </td>
+        </tr>
+
+        <tr>
+            <td>error</td>
+            <td>
+                Contient une éventuelle erreur.
+            </td>
+        </tr>
+
+        <tr>
+            <td>history</td>
+            <td>
+                Contient l'historique des prédictions effectuées.
+            </td>
+        </tr>
+
+    </tbody>
+
+</table>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 10 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>10. Création de l'état model</h2>
+
+<pre><code>const [model, setModel] =
+useState("carrefour");</code></pre>
+
+<p>
+    Le premier état est <code>model</code>.
+</p>
+
+<p>
+    Sa valeur initiale est :
+</p>
+
+<pre><code>"carrefour"</code></pre>
+
+<p>
+    Cela signifie que lorsque le Dashboard est chargé,
+    le modèle sélectionné par défaut est
+    <strong>Carrefour</strong>.
+</p>
+
+<p>
+    La fonction :
+</p>
+
+<pre><code>setModel()</code></pre>
+
+<p>
+    permet de modifier le modèle sélectionné.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 11 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>11. Création de l'état X1</h2>
+
+<pre><code>const [x1, setX1] = useState("");</code></pre>
+
+<p>
+    <code>x1</code> représente la première variable saisie
+    par l'utilisateur.
+</p>
+
+<p>
+    Sa valeur initiale est une chaîne vide :
+</p>
+
+<pre><code>""</code></pre>
+
+<p>
+    La fonction :
+</p>
+
+<pre><code>setX1()</code></pre>
+
+<p>
+    permet de modifier la valeur de X1.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 12 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>12. Création de l'état X2</h2>
+
+<pre><code>const [x2, setX2] = useState("");</code></pre>
+
+<p>
+    <code>x2</code> représente la deuxième variable
+    nécessaire à la prédiction.
+</p>
+
+<p>
+    Comme X1, sa valeur initiale est vide.
+</p>
+
+<pre><code>""</code></pre>
+
+<p>
+    La fonction <code>setX2()</code> permet de modifier
+    cette valeur.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 13 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>13. Fonction handlePredict</h2>
+
+<pre><code>const handlePredict = () => {
+...
+```
+
+};</code></pre>
+
+```
+<p>
+    <code>handlePredict</code> est la fonction principale
+    exécutée lorsque l'utilisateur clique sur le bouton
+    <strong>Lancer la prédiction</strong>.
+</p>
+
+<p>
+    Elle réalise plusieurs étapes :
+</p>
+
+<div class="flow">
+```
+
+1. Vérification des champs
+   ↓
+2. Conversion de X1 et X2 en nombres
+   ↓
+3. Vérification numérique
+   ↓
+4. Affichage des informations dans la console
+   ↓
+5. Envoi de fetchServerPrediction()
+   ↓
+6. Traitement par Redux
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 14 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>14. Vérification des champs</h2>
+
+<pre><code>if (
+x1 === "" ||
+x2 === ""
+```
+
+) {
+
+```
+alert(
+    "Veuillez remplir x1 et x2."
+);
+
+return;
+```
+
+}</code></pre>
+
+```
+<p>
+    Cette condition vérifie si X1 ou X2 est vide.
+</p>
+
+<p>
+    Si l'un des deux champs n'est pas rempli, une
+    boîte de dialogue est affichée :
+</p>
+
+<pre><code>Veuillez remplir x1 et x2.</code></pre>
+
+<p>
+    Le mot-clé <code>return</code> arrête immédiatement
+    l'exécution de <code>handlePredict</code>.
+</p>
+
+<div class="important">
+
+    <strong>Pourquoi cette vérification est importante ?</strong>
+
+    <p>
+        Elle empêche l'envoi d'une requête de prédiction
+        avec des variables manquantes.
+    </p>
+
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 15 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>15. Conversion des valeurs en nombres</h2>
+
+<pre><code>const valueX1 = Number(x1);
+```
+
+const valueX2 = Number(x2);</code></pre>
+
+```
+<p>
+    Les valeurs provenant des champs HTML sont généralement
+    récupérées sous forme de chaînes de caractères.
+</p>
+
+<p>
+    La fonction <code>Number()</code> convertit donc les
+    valeurs en nombres.
+</p>
+
+<p>
+    Par exemple :
+</p>
+
+<pre><code>
+```
+
+x1 = "100"
+↓
+Number(x1)
+↓
+100 </code></pre>
+
+```
+<p>
+    Même principe pour X2.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 16 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>16. Vérification numérique</h2>
+
+<pre><code>if (
+Number.isNaN(valueX1) ||
+Number.isNaN(valueX2)
+```
+
+) {
+
+```
+alert(
+    "x1 et x2 doivent être des nombres."
+);
+
+return;
+```
+
+}</code></pre>
+
+```
+<p>
+    Cette condition vérifie que les deux valeurs obtenues
+    sont bien numériques.
+</p>
+
+<p>
+    <code>Number.isNaN()</code> permet de détecter une valeur
+    qui n'est pas un nombre valide.
+</p>
+
+<p>
+    Si X1 ou X2 n'est pas valide, le système affiche :
+</p>
+
+<pre><code>
+```
+
+x1 et x2 doivent être des nombres. </code></pre>
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 17 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>17. Affichage des informations dans la console</h2>
+
+<pre><code>console.log(
+"🚀 LANCEMENT PREDICTION"
+```
+
+);</code></pre>
+
+```
+<p>
+    Le composant affiche plusieurs informations dans la console
+    du navigateur afin de faciliter le suivi et le débogage.
+</p>
+
+<pre><code>
+```
+
+console.log("🤖 MODEL :", model);
+
+console.log("📊 X1 :", valueX1);
+
+console.log("📊 X2 :", valueX2); </code></pre>
+
+```
+<p>
+    Le développeur peut ainsi vérifier :
+</p>
+
+<ul>
+
+    <li>le modèle sélectionné ;</li>
+
+    <li>la valeur de X1 ;</li>
+
+    <li>la valeur de X2.</li>
+
+</ul>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 18 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>18. Déclenchement de la prédiction Redux</h2>
+
+<pre><code>dispatch(
+fetchServerPrediction({
+
+    model: model,
+
+    x1: valueX1,
+
+    x2: valueX2
+
+})
+```
+
+);</code></pre>
+
+```
+<p>
+    Cette instruction constitue le point central de la
+    communication avec Redux.
+</p>
+
+<p>
+    Le composant envoie trois informations :
+</p>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Paramètre</th>
+            <th>Valeur</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>model</td>
+            <td>
+                Modèle Machine Learning sélectionné.
+            </td>
+        </tr>
+
+        <tr>
+            <td>x1</td>
+            <td>
+                Première variable numérique.
+            </td>
+        </tr>
+
+        <tr>
+            <td>x2</td>
+            <td>
+                Deuxième variable numérique.
+            </td>
+        </tr>
+
+    </tbody>
+
+</table>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 19 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>19. Flux de la prédiction</h2>
+
+<div class="flow">
+```
+
+Utilisateur
+↓
+Sélection du modèle
+↓
+Saisie X1
+↓
+Saisie X2
+↓
+handlePredict()
+↓
+Validation
+↓
+Conversion Number()
+↓
+dispatch()
+↓
+fetchServerPrediction()
+↓
+serverSlice.js
+↓
+Backend / Machine Learning
+↓
+Résultat
+↓
+Redux Store
+↓
+ServerDashboard.jsx
+↓
+Affichage
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 20 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>20. Conteneur principal</h2>
+
+<pre><code>&lt;div className="server-container"&gt;</code></pre>
+
+<p>
+    Cet élément représente le conteneur principal de
+    l'interface.
+</p>
+
+<p>
+    La classe <code>server-container</code> permet au fichier
+    <strong>ServerDashboard.css</strong> de contrôler la
+    présentation générale du Dashboard.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 21 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>21. En-tête du Dashboard</h2>
+
+<pre><code>&lt;div className="server-header"&gt;</code></pre>
+
+<p>
+    Cette section contient le titre et la description
+    générale du Dashboard.
+</p>
+
+<pre><code>
+```
+
+🤖 Machine Learning Server </code></pre>
+
+```
+<p>
+    Le titre indique que le Dashboard est consacré à un
+    système de prédiction Machine Learning.
+</p>
+
+<p>
+    La description précise les principales technologies
+    utilisées :
+</p>
+
+<pre><code>
+```
+
+Python
+Scikit-learn
+Node.js </code></pre>
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 22 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>22. Section Power BI</h2>
+
+<pre><code>&lt;div className="server-powerbi"&gt;</code></pre>
+
+<p>
+    Cette section est consacrée à l'affichage du Dashboard
+    analytique Power BI.
+</p>
+
+<p>
+    Elle contient :
+</p>
+
+<ul>
+
+    <li>le titre Power BI ;</li>
+
+    <li>une description ;</li>
+
+    <li>le conteneur de l'iframe ;</li>
+
+    <li>le rapport Power BI.</li>
+
+</ul>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 23 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>23. Intégration de Power BI</h2>
+
+<pre><code>&lt;iframe
+className="server-iframe"
+title="Power BI - AZIZA"
+src="https://app.powerbi.com/view?r=..."
+allowFullScreen
+```
+
+/></code></pre>
+
+```
+<p>
+    L'élément <code>iframe</code> permet d'intégrer un
+    contenu externe dans l'application React.
+</p>
+
+<p>
+    Ici, le contenu externe correspond au rapport
+    <strong>Power BI</strong>.
+</p>
+
+<h3>title</h3>
+
+<pre><code>title="Power BI - AZIZA"</code></pre>
+
+<p>
+    Cette propriété identifie le contenu de l'iframe.
+</p>
+
+<h3>src</h3>
+
+<p>
+    La propriété <code>src</code> contient l'adresse du
+    rapport Power BI publié.
+</p>
+
+<h3>allowFullScreen</h3>
+
+<p>
+    Cette propriété permet au rapport d'être affiché en
+    plein écran lorsque cette fonctionnalité est disponible.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 24 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>24. Flux Power BI</h2>
+
+<div class="flow">
+```
+
+Rapport Power BI
+↓
+URL Power BI
+↓
+iframe
+↓
+server-iframe-wrapper
+↓
+server-iframe
+↓
+ServerDashboard.css
+↓
+Affichage dans React
+
+```
+</div>
+
+<p>
+    Power BI fonctionne ici comme une partie analytique
+    intégrée dans l'application React.
+</p>
+
+<p>
+    React fournit l'espace d'affichage tandis que le rapport
+    Power BI fournit les visualisations décisionnelles.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 25 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>25. Section Prediction Machine Learning</h2>
+
+<pre><code>&lt;div className="server-prediction"&gt;</code></pre>
+
+<p>
+    Cette section permet à l'utilisateur d'interagir avec
+    le système de prédiction.
+</p>
+
+<p>
+    Elle contient :
+</p>
+
+<ul>
+
+    <li>la sélection du modèle ;</li>
+
+    <li>le champ X1 ;</li>
+
+    <li>le champ X2 ;</li>
+
+    <li>le bouton de lancement.</li>
+
+</ul>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 26 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>26. Sélection du modèle</h2>
+
+<pre><code>&lt;select
+value={model}
+onChange={(e) =>
+    setModel(e.target.value)
+}
+```
+
+></code></pre>
+
+```
+<p>
+    L'élément <code>select</code> permet à l'utilisateur
+    de choisir le modèle Machine Learning.
+</p>
+
+<p>
+    Deux modèles sont disponibles dans le code :
+</p>
+
+<pre><code>
+```
+
+Carrefour
+Aziza </code></pre>
+
+```
+<p>
+    La valeur sélectionnée est contrôlée par l'état :
+</p>
+
+<pre><code>model</code></pre>
+
+<p>
+    Lorsque l'utilisateur change son choix,
+    <code>setModel()</code> met à jour l'état.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 27 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>27. Champ X1</h2>
+
+<pre><code>&lt;input
+type="number"
+placeholder="Ex : 100"
+value={x1}
+onChange={(e) =>
+    setX1(e.target.value)
+}
+```
+
+/></code></pre>
+
+```
+<p>
+    Ce champ permet à l'utilisateur de saisir la première
+    variable de la prédiction.
+</p>
+
+<p>
+    La propriété :
+</p>
+
+<pre><code>type="number"</code></pre>
+
+<p>
+    indique que le champ est destiné à recevoir une valeur
+    numérique.
+</p>
+
+<p>
+    La valeur saisie est stockée dans :
+</p>
+
+<pre><code>x1</code></pre>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 28 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>28. Champ X2</h2>
+
+<pre><code>&lt;input
+type="number"
+placeholder="Ex : 200"
+value={x2}
+onChange={(e) =>
+    setX2(e.target.value)
+}
+```
+
+/></code></pre>
+
+```
+<p>
+    Ce champ fonctionne de manière similaire à X1.
+</p>
+
+<p>
+    Il permet de saisir la deuxième variable nécessaire
+    au modèle Machine Learning.
+</p>
+
+<p>
+    La valeur est enregistrée dans l'état :
+</p>
+
+<pre><code>x2</code></pre>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 29 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>29. Bouton de lancement</h2>
+
+<pre><code>&lt;button
+className="server-button"
+onClick={handlePredict}
+disabled={loading}
+```
+
+></code></pre>
+
+```
+<p>
+    Le bouton permet de lancer la fonction
+    <code>handlePredict</code>.
+</p>
+
+<p>
+    Lorsque l'utilisateur clique dessus :
+</p>
+
+<div class="flow">
+```
+
+Bouton
+↓
+onClick
+↓
+handlePredict()
+↓
+Validation
+↓
+dispatch()
+↓
+Prédiction
+
+```
+</div>
+
+<p>
+    La propriété :
+</p>
+
+<pre><code>disabled={loading}</code></pre>
+
+<p>
+    désactive le bouton pendant le calcul.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 30 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>30. Affichage de l'état loading</h2>
+
+<pre><code>{loading
+? "⏳ Calcul..."
+: "🚀 Lancer la prédiction"
+```
+
+}</code></pre>
+
+```
+<p>
+    Le composant utilise ici un opérateur ternaire.
+</p>
+
+<p>
+    Si <code>loading</code> vaut <code>true</code>,
+    le bouton affiche :
+</p>
+
+<pre><code>⏳ Calcul...</code></pre>
+
+<p>
+    Sinon, il affiche :
+</p>
+
+<pre><code>🚀 Lancer la prédiction</code></pre>
+
+<p>
+    Cela permet de donner un retour visuel à l'utilisateur
+    pendant l'exécution de la prédiction.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 31 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>31. Gestion des erreurs</h2>
+
+<pre><code>{error && (
+&lt;div className="server-error"&gt;
+    ...
+&lt;/div&gt;
+```
+
+)}</code></pre>
+
+```
+<p>
+    Le bloc d'erreur est affiché uniquement lorsque
+    <code>error</code> contient une valeur.
+</p>
+
+<p>
+    Le composant prévoit également deux possibilités :
+</p>
+
+<pre><code>
+```
+
+typeof error === "object" </code></pre>
+
+```
+<p>
+    ou une erreur simple sous forme de texte.
+</p>
+
+<pre><code>
+```
+
+error.error ||
+"Une erreur est survenue." </code></pre>
+
+```
+<p>
+    Cette logique permet d'éviter d'afficher directement
+    un objet JavaScript dans l'interface.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 32 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>32. Condition d'affichage du résultat</h2>
+
+<pre><code>{result && result.success && (
+...
+```
+
+)}</code></pre>
+
+```
+<p>
+    Le résultat est affiché uniquement lorsque deux conditions
+    sont satisfaites :
+</p>
+
+<ol>
+
+    <li><code>result</code> existe ;</li>
+
+    <li><code>result.success</code> vaut <code>true</code>.</li>
+
+</ol>
+
+<p>
+    Cela signifie que l'interface n'affiche la carte de
+    résultat que lorsque la prédiction a été considérée
+    comme réussie.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 33 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>33. Carte du résultat</h2>
+
+<pre><code>&lt;div className="server-result-card"&gt;</code></pre>
+
+<p>
+    Cette carte présente le résultat final de la prédiction.
+</p>
+
+<p>
+    Elle contient :
+</p>
+
+<ul>
+
+    <li>le titre du résultat ;</li>
+
+    <li>le statut de succès ;</li>
+
+    <li>le modèle utilisé ;</li>
+
+    <li>X1 ;</li>
+
+    <li>X2 ;</li>
+
+    <li>la valeur prédite.</li>
+
+</ul>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 34 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>34. Affichage du modèle utilisé</h2>
+
+<pre><code>{result.model}</code></pre>
+
+<p>
+    Cette instruction récupère le modèle utilisé pour réaliser
+    la prédiction.
+</p>
+
+<p>
+    Par exemple :
+</p>
+
+<pre><code>carrefour</code></pre>
+
+<p>
+    ou :
+</p>
+
+<pre><code>aziza</code></pre>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 35 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>35. Affichage de X1</h2>
+
+<pre><code>
+```
+
+{result.input?.x1 ??
+history[0]?.input?.x1 ??
+x1} </code></pre>
+
+```
+<p>
+    Cette expression utilise l'opérateur
+    <code>??</code> pour rechercher une valeur disponible.
+</p>
+
+<p>
+    Le composant cherche d'abord :
+</p>
+
+<pre><code>result.input?.x1</code></pre>
+
+<p>
+    Si cette valeur n'existe pas, il cherche :
+</p>
+
+<pre><code>history[0]?.input?.x1</code></pre>
+
+<p>
+    Enfin, si aucune des deux valeurs n'est disponible,
+    il utilise :
+</p>
+
+<pre><code>x1</code></pre>
+
+<div class="flow">
+```
+
+result.input.x1
+↓
+Sinon history[0].input.x1
+↓
+Sinon x1
+↓
+Valeur affichée
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 36 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>36. Affichage de X2</h2>
+
+<pre><code>
+```
+
+{result.input?.x2 ??
+history[0]?.input?.x2 ??
+x2} </code></pre>
+
+```
+<p>
+    Le même principe est utilisé pour X2.
+</p>
+
+<p>
+    Le composant recherche successivement la valeur dans
+    le résultat, l'historique, puis dans l'état local.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 37 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>37. Affichage de la valeur prédite</h2>
+
+<pre><code>
+```
+
+{Number(
+result.prediction
+).toFixed(2)} </code></pre>
+
+```
+<p>
+    Le résultat de prédiction est converti en nombre grâce
+    à <code>Number()</code>.
+</p>
+
+<p>
+    La méthode :
+</p>
+
+<pre><code>.toFixed(2)</code></pre>
+
+<p>
+    permet d'afficher deux chiffres après la virgule.
+</p>
+
+<p>
+    Par exemple, une valeur :
+</p>
+
+<pre><code>123.4567</code></pre>
+
+<p>
+    sera affichée sous la forme :
+</p>
+
+<pre><code>123.46</code></pre>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 38 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>38. Signification de la valeur prédite</h2>
+
+<pre><code>🎯 Valeur prédite</code></pre>
+
+<p>
+    Cette partie représente la sortie produite par le
+    modèle Machine Learning.
+</p>
+
+<p>
+    Les valeurs X1 et X2 représentent les variables d'entrée,
+    tandis que <code>result.prediction</code> représente la
+    sortie du modèle.
+</p>
+
+<div class="flow">
+```
+
+X1
++
+X2
++
+Modèle sélectionné
+↓
+Machine Learning
+↓
+Prediction
+↓
+result.prediction
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 39 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>39. Historique des prédictions</h2>
+
+<pre><code>
+```
+
+{history.length > 0 && (
+...
+)} </code></pre>
+
+```
+<p>
+    L'historique est affiché uniquement lorsque le tableau
+    <code>history</code> contient au moins une prédiction.
+</p>
+
+<p>
+    La condition :
+</p>
+
+<pre><code>history.length > 0</code></pre>
+
+<p>
+    vérifie donc que l'historique n'est pas vide.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 40 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>40. Parcours de l'historique avec map()</h2>
+
+<pre><code>
+```
+
+{history.map(
+(item, index) => (
+...
+)
+)} </code></pre>
+
+```
+<p>
+    La méthode <code>map()</code> permet de parcourir tous
+    les éléments du tableau <code>history</code>.
+</p>
+
+<p>
+    Pour chaque prédiction, React crée un élément visuel
+    correspondant.
+</p>
+
+<div class="flow">
+```
+
+history
+↓
+map()
+↓
+Prédiction 1
+↓
+Prédiction 2
+↓
+Prédiction 3
+↓
+...
+↓
+Liste affichée
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 41 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>41. Utilisation de key</h2>
+
+<pre><code>
+```
+
+key={index} </code></pre>
+
+```
+<p>
+    React utilise la propriété <code>key</code> pour
+    identifier les éléments générés à partir du tableau.
+</p>
+
+<p>
+    Ici, l'index du tableau est utilisé comme clé.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 42 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>42. Affichage du modèle dans l'historique</h2>
+
+<pre><code>{item.model}</code></pre>
+
+<p>
+    Cette instruction affiche le modèle utilisé pour chaque
+    prédiction enregistrée dans l'historique.
+</p>
+
+<p>
+    Le modèle peut correspondre à :
+</p>
+
+<pre><code>
+```
+
+carrefour </code></pre>
+
+```
+<p>
+    ou :
+</p>
+
+<pre><code>
+```
+
+aziza </code></pre>
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 43 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>43. Affichage des variables dans l'historique</h2>
+
+<pre><code>
+```
+
+X1 : {item.input?.x1 ?? "-"}
+|
+X2 : {item.input?.x2 ?? "-"} </code></pre>
+
+```
+<p>
+    Le composant affiche les valeurs X1 et X2 associées
+    à chaque prédiction.
+</p>
+
+<p>
+    L'opérateur <code>??</code> permet d'afficher
+    <code>-</code> lorsque la valeur n'existe pas.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 44 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>44. Affichage de la prédiction dans l'historique</h2>
+
+<pre><code>
+```
+
+{Number(
+item.prediction
+).toFixed(2)} </code></pre>
+
+```
+<p>
+    Pour chaque élément de l'historique, la valeur prédite
+    est convertie en nombre et affichée avec deux décimales.
+</p>
+
+<p>
+    Le même principe que pour le résultat principal est donc
+    utilisé.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 45 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>45. Liaison complète entre React et Redux</h2>
+
+<div class="flow">
+```
+
+Redux Store
+│
+└── state.server
+│
+├── result
+├── loading
+├── error
+└── history
+│
+▼
+useSelector()
+│
+▼
+ServerDashboard.jsx
+│
+├── result
+├── loading
+├── error
+└── history
+│
+▼
+Interface React
+
+```
+</div>
+
+<p>
+    Redux fournit donc au composant toutes les informations
+    nécessaires à l'affichage.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 46 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>46. Relation entre Redux et les états locaux</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Type d'état</th>
+            <th>Variables</th>
+            <th>Responsabilité</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>État local React</td>
+            <td>model</td>
+            <td>
+                Modèle sélectionné par l'utilisateur.
+            </td>
+        </tr>
+
+        <tr>
+            <td>État local React</td>
+            <td>x1</td>
+            <td>
+                Première valeur saisie.
+            </td>
+        </tr>
+
+        <tr>
+            <td>État local React</td>
+            <td>x2</td>
+            <td>
+                Deuxième valeur saisie.
+            </td>
+        </tr>
+
+        <tr>
+            <td>État Redux</td>
+            <td>result</td>
+            <td>
+                Résultat de la prédiction.
+            </td>
+        </tr>
+
+        <tr>
+            <td>État Redux</td>
+            <td>loading</td>
+            <td>
+                État du calcul.
+            </td>
+        </tr>
+
+        <tr>
+            <td>État Redux</td>
+            <td>error</td>
+            <td>
+                Erreur éventuelle.
+            </td>
+        </tr>
+
+        <tr>
+            <td>État Redux</td>
+            <td>history</td>
+            <td>
+                Historique des prédictions.
+            </td>
+        </tr>
+
+    </tbody>
+
+</table>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 47 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>47. Liaison avec serverSlice.js</h2>
+
+<p>
+    Le composant utilise l'action :
+</p>
+
+<pre><code>
+```
+
+fetchServerPrediction() </code></pre>
+
+```
+<p>
+    provenant de <strong>serverSlice.js</strong>.
+</p>
+
+<p>
+    Le composant ne réalise pas directement la logique
+    interne de récupération de la prédiction.
+</p>
+
+<p>
+    Il demande simplement à Redux d'effectuer cette opération :
+</p>
+
+<pre><code>
+```
+
+dispatch(
+fetchServerPrediction({
+model,
+x1,
+x2
+})
+); </code></pre>
+
+```
+<div class="flow">
+```
+
+ServerDashboard.jsx
+↓
+dispatch()
+↓
+fetchServerPrediction()
+↓
+serverSlice.js
+↓
+Traitement
+↓
+Redux
+↓
+result / loading / error / history
+↓
+ServerDashboard.jsx
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 48 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>48. Cycle loading → résultat</h2>
+
+<div class="flow">
+```
+
+Utilisateur clique
+↓
+dispatch(fetchServerPrediction())
+↓
+loading = true
+↓
+Bouton devient désactivé
+↓
+"⏳ Calcul..."
+↓
+Traitement de la prédiction
+↓
+Réponse reçue
+↓
+loading = false
+↓
+result mis à jour
+↓
+history mis à jour
+↓
+Affichage du résultat
+
+```
+</div>
+
+<p>
+    Ce mécanisme permet à l'utilisateur de comprendre que
+    le calcul est en cours.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 49 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>49. Cycle en cas d'erreur</h2>
+
+<div class="flow">
+```
+
+Utilisateur clique
+↓
+dispatch()
+↓
+loading = true
+↓
+Erreur pendant le traitement
+↓
+Redux met à jour error
+↓
+loading = false
+↓
+ServerDashboard.jsx
+↓
+error && (...)
+↓
+Affichage du message d'erreur
+
+```
+</div>
+
+<p>
+    L'interface peut donc informer l'utilisateur lorsqu'une
+    erreur survient pendant la prédiction.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 50 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>50. Architecture globale du système</h2>
+
+<div class="flow">
+
+                ServerDashboard.jsx
+                       │
+        ┌──────────────┼──────────────┐
+        ▼              ▼              ▼
+    useState       useSelector    useDispatch
+        │              │              │
+        ▼              ▼              ▼
+   model / X1 / X2   Redux Store    dispatch()
+                       │              │
+             ┌─────────┼─────────┐    │
+             ▼         ▼         ▼    ▼
+          result    loading    error
+             │         │         │
+             └─────────┼─────────┘
+                       │
+                       ▼
+              fetchServerPrediction()
+                       │
+                       ▼
+                serverSlice.js
+                       │
+                       ▼
+              Machine Learning
+                       │
+                       ▼
+                  Prediction
+                       │
+                       ▼
+                Redux Store
+                       │
+                       ▼
+              ServerDashboard.jsx
+                       │
+      ┌────────────────┼────────────────┐
+      ▼                ▼                ▼
+   Power BI         Resultat         History
+      │                │                │
+      └────────────────┼────────────────┘
+                       ▼
+              ServerDashboard.css
+                       │
+                       ▼
+                Interface finale
+
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 51 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>51. Séparation des responsabilités</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Élément</th>
+            <th>Responsabilité</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>ServerDashboard.jsx</td>
+            <td>
+                Interface utilisateur et orchestration.
+            </td>
+        </tr>
+
+        <tr>
+            <td>useState</td>
+            <td>
+                Gestion de model, X1 et X2.
+            </td>
+        </tr>
+
+        <tr>
+            <td>serverSlice.js</td>
+            <td>
+                Gestion Redux de la prédiction.
+            </td>
+        </tr>
+
+        <tr>
+            <td>Redux Store</td>
+            <td>
+                Stockage de result, loading, error et history.
+            </td>
+        </tr>
+
+        <tr>
+            <td>Machine Learning</td>
+            <td>
+                Calcul de la valeur prédite.
+            </td>
+        </tr>
+
+        <tr>
+            <td>Power BI</td>
+            <td>
+                Analyse et visualisation décisionnelle.
+            </td>
+        </tr>
+
+        <tr>
+            <td>ServerDashboard.css</td>
+            <td>
+                Présentation visuelle du Dashboard.
+            </td>
+        </tr>
+
+    </tbody>
+
+</table>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 52 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>52. Flux complet d'une prédiction</h2>
+
+<div class="flow">
+```
+
+1. L'utilisateur ouvre ServerDashboard
+   ↓
+2. Le modèle Carrefour est sélectionné par défaut
+   ↓
+3. L'utilisateur choisit éventuellement Aziza
+   ↓
+4. L'utilisateur saisit X1
+   ↓
+5. L'utilisateur saisit X2
+   ↓
+6. L'utilisateur clique sur le bouton
+   ↓
+7. handlePredict() est exécutée
+   ↓
+8. Vérification des champs
+   ↓
+9. Conversion X1 et X2 en nombres
+   ↓
+10. Vérification numérique
+    ↓
+11. dispatch(fetchServerPrediction())
+    ↓
+12. serverSlice.js traite la demande
+    ↓
+13. Le système Machine Learning produit une prédiction
+    ↓
+14. Redux reçoit le résultat
+    ↓
+15. result est mis à jour
+    ↓
+16. history est mis à jour
+    ↓
+17. React détecte la modification
+    ↓
+18. Le composant est réaffiché
+    ↓
+19. La carte du résultat apparaît
+    ↓
+20. La prédiction apparaît également dans l'historique
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 53 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>53. Exemple concret de prédiction</h2>
+
+<p>
+    Supposons que l'utilisateur sélectionne :
+</p>
+
+<pre><code>
+```
+
+Modèle : Carrefour
+X1 : 100
+X2 : 200 </code></pre>
+
+```
+<p>
+    Après validation, le composant construit les données
+    suivantes :
+</p>
+
+<pre><code>
+```
+
+{
+model: "carrefour",
+x1: 100,
+x2: 200
+} </code></pre>
+
+```
+<p>
+    Ces données sont envoyées à :
+</p>
+
+<pre><code>
+```
+
+fetchServerPrediction() </code></pre>
+
+```
+<p>
+    Le système de Machine Learning effectue ensuite son
+    calcul et retourne une valeur prédite.
+</p>
+
+<div class="flow">
+```
+
+model = carrefour
++
+x1 = 100
++
+x2 = 200
+↓
+Machine Learning
+↓
+prediction
+↓
+Redux
+↓
+result.prediction
+↓
+Affichage
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 54 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>54. React et re-render</h2>
+
+<p>
+    Lorsque Redux modifie les valeurs :
+</p>
+
+<pre><code>
+```
+
+result
+loading
+error
+history </code></pre>
+
+```
+<p>
+    le composant utilisant <code>useSelector</code> reçoit
+    les nouvelles valeurs.
+</p>
+
+<p>
+    React effectue alors un nouveau rendu du composant.
+</p>
+
+<div class="flow">
+```
+
+Redux State change
+↓
+useSelector reçoit les nouvelles données
+↓
+ServerDashboard re-render
+↓
+Nouvel affichage
+↓
+Résultat visible par l'utilisateur
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 55 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>55. Rôle de ServerDashboard.css</h2>
+
+<p>
+    Le fichier <strong>ServerDashboard.css</strong> est
+    responsable de la présentation visuelle.
+</p>
+
+<p>
+    Il peut contrôler notamment :
+</p>
+
+<ul>
+
+    <li>la largeur du Dashboard ;</li>
+
+    <li>les espacements ;</li>
+
+    <li>les couleurs ;</li>
+
+    <li>les cartes ;</li>
+
+    <li>les boutons ;</li>
+
+    <li>les champs de formulaire ;</li>
+
+    <li>l'affichage Power BI ;</li>
+
+    <li>la carte du résultat ;</li>
+
+    <li>l'historique.</li>
+
+</ul>
+
+<p>
+    Le CSS ne réalise cependant pas la prédiction.
+</p>
+
+<div class="flow">
+```
+
+Redux
+↓
+Données
+↓
+ServerDashboard.jsx
+↓
+JSX + className
+↓
+ServerDashboard.css
+↓
+Présentation visuelle
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 56 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>56. Correspondance des classes CSS</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Dans ServerDashboard.jsx</th>
+            <th>Classe CSS</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>server-container</td>
+            <td>.server-container</td>
+        </tr>
+
+        <tr>
+            <td>server-header</td>
+            <td>.server-header</td>
+        </tr>
+
+        <tr>
+            <td>server-powerbi</td>
+            <td>.server-powerbi</td>
+        </tr>
+
+        <tr>
+            <td>server-section-title</td>
+            <td>.server-section-title</td>
+        </tr>
+
+        <tr>
+            <td>server-iframe-wrapper</td>
+            <td>.server-iframe-wrapper</td>
+        </tr>
+
+        <tr>
+            <td>server-iframe</td>
+            <td>.server-iframe</td>
+        </tr>
+
+        <tr>
+            <td>server-prediction</td>
+            <td>.server-prediction</td>
+        </tr>
+
+        <tr>
+            <td>server-inputs</td>
+            <td>.server-inputs</td>
+        </tr>
+
+        <tr>
+            <td>server-field</td>
+            <td>.server-field</td>
+        </tr>
+
+        <tr>
+            <td>server-button</td>
+            <td>.server-button</td>
+        </tr>
+
+        <tr>
+            <td>server-error</td>
+            <td>.server-error</td>
+        </tr>
+
+        <tr>
+            <td>server-result-card</td>
+            <td>.server-result-card</td>
+        </tr>
+
+        <tr>
+            <td>server-result-header</td>
+            <td>.server-result-header</td>
+        </tr>
+
+        <tr>
+            <td>server-result-content</td>
+            <td>.server-result-content</td>
+        </tr>
+
+        <tr>
+            <td>server-history</td>
+            <td>.server-history</td>
+        </tr>
+
+        <tr>
+            <td>history-list</td>
+            <td>.history-list</td>
+        </tr>
+
+        <tr>
+            <td>history-item</td>
+            <td>.history-item</td>
+        </tr>
+
+        <tr>
+            <td>history-model</td>
+            <td>.history-model</td>
+        </tr>
+
+        <tr>
+            <td>history-prediction</td>
+            <td>.history-prediction</td>
+        </tr>
+
+    </tbody>
+
+</table>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 57 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>57. Ce que fait réellement ServerDashboard.jsx</h2>
+
+<p>
+    Le composant <strong>ServerDashboard.jsx</strong> joue
+    principalement le rôle de couche d'interface et
+    d'orchestration.
+</p>
+
+<p>
+    Il ne contient pas directement toute la logique interne
+    du Machine Learning.
+</p>
+
+<p>
+    Son rôle consiste principalement à :
+</p>
+
+<ul>
+
+    <li>récupérer les états Redux ;</li>
+
+    <li>collecter les valeurs de l'utilisateur ;</li>
+
+    <li>valider les données ;</li>
+
+    <li>déclencher la prédiction ;</li>
+
+    <li>afficher le résultat ;</li>
+
+    <li>afficher les erreurs ;</li>
+
+    <li>afficher l'historique ;</li>
+
+    <li>intégrer Power BI.</li>
+
+</ul>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 58 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>58. Résumé du rôle de serverSlice.js</h2>
+
+<p>
+    Le composant montre que <strong>serverSlice.js</strong>
+    fournit au minimum l'action :
+</p>
+
+<pre><code>
+```
+
+fetchServerPrediction() </code></pre>
+
+```
+<p>
+    et que le store Redux associé contient les propriétés :
+</p>
+
+<pre><code>
+```
+
+result
+loading
+error
+history </code></pre>
+
+```
+<p>
+    Le composant utilise donc ces données pour construire
+    l'interface finale.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 59 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>59. Rôle de chaque technologie</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Technologie</th>
+            <th>Rôle</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>React</td>
+            <td>
+                Construit l'interface utilisateur.
+            </td>
+        </tr>
+
+        <tr>
+            <td>useState</td>
+            <td>
+                Gère model, X1 et X2.
+            </td>
+        </tr>
+
+        <tr>
+            <td>useDispatch</td>
+            <td>
+                Envoie l'action de prédiction à Redux.
+            </td>
+        </tr>
+
+        <tr>
+            <td>useSelector</td>
+            <td>
+                Récupère result, loading, error et history.
+            </td>
+        </tr>
+
+        <tr>
+            <td>Redux Toolkit</td>
+            <td>
+                Gère l'état global de la prédiction.
+            </td>
+        </tr>
+
+        <tr>
+            <td>serverSlice.js</td>
+            <td>
+                Fournit fetchServerPrediction et gère
+                l'état associé.
+            </td>
+        </tr>
+
+        <tr>
+            <td>Machine Learning</td>
+            <td>
+                Calcule la valeur prédite.
+            </td>
+        </tr>
+
+        <tr>
+            <td>Power BI</td>
+            <td>
+                Affiche les analyses et indicateurs.
+            </td>
+        </tr>
+
+        <tr>
+            <td>ServerDashboard.css</td>
+            <td>
+                Contrôle la présentation visuelle.
+            </td>
+        </tr>
+
+    </tbody>
+
+</table>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 60 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>60. Résumé final à retenir</h2>
+
+<div class="important">
+
+    <p>
+        <strong>
+            React construit l'interface → useState gère
+            le modèle, X1 et X2 → l'utilisateur saisit
+            les variables → handlePredict() valide les
+            données → dispatch(fetchServerPrediction())
+            envoie la demande à Redux → serverSlice.js
+            traite la prédiction → le Machine Learning
+            produit une valeur → Redux met à jour result,
+            loading, error et history → useSelector récupère
+            ces informations → React réaffiche le composant
+            → la valeur prédite est affichée → l'historique
+            est mis à jour → Power BI affiche le Dashboard
+            analytique → ServerDashboard.css contrôle la
+            présentation finale.
+        </strong>
+    </p>
+
+</div>
+
+<p>
+    Le composant <strong>ServerDashboard.jsx</strong> constitue
+    donc l'interface utilisateur du système de prédiction
+    Machine Learning.
+</p>
+
+<p>
+    Il permet à l'utilisateur de sélectionner un modèle,
+    de saisir deux variables numériques et de lancer une
+    prédiction.
+</p>
+
+<p>
+    Avant d'envoyer la demande, le composant vérifie que
+    X1 et X2 sont renseignés et qu'ils peuvent être convertis
+    en nombres.
+</p>
+
+<p>
+    La fonction <code>dispatch()</code> permet ensuite de
+    transmettre la demande à <strong>fetchServerPrediction()</strong>
+    provenant de <strong>serverSlice.js</strong>.
+</p>
+
+<p>
+    Redux gère alors les différents états de l'opération :
+    <code>result</code>, <code>loading</code>,
+    <code>error</code> et <code>history</code>.
+</p>
+
+<p>
+    Lorsque la prédiction réussit, le résultat est affiché
+    dans une carte contenant le modèle utilisé, les valeurs
+    X1 et X2 ainsi que la valeur prédite.
+</p>
+
+<p>
+    Chaque prédiction peut également être affichée dans
+    l'historique grâce à <code>history.map()</code>.
+</p>
+
+<p>
+    En parallèle, le rapport Power BI est intégré dans
+    un <code>iframe</code> afin de présenter les analyses
+    et indicateurs commerciaux.
+</p>
+
+<p>
+    Enfin, <strong>ServerDashboard.css</strong> assure la
+    présentation visuelle de l'ensemble du Dashboard.
+</p>
+```
+
+</section>
+
+<footer class="footer">
+
+```
+<p>
+    🤖 Documentation technique — Machine Learning Server Dashboard
+</p>
+```
+
+</footer>
+
+</main>
+
+</body>
+
+</html>
