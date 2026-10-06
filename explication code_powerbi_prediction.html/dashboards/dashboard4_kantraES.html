@@ -1,0 +1,1845 @@
+<!DOCTYPE html> 
+ 
+<html lang="es"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 
+    <title>Proyecto Kantra | Business Intelligence & Machine Learning</title> 
+ 
+    <meta name="description" 
+          content="Documentación técnica del proyecto Kantra: limpieza de datos, Talend, Data Warehouse, Power BI, Machine Learning, Python y Node.js."> 
+ 
+    <link rel="stylesheet" href="dashboard4_kantra.css"> 
+ 
+</head> 
+ 
+<body> 
+ 
+<!-- ========================================================= 
+     HEADER 
+========================================================= --> 
+ 
+<header class="hero"> 
+ 
+    <div class="hero-content"> 
+ 
+        <span class="badge">BUSINESS INTELLIGENCE & MACHINE LEARNING</span> 
+ 
+        <h1>Proyecto Kantra</h1> 
+ 
+        <p class="hero-subtitle"> 
+            Desde la preparación de los datos hasta la visualización 
+            en Power BI y la predicción mediante Machine Learning. 
+        </p> 
+ 
+        <div class="hero-buttons"> 
+            <a href="#presentation" class="btn primary"> 
+                Descubrir el proyecto 
+            </a> 
+ 
+            <a href="#prediction" class="btn secondary"> 
+                Ver la predicción 
+            </a> 
+        </div> 
+ 
+    </div> 
+ 
+</header> 
+ 
+<!-- ========================================================= 
+     NAVIGATION 
+========================================================= --> 
+ 
+<nav class="navbar"> 
+ 
+    <div class="nav-container"> 
+ 
+        <a href="#" class="logo"> 
+            Kantra<span>.</span> 
+        </a> 
+ 
+        <button class="menu-toggle" id="menuToggle"> 
+            ☰ 
+        </button> 
+ 
+        <ul class="nav-links" id="navLinks"> 
+ 
+            <li> 
+                <a href="#presentation">Descripción general</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#nettoyage">Limpieza</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#talend">Talend</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#warehouse">Data Warehouse</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#powerbi">Power BI</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#prediction">Predicción</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#architecture">Arquitectura</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#competences">Habilidades</a> 
+            </li> 
+ 
+        </ul> 
+ 
+    </div> 
+ 
+</nav> 
+ 
+<main> 
+ 
+<!-- ========================================================= 
+     PRESENTATION 
+========================================================= --> 
+ 
+<section id="presentation" class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">01</span> 
+ 
+            <div> 
+                <p class="section-label">CONTEXTO</p> 
+ 
+                <h2>Descripción del proyecto</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                El proyecto <strong>Kantra</strong> fue desarrollado 
+                como parte de mi formación en 
+                <strong>Business Intelligence</strong>. 
+            </p> 
+ 
+            <p> 
+                El objetivo del proyecto es transformar los datos 
+                recopilados de Facebook en información útil 
+                para el análisis empresarial y, posteriormente, utilizar estos datos 
+                para implementar una solución de predicción basada en Machine Learning. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="pipeline"> 
+ 
+            <div class="pipeline-item"> 
+                <span>01</span> 
+                <strong>Facebook</strong> 
+                <small>Datos de origen</small> 
+            </div> 
+ 
+            <div class="arrow">→</div> 
+ 
+            <div class="pipeline-item"> 
+                <span>02</span> 
+                <strong>Limpieza</strong> 
+                <small>Limpieza de datos</small> 
+            </div> 
+ 
+            <div class="arrow">→</div> 
+ 
+            <div class="pipeline-item"> 
+                <span>03</span> 
+                <strong>Talend</strong> 
+                <small>ETL</small> 
+            </div> 
+ 
+            <div class="arrow">→</div> 
+ 
+            <div class="pipeline-item"> 
+                <span>04</span> 
+                <strong>Data Warehouse</strong> 
+                <small>Almacenamiento</small> 
+            </div> 
+ 
+            <div class="arrow">→</div> 
+ 
+            <div class="pipeline-item"> 
+                <span>05</span> 
+                <strong>Power BI</strong> 
+                <small>Dashboard</small> 
+            </div> 
+ 
+            <div class="arrow">→</div> 
+ 
+            <div class="pipeline-item"> 
+                <span>06</span> 
+                <strong>Machine Learning</strong> 
+                <small>Predicción</small> 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     ORIGIN OF DATA 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">02</span> 
+ 
+            <div> 
+                <p class="section-label">FUENTE DE DATOS</p> 
+ 
+                <h2>Fuente de datos</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="two-columns"> 
+ 
+            <div class="content-card"> 
+ 
+                <h3>📥 Datos de Facebook</h3> 
+ 
+                <p> 
+                    Los datos utilizados en este proyecto proceden 
+                    de Facebook. 
+                </p> 
+ 
+                <p> 
+                    La recopilación inicial de los datos ya había sido 
+                    realizada por el <strong>centro de formación</strong> 
+                    mediante un proceso de Web Scraping. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="content-card highlight"> 
+ 
+                <h3>👩‍💻 Mi contribución</h3> 
+ 
+                <p> 
+                    Mi trabajo comenzó a partir de los archivos 
+                    que contenían los datos recopilados. 
+                </p> 
+ 
+                <p> 
+                    Trabajé principalmente en la 
+                    <strong>preparación, integración, análisis 
+                    y predicción de datos</strong>. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     MY WORK 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">03</span> 
+ 
+            <div> 
+                <p class="section-label">IMPLEMENTACIÓN</p> 
+ 
+                <h2>Mi trabajo en el proyecto</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="steps-grid"> 
+ 
+            <div class="step-card"> 
+                <span>01</span> 
+                <h3>Recuperación de datos</h3> 
+                <p>Recuperación de los archivos que contienen los datos recopilados.</p> 
+            </div> 
+ 
+            <div class="step-card"> 
+                <span>02</span> 
+                <h3>Limpieza</h3> 
+                <p>Limpieza y comprobación de la calidad de los datos.</p> 
+            </div> 
+ 
+            <div class="step-card"> 
+                <span>03</span> 
+                <h3>Transformación</h3> 
+                <p>Preparación y transformación de los datos con Talend.</p> 
+            </div> 
+ 
+            <div class="step-card"> 
+                <span>04</span> 
+                <h3>Data Warehouse</h3> 
+                <p>Estructuración y almacenamiento de los datos.</p> 
+            </div> 
+ 
+            <div class="step-card"> 
+                <span>05</span> 
+                <h3>Power BI</h3> 
+                <p>Creación del dashboard y de los KPI.</p> 
+            </div> 
+ 
+            <div class="step-card"> 
+                <span>06</span> 
+                <h3>Machine Learning</h3> 
+                <p>Implementación de un modelo de predicción.</p> 
+            </div> 
+ 
+            <div class="step-card"> 
+                <span>07</span> 
+                <h3>Python</h3> 
+                <p>Carga del modelo y ejecución de la predicción.</p> 
+            </div> 
+ 
+            <div class="step-card"> 
+                <span>08</span> 
+                <h3>Node.js</h3> 
+                <p>Integración del modelo Python en una API.</p> 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     CLEANING 
+========================================================= --> 
+ 
+<section id="nettoyage" class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">04</span> 
+ 
+            <div> 
+                <p class="section-label">PREPARACIÓN DE DATOS</p> 
+ 
+                <h2>Limpieza de datos</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                Antes de construir el Data Warehouse y el dashboard, 
+                los datos recopilados deben ser preparados. 
+            </p> 
+ 
+            <p> 
+                La limpieza de datos mejora la calidad de los datos 
+                y elimina las inconsistencias que podrían afectar 
+                al análisis. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="check-grid"> 
+ 
+            <div>✓ Identificar valores faltantes</div> 
+            <div>✓ Detectar duplicados</div> 
+            <div>✓ Corregir formatos</div> 
+            <div>✓ Armonizar los datos</div> 
+            <div>✓ Comprobar los tipos de datos</div> 
+            <div>✓ Eliminar información innecesaria</div> 
+            <div>✓ Corregir inconsistencias</div> 
+            <div>✓ Preparar las columnas necesarias</div> 
+ 
+        </div> 
+ 
+ 
+        <div class="flow-box"> 
+ 
+            <span>Datos sin procesar</span> 
+            <b>→</b> 
+            <span>Control</span> 
+            <b>→</b> 
+            <span>Limpieza</span> 
+            <b>→</b> 
+            <span>Transformación</span> 
+            <b>→</b> 
+            <span>Datos limpios</span> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     TALEND 
+========================================================= --> 
+ 
+<section id="talend" class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">05</span> 
+ 
+            <div> 
+                <p class="section-label">ETL</p> 
+ 
+                <h2>ETL con Talend</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                Después de limpiar los datos, utilicé 
+                <strong>Talend</strong> para preparar e integrar 
+                los datos. 
+            </p> 
+ 
+            <div class="etl-title"> 
+                Extract – Transform – Load 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="etl-grid"> 
+ 
+            <div class="etl-card"> 
+ 
+                <span>01</span> 
+ 
+                <h3>Extracción</h3> 
+ 
+                <p> 
+                    Recuperación de los datos a partir de los archivos de origen. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="etl-card"> 
+ 
+                <span>02</span> 
+ 
+                <h3>Transformación</h3> 
+ 
+                <p> 
+                    Transformación de los datos, procesamiento de formatos, 
+                    tipos, valores faltantes y preparación de tablas. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="etl-card"> 
+ 
+                <span>03</span> 
+ 
+                <h3>Carga</h3> 
+ 
+                <p> 
+                    Carga de los datos transformados en el 
+                    sistema de almacenamiento y Data Warehouse. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="flow-box"> 
+ 
+            <span>Origen</span> 
+            <b>→</b> 
+            <span>Extracción</span> 
+            <b>→</b> 
+            <span>Transformación</span> 
+            <b>→</b> 
+            <span>Carga</span> 
+            <b>→</b> 
+            <span>Data Warehouse</span> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     DATA WAREHOUSE 
+========================================================= --> 
+ 
+<section id="warehouse" class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">06</span> 
+ 
+            <div> 
+                <p class="section-label">INGENIERÍA DE DATOS</p> 
+ 
+                <h2>Data Warehouse</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="two-columns"> 
+ 
+            <div class="content-card"> 
+ 
+                <h3>🏢 Centralización de datos</h3> 
+ 
+                <p> 
+                    El Data Warehouse es la parte central 
+                    de la arquitectura de Business Intelligence. 
+                </p> 
+ 
+                <p> 
+                    Permite centralizar los datos limpios y 
+                    estructurados con el fin de facilitar su uso 
+                    por las herramientas de Business Intelligence. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="content-card"> 
+ 
+                <h3>🎯 Objetivos</h3> 
+ 
+                <ul class="clean-list"> 
+ 
+                    <li>Centralizar los datos</li> 
+                    <li>Mantener los datos estructurados</li> 
+                    <li>Facilitar las consultas analíticas</li> 
+                    <li>Mejorar la organización de los datos</li> 
+                    <li>Proporcionar una fuente fiable para Power BI</li> 
+ 
+                </ul> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="architecture-mini"> 
+ 
+            <span>Archivos de origen</span> 
+            <b>→</b> 
+            <span>Talend</span> 
+            <b>→</b> 
+            <span>Data Warehouse</span> 
+            <b>→</b> 
+            <span>Power BI</span> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     POWER BI 
+========================================================= --> 
+ 
+<section id="powerbi" class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">07</span> 
+ 
+            <div> 
+                <p class="section-label">BUSINESS INTELLIGENCE</p> 
+ 
+                <h2>Dashboard de Kantra con Power BI</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                Después de preparar y almacenar los datos, 
+                utilicé <strong>Power BI</strong> para crear 
+                el dashboard de Kantra. 
+            </p> 
+ 
+            <p> 
+                El objetivo es transformar los datos del Data Warehouse 
+                en información visual, comprensible y útil 
+                para la toma de decisiones. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="feature-grid"> 
+ 
+            <div class="feature-card"> 
+                <div class="icon">📊</div> 
+                <h3>KPI</h3> 
+                <p>Seguimiento de los indicadores clave de rendimiento.</p> 
+            </div> 
+ 
+            <div class="feature-card"> 
+                <div class="icon">📈</div> 
+                <h3>Gráficos</h3> 
+                <p>Visualización de tendencias y cambios.</p> 
+            </div> 
+ 
+            <div class="feature-card"> 
+                <div class="icon">🔎</div> 
+                <h3>Filtros</h3> 
+                <p>Exploración interactiva de los datos.</p> 
+            </div> 
+ 
+            <div class="feature-card"> 
+                <div class="icon">📋</div> 
+                <h3>Tablas</h3> 
+                <p>Presentación detallada de los datos.</p> 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     KPI 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">08</span> 
+ 
+            <div> 
+                <p class="section-label">INDICADORES</p> 
+ 
+                <h2>KPI y análisis</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="kpi-grid"> 
+ 
+            <div class="kpi-card"> 
+                <span class="kpi-icon">📝</span> 
+                <h3>Publicaciones</h3> 
+                <p>Volumen total de publicaciones analizadas.</p> 
+            </div> 
+ 
+            <div class="kpi-card"> 
+                <span class="kpi-icon">🏷️</span> 
+                <h3>Menciones</h3> 
+                <p>Análisis del volumen de menciones.</p> 
+            </div> 
+ 
+            <div class="kpi-card"> 
+                <span class="kpi-icon">💬</span> 
+                <h3>Interacciones</h3> 
+                <p>Análisis del nivel de interacción.</p> 
+            </div> 
+ 
+            <div class="kpi-card"> 
+                <span class="kpi-icon">❤️</span> 
+                <h3>Reacciones</h3> 
+                <p>Análisis de las reacciones registradas.</p> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <h3>Análisis interactivo</h3> 
+ 
+            <p> 
+                Los filtros de Power BI permiten a los usuarios explorar los datos 
+                según las dimensiones disponibles en el conjunto de datos. 
+            </p> 
+ 
+            <ul class="clean-list"> 
+ 
+                <li>Análisis por período</li> 
+                <li>Análisis por publicación</li> 
+                <li>Análisis por categoría</li> 
+                <li>Análisis por tipo de interacción</li> 
+ 
+            </ul> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     PREDICTION 
+========================================================= --> 
+ 
+<section id="prediction" class="section prediction-section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">09</span> 
+ 
+            <div> 
+                <p class="section-label">MACHINE LEARNING</p> 
+ 
+                <h2>Predicción</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card prediction-intro"> 
+ 
+            <h3>De Business Intelligence al análisis predictivo</h3> 
+ 
+            <p> 
+                Business Intelligence permite principalmente 
+                analizar los datos existentes. 
+            </p> 
+ 
+            <p> 
+                La predicción va más allá utilizando los datos históricos 
+                para estimar un valor futuro o desconocido. 
+            </p> 
+ 
+            <div class="prediction-transition"> 
+ 
+                <span>Análisis descriptivo</span> 
+ 
+                <strong>→</strong> 
+ 
+                <span>Análisis predictivo</span> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="model-card"> 
+ 
+            <div class="model-header"> 
+ 
+                <div> 
+                    <span class="technology">SCIKIT-LEARN</span> 
+                    <h3>Regresión lineal</h3> 
+                </div> 
+ 
+                <span class="model-icon">🤖</span> 
+ 
+            </div> 
+ 
+ 
+            <p> 
+                El modelo utilizado en el proyecto es 
+                <strong>regresión lineal</strong>. 
+            </p> 
+ 
+            <p> 
+                Permite modelar una relación entre 
+                una o varias variables de entrada y una variable objetivo. 
+            </p> 
+ 
+ 
+            <div class="code-container"> 
+ 
+                <div class="code-header"> 
+                    <span>Python</span> 
+ 
+                    <button class="copy-btn" 
+                            data-copy="linearRegressionCode"> 
+                        Copiar 
+                    </button> 
+                </div> 
+ 
+                <pre id="linearRegressionCode"><code>from sklearn.linear_model import LinearRegression 
+ 
+model = LinearRegression()</code></pre> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     TRAINING 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">10</span> 
+ 
+            <div> 
+                <p class="section-label">ENTRENAMIENTO</p> 
+ 
+                <h2>Entrenamiento del modelo</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="two-columns"> 
+ 
+            <div class="content-card"> 
+ 
+                <h3>📚 Datos de entrenamiento</h3> 
+ 
+                <p> 
+                    El modelo se entrena utilizando 
+                    datos históricos. 
+                </p> 
+ 
+                <div class="code-container"> 
+ 
+                    <div class="code-header"> 
+                        <span>Python</span> 
+ 
+                        <button class="copy-btn" 
+                                data-copy="trainingCode"> 
+                            Copiar 
+                        </button> 
+                    </div> 
+ 
+                    <pre id="trainingCode"><code>X = np.array([ 
+[1, 10], 
+[2, 20], 
+[3, 30], 
+[4, 40] 
+]) 
+ 
+y = np.array([15, 25, 35, 45])</code></pre> 
+ 
+                </div> 
+ 
+                <p> 
+                    <strong>X</strong> representa las variables 
+                    de entrada y <strong>y</strong> representa 
+                    la variable objetivo. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="content-card"> 
+ 
+                <h3>⚙️ Entrenamiento</h3> 
+ 
+                <p> 
+                    El entrenamiento se realiza utilizando: 
+                </p> 
+ 
+                <div class="code-container"> 
+ 
+                    <div class="code-header"> 
+                        <span>Python</span> 
+ 
+                        <button class="copy-btn" 
+                                data-copy="fitCode"> 
+                            Copiar 
+                        </button> 
+                    </div> 
+ 
+                    <pre id="fitCode"><code>model.fit(X, y)</code></pre> 
+ 
+                </div> 
+ 
+                <p> 
+                    El modelo aprende la relación entre 
+                    las variables de entrada y la variable objetivo. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     PICKLE 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">11</span> 
+ 
+            <div> 
+                <p class="section-label">SERIALIZACIÓN DEL MODELO</p> 
+ 
+                <h2>Guardado del modelo</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                Después del entrenamiento, el modelo se guarda 
+                en un archivo llamado <strong>MENTION.pkl</strong>. 
+            </p> 
+ 
+ 
+            <div class="code-container"> 
+ 
+                <div class="code-header"> 
+ 
+                    <span>Python</span> 
+ 
+                    <button class="copy-btn" 
+                            data-copy="pickleCode"> 
+                        Copiar 
+                    </button> 
+ 
+                </div> 
+ 
+                <pre id="pickleCode"><code>with open("MENTION.pkl", "wb") as f: 
+pickle.dump(model, f)</code></pre> 
+ 
+            </div> 
+ 
+ 
+            <div class="flow-box"> 
+ 
+                <span>Datos históricos</span> 
+                <b>→</b> 
+                <span>Entrenamiento</span> 
+                <b>→</b> 
+                <span>MENTION.pkl</span> 
+                <b>→</b> 
+                <span>Nuevos datos</span> 
+                <b>→</b> 
+                <span>Predicción</span> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     KANTRA.PY 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">12</span> 
+ 
+            <div> 
+                <p class="section-label">PYTHON</p> 
+ 
+                <h2>Ejecución de la predicción con Python</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                El archivo <strong>kantra.py</strong> es responsable 
+                de cargar el modelo y ejecutar la 
+                predicción. 
+            </p> 
+ 
+ 
+            <div class="code-container"> 
+ 
+                <div class="code-header"> 
+ 
+                    <span>kantra.py</span> 
+ 
+                    <button class="copy-btn" 
+                            data-copy="loadModelCode"> 
+                        Copiar 
+                    </button> 
+ 
+                </div> 
+ 
+                <pre id="loadModelCode"><code>with open("python/MENTION.pkl", "rb") as f: 
+model = pickle.load(f)</code></pre> 
+ 
+            </div> 
+ 
+ 
+            <h3>Recepción de datos</h3> 
+ 
+            <div class="code-container"> 
+ 
+                <div class="code-header"> 
+                    <span>Python</span> 
+ 
+                    <button class="copy-btn" 
+                            data-copy="jsonCode"> 
+                        Copiar 
+                    </button> 
+                </div> 
+ 
+                <pre id="jsonCode"><code>raw = sys.stdin.read().strip() 
+ 
+data = json.loads(raw)</code></pre> 
+ 
+            </div> 
+ 
+ 
+            <p> 
+                Los datos se transmiten al programa Python 
+                en formato JSON. 
+            </p> 
+ 
+ 
+            <div class="json-example"> 
+ 
+                <pre>{ 
+    "a": 5, 
+    "b": 50 
+}</pre> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     VALIDATION 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">13</span> 
+ 
+            <div> 
+                <p class="section-label">VALIDACIÓN</p> 
+ 
+                <h2>Validación y preparación de datos</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="two-columns"> 
+ 
+            <div class="content-card"> 
+ 
+                <h3>✓ Validación</h3> 
+ 
+                <p> 
+                    Antes de realizar la predicción, el programa comprueba que 
+                    las variables necesarias estén presentes. 
+                </p> 
+ 
+                <div class="code-container"> 
+ 
+                    <pre><code>if "a" not in data or "b" not in data: 
+print(json.dumps({ 
+    "success": False, 
+    "message": "Fields a and b are required" 
+}))</code></pre> 
+ 
+                </div> 
+ 
+            </div> 
+ 
+ 
+            <div class="content-card"> 
+ 
+                <h3>🔢 Preparación</h3> 
+ 
+                <p> 
+                    Los valores se convierten en números y posteriormente 
+                    se preparan en un array de NumPy. 
+                </p> 
+ 
+                <div class="code-container"> 
+ 
+                    <pre><code>a = float(data["a"]) 
+b = float(data["b"]) 
+ 
+X = np.array([[a, b]])</code></pre> 
+ 
+                </div> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     PREDICTION CODE 
+========================================================= --> 
+ 
+<section class="section prediction-section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">14</span> 
+ 
+            <div> 
+                <p class="section-label">PREDICCIÓN</p> 
+ 
+                <h2>Ejecución de la predicción</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="prediction-result"> 
+ 
+            <div class="result-text"> 
+ 
+                <span class="result-label">MACHINE LEARNING</span> 
+ 
+                <h3>Cálculo del valor predicho</h3> 
+ 
+                <p> 
+                    El modelo recibe las nuevas variables de entrada 
+                    y calcula el valor estimado. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="code-container"> 
+ 
+                <div class="code-header"> 
+ 
+                    <span>Python</span> 
+ 
+                    <button class="copy-btn" 
+                            data-copy="predictionCode"> 
+                        Copiar 
+                    </button> 
+ 
+                </div> 
+ 
+                <pre id="predictionCode"><code>prediction = model.predict(X)[0] 
+ 
+print(json.dumps({ 
+"success": True, 
+"prediction": float(prediction) 
+}))</code></pre> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="result-example"> 
+ 
+            <span>Ejemplo de respuesta</span> 
+ 
+            <pre>{ 
+    "success": true, 
+    "prediction": 55 
+}</pre> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     NODE JS 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">15</span> 
+ 
+            <div> 
+                <p class="section-label">BACKEND</p> 
+ 
+                <h2>Integración de Python con Node.js</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                Para hacer que la predicción sea accesible desde una aplicación web, 
+                utilicé <strong>Node.js</strong> y 
+                <strong>Express.js</strong>. 
+            </p> 
+ 
+            <p> 
+                Node.js actúa como intermediario entre el frontend 
+                y el programa Python. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="architecture-flow"> 
+ 
+            <div class="architecture-node"> 
+                <span>🌐</span> 
+                <strong>Frontend</strong> 
+            </div> 
+ 
+            <div>→</div> 
+ 
+            <div class="architecture-node"> 
+                <span>🟢</span> 
+                <strong>Node.js</strong> 
+            </div> 
+ 
+            <div>→</div> 
+ 
+            <div class="architecture-node"> 
+                <span>🐍</span> 
+                <strong>Python</strong> 
+            </div> 
+ 
+            <div>→</div> 
+ 
+            <div class="architecture-node"> 
+                <span>🤖</span> 
+                <strong>MENTION.pkl</strong> 
+            </div> 
+ 
+            <div>→</div> 
+ 
+            <div class="architecture-node"> 
+                <span>📊</span> 
+                <strong>Predicción</strong> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <h3>Comunicación con Python</h3> 
+ 
+            <div class="code-container"> 
+ 
+                <div class="code-header"> 
+ 
+                    <span>Node.js</span> 
+ 
+                    <button class="copy-btn" 
+                            data-copy="nodeSpawnCode"> 
+                        Copiar 
+                    </button> 
+ 
+                </div> 
+ 
+                <pre id="nodeSpawnCode"><code>const { spawn } = require("child_process"); 
+ 
+const py = spawn("python", [scriptPath]);</code></pre> 
+ 
+            </div> 
+ 
+ 
+            <p> 
+                El módulo <strong>child_process</strong> permite 
+                a Node.js ejecutar el script de Python. 
+            </p> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     COMMUNICATION 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">16</span> 
+ 
+            <div> 
+                <p class="section-label">COMUNICACIÓN</p> 
+ 
+                <h2>Envío y recuperación de datos</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="two-columns"> 
+ 
+            <div class="content-card"> 
+ 
+                <h3>📤 Node.js → Python</h3> 
+ 
+                <div class="code-container"> 
+ 
+                    <pre><code>py.stdin.write(JSON.stringify(data)); 
+ 
+py.stdin.end();</code></pre> 
+ 
+                </div> 
+ 
+                <p> 
+                    Los datos de JavaScript se convierten a JSON 
+                    y posteriormente se envían al programa Python. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="content-card"> 
+ 
+                <h3>📥 Python → Node.js</h3> 
+ 
+                <div class="code-container"> 
+ 
+                    <pre><code>py.stdout.on("data", (data) => { 
+output += data.toString(); 
+ 
+});</code></pre> 
+ 
+                </div> 
+ 
+                <p> 
+                    Node.js recupera posteriormente la salida generada 
+                    por Python. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     API 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">17</span> 
+ 
+            <div> 
+                <p class="section-label">REST API</p> 
+ 
+                <h2>Ruta Express /kantra</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                Una ruta POST permite al frontend enviar los 
+                datos necesarios para realizar la predicción. 
+            </p> 
+ 
+            <div class="endpoint"> 
+                <span>POST</span> 
+                <strong>/kantra</strong> 
+            </div> 
+ 
+ 
+            <div class="code-container"> 
+ 
+                <div class="code-header"> 
+ 
+                    <span>kantraRoute.js</span> 
+ 
+                    <button class="copy-btn" 
+                            data-copy="routeCode"> 
+                        Copiar 
+                    </button> 
+ 
+                </div> 
+ 
+                <pre id="routeCode"><code>router.post("/", async (req, res) => { 
+try { 
+ 
+    const result = 
+        await runPython("kantra.py", req.body); 
+ 
+    res.json(result); 
+ 
+} catch (err) { 
+ 
+    res.status(500).json({ 
+        success: false, 
+        error: err?.error || 
+               err?.message || 
+               err 
+    }); 
+ 
+} 
+});</code></pre> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     FINAL ARCHITECTURE 
+========================================================= --> 
+ 
+<section id="architecture" class="section architecture-section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">18</span> 
+ 
+            <div> 
+                <p class="section-label">ARQUITECTURA</p> 
+ 
+                <h2>Arquitectura técnica final</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="full-architecture"> 
+ 
+            <div class="arch-row source"> 
+ 
+                <span>🌐</span> 
+                <strong>Facebook</strong> 
+                <small>Datos de origen</small> 
+ 
+            </div> 
+ 
+            <div class="arch-arrow">↓</div> 
+ 
+            <div class="arch-row"> 
+ 
+                <span>📁</span> 
+                <strong>Archivos recopilados</strong> 
+                <small>Recopilación realizada por el centro</small> 
+ 
+            </div> 
+ 
+            <div class="arch-arrow">↓</div> 
+ 
+            <div class="arch-row"> 
+ 
+                <span>🧹</span> 
+                <strong>Limpieza de datos</strong> 
+                <small>Limpieza de datos</small> 
+ 
+            </div> 
+ 
+            <div class="arch-arrow">↓</div> 
+ 
+            <div class="arch-row"> 
+ 
+                <span>🔄</span> 
+                <strong>Talend</strong> 
+                <small>ETL</small> 
+ 
+            </div> 
+ 
+            <div class="arch-arrow">↓</div> 
+ 
+            <div class="arch-row"> 
+ 
+                <span>🏢</span> 
+                <strong>Data Warehouse</strong> 
+                <small>Almacenamiento estructurado</small> 
+ 
+            </div> 
+ 
+            <div class="arch-arrow">↓</div> 
+ 
+            <div class="arch-row powerbi"> 
+ 
+                <span>📊</span> 
+                <strong>Power BI</strong> 
+                <small>Dashboard y análisis</small> 
+ 
+            </div> 
+ 
+            <div class="arch-arrow">↓</div> 
+ 
+            <div class="arch-row ml"> 
+ 
+                <span>🤖</span> 
+                <strong>Machine Learning</strong> 
+                <small>Regresión lineal</small> 
+ 
+            </div> 
+ 
+            <div class="arch-arrow">↓</div> 
+ 
+            <div class="arch-row"> 
+ 
+                <span>💾</span> 
+                <strong>MENTION.pkl</strong> 
+                <small>Modelo guardado</small> 
+ 
+            </div> 
+ 
+            <div class="arch-arrow">↓</div> 
+ 
+            <div class="arch-row python"> 
+ 
+                <span>🐍</span> 
+                <strong>Python</strong> 
+                <small>Ejecución de la predicción</small> 
+ 
+            </div> 
+ 
+            <div class="arch-arrow">↓</div> 
+ 
+            <div class="arch-row node"> 
+ 
+                <span>🟢</span> 
+                <strong>Node.js / Express</strong> 
+                <small>API /kantra</small> 
+ 
+            </div> 
+ 
+            <div class="arch-arrow">↓</div> 
+ 
+            <div class="arch-row result"> 
+ 
+                <span>🎯</span> 
+                <strong>Predicción</strong> 
+                <small>Resultado devuelto al frontend</small> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     TECHNOLOGIES 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">19</span> 
+ 
+            <div> 
+                <p class="section-label">STACK TÉCNICO</p> 
+ 
+                <h2>Tecnologías utilizadas</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="technology-grid"> 
+ 
+            <div class="technology-card"> 
+                <span>🔄</span> 
+                <h3>Talend</h3> 
+                <p>ETL e integración de datos.</p> 
+            </div> 
+ 
+            <div class="technology-card"> 
+                <span>📊</span> 
+                <h3>Power BI</h3> 
+                <p>Visualización y Business Intelligence.</p> 
+            </div> 
+ 
+            <div class="technology-card"> 
+                <span>🐍</span> 
+                <h3>Python</h3> 
+                <p>Machine Learning y predicción.</p> 
+            </div> 
+ 
+            <div class="technology-card"> 
+                <span>🔢</span> 
+                <h3>NumPy</h3> 
+                <p>Manipulación de datos numéricos.</p> 
+            </div> 
+ 
+            <div class="technology-card"> 
+                <span>🤖</span> 
+                <h3>Scikit-learn</h3> 
+                <p>Creación del modelo de regresión.</p> 
+            </div> 
+ 
+            <div class="technology-card"> 
+                <span>💾</span> 
+                <h3>Pickle</h3> 
+                <p>Guardado y carga del modelo.</p> 
+            </div> 
+ 
+            <div class="technology-card"> 
+                <span>🟢</span> 
+                <h3>Node.js</h3> 
+                <p>Backend y comunicación con Python.</p> 
+            </div> 
+ 
+            <div class="technology-card"> 
+                <span>⚡</span> 
+                <h3>Express.js</h3> 
+                <p>Creación de la API REST.</p> 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     SKILLS 
+========================================================= --> 
+ 
+<section id="competences" class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number">20</span> 
+ 
+            <div> 
+                <p class="section-label">HABILIDADES</p> 
+ 
+                <h2>Habilidades aplicadas</h2> 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="skills"> 
+ 
+            <span>Limpieza de datos</span> 
+            <span>Preparación de datos</span> 
+            <span>ETL</span> 
+            <span>Talend</span> 
+            <span>Data Warehouse</span> 
+            <span>Business Intelligence</span> 
+            <span>Power BI</span> 
+            <span>Visualización de datos</span> 
+            <span>KPI</span> 
+            <span>Análisis de datos</span> 
+            <span>Machine Learning</span> 
+            <span>Python</span> 
+            <span>NumPy</span> 
+            <span>Scikit-learn</span> 
+            <span>Regresión lineal</span> 
+            <span>Pickle</span> 
+            <span>Node.js</span> 
+            <span>Express.js</span> 
+            <span>REST API</span> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     CONCLUSION 
+========================================================= --> 
+ 
+<section class="section conclusion"> 
+ 
+    <div class="container"> 
+ 
+        <div class="conclusion-card"> 
+ 
+            <span class="section-label">CONCLUSIÓN</span> 
+ 
+            <h2>Un flujo completo de Datos → BI → Machine Learning</h2> 
+ 
+            <p> 
+                El proyecto Kantra me permitió trabajar en 
+                diferentes etapas de un proyecto de Datos, desde 
+                la preparación de los datos hasta su análisis y 
+                utilización predictiva. 
+            </p> 
+ 
+            <p> 
+                Los datos de Facebook utilizados habían sido recopilados 
+                previamente por el centro de formación. Mi trabajo se centró 
+                en la preparación de los datos, la integración con Talend, 
+                la construcción del Data Warehouse, la creación del dashboard 
+                de Power BI y la implementación de una solución de predicción 
+                con Python. 
+            </p> 
+ 
+            <p> 
+                La integración de Python con Node.js permite finalmente 
+                hacer que el modelo de Machine Learning sea accesible 
+                mediante una API. 
+            </p> 
+ 
+            <div class="final-message"> 
+ 
+                <strong> 
+                    Datos → ETL → Data Warehouse → BI → 
+                    Machine Learning → API 
+                </strong> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+ 
+</section> 
+ 
+</main> 
+ 
+<!-- ========================================================= 
+     FOOTER 
+========================================================= --> 
+ 
+<footer class="footer"> 
+ 
+    <div class="container"> 
+ 
+        <div class="footer-content"> 
+ 
+            <div> 
+                <strong>Proyecto Kantra</strong> 
+                <p> 
+                    Business Intelligence & Machine Learning 
+                </p> 
+            </div> 
+ 
+            <div> 
+                <p> 
+                    Documentación técnica 
+                </p> 
+            </div> 
+ 
+        </div> 
+ 
+        <div class="footer-bottom"> 
+            © 2026 – Proyecto Kantra 
+        </div> 
+ 
+    </div> 
+ 
+ 
+</footer> 
+ 
+<!-- Botón para volver arriba --> 
+ 
+<button id="backToTop" class="back-to-top"> 
+    ↑ 
+</button> 
+ 
+<script src="script.js"></script> 
+ 
+</body> 
+</html>

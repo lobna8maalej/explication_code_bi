@@ -1,0 +1,1055 @@
+<!DOCTYPE html> 
+ 
+<html lang="en"> 
+ 
+<head> 
+ 
+<meta charset="UTF-8"> 
+ 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 
+<title>Bank Dashboard — Documentation</title> 
+ 
+<!-- ===================================================== 
+     DASHBOARD CSS 
+====================================================== --> 
+ 
+<link rel="stylesheet" href="dashboard3_ca.css"> 
+ 
+</head> 
+ 
+<body> 
+ 
+<!-- ===================================================== 
+     HEADER 
+====================================================== --> 
+ 
+<header class="documentation-header"> 
+ 
+    <h1> 
+        Bank Dashboard — Documentation 
+    </h1> 
+ 
+    <p> 
+        Python • Talend • Data Warehouse • Power BI • 
+        Machine Learning • Node.js • Express 
+    </p> 
+ 
+</header> 
+ 
+ 
+<!-- ===================================================== 
+     NAVIGATION 
+====================================================== --> 
+ 
+<nav class="documentation-nav"> 
+ 
+    <ul> 
+ 
+        <li> 
+            <a href="#presentation"> 
+                Overview 
+            </a> 
+        </li> 
+ 
+        <li> 
+            <a href="#source"> 
+                Data Source 
+            </a> 
+        </li> 
+ 
+        <li> 
+            <a href="#python"> 
+                Python 
+            </a> 
+        </li> 
+ 
+        <li> 
+            <a href="#talend"> 
+                Talend 
+            </a> 
+        </li> 
+ 
+        <li> 
+            <a href="#warehouse"> 
+                Data Warehouse 
+            </a> 
+        </li> 
+ 
+        <li> 
+            <a href="#powerbi"> 
+                Power BI 
+            </a> 
+        </li> 
+ 
+        <li> 
+            <a href="#prediction"> 
+                Machine Learning 
+            </a> 
+        </li> 
+ 
+        <li> 
+            <a href="#node-service"> 
+                Node.js 
+            </a> 
+        </li> 
+ 
+        <li> 
+            <a href="#api"> 
+                Express API 
+            </a> 
+        </li> 
+ 
+        <li> 
+            <a href="#server"> 
+                Server 
+            </a> 
+        </li> 
+ 
+        <li> 
+            <a href="#workflow"> 
+                Workflow 
+            </a> 
+        </li> 
+ 
+        <li> 
+            <a href="#resultats"> 
+                Results 
+            </a> 
+        </li> 
+ 
+    </ul> 
+ 
+</nav> 
+ 
+ 
+<!-- ===================================================== 
+     MAIN CONTENT 
+====================================================== --> 
+ 
+<main class="documentation-container"> 
+ 
+ 
+    <!-- ================================================= 
+         1. PRESENTATION 
+    ================================================== --> 
+ 
+    <section 
+        id="presentation" 
+        class="documentation-section" 
+    > 
+ 
+        <h2> 
+            1. Bank Dashboard Overview 
+        </h2> 
+ 
+        <p> 
+            This banking dashboard was developed from 
+            an accounting file containing the data 
+            required for financial analysis. 
+        </p> 
+ 
+        <p> 
+            The project implements a complete data 
+            processing pipeline, from the source accounting 
+            file to visualization in Power BI and the 
+            integration of a Machine Learning model 
+            designed to perform predictions. 
+        </p> 
+ 
+        <p> 
+            Particular attention was paid to data quality. 
+            The accounting file contained several anomalies 
+            requiring a data cleaning phase, identification 
+            of missing and outlier values, as well as 
+            transformations adapted to the data structure. 
+        </p> 
+ 
+    </section> 
+ 
+ 
+    <!-- ================================================= 
+         2. DATA SOURCE 
+    ================================================== --> 
+ 
+    <section 
+        id="source" 
+        class="documentation-section" 
+    > 
+ 
+        <h2> 
+            2. Data Source — Accounting File 
+        </h2> 
+ 
+        <p> 
+            The initial source of the project is an accounting 
+            file containing the data used to build the 
+            banking analyses. 
+        </p> 
+ 
+        <p> 
+            Before integration into the ETL process, 
+            the structure of the file was analyzed in order 
+            to identify the various data quality issues 
+            that could affect the analyses and predictive 
+            models. 
+        </p> 
+ 
+        <h3> 
+            Issues Encountered 
+        </h3> 
+ 
+        <ul> 
+ 
+            <li> 
+                Missing values 
+            </li> 
+ 
+            <li> 
+                Outlier values 
+            </li> 
+ 
+            <li> 
+                Data inconsistencies 
+            </li> 
+ 
+            <li> 
+                Data formats requiring transformation 
+            </li> 
+ 
+            <li> 
+                Column structure requiring adaptation 
+            </li> 
+ 
+        </ul> 
+ 
+    </section> 
+ 
+ 
+    <!-- ================================================= 
+         3. PYTHON CLEANING 
+    ================================================== --> 
+ 
+    <section 
+        id="python" 
+        class="documentation-section" 
+    > 
+ 
+        <h2> 
+            3. Cleaning and Transformation with Python 
+        </h2> 
+ 
+        <p> 
+            Python is used to prepare the data 
+            before its integration into the ETL pipeline. 
+        </p> 
+ 
+        <p> 
+            This step makes it possible to analyze the quality 
+            of the accounting file, identify anomalies and 
+            transform the data in order to obtain a structure 
+            that can be used in the following steps. 
+        </p> 
+ 
+ 
+        <h3> 
+            3.1 Identification of Missing Values 
+        </h3> 
+ 
+        <p> 
+            The data is analyzed in order to identify 
+            incomplete or missing fields. The processing is 
+            carried out according to the nature of the data 
+            and its importance for the analysis. 
+        </p> 
+ 
+ 
+        <h3> 
+            3.2 Identification of Outlier Values 
+        </h3> 
+ 
+        <p> 
+            Unusual values are also identified in order 
+            to prevent them from affecting the dashboard 
+            indicators or Machine Learning results. 
+        </p> 
+ 
+ 
+        <h3> 
+            3.3 Data Transformation 
+        </h3> 
+ 
+        <p> 
+            After identifying the issues, the data is 
+            transformed to comply with the structure 
+            required for integration into the Staging Area 
+            and the Data Warehouse. 
+        </p> 
+ 
+ 
+        <h3> 
+            3.4 Objective of Python Data Preparation 
+        </h3> 
+ 
+        <p> 
+            The objective of this step is to produce clean, 
+            consistent and structured data that can be used 
+            both for business intelligence analysis and 
+            predictive modeling. 
+        </p> 
+ 
+    </section> 
+ 
+ 
+    <!-- ================================================= 
+         4. STAGING AREA / TALEND 
+    ================================================== --> 
+ 
+    <section 
+        id="talend" 
+        class="documentation-section" 
+    > 
+ 
+        <h2> 
+            4. Staging Area and Processing with Talend 
+        </h2> 
+ 
+        <p> 
+            Once the data has been cleaned and transformed 
+            with Python, it is integrated into a Staging Area 
+            using Talend. 
+        </p> 
+ 
+        <p> 
+            This step provides an intermediate area before 
+            the final loading of the data into the 
+            Data Warehouse. 
+        </p> 
+ 
+ 
+        <h3> 
+            Structure Adaptation 
+        </h3> 
+ 
+        <p> 
+            Some transformations are performed according 
+            to the errors and structural issues encountered 
+            during data integration. 
+        </p> 
+ 
+ 
+        <h3> 
+            Overall Flow 
+        </h3> 
+ 
+        <pre><code> 
+Accounting file 
+↓ 
+Data analysis 
+↓ 
+Python cleaning 
+↓ 
+Missing value processing 
+↓ 
+Outlier value processing 
+↓ 
+Data transformation 
+↓ 
+Staging Area 
+↓ 
+Talend 
+↓ 
+Data Warehouse 
+↓ 
+Power BI 
+↓ 
+Machine Learning </code></pre> 
+ 
+    </section> 
+ 
+ 
+    <!-- ================================================= 
+         5. DATA WAREHOUSE 
+    ================================================== --> 
+ 
+    <section 
+        id="warehouse" 
+        class="documentation-section" 
+    > 
+ 
+        <h2> 
+            5. Data Warehouse 
+        </h2> 
+ 
+        <p> 
+            After passing through the Staging Area, the 
+            prepared data is loaded into the Data Warehouse. 
+        </p> 
+ 
+        <p> 
+            The Data Warehouse makes it possible to centralize 
+            the data and organize it according to a structure 
+            adapted to business intelligence analysis. 
+        </p> 
+ 
+ 
+        <h3> 
+            Relationships Between Tables 
+        </h3> 
+ 
+        <p> 
+            The tables are connected using primary keys 
+            and foreign keys. 
+        </p> 
+ 
+        <p> 
+            This modeling allows Power BI to use the 
+            different tables consistently and build a 
+            data model adapted to banking analysis. 
+        </p> 
+ 
+    </section> 
+ 
+ 
+    <!-- ================================================= 
+         6. POWER BI 
+    ================================================== --> 
+ 
+    <section 
+        id="powerbi" 
+        class="documentation-section" 
+    > 
+ 
+        <h2> 
+            6. Visualization with Power BI 
+        </h2> 
+ 
+        <p> 
+            Once the data has been integrated into the Data 
+            Warehouse, it is used in Power BI to build 
+            the banking dashboard. 
+        </p> 
+ 
+        <p> 
+            The relationships between the different tables 
+            make it possible to create indicators, measures 
+            and visualizations designed to facilitate 
+            data analysis. 
+        </p> 
+ 
+ 
+        <h3> 
+            6.1 Data Model 
+        </h3> 
+ 
+        <p> 
+            Power BI uses the structured Data Warehouse 
+            model to present the data in a form adapted 
+            to business intelligence analysis. 
+        </p> 
+ 
+ 
+        <h3> 
+            6.2 Indicators 
+        </h3> 
+ 
+        <ul> 
+ 
+            <li> 
+                Financial indicators 
+            </li> 
+ 
+            <li> 
+                Banking indicators 
+            </li> 
+ 
+            <li> 
+                Indicators from the accounting file 
+            </li> 
+ 
+        </ul> 
+ 
+ 
+        <h3> 
+            6.3 Visualizations 
+        </h3> 
+ 
+        <p> 
+            The data is represented through charts, tables, 
+            KPIs and other visual elements in order to 
+            facilitate the interpretation of banking 
+            information. 
+        </p> 
+ 
+    </section> 
+ 
+ 
+    <!-- ================================================= 
+         7. MACHINE LEARNING 
+    ================================================== --> 
+ 
+    <section 
+        id="prediction" 
+        class="documentation-section" 
+    > 
+ 
+        <h2> 
+            7. Machine Learning — Prediction 
+        </h2> 
+ 
+        <p> 
+            After preparing and analyzing the data, 
+            a Machine Learning component is integrated 
+            into the project. 
+        </p> 
+ 
+        <p> 
+            The model uses the prepared data to produce 
+            a predictive value based on the input variables. 
+        </p> 
+ 
+ 
+        <h3> 
+            7.1 Variables Used 
+        </h3> 
+ 
+        <p> 
+            The Python prediction script receives two 
+            input variables: 
+        </p> 
+ 
+        <ul> 
+ 
+            <li> 
+                <strong>ca_tnd</strong> — revenue 
+                in TND 
+            </li> 
+ 
+            <li> 
+                <strong>ca_eur</strong> — revenue 
+                in EUR 
+            </li> 
+ 
+        </ul> 
+ 
+ 
+        <h3> 
+            7.2 Model Loading 
+        </h3> 
+ 
+        <p> 
+            The previously trained Machine Learning model 
+            is saved in a file called 
+            <code>EXPORT.pkl</code>. 
+        </p> 
+ 
+        <p> 
+            The Python script loads this model using the 
+            <code>pickle</code> library. 
+        </p> 
+ 
+ 
+        <h3> 
+            7.3 Python File — ca.py 
+        </h3> 
+ 
+        <pre><code> 
+import sys 
+import json 
+import pickle 
+import os 
+ 
+mode = sys.argv[1] 
+ca_tnd = float(sys.argv[2]) 
+ca_eur = float(sys.argv[3]) 
+ 
+BASE_DIR = os.path.dirname(os.path.abspath(**file**)) 
+model_path = os.path.join(BASE_DIR, "EXPORT.pkl") 
+ 
+model = pickle.load(open(model_path, "rb")) 
+ 
+prediction = model.predict([[ca_tnd, ca_eur]]) 
+ 
+result = { 
+"mode": mode, 
+"ca_tnd": ca_tnd, 
+"ca_eur": ca_eur, 
+"prediction": float(prediction[0]) 
+} 
+ 
+print(json.dumps(result)) </code></pre> 
+ 
+        <h3> 
+            7.4 Explanation of the ca.py File 
+        </h3> 
+ 
+        <ol> 
+ 
+            <li> 
+                <strong>Importing libraries:</strong> 
+                Python uses <code>sys</code>, 
+                <code>json</code>, <code>pickle</code> 
+                and <code>os</code> to manage parameters, 
+                the model and communication. 
+            </li> 
+ 
+            <li> 
+                <strong>Retrieving parameters:</strong> 
+                the values <code>mode</code>, 
+                <code>ca_tnd</code> and <code>ca_eur</code> 
+                are retrieved from the arguments passed 
+                to the script. 
+            </li> 
+ 
+            <li> 
+                <strong>Numeric conversion:</strong> 
+                the revenue values are converted into 
+                decimal numbers using <code>float()</code>. 
+            </li> 
+ 
+            <li> 
+                <strong>Model location:</strong> 
+                <code>os.path</code> is used to build 
+                the path to the 
+                <code>EXPORT.pkl</code> file. 
+            </li> 
+ 
+            <li> 
+                <strong>Model loading:</strong> 
+                <code>pickle.load()</code> restores 
+                the trained Machine Learning model. 
+            </li> 
+ 
+            <li> 
+                <strong>Prediction:</strong> 
+                <code>model.predict()</code> receives the two 
+                variables <code>ca_tnd</code> and 
+                <code>ca_eur</code> and generates the prediction. 
+            </li> 
+ 
+            <li> 
+                <strong>Creating the response:</strong> 
+                the result is organized in a Python object 
+                containing the mode, input values and 
+                prediction. 
+            </li> 
+ 
+            <li> 
+                <strong>JSON communication:</strong> 
+                <code>json.dumps()</code> converts the 
+                result into JSON so that it can be 
+                retrieved by Node.js. 
+            </li> 
+ 
+        </ol> 
+ 
+    </section> 
+ 
+ 
+    <!-- ================================================= 
+         8. NODE.JS 
+    ================================================== --> 
+ 
+    <section 
+        id="node-service" 
+        class="documentation-section" 
+    > 
+ 
+        <h2> 
+            8. Python Integration with Node.js 
+        </h2> 
+ 
+        <p> 
+            Node.js acts as an intermediary between 
+            the application and the Python script. 
+        </p> 
+ 
+        <p> 
+            The <code>child_process</code> module and the 
+            <code>spawn()</code> function allow 
+            Node.js to execute the Python program and 
+            retrieve its result. 
+        </p> 
+ 
+ 
+        <h3> 
+            8.1 CaService.js Service 
+        </h3> 
+ 
+        <pre><code> 
+const { spawn } = require("child_process"); 
+ 
+function runPython(file, args = []) { 
+ 
+return new Promise((resolve, reject) => { 
+ 
+const py = spawn("python", ["-u", file, ...args]); 
+ 
+let output = ""; 
+ 
+py.stdout.on("data", (data) => { 
+  output += data.toString(); 
+}); 
+ 
+py.stderr.on("data", (err) => { 
+  console.error(err.toString()); 
+}); 
+ 
+py.on("close", (code) => { 
+ 
+  if (code !== 0) { 
+    return reject("Python error code " + code); 
+  } 
+ 
+  try { 
+    resolve(JSON.parse(output.trim())); 
+  } catch (e) { 
+    reject("JSON parse error"); 
+  } 
+ 
+}); 
+ 
+}); 
+ 
+} 
+ 
+module.exports = runPython; </code></pre> 
+ 
+        <h3> 
+            8.2 Service Operation 
+        </h3> 
+ 
+        <ol> 
+ 
+            <li> 
+                Node.js receives the path of the Python file. 
+            </li> 
+ 
+            <li> 
+                The required parameters are passed 
+                to the script. 
+            </li> 
+ 
+            <li> 
+                <code>spawn()</code> starts the Python process. 
+            </li> 
+ 
+            <li> 
+                Node.js retrieves the data produced by 
+                <code>stdout</code>. 
+            </li> 
+ 
+            <li> 
+                Python errors are retrieved using 
+                <code>stderr</code>. 
+            </li> 
+ 
+            <li> 
+                The JSON result is parsed using 
+                <code>JSON.parse()</code>. 
+            </li> 
+ 
+            <li> 
+                The final result is returned to the 
+                Express controller. 
+            </li> 
+ 
+        </ol> 
+ 
+    </section> 
+ 
+ 
+    <!-- ================================================= 
+         9. EXPRESS API 
+    ================================================== --> 
+ 
+    <section 
+        id="api" 
+        class="documentation-section" 
+    > 
+ 
+        <h2> 
+            9. Node.js / Express API 
+        </h2> 
+ 
+        <p> 
+            Express exposes an API route allowing 
+            the application to send the data required 
+            by the prediction system. 
+        </p> 
+ 
+ 
+        <h3> 
+            9.1 CARoute.js Route 
+        </h3> 
+ 
+        <pre><code> 
+const express = require("express"); 
+const router = express.Router(); 
+const path = require("path"); 
+const runPython = require("../service/CaService"); 
+ 
+router.use(express.json()); 
+ 
+router.post("/", async (req, res) => { 
+ 
+try { 
+ 
+const { mode, ca_tnd, ca_eur } = req.body; 
+ 
+console.log("REQUEST BODY:", req.body); 
+ 
+if (ca_tnd == null || ca_eur == null) { 
+ 
+  return res.status(400).json({ 
+    error: "ca_tnd and ca_eur are required" 
+  }); 
+ 
+} 
+ 
+const result = await runPython( 
+  path.join(__dirname, "../../python/ca.py"), 
+  [ 
+    mode || "export", 
+    String(ca_tnd), 
+    String(ca_eur) 
+  ] 
+); 
+ 
+return res.status(200).json(result); 
+ 
+} catch (error) { 
+ 
+console.error("SERVER ERROR:", error); 
+ 
+return res.status(500).json({ 
+  error: error.toString() 
+}); 
+ 
+} 
+ 
+}); 
+ 
+module.exports = router; </code></pre> 
+ 
+        <h3> 
+            9.2 Route Explanation 
+        </h3> 
+ 
+        <p> 
+            The route uses the <code>POST</code> method 
+            to receive the data sent by the application. 
+        </p> 
+ 
+        <p> 
+            The server then retrieves <code>mode</code>, 
+            <code>ca_tnd</code> and <code>ca_eur</code> 
+            from <code>req.body</code>. 
+        </p> 
+ 
+        <p> 
+            A validation checks that the two required 
+            revenue values are present. 
+        </p> 
+ 
+        <p> 
+            The <code>runPython()</code> service is then 
+            called to execute <code>ca.py</code> with 
+            the received parameters. 
+        </p> 
+ 
+        <p> 
+            Finally, the prediction result is returned 
+            to the client as a JSON response. 
+        </p> 
+ 
+    </section> 
+ 
+ 
+    <!-- ================================================= 
+         10. EXPRESS SERVER 
+    ================================================== --> 
+ 
+    <section 
+        id="server" 
+        class="documentation-section" 
+    > 
+ 
+        <h2> 
+            10. Express Server 
+        </h2> 
+ 
+        <p> 
+            The main server file initializes Express, 
+            enables JSON data reception and registers 
+            the prediction route. 
+        </p> 
+ 
+        <pre><code> 
+const express = require("express"); 
+ 
+const app = express(); 
+ 
+app.use(express.json()); 
+ 
+const CARoute = require("./routes/CARoute"); 
+ 
+app.use("/CA", CARoute); 
+ 
+app.listen(3000, () => { 
+ 
+console.log("SERVER STARTED"); 
+ 
+}); </code></pre> 
+ 
+        <h3> 
+            API Architecture 
+        </h3> 
+ 
+        <pre><code> 
+Application 
+↓ 
+POST /CA 
+↓ 
+CARoute.js 
+↓ 
+CaService.js 
+↓ 
+spawn() 
+↓ 
+ca.py 
+↓ 
+EXPORT.pkl 
+↓ 
+Machine Learning 
+↓ 
+Prediction 
+↓ 
+JSON 
+↓ 
+Node.js / Express 
+↓ 
+Application </code></pre> 
+ 
+    </section> 
+ 
+ 
+    <!-- ================================================= 
+         11. COMPLETE PIPELINE 
+    ================================================== --> 
+ 
+    <section 
+        id="workflow" 
+        class="documentation-section" 
+    > 
+ 
+        <h2> 
+            11. Complete Project Pipeline 
+        </h2> 
+ 
+        <p> 
+            The overall architecture of the Bank Dashboard 
+            is based on several complementary levels. 
+        </p> 
+ 
+        <pre><code> 
+Accounting file 
+↓ 
+Python cleaning and analysis 
+↓ 
+Data transformation 
+↓ 
+Staging Area 
+↓ 
+Talend / ETL 
+↓ 
+Data Warehouse 
+↓ 
+Relationships between tables 
+↓ 
+Power BI 
+↓ 
+Business intelligence analysis 
+↓ 
+Machine Learning 
+↓ 
+EXPORT.pkl model 
+↓ 
+ca.py 
+↓ 
+Node.js 
+↓ 
+Express API 
+↓ 
+JSON result 
+↓ 
+Application </code></pre> 
+ 
+    </section> 
+ 
+ 
+    <!-- ================================================= 
+         12. RESULTS 
+    ================================================== --> 
+ 
+    <section 
+        id="resultats" 
+        class="documentation-section" 
+    > 
+ 
+        <h2> 
+            12. Project Results 
+        </h2> 
+ 
+        <p> 
+            This project makes it possible to transform an 
+            accounting file containing raw and potentially 
+            inconsistent data into structured and usable data. 
+        </p> 
+ 
+        <p> 
+            The combination of Python, Talend, the Data 
+            Warehouse and Power BI makes it possible to build 
+            a complete business intelligence analysis pipeline. 
+        </p> 
+ 
+        <p> 
+            The addition of Machine Learning also makes it 
+            possible to go beyond descriptive analysis by 
+            integrating a predictive dimension. 
+        </p> 
+ 
+        <p> 
+            Finally, the use of Node.js and Express makes it 
+            possible to integrate the Python model into an 
+            application accessible through a REST API. 
+        </p> 
+ 
+    </section> 
+ 
+ 
+</main> 
+ 
+ 
+<!-- ===================================================== 
+     FOOTER 
+====================================================== --> 
+ 
+<footer class="documentation-footer"> 
+ 
+    <p> 
+        Bank Dashboard — Technical Documentation 
+    </p> 
+ 
+</footer> 
+ 
+ 
+<!-- ===================================================== 
+     OPTIONAL JAVASCRIPT 
+====================================================== --> 
+ 
+<script src="../script.js"></script> 
+ 
+</body> 
+ 
+</html>

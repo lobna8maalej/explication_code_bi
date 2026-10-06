@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
+
+<meta
+name="description"
+content="Detailed documentation of the VoyageDashboard.jsx component and the voyageSlice.js file: React, Redux Toolkit, Axios, Recharts, BarChart, Power BI and Machine Learning."
+
+>
+
+<title>
+    Voyage ML Dashboard — Technical Documentation
+</title>
+
+<link
+    rel="stylesheet"
+    href="VoyageDashboard.css"
+>
+
+</head>
+
+<body>
+
+<main class="documentation">
+
+<!-- ===================================================== -->
+
+<!-- HEADER -->
+
+<!-- ===================================================== -->
+
+<header class="documentation-header">
+
+```
+<h1>
+    ✈️ Voyage ML Dashboard — Technical Documentation
+</h1>
+
+<p>
+    This documentation explains in detail how the
+    <strong>VoyageDashboard.jsx</strong> component and the
+    <strong>voyageSlice.js</strong> file work, how communication
+    with the backend is handled using <strong>Axios</strong>,
+    how state is managed with <strong>Redux Toolkit</strong>,
+    how data is visualized with <strong>Recharts</strong>,
+    and how <strong>Power BI</strong> and the
+    <strong>Machine Learning</strong> system are integrated.
+</p>
+```
+
+</header>
+
+<!-- ===================================================== -->
+
+<!-- INTRODUCTION -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    Introduction
+</h2>
+
+<p>
+    The Voyage Dashboard automatically sends data related
+    to travel prices to the backend.
+</p>
+
+<p>
+    The data sent to the backend are:
+</p>
+
+<ul>
+
+    <li>
+        <strong>prix_concurrent_2 = 1900</strong>
+    </li>
+
+    <li>
+        <strong>prix_concurrent_agence2 = 2000</strong>
+    </li>
+
+    <li>
+        <strong>prix_extra = 50</strong>
+    </li>
+
+</ul>
+
+<p>
+    The request is sent using the HTTP
+    <strong>POST</strong> method to:
+</p>
+
+<pre><code>http://localhost:3000/voyage</code></pre>
+
+<p>
+    The backend then processes the data and returns a JSON
+    response containing, in particular, a prediction.
+</p>
+
+<p>
+    This response is retrieved by Redux Toolkit and stored
+    in the state of the <strong>voyage</strong> module.
+</p>
+
+<p>
+    The prediction value is then used to build a bar chart
+    with <strong>Recharts</strong>.
+</p>
+
+<p>
+    At the same time, a <strong>Power BI</strong> report is
+    directly integrated into the Dashboard using an
+    <code>iframe</code>.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- GLOBAL FLOW -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    🔄 Overall Voyage Dashboard Flow
+</h2>
+
+<div class="flow">
+```
+
+<pre>
+Loading VoyageDashboard
+        ↓
+useEffect()
+        ↓
+dispatch()
+        ↓
+createVoyagePrediction()
+        ↓
+Axios POST
+        ↓
+/voyage
+        ↓
+Node.js Backend
+        ↓
+Data processing
+        ↓
+Machine Learning
+        ↓
+JSON Response
+        ↓
+Redux Toolkit
+        ↓
+fulfilled
+        ↓
+action.payload
+        ↓
+state.items
+        ↓
+predictionData
+        ↓
+chartData
+        ↓
+Recharts
+        ↓
+BarChart
+        ↓
+Result display
+</pre>
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 1 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    1. General Project Overview
+</h2>
+
+<p>
+    The <strong>VoyageDashboard.jsx</strong> component represents
+    the React interface of the Dashboard dedicated to the analysis
+    and prediction of travel data.
+</p>
+
+<p>
+    Its purpose is to automatically send several variables related
+    to travel prices to the backend.
+</p>
+
+<p>
+    The backend then processes this data according to the logic
+    defined in the <strong>Machine Learning</strong> system.
+</p>
+
+<p>
+    The result returned by the backend is retrieved by
+    <strong>Redux Toolkit</strong>.
+</p>
+
+<p>
+    The Dashboard then displays the prediction as well as a chart
+    that allows a real value to be compared with the predicted value.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 2 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    2. Files and Technologies Used
+</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>
+                File / Technology
+            </th>
+
+            <th>
+                Role
+            </th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+
+            <td>
+                VoyageDashboard.jsx
+            </td>
+
+            <td>
+                Builds the Voyage Dashboard interface.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                voyageSlice.js
+            </td>
+
+            <td>
+                Manages the Voyage prediction using Redux Toolkit
+                and Axios.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                VoyageDashboard.css
+            </td>
+
+            <td>
+                Controls the visual presentation of the Dashboard.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                React
+            </td>
+
+            <td>
+                Builds the user interface.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                useEffect
+            </td>
+
+            <td>
+                Automatically triggers the prediction when
+                the component loads.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                useDispatch
+            </td>
+
+            <td>
+                Allows a Redux action to be dispatched.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                useSelector
+            </td>
+
+            <td>
+                Allows data to be retrieved from the
+                Redux Store.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Redux Toolkit
+            </td>
+
+            <td>
+                Manages the state of the Voyage prediction.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                createAsyncThunk
+            </td>
+
+            <td>
+                Manages the asynchronous request to the backend.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Axios
+            </td>
+
+            <td>
+                Sends the HTTP POST request to the backend.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Recharts
+            </td>
+
+            <td>
+                Allows the chart to be built.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                BarChart
+            </td>
+
+            <td>
+                Represents values as bars.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Power BI
+            </td>
+
+            <td>
+                Displays the integrated analytical report.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                Machine Learning
+            </td>
+
+            <td>
+                Produces the prediction from the data
+                sent to the backend.
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 3 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    3. Importing React
+</h2>
+
+<pre><code>import React, { useEffect } from "react";</code></pre>
+
+<p>
+    This instruction imports React as well as the
+    <code>useEffect</code> Hook.
+</p>
+
+<h3>
+    useEffect
+</h3>
+
+<p>
+    <code>useEffect</code> allows an operation to be executed
+    automatically when the component is loaded.
+</p>
+
+<p>
+    In this project, it is used to automatically trigger
+    the Voyage prediction.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 4 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    4. Importing Redux
+</h2>
+
+<pre><code>import {
+```
+
+useDispatch,
+useSelector
+} from "react-redux";</code></pre>
+
+```
+<p>
+    These two Hooks allow the React component to communicate
+    with Redux.
+</p>
+
+<h3>
+    useDispatch
+</h3>
+
+<p>
+    <code>useDispatch()</code> allows a Redux action to be dispatched.
+</p>
+
+<h3>
+    useSelector
+</h3>
+
+<p>
+    <code>useSelector()</code> allows part of the state stored
+    in the Redux Store to be retrieved.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 5 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    5. Importing createVoyagePrediction
+</h2>
+
+<pre><code>import {
+```
+
+createVoyagePrediction
+} from "../redux/voyageSlice";</code></pre>
+
+```
+<p>
+    This instruction imports the asynchronous action defined
+    in <strong>voyageSlice.js</strong>.
+</p>
+
+<p>
+    This action is responsible for sending Voyage data
+    to the backend.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 6 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    6. Importing Recharts Components
+</h2>
+
+<pre><code>import {
+```
+
+ResponsiveContainer,
+BarChart,
+Bar,
+XAxis,
+YAxis,
+Tooltip,
+CartesianGrid,
+Legend
+} from "recharts";</code></pre>
+
+```
+<p>
+    These components are used to build the comparison chart
+    between the real value and the prediction.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 7 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    7. Importing the CSS File
+</h2>
+
+<pre><code>import "./VoyageDashboard.css";</code></pre>
+
+<p>
+    This instruction loads the CSS file used to customize
+    the appearance of the Dashboard.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 8 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    8. Creating useDispatch
+</h2>
+
+<pre><code>const dispatch = useDispatch();</code></pre>
+
+<p>
+    <code>useDispatch()</code> returns the
+    <code>dispatch</code> function.
+</p>
+
+<p>
+    This function allows an action to be sent to the Redux Store.
+</p>
+
+<p>
+    In this project, it will be used to launch:
+</p>
+
+<pre><code>createVoyagePrediction()</code></pre>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 9 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    9. Retrieving the Redux State
+</h2>
+
+<pre><code>const {
+```
+
+items,
+loading,
+error
+} = useSelector(
+(state) => state.voyage
+);</code></pre>
+
+```
+<p>
+    This instruction retrieves the properties of the
+    <code>voyage</code> module from the Redux Store.
+</p>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>
+                Variable
+            </th>
+
+            <th>
+                Role
+            </th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+
+            <td>
+                items
+            </td>
+
+            <td>
+                Contains the response returned by the backend.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                loading
+            </td>
+
+            <td>
+                Indicates whether the request is currently in progress.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                error
+            </td>
+
+            <td>
+                Contains a possible error.
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 10 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    10. Using useEffect
+</h2>
+
+<pre><code>useEffect(() => {
+```
+
+dispatch(
+createVoyagePrediction({
+prix_concurrent_2: 1900,
+prix_concurrent_agence2: 2000,
+prix_extra: 50,
+})
+);
+}, [dispatch]);</code></pre>
+
+```
+<p>
+    This effect is executed when the
+    <strong>VoyageDashboard</strong> component is mounted.
+</p>
+
+<p>
+    It triggers the action:
+</p>
+
+<pre><code>createVoyagePrediction()</code></pre>
+
+<p>
+    through:
+</p>
+
+<pre><code>dispatch()</code></pre>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 11 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    11. Why Use dispatch?
+</h2>
+
+<p>
+    The component does not communicate directly with Axios.
+</p>
+
+<p>
+    It goes through the Redux action defined in
+    <strong>voyageSlice.js</strong>.
+</p>
+
+<div class="flow">
+```
+
+<pre>
+VoyageDashboard
+       ↓
+dispatch()
+       ↓
+createVoyagePrediction()
+       ↓
+Axios
+       ↓
+Backend
+</pre>
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 12 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    12. Data Sent for the Prediction
+</h2>
+
+<pre><code>{
+```
+
+prix_concurrent_2: 1900,
+prix_concurrent_agence2: 2000,
+prix_extra: 50
+}</code></pre>
+
+```
+<p>
+    These three values constitute the
+    <strong>payload</strong> sent to the backend.
+</p>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>
+                Variable
+            </th>
+
+            <th>
+                Value
+            </th>
+
+            <th>
+                Role
+            </th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+
+            <td>
+                prix_concurrent_2
+            </td>
+
+            <td>
+                1900
+            </td>
+
+            <td>
+                Price provided by a competitor.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                prix_concurrent_agence2
+            </td>
+
+            <td>
+                2000
+            </td>
+
+            <td>
+                Price associated with the competing agency.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                prix_extra
+            </td>
+
+            <td>
+                50
+            </td>
+
+            <td>
+                Additional price used by the model.
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 13 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    13. Presentation of the voyageSlice.js File
+</h2>
+
+<p>
+    The <strong>voyageSlice.js</strong> file contains the
+    Redux logic dedicated to the Voyage module.
+</p>
+
+<p>
+    It uses <strong>Redux Toolkit</strong> as well as
+    <strong>Axios</strong>.
+</p>
+
+<p>
+    Its main role is to manage the prediction request
+    and store the result in Redux.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 14 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    14. Importing Redux Toolkit
+</h2>
+
+<pre><code>import {
+```
+
+createSlice,
+createAsyncThunk
+} from "@reduxjs/toolkit";</code></pre>
+
+```
+<p>
+    <code>createSlice</code> allows the Redux Slice to be created.
+</p>
+
+<p>
+    <code>createAsyncThunk</code> allows an asynchronous operation,
+    such as an HTTP request, to be managed.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 15 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    15. Importing Axios
+</h2>
+
+<pre><code>import axios from "axios";</code></pre>
+
+<p>
+    Axios is used to communicate with the backend.
+</p>
+
+<p>
+    In this project, Axios performs a
+    <strong>POST</strong> request.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 16 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    16. Creating createVoyagePrediction
+</h2>
+
+<pre><code>export const createVoyagePrediction =
+```
+
+createAsyncThunk(
+"voyage/create",
+async (payload, thunkAPI) => {
+...
+}
+);</code></pre>
+
+```
+<p>
+    This instruction creates an asynchronous Redux action.
+</p>
+
+<p>
+    The action name is:
+</p>
+
+<pre><code>voyage/create</code></pre>
+
+<p>
+    This action receives a parameter called
+    <code>payload</code>.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 17 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    17. Role of the Payload
+</h2>
+
+<pre><code>async (payload, thunkAPI) =&gt; {</code></pre>
+
+<p>
+    The <code>payload</code> parameter represents the data
+    transmitted from the React component.
+</p>
+
+<p>
+    In our case:
+</p>
+
+<pre><code>{
+```
+
+prix_concurrent_2: 1900,
+prix_concurrent_agence2: 2000,
+prix_extra: 50
+}</code></pre>
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 18 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    18. POST Request with Axios
+</h2>
+
+<pre><code>const res = await axios.post(
+```
+
+"http://localhost:3000/voyage",
+payload
+);</code></pre>
+
+```
+<p>
+    Axios sends an HTTP
+    <strong>POST</strong> request to the endpoint:
+</p>
+
+<pre><code>http://localhost:3000/voyage</code></pre>
+
+<p>
+    The second argument:
+</p>
+
+<pre><code>payload</code></pre>
+
+<p>
+    contains the data used to perform the prediction.
+</p>
+
+<div class="flow">
+```
+
+<pre>
+payload
+   ↓
+Axios POST
+   ↓
+/voyage
+   ↓
+Backend
+</pre>
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 19 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    19. Communication with the Backend
+</h2>
+
+<p>
+    The React frontend communicates with the Node.js server
+    through the HTTP POST request.
+</p>
+
+<div class="flow">
+```
+
+<pre>
+React
+  ↓
+Redux
+  ↓
+Axios
+  ↓
+POST /voyage
+  ↓
+Node.js Backend
+  ↓
+Machine Learning
+</pre>
+
+```
+</div>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 20 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    20. Displaying the Backend Response in the Console
+</h2>
+
+<pre><code>console.log(
+```
+
+"BACKEND RESPONSE:",
+res.data
+);</code></pre>
+
+```
+<p>
+    This instruction allows the response returned by the backend
+    to be checked in the browser console or development environment.
+</p>
+
+<p>
+    It is particularly useful during development
+    and debugging.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 21 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    21. Returning res.data
+</h2>
+
+<pre><code>return res.data;</code></pre>
+
+<p>
+    This instruction returns the data received from the backend
+    to the Redux Toolkit system.
+</p>
+
+<p>
+    According to the structure shown in the code, the backend
+    returns a response in the following form:
+</p>
+
+<pre><code>{
+```
+
+message: "...",
+data: {
+prediction: ...
+}
+}</code></pre>
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 22 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    22. Error Handling
+</h2>
+
+<pre><code>catch (error) {
+```
+
+return thunkAPI.rejectWithValue(
+error.response?.data?.error ||
+error.message
+);
+}</code></pre>
+
+```
+<p>
+    If the request fails, the
+    <code>catch</code> block is executed.
+</p>
+
+<p>
+    <code>rejectWithValue()</code> allows a custom error message
+    to be transmitted to the Redux Store.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 23 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    23. Optional Chaining in Error Handling
+</h2>
+
+<pre><code>error.response?.data?.error</code></pre>
+
+<p>
+    The <code>?.</code> operator allows a property to be accessed
+    only if the previous object exists.
+</p>
+
+<p>
+    This notably prevents an error if
+    <code>error.response</code> does not exist.
+</p>
+
+<p>
+    If the backend message is not available,
+    the code uses:
+</p>
+
+<pre><code>error.message</code></pre>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 24 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    24. Creating the Voyage Slice
+</h2>
+
+<pre><code>const voyageSlice = createSlice({
+```
+
+name: "voyage",
+
+initialState: {
+items: null,
+loading: false,
+error: null,
+},
+
+reducers: {},
+
+extraReducers: (builder) => {
+...
+}
+});</code></pre>
+
+```
+<p>
+    This instruction creates the Redux Slice called
+    <strong>voyage</strong>.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 25 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2>
+    25. InitialState
+</h2>
+
+<pre><code>initialState: {
+```
+
+items: null,
+loading: false,
+error: null,
+}</code></pre>
+
+```
+<table>
+
+    <thead>
+
+        <tr>
+            <th>
+                Property
+            </th>
+
+            <th>
+                Initial Value
+            </th>
+
+            <th>
+                Role
+            </th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+
+            <td>
+                items
+            </td>
+
+            <td>
+                null
+            </td>
+
+            <td>
+                Will contain the backend response.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                loading
+            </td>
+
+            <td>
+                false
+            </td>
+
+            <td>
+                Indicates whether the request is in progress.
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                error
+            </td>
+
+            <td>
+                null
+            </td>
+
+            <td>
+                Contains a possible error.
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+```
+
+</section>
+
+</main>
+
+</body>
+
+</html>

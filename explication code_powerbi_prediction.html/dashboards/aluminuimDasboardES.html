@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Documentación — MAB Dashboard | React, Redux y Machine Learning
+    </title>
+
+    <meta
+        name="description"
+        content="Documentación técnica del MAB Machine Learning Dashboard utilizando React, Redux Toolkit, Axios, Recharts y una API de predicción."
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+            line-height: 1.8;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 70px 20px;
+            text-align: center;
+        }
+
+        .header span {
+            display: inline-block;
+            padding: 7px 15px;
+            border-radius: 20px;
+            background: #6366f1;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .header h1 {
+            margin-top: 20px;
+            font-size: 42px;
+        }
+
+        .header p {
+            max-width: 900px;
+            margin: 20px auto 0;
+            color: #d1d5db;
+            font-size: 17px;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 15px 20px;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .navbar a {
+            color: #374151;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .navbar a:hover {
+            color: #6366f1;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 35px;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .section-number {
+            color: #6366f1;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            margin: 10px 0 25px;
+            font-size: 30px;
+            color: #111827;
+        }
+
+        h3 {
+            margin: 25px 0 12px;
+            color: #374151;
+        }
+
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        strong {
+            color: #111827;
+        }
+
+        .flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .flow div {
+            background: #f3f4f6;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .flow b {
+            font-size: 25px;
+            color: #6366f1;
+        }
+
+        .code {
+            background: #111827;
+            color: #e5e7eb;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        pre {
+            white-space: pre-wrap;
+        }
+
+        .info {
+            background: #eef2ff;
+            border-left: 5px solid #6366f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+        }
+
+        .list {
+            margin: 20px 0 20px 25px;
+        }
+
+        .footer {
+            background: #111827;
+            color: #d1d5db;
+            text-align: center;
+            padding: 35px 20px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 700px) {
+
+            .header h1 {
+                font-size: 30px;
+            }
+
+            .section {
+                padding: 25px;
+            }
+
+            h2 {
+                font-size: 25px;
+            }
+
+            .flow b {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <span>
+        REACT • REDUX • MACHINE LEARNING
+    </span>
+
+    <h1>
+        MAB Machine Learning Dashboard
+    </h1>
+
+    <p>
+        Documentación técnica sobre el funcionamiento del dashboard
+        React, utilizando Redux Toolkit, Axios, Recharts y una
+        API backend para realizar una predicción de Machine Learning.
+    </p>
+
+</header>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav class="navbar">
+
+    <div class="nav-container">
+
+        <a href="#presentation">
+            Descripción general
+        </a>
+
+        <a href="#component">
+            MABDashboard
+        </a>
+
+        <a href="#redux">
+            Redux
+        </a>
+
+        <a href="#prediction">
+            Predicción
+        </a>
+
+        <a href="#chart">
+            Gráfico
+        </a>
+
+        <a href="#architecture">
+            Arquitectura
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="container">
+
+
+<!-- =====================================================
+     01 PRESENTATION
+===================================================== -->
+
+<section class="section" id="presentation">
+
+    <span class="section-number">
+        01 — DESCRIPCIÓN GENERAL
+    </span>
+
+    <h2>
+        Descripción general del sistema
+    </h2>
+
+    <p>
+
+        El componente <strong>MABDashboard</strong> proporciona
+        la interfaz de usuario utilizada para ejecutar y mostrar
+        una predicción de Machine Learning. El componente está
+        desarrollado con <strong>React</strong> y utiliza varias
+        tecnologías complementarias. React se utiliza para construir
+        la interfaz, <strong>Redux Toolkit</strong> gestiona el estado
+        global relacionado con la predicción, <strong>Axios</strong>
+        se encarga de la comunicación con la API backend y
+        <strong>Recharts</strong> se utiliza para representar
+        gráficamente el nivel de confianza de la predicción.
+        El funcionamiento general se basa, por lo tanto, en una
+        cadena en la que el usuario hace clic en el botón
+        <strong>Predict</strong>, el componente activa una acción
+        Redux, Redux realiza una solicitud HTTP mediante Axios
+        hacia el backend, el backend recibe las variables enviadas
+        y puede transmitirlas al modelo de Machine Learning, y el
+        resultado vuelve posteriormente a Redux antes de mostrarse
+        automáticamente en el componente React.
+
+    </p>
+
+
+    <div class="flow">
+
+        <div>
+            Usuario
+        </div>
+
+        <b>→</b>
+
+        <div>
+            React
+        </div>
+
+        <b>→</b>
+
+        <div>
+            Redux
+        </div>
+
+        <b>→</b>
+
+        <div>
+            Axios
+        </div>
+
+        <b>→</b>
+
+        <div>
+            Backend
+        </div>
+
+        <b>→</b>
+
+        <div>
+            Machine Learning
+        </div>
+
+        <b>→</b>
+
+        <div>
+            Resultado
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     02 COMPONENT
+===================================================== -->
+
+<section class="section" id="component">
+
+    <span class="section-number">
+        02 — REACT
+    </span>
+
+    <h2>
+        Componente MABDashboard
+    </h2>
+
+    <p>
+
+        El archivo que contiene <strong>MABDashboard</strong> es
+        un componente funcional de React. Comienza importando
+        React, así como los hooks <strong>useDispatch</strong> y
+        <strong>useSelector</strong> provenientes de
+        <strong>react-redux</strong>. El hook useDispatch permite
+        al componente enviar una acción Redux, mientras que
+        useSelector permite recuperar información almacenada en
+        el store de Redux. El componente también importa la acción
+        asíncrona <strong>predictData</strong> desde el archivo
+        <strong>predictSlice</strong>. Esta acción se utilizará
+        cuando el usuario haga clic en el botón Predict. El archivo
+        también importa Dashboard.css para aplicar estilos a la
+        interfaz. Finalmente, se importan varios componentes de
+        Recharts, incluyendo PieChart, Pie, Cell, Tooltip y Legend,
+        para construir el gráfico circular que representa la
+        confianza de la predicción.
+
+    </p>
+
+
+    <div class="code">
+
+<pre>
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { predictData } from "../redux/predictSlice";
+import "./Dashboard.css";
+
+import {
+    PieChart,
+    Pie,
+    Cell,
+    Tooltip,
+    Legend,
+} from "recharts";
+</pre>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     03 REDUX HOOKS
+===================================================== -->
+
+<section class="section">
+
+    <span class="section-number">
+        03 — REDUX HOOKS
+    </span>
+
+    <h2>
+        useDispatch y useSelector
+    </h2>
+
+    <p>
+
+        Dentro del componente, la primera instrucción importante
+        es <strong>useDispatch()</strong>. Esta función proporciona
+        el método dispatch, que permite al componente React enviar
+        una acción a Redux. En este proyecto, dispatch se utilizará
+        para activar <strong>predictData()</strong>. El segundo hook
+        utilizado es <strong>useSelector()</strong>. Permite al
+        componente leer directamente el estado almacenado en el
+        store de Redux. El código recupera tres informaciones desde
+        <strong>state.predict</strong>: loading, result y error.
+        La variable loading indica si la solicitud de predicción
+        está actualmente en proceso, result contiene el resultado
+        cuando la solicitud tiene éxito y error contiene información
+        sobre un posible error. Esta organización permite que React
+        actualice automáticamente la interfaz cuando Redux modifica
+        su estado.
+
+    </p>
+
+
+    <div class="code">
+
+<pre>
+const dispatch = useDispatch();
+
+const { loading, result, error } = useSelector(
+    (state) => state.predict
+);
+</pre>
+
+    </div>
+
+
+    <div class="info">
+
+        <strong>
+            Resumen:
+        </strong>
+
+        <p>
+
+            <strong>useDispatch</strong> se utiliza para enviar
+            una acción a Redux, mientras que
+            <strong>useSelector</strong> se utiliza para recuperar
+            datos desde Redux.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     04 HANDLE PREDICT
+===================================================== -->
+
+<section class="section">
+
+    <span class="section-number">
+        04 — ACTIVACIÓN
+    </span>
+
+    <h2>
+        Función handlePredict()
+    </h2>
+
+    <p>
+
+        La función <strong>handlePredict</strong> se ejecuta cuando
+        el usuario hace clic en el botón <strong>Predict</strong>.
+        Utiliza la función dispatch obtenida mediante useDispatch
+        para activar la acción asíncrona <strong>predictData</strong>.
+        Se envía como parámetro a esta acción un array que contiene
+        veinte valores numéricos. Estos valores representan las
+        features o variables de entrada utilizadas por el sistema
+        de predicción. El objetivo es enviar estas variables al
+        backend para que el modelo de Machine Learning pueda
+        realizar una predicción. Es importante comprender que el
+        componente React no realiza directamente el cálculo de
+        Machine Learning: prepara los datos y activa la acción
+        Redux, que posteriormente se encarga de comunicarse con
+        el backend.
+
+    </p>
+
+
+    <div class="code">
+
+<pre>
+const handlePredict = () => {
+
+    dispatch(
+        predictData([
+            1,2,3,4,5,
+            6,7,8,9,10,
+            11,12,13,14,15,
+            16,17,18,19,20,
+        ])
+    );
+
+};
+</pre>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     05 REDUX SLICE
+===================================================== -->
+
+<section class="section" id="redux">
+
+    <span class="section-number">
+        05 — REDUX TOOLKIT
+    </span>
+
+    <h2>
+        Funcionamiento de predictSlice.js
+    </h2>
+
+    <p>
+
+        El archivo <strong>predictSlice.js</strong> representa la
+        parte de Redux dedicada a la predicción. Importa
+        <strong>createSlice</strong> y
+        <strong>createAsyncThunk</strong> desde Redux Toolkit,
+        así como la biblioteca <strong>Axios</strong>.
+        createAsyncThunk es especialmente importante porque la
+        predicción requiere una comunicación asíncrona con el
+        backend. La acción <strong>predictData</strong> recibe las
+        features provenientes del componente React. A continuación,
+        realiza una solicitud HTTP POST a
+        <strong>http://localhost:3000/predict</strong>.
+        El array de features se coloca dentro de un objeto bajo
+        la propiedad <strong>features</strong>. Por lo tanto, el
+        backend recibe datos estructurados en forma de objeto JSON.
+        Si la solicitud tiene éxito, Axios devuelve la respuesta
+        del servidor y la función devuelve
+        <strong>response.data</strong>. Este valor se convierte
+        entonces en el payload de la acción Redux fulfilled.
+        Si se produce un error, el bloque catch recupera el error
+        y utiliza <strong>rejectWithValue</strong> para enviar
+        la información del error al reducer. Esta organización
+        permite separar claramente la lógica de la interfaz de
+        la lógica de comunicación con el backend.
+
+    </p>
+
+
+    <div class="code">
+
+<pre>
+export const predictData = createAsyncThunk(
+    "predict/predictData",
+
+    async (features, thunkAPI) => {
+
+        try {
+
+            const response = await axios.post(
+                "http://localhost:3000/predict",  
+                {  
+                    features,  
+                }  
+            );  
+  
+            return response.data;  
+  
+        } catch (error) {  
+  
+            return thunkAPI.rejectWithValue(  
+                error.response?.data || error.message  
+            );  
+  
+        }  
+  
+    }  
+);  
+</pre>  
+  
+    </div>  
+  
+</section>  
+  
+  
+<!-- =====================================================  
+     06 REDUX STATES  
+===================================================== -->  
+  
+<section class="section">  
+  
+    <span class="section-number">  
+        06 — ESTADO
+    </span>  
+  
+    <h2>  
+        Los tres estados de la solicitud
+    </h2>  
+  
+    <p>  
+  
+        El slice define un estado inicial compuesto por tres
+        propiedades: <strong>loading</strong>,
+        <strong>result</strong> y <strong>error</strong>.
+        Inicialmente, loading es false porque no se está
+        ejecutando ninguna solicitud, result es null porque
+        todavía no hay ninguna predicción disponible y error
+        es null porque no existe ningún error. Cuando el usuario
+        hace clic en Predict, Redux activa automáticamente el
+        estado <strong>pending</strong>. El reducer asociado
+        establece loading en true y reinicia error. Durante este
+        período, el componente React muestra el mensaje
+        "Loading...". Cuando el backend devuelve correctamente
+        una predicción, se ejecuta el estado
+        <strong>fulfilled</strong> y el resultado se almacena en
+        state.result. React recibe entonces el nuevo resultado
+        mediante useSelector y muestra automáticamente la parte
+        correspondiente de la interfaz. Finalmente, si la
+        solicitud falla, se ejecuta el estado
+        <strong>rejected</strong>, loading vuelve a false y error
+        recibe la información devuelta por rejectWithValue.
+  
+    </p>  
+  
+  
+    <div class="code">  
+  
+<pre>  
+initialState: {  
+  
+    loading: false,  
+  
+    result: null,  
+  
+    error: null,  
+  
+}  
+</pre>  
+  
+    </div>  
+  
+</section>  
+  
+  
+<!-- =====================================================  
+     07 REDUCERS  
+===================================================== -->  
+  
+<section class="section">  
+  
+    <span class="section-number">  
+        07 — REDUCERS
+    </span>  
+  
+    <h2>  
+        pending, fulfilled y rejected
+    </h2>  
+  
+    <p>  
+  
+        El bloque <strong>extraReducers</strong> permite gestionar
+        las tres etapas generadas automáticamente por
+        createAsyncThunk. En el caso de
+        <strong>predictData.pending</strong>, Redux indica que
+        la llamada al backend acaba de comenzar: loading pasa
+        a true y error se restablece a null. En el caso de
+        <strong>predictData.fulfilled</strong>, significa que la
+        solicitud se realizó correctamente. loading pasa a false
+        y action.payload, que corresponde a response.data devuelto
+        por Axios, se almacena en result. En el caso de
+        <strong>predictData.rejected</strong>, significa que la
+        comunicación con el backend o el procesamiento de la
+        predicción ha fallado. loading vuelve a false y
+        action.payload se almacena en error. Gracias a este
+        mecanismo, el componente React no necesita gestionar
+        manualmente cada etapa de la solicitud: Redux centraliza
+        la gestión del estado.
+  
+    </p>  
+  
+  
+    <div class="code">  
+  
+<pre>  
+.addCase(predictData.pending, (state) => {  
+  
+    state.loading = true;  
+    state.error = null;  
+  
+})  
+  
+  
+.addCase(predictData.fulfilled, (state, action) => {  
+  
+    state.loading = false;  
+    state.result = action.payload;  
+  
+})  
+  
+  
+.addCase(predictData.rejected, (state, action) => {  
+  
+    state.loading = false;  
+    state.error = action.payload;  
+  
+});  
+</pre>  
+  
+    </div>  
+  
+</section>  
+  
+  
+<!-- =====================================================  
+     08 RESULT  
+===================================================== -->  
+  
+<section class="section" id="prediction">  
+  
+    <span class="section-number">  
+        08 — RESULTADO
+    </span>  
+  
+    <h2>  
+        Visualización de la predicción
+    </h2>  
+  
+    <p>  
+  
+        Una vez que Redux recibe correctamente la respuesta del
+        backend, la variable result deja de ser null. El componente
+        utiliza entonces una condición de React
+        <strong>{result && (...)}</strong> para mostrar la tarjeta
+        de resultado. Esta técnica evita mostrar la tarjeta antes
+        de que la predicción esté disponible. Cuando result existe,
+        la interfaz muestra tres informaciones importantes: la
+        predicción producida por el modelo mediante
+        <strong>result.prediction</strong>, el nivel de confianza
+        mediante <strong>result.confidence</strong> y un porcentaje
+        mediante <strong>result.percentage</strong>. Esta
+        información se recupera directamente del objeto result
+        almacenado en Redux. De esta manera, la respuesta
+        proveniente del backend se vuelve automáticamente visible
+        en la interfaz gracias al mecanismo de actualización del
+        estado de React y Redux.
+  
+    </p>  
+  
+  
+    <div class="code">  
+  
+<pre>  
+{result && (  
+  
+    <div className="card">  
+  
+        <h2>  
+            Resultado de IA
+        </h2>  
+  
+        <p>  
+            Predicción: {result.prediction}
+        </p>  
+  
+        <p>  
+            Confianza: {result.confidence}
+        </p>  
+  
+        <div className="percentage">  
+            {result.percentage}%  
+        </div>  
+  
+    </div>  
+  
+)}  
+</pre>  
+  
+    </div>  
+  
+</section>  
+  
+  
+<!-- =====================================================  
+     09 CHART  
+===================================================== -->  
+  
+<section class="section" id="chart">  
+  
+    <span class="section-number">  
+        09 — RECHARTS
+    </span>  
+  
+    <h2>  
+        Construcción del Pie Chart
+    </h2>  
+  
+    <p>  
+  
+        El gráfico circular se construye utilizando la biblioteca
+        <strong>Recharts</strong>. Antes de mostrar el gráfico,
+        el componente crea la variable
+        <strong>chartData</strong>. Si existe un resultado,
+        esta variable contiene dos objetos: el primero representa
+        la confianza de la predicción y utiliza
+        <strong>result.percentage</strong> como valor, mientras
+        que el segundo representa la parte restante y utiliza
+        <strong>100 - result.percentage</strong>. Por lo tanto,
+        los dos valores representan un total del 100 %. El
+        componente <strong>PieChart</strong> define el área del
+        gráfico y el componente <strong>Pie</strong> utiliza
+        chartData para construir las dos partes del círculo.
+        Los componentes <strong>Cell</strong> permiten asignar
+        una apariencia visual diferente a las dos partes, mientras
+        que <strong>Tooltip</strong> muestra información cuando
+        el usuario pasa el cursor sobre el gráfico y
+        <strong>Legend</strong> muestra la leyenda.
+  
+    </p>  
+  
+  
+    <div class="code">  
+  
+<pre>  
+const chartData = result  
+    ? [  
+        {  
+            name: "Confidence",  
+            value: result.percentage  
+        },  
+  
+        {  
+            name: "Remaining",  
+            value: 100 - result.percentage  
+        },  
+      ]  
+    : [];  
+</pre>  
+  
+    </div>  
+  
+  
+    <div class="info">  
+  
+        <strong>  
+            Ejemplo:
+        </strong>  
+  
+        <p>  
+  
+            Si el modelo devuelve un porcentaje de
+            <strong>80</strong>, el gráfico representa
+            <strong>80 % de confianza</strong> y
+            <strong>20 % restante</strong>.
+  
+        </p>  
+  
+    </div>  
+  
+</section>  
+  
+  
+<!-- =====================================================  
+     10 LOADING AND ERROR  
+===================================================== -->  
+  
+<section class="section">  
+  
+    <span class="section-number">  
+        10 — GESTIÓN DEL ESTADO
+    </span>  
+  
+    <h2>  
+        Carga y errores
+    </h2>  
+  
+    <p>  
+  
+        El componente también gestiona las situaciones en las
+        que la solicitud está en proceso o cuando se produce
+        un error. Cuando loading es true, React muestra el
+        párrafo que contiene "Loading...". Esto permite al
+        usuario comprender que el sistema está contactando
+        con el backend y esperando el resultado de la
+        predicción. Cuando error contiene un valor, el componente
+        muestra este error mediante JSON.stringify(error). Esta
+        conversión permite mostrar correctamente un objeto
+        JavaScript en la interfaz. La gestión separada de
+        loading, result y error hace que la aplicación sea más
+        clara y permite gestionar correctamente los diferentes
+        escenarios posibles durante la llamada a la API.
+  
+    </p>  
+  
+  
+    <div class="code">  
+  
+<pre>  
+{loading && (  
+    <p className="loading">  
+        Loading...  
+    </p>  
+)}  
+  
+{error && (  
+    <p className="error">  
+        {JSON.stringify(error)}  
+    </p>  
+)}  
+</pre>  
+  
+    </div>  
+  
+</section>  
+  
+  
+<!-- =====================================================  
+     11 ARCHITECTURE  
+===================================================== -->  
+  
+<section class="section" id="architecture">  
+  
+    <span class="section-number">  
+        11 — ARQUITECTURA
+    </span>  
+  
+    <h2>  
+        Arquitectura completa del sistema
+    </h2>  
+  
+    <p>  
+  
+        La arquitectura completa se basa en varias capas que
+        se comunican de forma secuencial. Todo comienza en el
+        componente React cuando el usuario hace clic en el
+        botón Predict. La función handlePredict llama a
+        dispatch y activa la acción predictData con las veinte
+        features. Redux Toolkit inicia entonces el procesamiento
+        asíncrono definido en createAsyncThunk. Esta función
+        utiliza Axios para enviar una solicitud HTTP POST al
+        endpoint <strong>/predict</strong> del servidor backend.
+        El backend recibe el objeto JSON que contiene las
+        features y puede transmitir estos datos al programa o
+        al modelo de Machine Learning. El modelo realiza la
+        predicción y posteriormente devuelve un resultado al
+        backend. El backend envía la respuesta de vuelta a
+        Axios. Axios pasa response.data a createAsyncThunk,
+        que devuelve estos datos a Redux. El reducer fulfilled
+        almacena entonces el resultado en state.result. Mediante
+        useSelector, el componente MABDashboard detecta
+        automáticamente el cambio de estado y muestra la
+        predicción, el nivel de confianza y el gráfico circular.
+        De esta manera se obtiene una arquitectura completa que
+        conecta la interfaz de usuario, la gestión del estado,
+        la API y Machine Learning.
+  
+    </p>  
+  
+  
+    <div class="flow">  
+  
+        <div>  
+            React  
+        </div>  
+  
+        <b>→</b>  
+  
+        <div>  
+            handlePredict()  
+        </div>  
+  
+        <b>→</b>  
+  
+        <div>  
+            dispatch()  
+        </div>  
+  
+        <b>→</b>  
+  
+        <div>  
+            predictData()  
+        </div>  
+  
+        <b>→</b>  
+  
+        <div>  
+            Axios  
+        </div>  
+  
+        <b>→</b>  
+  
+        <div>  
+            /predict  
+        </div>  
+  
+        <b>→</b>  
+  
+        <div>  
+            ML  
+        </div>  
+  
+    </div>  
+  
+  
+    <div class="flow">  
+  
+        <div>  
+            Resultado ML
+        </div>  
+  
+        <b>→</b>  
+  
+        <div>  
+            Backend  
+        </div>  
+  
+        <b>→</b>  
+  
+        <div>  
+            Axios  
+        </div>  
+  
+        <b>→</b>  
+  
+        <div>  
+            Redux  
+        </div>  
+  
+        <b>→</b>  
+  
+        <div>  
+            state.result  
+        </div>  
+  
+        <b>→</b>  
+  
+        <div>  
+            React  
+        </div>  
+  
+    </div>  
+  
+</section>  
+  
+  
+<!-- =====================================================  
+     12 FILES  
+===================================================== -->  
+  
+<section class="section">  
+  
+    <span class="section-number">  
+        12 — ORGANIZACIÓN
+    </span>  
+  
+    <h2>  
+        Función de los diferentes archivos
+    </h2>  
+  
+    <p>  
+  
+        El funcionamiento del sistema se basa principalmente en
+        dos archivos. El primer archivo es el componente
+        <strong>MABDashboard.jsx</strong>, que representa la
+        interfaz de usuario. Contiene el botón Predict, la
+        integración del informe de Power BI, la visualización
+        del resultado de Inteligencia Artificial y el gráfico
+        de Recharts. El segundo archivo es
+        <strong>predictSlice.js</strong>, que contiene la lógica
+        Redux dedicada a la comunicación con la API. Define la
+        acción asíncrona predictData, el estado inicial y los
+        reducers utilizados para gestionar los estados pending,
+        fulfilled y rejected. El archivo
+        <strong>Dashboard.css</strong> se utiliza para el estilo
+        visual del componente. Finalmente, el backend expuesto
+        en <strong>/predict</strong> representa la parte del
+        servidor que recibe las features y puede ejecutar el
+        procesamiento de Machine Learning.
+  
+    </p>  
+  
+  
+    <ul class="list">  
+  
+        <li>  
+            <strong>MABDashboard.jsx:</strong>
+            interfaz React y visualización de resultados.
+        </li>  
+  
+        <li>  
+            <strong>predictSlice.js:</strong>
+            gestión del estado Redux y llamada a la API.
+        </li>  
+  
+        <li>  
+            <strong>Dashboard.css:</strong>
+            estilos de la interfaz.
+        </li>  
+  
+        <li>  
+            <strong>Backend /predict:</strong>
+            recepción de features y procesamiento de la predicción.
+        </li>  
+  
+        <li>  
+            <strong>Machine Learning Model:</strong>
+            producción de la predicción a partir de los datos recibidos.
+        </li>  
+  
+    </ul>  
+  
+</section>  
+  
+  
+<!-- =====================================================  
+     13 CONCLUSION  
+===================================================== -->  
+  
+<section class="section">  
+  
+    <span class="section-number">  
+        13 — CONCLUSIÓN
+    </span>  
+  
+    <h2>  
+        Conclusión técnica
+    </h2>  
+  
+    <p>  
+  
+        Este dashboard demuestra la integración de varias
+        tecnologías dentro de una misma aplicación de Business
+        Intelligence y Machine Learning. React es responsable
+        de construir la interfaz de usuario, Redux Toolkit
+        centraliza el estado relacionado con la predicción,
+        createAsyncThunk gestiona la operación asíncrona,
+        Axios se encarga de la comunicación HTTP con el backend
+        y Recharts transforma el resultado numérico en una
+        representación gráfica. El sistema permite, por lo tanto,
+        pasar de un conjunto de features introducidas o preparadas
+        en el frontend a una predicción calculada en el servidor,
+        y posteriormente devolver esta información a una interfaz
+        interactiva. El uso de <strong>loading</strong>,
+        <strong>result</strong> y <strong>error</strong> también
+        permite gestionar los diferentes estados de comunicación
+        con el backend. En conjunto, el sistema proporciona una
+        arquitectura moderna para conectar una aplicación React
+        con un servicio de predicción de Machine Learning,
+        centralizando al mismo tiempo la gestión de los datos
+        mediante Redux Toolkit.
+  
+    </p>  
+  
+  
+    <div class="info">  
+  
+        <strong>  
+            Flujo global:
+        </strong>  
+  
+        <p>  
+  
+            React → Redux Toolkit → createAsyncThunk →
+            Axios → API Backend → Machine Learning →
+            Resultado → Redux → React → Recharts
+  
+        </p>  
+  
+    </div>  
+  
+</section>  
+  
+  
+</main>  
+  
+  
+<!-- =====================================================  
+     FOOTER  
+===================================================== -->  
+  
+<footer class="footer">  
+  
+    <strong>  
+        MAB Machine Learning Dashboard  
+    </strong>  
+  
+    <p>  
+        React • Redux Toolkit • Axios • Recharts •
+        Node.js • Python • Machine Learning
+    </p>  
+  
+    <p>  
+        © 2026 — Documentación técnica
+    </p>  
+  
+</footer>  
+  
+  
+</body>  
+  
+</html>

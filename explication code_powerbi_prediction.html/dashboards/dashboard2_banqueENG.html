@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard 2 - Bank</title>
+
+    <link rel="stylesheet" href="dashboard2_banque.css">
+
+</head>
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="documentation-header">
+
+        <h1>Dashboard 2 — Bank Analysis</h1>
+
+        <p>
+            Facebook Web Scraping • Python • Talend •
+            Data Warehouse • Power BI • Machine Learning
+        </p>
+
+    </header>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav class="documentation-nav">
+
+        <ul>
+
+            <li>
+                <a href="#presentation">
+                    Overview
+                </a>
+            </li>
+
+            <li>
+                <a href="#scraping">
+                    Web Scraping
+                </a>
+            </li>
+
+            <li>
+                <a href="#python">
+                    Python
+                </a>
+            </li>
+
+            <li>
+                <a href="#talend">
+                    Talend
+                </a>
+            </li>
+
+            <li>
+                <a href="#warehouse">
+                    Data Warehouse
+                </a>
+            </li>
+
+            <li>
+                <a href="#powerbi">
+                    Power BI
+                </a>
+            </li>
+
+            <li>
+                <a href="#machine-learning">
+                    Machine Learning
+                </a>
+            </li>
+
+            <li>
+                <a href="#integration">
+                    Node.js / Express
+                </a>
+            </li>
+
+            <li>
+                <a href="#resultats">
+                    Results
+                </a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+    <!-- =====================================================
+         CONTENT
+    ====================================================== -->
+
+    <main class="documentation-container">
+
+
+        <!-- =================================================
+             1. PRESENTATION
+        ================================================== -->
+
+        <section
+            id="presentation"
+            class="documentation-section"
+        >
+
+            <h2>1. Dashboard Overview</h2>
+
+            <p>
+
+                This dashboard is dedicated to the analysis of
+                data related to banks.
+
+            </p>
+
+            <p>
+
+                The data used in the project is automatically collected
+                from sources available on Facebook using a Web Scraping
+                process.
+
+            </p>
+
+            <p>
+
+                The objective is to transform the collected data
+                into structured data in order to produce
+                indicators and visualizations in Power BI,
+                and then use this data in a
+                Machine Learning component.
+
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             2. WEB SCRAPING
+        ================================================== -->
+
+        <section
+            id="scraping"
+            class="documentation-section"
+        >
+
+            <h2>2. Data Collection — Facebook Web Scraping</h2>
+
+            <p>
+
+                The first step consists of collecting data
+                published on the Facebook pages of banks.
+
+            </p>
+
+            <p>
+
+                Web Scraping makes it possible to automatically
+                retrieve the information required to build
+                the data source.
+
+            </p>
+
+            <h3>Objective</h3>
+
+            <p>
+
+                The objective is to transform the information
+                available on Facebook pages into data
+                that can be used for the following stages
+                of the project.
+
+            </p>
+
+            <h3>Technologies Used</h3>
+
+            <ul>
+
+                <li>Python</li>
+
+                <li>Web Scraping</li>
+
+                <li>BeautifulSoup / Selenium depending on the script used</li>
+
+                <li>MongoDB or intermediate storage file
+                    depending on the project architecture</li>
+
+            </ul>
+
+            <h3>Python Files</h3>
+
+            <p>
+
+                The Python files used for scraping
+                will be presented here with their source code
+                and detailed explanation.
+
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             3. PYTHON
+        ================================================== -->
+
+        <section
+            id="python"
+            class="documentation-section"
+        >
+
+            <h2>3. Data Transformation with Python</h2>
+
+            <p>
+
+                After collection, the raw data is
+                cleaned and transformed using Python.
+
+            </p>
+
+            <p>
+
+                This step makes it possible, in particular,
+                to normalize the data and create additional
+                columns required for the analysis.
+
+            </p>
+
+            <h3>Creating New Columns</h3>
+
+            <p>
+
+                Calculated or derived columns are added
+                in order to enrich the collected data.
+
+                These new variables are then used to
+                build Power BI indicators and can
+                also be used as variables for
+                Machine Learning.
+
+            </p>
+
+            <h3>Python Code</h3>
+
+            <p>
+
+                Each Python file used for cleaning,
+                transformation, and data enrichment
+                will be documented separately.
+
+            </p>
+
+            <pre><code>
+# Example structure
+
+import pandas as pd
+
+# Data loading
+# Cleaning
+# Transformation
+# Creation of new columns
+# Export of prepared data
+            </code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             4. TALEND
+        ================================================== -->
+
+        <section
+            id="talend"
+            class="documentation-section"
+        >
+
+            <h2>4. Staging Area — Talend</h2>
+
+            <p>
+
+                After the data has been prepared with Python,
+                it is integrated into a Staging Area
+                using Talend.
+
+            </p>
+
+            <p>
+
+                Talend makes it possible to implement the ETL
+                process required to transfer and prepare the data
+                before loading it into the Data Warehouse.
+
+            </p>
+
+            <h3>ETL Flow</h3>
+
+            <pre><code>
+Facebook
+    ↓
+Web Scraping
+    ↓
+Python
+    ↓
+Cleaning and transformation
+    ↓
+Column creation
+    ↓
+Staging Area
+    ↓
+Talend
+    ↓
+Data Warehouse
+    </code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             5. DATA WAREHOUSE
+        ================================================== -->
+
+        <section
+            id="warehouse"
+            class="documentation-section"
+        >
+
+            <h2>5. Data Warehouse</h2>
+
+            <p>
+
+                The data prepared in the Staging Area is
+                then loaded into the Data Warehouse.
+
+            </p>
+
+            <p>
+
+                The Data Warehouse structure makes it possible
+                to organize the data into different tables.
+
+            </p>
+
+            <h3>Relationships Between Tables</h3>
+
+            <p>
+
+                Primary keys and foreign keys are
+                used to create relationships between
+                the different tables.
+
+            </p>
+
+            <p>
+
+                This organization allows Power BI to use
+                data from multiple tables within
+                a consistent model.
+
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             6. POWER BI
+        ================================================== -->
+
+        <section
+            id="powerbi"
+            class="documentation-section"
+        >
+
+            <h2>6. Visualization with Power BI</h2>
+
+            <p>
+
+                Once the data has been loaded into the Data Warehouse,
+                the data model is imported into Power BI.
+
+            </p>
+
+            <p>
+
+                The relationships between the tables make it possible
+                to build the different indicators and
+                visualizations of the dashboard.
+
+            </p>
+
+            <h3>Indicators</h3>
+
+            <ul>
+
+                <li>
+                    Number of banks
+                </li>
+
+                <li>
+                    Indicators related to the collected data
+                </li>
+
+                <li>
+                    Analysis of banking information
+                </li>
+
+                <li>
+                    Other KPIs defined in the dashboard
+                </li>
+
+            </ul>
+
+            <h3>Visualizations</h3>
+
+            <p>
+
+                Charts, tables, maps, and other
+                visualizations make it possible to explore the data
+                and identify important trends.
+
+            </p>
+
+            <h3>Data Model</h3>
+
+            <p>
+
+                The Power BI model is based on the relationships
+                created in the Data Warehouse.
+
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             7. MACHINE LEARNING
+        ================================================== -->
+
+        <section
+            id="machine-learning"
+            class="documentation-section"
+        >
+
+            <h2>7. Machine Learning</h2>
+
+            <p>
+
+                After building the Power BI dashboard,
+                the prepared data is also used
+                to develop a Machine Learning component.
+
+            </p>
+
+            <h3>7.1 Data Preparation</h3>
+
+            <p>
+
+                The data transformed with Python forms
+                the basis used to prepare the variables
+                required for the Machine Learning model.
+
+            </p>
+
+            <h3>7.2 Input Variables</h3>
+
+            <p>
+
+                The variables used as model inputs
+                are selected from the prepared data.
+
+            </p>
+
+            <h3>7.3 Model Training</h3>
+
+            <p>
+
+                A Machine Learning model is trained using
+                the available historical data.
+
+            </p>
+
+            <h3>7.4 Model Saving</h3>
+
+            <p>
+
+                Once trained, the model can be saved
+                to a file so that it can be reused later
+                without having to perform the training again.
+
+            </p>
+
+            <h3>7.5 Prediction</h3>
+
+            <p>
+
+                The model receives the required variables
+                and produces a prediction that can then
+                be used by the application.
+
+            </p>
+
+            <h3>7.6 Python Code</h3>
+
+            <p>
+
+                The Python files responsible for training
+                and prediction will be presented here with
+                a detailed explanation of how they work.
+
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             8. NODE EXPRESS
+        ================================================== -->
+
+        <section
+            id="integration"
+            class="documentation-section"
+        >
+
+            <h2>8. Integration with Node.js / Express</h2>
+
+            <p>
+
+                The Machine Learning system can be integrated
+                into the Node.js / Express backend to allow
+                the application to communicate with
+                Python scripts.
+
+            </p>
+
+            <p>
+
+                Node.js uses the
+                <code>child_process</code> module and the
+                <code>spawn()</code> function to execute
+                the Python program.
+
+            </p>
+
+            <pre><code>
+const { spawn } = require("child_process");
+
+const python = spawn(
+    "python",
+    ["prediction.py"]
+);
+            </code></pre>
+
+            <p>
+
+                The result generated by Python is then retrieved
+                by Node.js and can be returned as a
+                JSON response through an Express route.
+
+            </p>
+
+            <h3>Architecture</h3>
+
+            <pre><code>
+Power BI / Application
+        ↓
+Node.js / Express
+        ↓
+Python
+        ↓
+Machine Learning
+        ↓
+Prediction
+        ↓
+JSON
+        ↓
+Application
+            </code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             9. RESULTS
+        ================================================== -->
+
+        <section
+            id="resultats"
+            class="documentation-section"
+        >
+
+            <h2>9. Project Results</h2>
+
+            <p>
+
+                This dashboard implements a complete
+                data processing and analysis pipeline.
+
+            </p>
+
+            <p>
+
+                The information is collected from
+                Facebook pages, transformed with Python,
+                integrated into a Staging Area with Talend,
+                loaded into a Data Warehouse, and then used
+                in Power BI.
+
+            </p>
+
+            <p>
+
+                The Machine Learning component then makes it possible
+                to use the prepared data to produce
+                predictions and add a predictive dimension
+                to the analysis.
+
+            </p>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =================================================
+     7. MACHINE LEARNING
+================================================== -->
+
+<section
+    id="machine-learning"
+    class="documentation-section"
+>
+
+    <h2>7. Machine Learning — Bank Prediction</h2>
+
+    <p>
+
+        After preparing and structuring the data,
+        a Machine Learning component is integrated into the project
+        in order to produce a prediction based on
+        the selected variables.
+
+    </p>
+
+
+    <!-- =============================================
+         7.1 MODEL
+    ============================================== -->
+
+    <h3>7.1 Trained Model</h3>
+
+    <p>
+
+        The Machine Learning model is trained and then
+        saved in a <code>BNA.pkl</code> file.
+
+        This file contains the trained model that will
+        then be loaded by the Python script responsible
+        for performing the prediction.
+
+    </p>
+
+
+    <!-- =============================================
+         7.2 banque.py FILE
+    ============================================== -->
+
+    <h3>7.2 Python File — banque.py</h3>
+
+    <p>
+        <strong>File Role:</strong>
+    </p>
+
+    <p>
+
+        The <code>banque.py</code> file is the Python program
+        responsible for performing the prediction.
+
+        It receives the data sent by Node.js in JSON format,
+        loads the <code>BNA.pkl</code> model,
+        prepares the input variables, and performs the prediction.
+
+    </p>
+
+
+    <h4>Source Code</h4>
+
+    <pre><code>
+import sys
+import json
+import pickle
+import os
+import traceback
+
+try:
+
+    BASE_DIR = os.path.dirname(__file__)
+
+    model_path = os.path.join(BASE_DIR, "BNA.pkl")
+
+    model = pickle.load(open(model_path, "rb"))
+
+    raw = sys.stdin.read().strip()
+
+    print("RAW INPUT:", raw, file=sys.stderr)
+
+    print("MODEL TYPE:", type(model), file=sys.stderr)
+
+    input_data = json.loads(raw)
+
+    X = [[
+        float(input_data["x1"]),
+        float(input_data["x2"])
+    ]]
+
+    result = model.predict(X)[0]
+
+    print(json.dumps({
+        "prediction": float(result)
+    }))
+
+except Exception as e:
+
+    print(json.dumps({
+        "error": str(e),
+        "trace": traceback.format_exc()
+    }))
+    </code></pre>
+
+
+    <h4>Code Explanation</h4>
+
+    <p>
+
+        <code>sys</code> allows the Python program to communicate
+        with the process launched by Node.js.
+
+    </p>
+
+    <p>
+
+        <code>json</code> is used to read the received data
+        in JSON format and return the prediction result
+        in the same format.
+
+    </p>
+
+    <p>
+
+        <code>pickle</code> is used to load the previously trained
+        Machine Learning model saved in
+        <code>BNA.pkl</code>.
+
+    </p>
+
+    <p>
+
+        <code>os</code> is used to build the path to the
+        model file independently of the current
+        execution location.
+
+    </p>
+
+    <p>
+
+        <code>traceback</code> is used to retrieve detailed
+        information when an error occurs.
+
+    </p>
+
+
+    <h4>Model Loading</h4>
+
+    <pre><code>
+BASE_DIR = os.path.dirname(__file__)
+
+model_path = os.path.join(BASE_DIR, "BNA.pkl")
+
+model = pickle.load(open(model_path, "rb"))
+    </code></pre>
+
+    <p>
+
+        <code>BASE_DIR</code> retrieves the folder in which
+        the Python file is located.
+
+        The path to <code>BNA.pkl</code> is then built
+        from this folder.
+
+        Finally, <code>pickle.load()</code> reloads the
+        Machine Learning model.
+
+    </p>
+
+
+    <h4>Data Reception</h4>
+
+    <pre><code>
+raw = sys.stdin.read().strip()
+
+input_data = json.loads(raw)
+    </code></pre>
+
+    <p>
+
+        The script reads the data sent through standard input
+        (<code>stdin</code>).
+
+        The received data is then converted from JSON
+        into a Python structure using <code>json.loads()</code>.
+
+    </p>
+
+
+    <h4>Input Variable Preparation</h4>
+
+    <pre><code>
+X = [[
+    float(input_data["x1"]),
+    float(input_data["x2"])
+]]
+    </code></pre>
+
+    <p>
+
+        The two variables <code>x1</code> and <code>x2</code>
+        are retrieved from the JSON data.
+
+        They are converted into numbers using <code>float()</code>
+        and then placed into a structure compatible with
+        the Machine Learning model.
+
+    </p>
+
+
+    <h4>Generating the Prediction</h4>
+
+    <pre><code>
+result = model.predict(X)[0]
+    </code></pre>
+
+    <p>
+
+        The <code>predict()</code> method applies the trained model
+        to the input data.
+
+        The result corresponding to the first prediction
+        is retrieved using <code>[0]</code>.
+
+    </p>
+
+
+    <h4>Returning the Result</h4>
+
+    <pre><code>
+print(json.dumps({
+    "prediction": float(result)
+}))
+    </code></pre>
+
+    <p>
+
+        The result is converted into JSON so that it can be
+        easily retrieved by Node.js.
+
+    </p>
+
+
+    <h4>Error Handling</h4>
+
+    <pre><code>
+except Exception as e:
+
+    print(json.dumps({
+        "error": str(e),
+        "trace": traceback.format_exc()
+    }))
+    </code></pre>
+
+    <p>
+
+        If an error occurs while loading the model,
+        reading the data, or performing the prediction,
+        the program returns a JSON object containing
+        the error message as well as the detailed trace.
+
+    </p>
+
+
+    <!-- =============================================
+         7.3 PREDICTION ARCHITECTURE
+    ============================================== -->
+
+    <h3>7.3 Prediction Flow</h3>
+
+    <pre><code>
+User Data
+        ↓
+Node.js / Express
+        ↓
+JSON
+        ↓
+banque.py
+        ↓
+Loading BNA.pkl
+        ↓
+Variables x1 and x2
+        ↓
+model.predict()
+        ↓
+Result
+        ↓
+JSON
+        ↓
+Node.js / Express
+    </code></pre>
+
+</section>
+
+    <footer class="documentation-footer">
+
+        <p>
+            Dashboard 2 — Bank Analysis
+        </p>
+
+    </footer>
+
+
+    <script src="../script.js"></script>
+
+</body>
+
+</html>

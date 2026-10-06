@@ -1,0 +1,3420 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="description"
+    content="Technical documentation of the Web Dashboard: Web Scraping, Power BI, Machine Learning, Python, Node.js, Express, React, Redux and MySQL."
+>
+
+<title>
+    Web Dashboard | Web Scraping, Power BI & Machine Learning
+</title>
+
+<!-- =====================================================
+     CSS
+====================================================== -->
+
+<link rel="stylesheet" href="web.css">
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header class="documentation-header">
+
+<div class="header-content">
+
+    <span class="header-badge">
+        DATA • BUSINESS INTELLIGENCE • MACHINE LEARNING
+    </span>
+
+    <h1>
+        <span>Web</span> Dashboard
+    </h1>
+
+    <p>
+        From data collection on the Web
+        to Power BI analysis, Machine Learning prediction
+        and integration with Node.js / Express.
+    </p>
+
+    <div class="header-tags">
+
+        <span>Web Scraping</span>
+        <span>Power BI</span>
+        <span>Machine Learning</span>
+        <span>Python</span>
+        <span>Node.js</span>
+        <span>Express</span>
+        <span>React</span>
+        <span>Redux</span>
+        <span>MySQL</span>
+
+    </div>
+
+</div>
+
+</header>
+
+<!-- =====================================================
+     NAVIGATION
+====================================================== -->
+
+<nav class="navbar">
+
+<div class="nav-container">
+
+    <a href="#" class="logo">
+        Dashboard<span>.</span>
+    </a>
+
+    <button
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Open menu"
+    >
+        ☰
+    </button>
+
+    <ul class="nav-links" id="navLinks">
+
+        <li>
+            <a href="#presentation">
+                Overview
+            </a>
+        </li>
+
+        <li>
+            <a href="#scraping">
+                Web Scraping
+            </a>
+        </li>
+
+        <li>
+            <a href="#data">
+                Data
+            </a>
+        </li>
+
+        <li>
+            <a href="#powerbi">
+                Power BI
+            </a>
+        </li>
+
+        <li>
+            <a href="#machine-learning">
+                Machine Learning
+            </a>
+        </li>
+
+        <li>
+            <a href="#python">
+                Python
+            </a>
+        </li>
+
+        <li>
+            <a href="#node">
+                Node.js
+            </a>
+        </li>
+
+        <li>
+            <a href="#react">
+                React
+            </a>
+        </li>
+
+        <li>
+            <a href="#mysql">
+                MySQL
+            </a>
+        </li>
+
+        <li>
+            <a href="#architecture">
+                Architecture
+            </a>
+        </li>
+
+        <li>
+            <a href="#competences">
+                Skills
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+</nav>
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="documentation-container">
+
+<!-- =====================================================
+     01 — PRESENTATION
+====================================================== -->
+
+<section
+    id="presentation"
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        01
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            CONTEXT
+        </p>
+
+        <h2>
+            Dashboard Overview
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <p>
+
+        This dashboard is based on a complete data processing
+        pipeline, from retrieving information available
+        on the Web to using it within a Web application.
+
+    </p>
+
+    <p>
+
+        The process begins with data collection
+        from the Web, particularly from a Facebook page
+        studied as part of the training program.
+
+    </p>
+
+    <p>
+
+        The collected data is then prepared and
+        used in <strong>Power BI</strong> to
+        build visualizations, indicators
+        and analyses.
+
+    </p>
+
+    <p>
+
+        A <strong>Machine Learning</strong> component is then
+        added to generate a prediction based
+        on new values.
+
+    </p>
+
+    <p>
+
+        Finally, the Python predictive model is integrated
+        into an application using <strong>Node.js with Express</strong>.
+        This integration allows the frontend to send
+        data to the backend and automatically retrieve
+        the prediction result.
+
+    </p>
+
+
+    <div class="project-flow">
+
+        <div>
+            <span>01</span>
+            <strong>Web Scraping</strong>
+            <small>Extraction</small>
+        </div>
+
+        <b>→</b>
+
+        <div>
+            <span>02</span>
+            <strong>Data Processing</strong>
+            <small>Preparation</small>
+        </div>
+
+        <b>→</b>
+
+        <div>
+            <span>03</span>
+            <strong>Power BI</strong>
+            <small>Analysis</small>
+        </div>
+
+        <b>→</b>
+
+        <div>
+            <span>04</span>
+            <strong>Machine Learning</strong>
+            <small>Prediction</small>
+        </div>
+
+        <b>→</b>
+
+        <div>
+            <span>05</span>
+            <strong>Web Application</strong>
+            <small>Usage</small>
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     02 — WEB SCRAPING
+====================================================== -->
+
+<section
+    id="scraping"
+    class="documentation-section alternate"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        02
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            DATA COLLECTION
+        </p>
+
+        <h2>
+            Web Scraping
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card highlight">
+
+    <h3>
+        🌐 Data Source
+    </h3>
+
+    <p>
+
+        The first step consists of working with data
+        coming from the Web.
+
+    </p>
+
+    <p>
+
+        As part of the training program, a Facebook page was
+        used as a data source.
+
+    </p>
+
+    <p>
+
+        The objective of <strong>Web Scraping</strong> is to automatically
+        retrieve information available from a Web source
+        so that it can then be used in a Data
+        processing workflow.
+
+    </p>
+
+    <p>
+
+        The Web was therefore chosen as the working data source,
+        and the collected data followed the same
+        processing workflow as the other data used in
+        Power BI projects.
+
+    </p>
+
+</div>
+
+
+<div class="steps-grid">
+
+    <div class="step-card">
+
+        <span>01</span>
+
+        <h3>
+            Source
+        </h3>
+
+        <p>
+            Facebook page used as the data source.
+        </p>
+
+    </div>
+
+
+    <div class="step-card">
+
+        <span>02</span>
+
+        <h3>
+            Extraction
+        </h3>
+
+        <p>
+            Retrieval of available information
+            from the Web.
+        </p>
+
+    </div>
+
+
+    <div class="step-card">
+
+        <span>03</span>
+
+        <h3>
+            Raw Data
+        </h3>
+
+        <p>
+            The retrieved information forms
+            the basis of the Data processing.
+        </p>
+
+    </div>
+
+
+    <div class="step-card">
+
+        <span>04</span>
+
+        <h3>
+            Preparation
+        </h3>
+
+        <p>
+            The data is prepared before being
+            used in Power BI.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="info-box">
+
+    <strong>
+        Important Point
+    </strong>
+
+    <p>
+
+        The initial data used in this project
+        was collected as part of the training program.
+        The presented work focuses in particular on its
+        preparation, analysis, integration and
+        predictive use.
+
+    </p>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     03 — DATA PROCESSING
+====================================================== -->
+
+<section
+    id="data"
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        03
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            DATA PROCESSING
+        </p>
+
+        <h2>
+            Data Preparation
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <p>
+
+        After extraction, the data must be prepared
+        before being used in Power BI and Machine Learning.
+
+    </p>
+
+    <p>
+        Web-based data may contain:
+    </p>
+
+    <ul class="clean-list">
+
+        <li>
+            missing values;
+        </li>
+
+        <li>
+            different formats;
+        </li>
+
+        <li>
+            unnecessary characters;
+        </li>
+
+        <li>
+            duplicates;
+        </li>
+
+        <li>
+            incorrectly formatted numerical values;
+        </li>
+
+        <li>
+            information that cannot be directly exploited.
+        </li>
+
+    </ul>
+
+
+    <p>
+
+        The preparation stage therefore aims to obtain
+        a clean and consistent data structure.
+
+    </p>
+
+    <p>
+
+        This step is important because data quality
+        directly affects the quality of dashboards,
+        indicators, analyses and predictions.
+
+    </p>
+
+</div>
+
+
+<div class="process-box">
+
+    <div>
+        <span>01</span>
+        Raw Data
+    </div>
+
+    <b>→</b>
+
+    <div>
+        <span>02</span>
+        Cleaning
+    </div>
+
+    <b>→</b>
+
+    <div>
+        <span>03</span>
+        Transformation
+    </div>
+
+    <b>→</b>
+
+    <div>
+        <span>04</span>
+        Prepared Data
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     04 — POWER BI
+====================================================== -->
+
+<section
+    id="powerbi"
+    class="documentation-section alternate"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        04
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            BUSINESS INTELLIGENCE
+        </p>
+
+        <h2>
+            Power BI
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <p>
+
+        The prepared data is then used
+        in <strong>Power BI</strong>.
+
+    </p>
+
+    <p>
+
+        Power BI makes it possible to transform data
+        into visual and decision-making information.
+
+    </p>
+
+    <p>
+        The dashboard can present in particular:
+    </p>
+
+    <ul class="clean-list">
+
+        <li>
+            key indicators;
+        </li>
+
+        <li>
+            statistics;
+        </li>
+
+        <li>
+            trends;
+        </li>
+
+        <li>
+            comparisons;
+        </li>
+
+        <li>
+            charts;
+        </li>
+
+        <li>
+            information derived from the collected data.
+        </li>
+
+    </ul>
+
+</div>
+
+
+<div class="architecture-mini">
+
+    <span>Web Scraping</span>
+
+    <b>→</b>
+
+    <span>Data</span>
+
+    <b>→</b>
+
+    <span>Preparation</span>
+
+    <b>→</b>
+
+    <span>Power BI</span>
+
+    <b>→</b>
+
+    <span>Dashboard</span>
+
+</div>
+
+
+<div class="info-box">
+
+    <strong>
+        Business Intelligence
+    </strong>
+
+    <p>
+
+        Power BI represents the decision-making component
+        of the project.
+        The collected and prepared data is transformed
+        into visualizations that make it easier
+        to understand and analyze.
+
+    </p>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     05 — MACHINE LEARNING
+====================================================== -->
+
+<section
+    id="machine-learning"
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        05
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            MACHINE LEARNING
+        </p>
+
+        <h2>
+            Prediction System
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card highlight">
+
+    <h3>
+        🤖 From Analysis to Prediction
+    </h3>
+
+    <p>
+
+        After analyzing the data, a predictive component
+        is integrated into the project.
+
+    </p>
+
+    <p>
+
+        The model used is stored in the file:
+
+    </p>
+
+    <div class="code-container">
+
+        <div class="code-header">
+            Model
+        </div>
+
+        <pre><code>WUBIK.pkl</code></pre>
+
+    </div>
+
+
+    <p>
+
+        The model is created using the algorithm:
+
+    </p>
+
+    <div class="code-container">
+
+        <div class="code-header">
+            Python
+        </div>
+
+        <pre><code>SVR(kernel="linear")</code></pre>
+
+    </div>
+
+
+    <p>
+
+        <strong>SVR</strong> stands for
+        <strong>Support Vector Regression</strong>.
+        It is a Machine Learning algorithm
+        used for regression problems,
+        meaning situations where the goal is to predict
+        a numerical value.
+
+    </p>
+
+</div>
+
+
+<div class="prediction-flow">
+
+    <div>
+        <span>01</span>
+        Training Data
+    </div>
+
+    <b>→</b>
+
+    <div>
+        <span>02</span>
+        SVR
+    </div>
+
+    <b>→</b>
+
+    <div>
+        <span>03</span>
+        Training
+    </div>
+
+    <b>→</b>
+
+    <div>
+        <span>04</span>
+        WUBIK.pkl
+    </div>
+
+    <b>→</b>
+
+    <div>
+        <span>05</span>
+        Prediction
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     06 — MODEL CREATION
+====================================================== -->
+
+<section
+    id="python"
+    class="documentation-section alternate"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        06
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            PYTHON
+        </p>
+
+        <h2>
+            Creating the Machine Learning Model
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <h3>
+        Importing Libraries
+    </h3>
+
+    <div class="code-container">
+
+        <div class="code-header">
+            Python
+        </div>
+
+        <pre><code>from sklearn.svm import SVR
+import pandas as pd
+import pickle</code></pre>
+
+    </div>
+
+
+    <h3>
+        Importing SVR
+    </h3>
+
+    <p>
+
+        The instruction:
+
+    </p>
+
+    <pre><code>from sklearn.svm import SVR</code></pre>
+
+    <p>
+
+        imports the <strong>SVR</strong> class from
+        the <strong>scikit-learn</strong> library.
+
+        It is used to build the regression model.
+
+    </p>
+
+
+    <h3>
+        Importing Pandas
+    </h3>
+
+    <p>
+
+        The instruction:
+
+    </p>
+
+    <pre><code>import pandas as pd</code></pre>
+
+    <p>
+
+        allows data to be manipulated as tables
+        using the Pandas DataFrame.
+
+    </p>
+
+
+    <h3>
+        Importing Pickle
+    </h3>
+
+    <p>
+
+        The instruction:
+
+    </p>
+
+    <pre><code>import pickle</code></pre>
+
+    <p>
+
+        allows the trained model to be saved
+        so that it can be reused later.
+
+    </p>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     07 — DATASET
+====================================================== -->
+
+<section
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        07
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            TRAINING DATA
+        </p>
+
+        <h2>
+            Creating the Training Data
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <div class="code-container">
+
+        <div class="code-header">
+            Python
+        </div>
+
+        <pre><code>data = {
+"x1": [10, 20, 30, 40],
+"x2": [1, 2, 3, 4],
+"y": [100, 200, 300, 400]
+}</code></pre>
+
+    </div>
+
+
+    <p>
+
+        The dataset contains three columns:
+
+    </p>
+
+    <div class="skills">
+
+        <span>x1</span>
+        <span>x2</span>
+        <span>y</span>
+
+    </div>
+
+
+    <p>
+
+        <strong>x1</strong> and <strong>x2</strong> represent
+        the input variables of the model.
+
+    </p>
+
+    <p>
+
+        <strong>y</strong> represents the target variable
+        that the model must learn to predict.
+
+    </p>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>x1</th>
+                    <th>x2</th>
+                    <th>y</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>10</td>
+                    <td>1</td>
+                    <td>100</td>
+                </tr>
+
+                <tr>
+                    <td>20</td>
+                    <td>2</td>
+                    <td>200</td>
+                </tr>
+
+                <tr>
+                    <td>30</td>
+                    <td>3</td>
+                    <td>300</td>
+                </tr>
+
+                <tr>
+                    <td>40</td>
+                    <td>4</td>
+                    <td>400</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     08 — DATAFRAME / TRAINING
+====================================================== -->
+
+<section
+    class="documentation-section alternate"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        08
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            MODEL TRAINING
+        </p>
+
+        <h2>
+            Preparation and Training
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <h3>
+        Creating the DataFrame
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>df = pd.DataFrame(data)</code></pre>
+
+    </div>
+
+    <p>
+
+        This instruction transforms the Python dictionary
+        into a Pandas DataFrame so that the data can be
+        manipulated in tabular form.
+
+    </p>
+
+
+    <h3>
+        Separating the Variables
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>X = df[["x1", "x2"]]
+y = df["y"]</code></pre>
+
+    </div>
+
+    <p>
+
+        <strong>X</strong> contains the input variables
+        used to perform the prediction.
+
+    </p>
+
+    <p>
+
+        <strong>y</strong> contains the target value being predicted.
+
+    </p>
+
+
+    <h3>
+        Creating the Model
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>model = SVR(kernel="linear")</code></pre>
+
+    </div>
+
+    <p>
+
+        The SVR model is configured with a linear kernel.
+
+    </p>
+
+
+    <h3>
+        Training
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>model.fit(X, y)</code></pre>
+
+    </div>
+
+    <p>
+
+        The model learns a relationship between the input
+        variables and the target variable.
+
+    </p>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     09 — SAVING
+====================================================== -->
+
+<section
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        09
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            MODEL EXPORT
+        </p>
+
+        <h2>
+            Saving the Model
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <div class="code-container">
+
+        <div class="code-header">
+            Python
+        </div>
+
+        <pre><code>with open("WUBIK.pkl", "wb") as f:
+    pickle.dump(model, f)
+
+print("MODEL CREATED SUCCESSFULLY")</code></pre>
+
+    </div>
+
+
+    <p>
+
+        The trained model is saved in the
+        <strong>WUBIK.pkl</strong> file.
+
+    </p>
+
+    <p>
+
+        The <strong>wb</strong> mode means
+        <em>write binary</em>.
+
+    </p>
+
+    <p>
+
+        The <strong>pickle.dump()</strong> function writes
+        the model object to the file.
+
+    </p>
+
+    <div class="architecture-mini">
+
+        <span>Data</span>
+
+        <b>→</b>
+
+        <span>SVR</span>
+
+        <b>→</b>
+
+        <span>model.fit()</span>
+
+        <b>→</b>
+
+        <span>WUBIK.pkl</span>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     10 — PREDICTION SCRIPT
+====================================================== -->
+
+<section
+    class="documentation-section alternate"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        10
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            PYTHON PREDICTION
+        </p>
+
+        <h2>
+            Using the Model
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <p>
+
+        The second Python file is not intended
+        to train the model.
+
+    </p>
+
+    <p>
+        It is used to:
+    </p>
+
+    <ul class="clean-list">
+
+        <li>
+            load the <strong>WUBIK.pkl</strong> model;
+        </li>
+
+        <li>
+            receive data sent by Node.js;
+        </li>
+
+        <li>
+            validate the data;
+        </li>
+
+        <li>
+            perform the prediction;
+        </li>
+
+        <li>
+            return the result in JSON format.
+        </li>
+
+    </ul>
+
+
+    <div class="code-container">
+
+        <div class="code-header">
+            web.py
+        </div>
+
+        <pre><code>import sys
+import json
+import pickle
+import os
+
+try:
+
+    BASE_DIR = os.path.dirname(__file__)
+
+    model_path = os.path.join(
+        BASE_DIR,
+        "WUBIK.pkl"
+    )
+
+    if not os.path.exists(model_path):
+
+        print(json.dumps({
+            "error": "Model not found"
+        }))
+
+        sys.exit(1)
+
+    with open(model_path, "rb") as f:
+
+        model = pickle.load(f)
+
+    raw_input = sys.stdin.read().strip()
+
+    if not raw_input:
+
+        print(json.dumps({
+            "error": "No input received"
+        }))
+
+        sys.exit(1)
+
+    input_data = json.loads(raw_input)
+
+    if "x1" not in input_data or "x2" not in input_data:
+
+        print(json.dumps({
+            "error": "Missing x1 or x2"
+        }))
+
+        sys.exit(1)
+
+    x1 = float(input_data["x1"])
+    x2 = float(input_data["x2"])
+
+    X = [[x1, x2]]
+
+    result = model.predict(X)[0]
+
+    print(json.dumps({
+        "prediction": float(result)
+    }))
+
+except Exception as e:
+
+    print(json.dumps({
+        "error": str(e)
+    }))
+
+    sys.exit(1)</code></pre>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     11 — MODEL LOADING
+====================================================== -->
+
+<section
+    id="model-loading"
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        11
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            MODEL LOADING
+        </p>
+
+        <h2>
+            Loading and Validation
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <h3>
+        Locating the Model
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>BASE_DIR = os.path.dirname(__file__)
+
+model_path = os.path.join(
+BASE_DIR,
+"WUBIK.pkl"
+)</code></pre>
+
+    </div>
+
+    <p>
+
+        The model path is built from the directory
+        containing the Python script.
+
+    </p>
+
+
+    <h3>
+        File Verification
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>if not os.path.exists(model_path):
+print(json.dumps({
+    "error": "Model not found"
+}))
+sys.exit(1)</code></pre>
+
+    </div>
+
+    <p>
+
+        This verification prevents the program from trying
+        to load a file that does not exist.
+
+    </p>
+
+
+    <h3>
+        Loading
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>with open(model_path, "rb") as f:
+model = pickle.load(f)</code></pre>
+
+    </div>
+
+    <p>
+
+        The previously trained model is reconstructed
+        from the <strong>WUBIK.pkl</strong> file.
+
+    </p>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     12 — INPUT / PREDICTION
+====================================================== -->
+
+<section
+    class="documentation-section alternate"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        12
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            PREDICTION INPUT
+        </p>
+
+        <h2>
+            Receiving the Data
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <h3>
+        Reading the Input
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>raw_input = sys.stdin.read().strip()</code></pre>
+
+    </div>
+
+    <p>
+
+        Python reads the data sent by Node.js
+        through its standard input.
+
+    </p>
+
+
+    <h3>
+        JSON Conversion
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>input_data = json.loads(raw_input)</code></pre>
+
+    </div>
+
+    <p>
+
+        The received JSON is converted into a Python object.
+
+    </p>
+
+
+    <h3>
+        Validation
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>if "x1" not in input_data or "x2" not in input_data:
+print(json.dumps({
+    "error": "Missing x1 or x2"
+}))
+sys.exit(1)</code></pre>
+
+    </div>
+
+    <p>
+
+        The program checks that both variables
+        required for the prediction are present.
+
+    </p>
+
+
+    <h3>
+        Numerical Conversion
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>x1 = float(input_data["x1"])
+x2 = float(input_data["x2"])</code></pre>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     13 — PREDICTION
+====================================================== -->
+
+<section
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        13
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            MODEL INFERENCE
+        </p>
+
+        <h2>
+            Executing the Prediction
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <div class="code-container">
+
+        <pre><code>X = [[x1, x2]]
+result = model.predict(X)[0]</code></pre>
+
+    </div>
+
+    <p>
+
+        The new values are prepared in a format
+        compatible with the model.
+
+    </p>
+
+    <p>
+
+        The <strong>predict()</strong> method uses the
+        model loaded from <strong>WUBIK.pkl</strong>
+        to produce an estimate.
+
+    </p>
+
+
+    <div class="architecture-mini">
+
+        <span>x1</span>
+
+        <b>+</b>
+
+        <span>x2</span>
+
+        <b>→</b>
+
+        <span>SVR</span>
+
+        <b>→</b>
+
+        <span>Prediction</span>
+
+    </div>
+
+
+    <h3>
+        JSON Response
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>print(json.dumps({
+"prediction": float(result)
+}))</code></pre>
+
+    </div>
+
+    <p>
+
+        The result is returned in JSON format so
+        that Node.js can easily retrieve it.
+
+    </p>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     14 — NODE.JS SERVICE
+====================================================== -->
+
+<section
+    id="node"
+    class="documentation-section alternate"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        14
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            BACKEND
+        </p>
+
+        <h2>
+            Node.js — Communication with Python
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <p>
+
+        The <strong>webService.js</strong> file allows
+        Node.js to launch the Python process and
+        exchange data with it.
+
+    </p>
+
+
+    <div class="code-container">
+
+        <div class="code-header">
+            webService.js
+        </div>
+
+        <pre><code>const { spawn } = require("child_process");
+
+function runPython(inputData) {
+
+return new Promise((resolve, reject) => {
+
+    if (!inputData) {
+
+        return reject(
+            "inputData is undefined"
+        );
+
+    }
+
+    const py = spawn(
+        "python",
+        ["python/web.py"]
+    );
+
+    let output = "";
+    let error = "";
+
+    py.stdin.write(
+        JSON.stringify(inputData)
+    );
+
+    py.stdin.end();
+
+    py.stdout.on("data", (data) => {
+
+        output += data.toString();
+
+    });
+
+    py.stderr.on("data", (data) => {
+
+        error += data.toString();
+
+        console.error(
+            "PYTHON STDERR:",
+            data.toString()
+        );
+
+    });
+
+    py.on("close", (code) => {
+
+        console.log(
+            "EXIT CODE:",
+            code
+        );
+
+        console.log(
+            "OUTPUT:",
+            output
+        );
+
+        console.log(
+            "ERROR:",
+            error
+        );
+
+        if (code !== 0) {
+
+            return reject(
+                error ||
+                output ||
+                "Python crashed"
+            );
+
+        }
+
+        try {
+
+            resolve(
+                JSON.parse(
+                    output.trim()
+                )
+            );
+
+        } catch (e) {
+
+            reject(
+                "JSON parse error: " + e
+            );
+
+        }
+
+    });
+
+});
+
+}
+
+module.exports = {
+runPython
+};</code></pre>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     15 — SPAWN
+====================================================== -->
+
+<section
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        15
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            NODE.JS
+        </p>
+
+        <h2>
+            spawn() Function
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <div class="code-container">
+
+        <pre><code>const { spawn } = require("child_process");</code></pre>
+
+    </div>
+
+    <p>
+
+        <strong>spawn()</strong> allows Node.js to create
+        an external process.
+
+    </p>
+
+    <p>
+
+        In this project, the external process is
+        the Python program.
+
+    </p>
+
+
+    <div class="architecture-mini">
+
+        <span>Node.js</span>
+
+        <b>→</b>
+
+        <span>spawn()</span>
+
+        <b>→</b>
+
+        <span>Python</span>
+
+        <b>→</b>
+
+        <span>web.py</span>
+
+    </div>
+
+
+    <h3>
+        Sending the Data
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>py.stdin.write(
+JSON.stringify(inputData)
+);
+
+py.stdin.end();</code></pre>
+
+    </div>
+
+    <p>
+
+        Node.js converts the JavaScript data
+        into JSON and sends it to Python through
+        <strong>stdin</strong>.
+
+    </p>
+
+
+    <h3>
+        Retrieving the Output
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>py.stdout.on("data", (data) => {
+output += data.toString();
+});</code></pre>
+
+    </div>
+
+    <p>
+
+        Node.js retrieves the result produced by Python
+        through <strong>stdout</strong>.
+
+    </p>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     16 — EXPRESS ROUTE
+====================================================== -->
+
+<section
+    class="documentation-section alternate"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        16
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            REST API
+        </p>
+
+        <h2>
+            Express Route
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <p>
+
+        The <strong>webRoute.js</strong> file creates
+        the HTTP route that allows the frontend
+        to request a prediction.
+
+    </p>
+
+
+    <div class="code-container">
+
+        <div class="code-header">
+            webRoute.js
+        </div>
+
+        <pre><code>const express = require("express");
+
+const router = express.Router();
+
+const {
+runPython
+} = require("../service/webService");
+
+router.post("/", async (req, res) => {
+
+try {
+
+    console.log(
+        "BODY RECEIVED:",
+        req.body
+    );
+
+    if (!req.body) {
+
+        return res.status(400).json({
+            error:
+                "No input data provided"
+        });
+
+    }
+
+    const result =
+        await runPython(req.body);
+
+    res.json({
+
+        message:
+            "Prediction OK",
+
+        data:
+            result
+
+    });
+
+} catch (err) {
+
+    console.error(
+        "ERROR:",
+        err
+    );
+
+    res.status(500).json({
+
+        error:
+            err.toString()
+
+    });
+
+}
+
+});
+
+module.exports = router;</code></pre>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     17 — POST /web
+====================================================== -->
+
+<section
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        17
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            HTTP
+        </p>
+
+        <h2>
+            How POST /web Works
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <p>
+
+        The route uses the HTTP
+        <strong>POST</strong> method.
+
+    </p>
+
+    <p>
+
+        It receives the variables required
+        for the prediction.
+
+    </p>
+
+
+    <div class="code-container">
+
+        <div class="code-header">
+            Request Example
+        </div>
+
+        <pre><code>POST /web
+{
+"x1": 50,
+"x2": 5
+}</code></pre>
+
+    </div>
+
+
+    <p>
+
+        Express retrieves the data from:
+
+    </p>
+
+    <div class="code-container">
+
+        <pre><code>req.body</code></pre>
+
+    </div>
+
+
+    <p>
+
+        The backend then calls:
+
+    </p>
+
+    <div class="code-container">
+
+        <pre><code>runPython(req.body)</code></pre>
+
+    </div>
+
+
+    <p>
+
+        The result is finally returned to the frontend.
+
+    </p>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     18 — SERVER
+====================================================== -->
+
+<section
+    class="documentation-section alternate"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        18
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            EXPRESS SERVER
+        </p>
+
+        <h2>
+            Node.js / Express Server
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <div class="code-container">
+
+        <div class="code-header">
+            server.js
+        </div>
+
+        <pre><code>const express = require("express");
+
+const app = express();
+
+app.use(express.json());
+
+console.log(
+"SCORE API STARTED"
+);
+
+const webRoute =
+require("./routes/webRoute");
+
+app.use(
+"/web",
+webRoute
+);
+
+app.listen(3000, () => {
+
+console.log(
+    "Server running on port 3000"
+);
+
+});</code></pre>
+
+    </div>
+
+
+    <h3>
+        Creating the Application
+    </h3>
+
+    <pre><code>const express = require("express");
+const app = express();</code></pre>
+
+    <p>
+
+        Express is imported and a server
+        application is created.
+
+    </p>
+
+
+    <h3>
+        Reading JSON
+    </h3>
+
+    <pre><code>app.use(express.json());</code></pre>
+
+    <p>
+
+        This instruction allows Express to read
+        JSON requests and makes the data
+        available in <strong>req.body</strong>.
+
+    </p>
+
+
+    <h3>
+        Mounting the Route
+    </h3>
+
+    <pre><code>app.use("/web", webRoute);</code></pre>
+
+    <p>
+
+        The route becomes accessible through:
+
+    </p>
+
+    <div class="endpoint">
+        POST http://localhost:3000/web
+    </div>
+
+
+    <h3>
+        Starting the Server
+    </h3>
+
+    <pre><code>app.listen(3000, () => {
+console.log(
+    "Server running on port 3000"
+);
+});</code></pre>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     19 — REACT / REDUX
+====================================================== -->
+
+<section
+    id="react"
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        19
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            FRONTEND
+        </p>
+
+        <h2>
+            React & Redux
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <h3>
+        ⚛️ React
+    </h3>
+
+    <p>
+
+        React forms the frontend part of the application.
+        It allows the creation of a dynamic
+        and interactive user interface.
+
+    </p>
+
+    <p>
+
+        The frontend can send the <strong>x1</strong>
+        and <strong>x2</strong> values to the Express API
+        to request a prediction.
+
+    </p>
+
+
+    <h3>
+        🔄 Redux
+    </h3>
+
+    <p>
+
+        Redux can be used to centralize certain
+        application data when it needs to be
+        shared between multiple components.
+
+    </p>
+
+
+    <div class="architecture-mini">
+
+        <span>React</span>
+
+        <b>→</b>
+
+        <span>API</span>
+
+        <b>→</b>
+
+        <span>Express</span>
+
+        <b>→</b>
+
+        <span>Python</span>
+
+        <b>→</b>
+
+        <span>Prediction</span>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     20 — MYSQL
+====================================================== -->
+
+<section
+    id="mysql"
+    class="documentation-section alternate"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        20
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            DATABASE
+        </p>
+
+        <h2>
+            MySQL Database
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <p>
+
+        The project also contains a configuration
+        that allows Node.js to communicate with
+        a MySQL database.
+
+    </p>
+
+
+    <div class="code-container">
+
+        <div class="code-header">
+            transactionDb.js
+        </div>
+
+        <pre><code>const mysql = require(
+"mysql2/promise"
+);
+
+const dbConfig = {
+
+host: "localhost",
+
+user: "root",
+
+password: "",
+
+database:
+    "POWERBI_PREDICTION"
+
+};
+
+async function getConnection() {
+
+return await mysql.createConnection(
+    dbConfig
+);
+
+}
+
+module.exports = {
+getConnection
+};</code></pre>
+
+    </div>
+
+
+    <h3>
+        Configuration
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Server</td>
+                    <td>localhost</td>
+                </tr>
+
+                <tr>
+                    <td>User</td>
+                    <td>root</td>
+                </tr>
+
+                <tr>
+                    <td>Password</td>
+                    <td>empty</td>
+                </tr>
+
+                <tr>
+                    <td>Database</td>
+                    <td>POWERBI_PREDICTION</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h3>
+        getConnection() Function
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>async function getConnection() {
+return await mysql.createConnection(
+    dbConfig
+);
+}</code></pre>
+
+    </div>
+
+    <p>
+
+        This function allows a connection
+        to be opened to the MySQL database.
+
+    </p>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     21 — FILE ARCHITECTURE
+====================================================== -->
+
+<section
+    id="architecture"
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        21
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            ARCHITECTURE
+        </p>
+
+        <h2>
+            File Organization
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <div class="code-container">
+
+        <pre><code>python/
+│
+├── train.py
+│      ↓
+│   trains SVR
+│      ↓
+│   WUBIK.pkl
+│
+└── web.py
+       ↓
+   loads WUBIK.pkl
+       ↓
+   receives x1 and x2
+       ↓
+   prediction
+
+Node.js
+│
+├── server.js
+│      ↓
+│   starts Express
+│
+├── routes/
+│   └── webRoute.js
+│          ↓
+│       POST /web
+│
+├── service/
+│   └── webService.js
+│          ↓
+│       launches Python
+│
+└── DBMysql/
+    └── transactionDb.js
+           ↓
+       MySQL connection</code></pre>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     22 — COMPLETE FLOW
+====================================================== -->
+
+<section
+    class="documentation-section alternate"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        22
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            END-TO-END
+        </p>
+
+        <h2>
+            Complete Project Flow
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="full-architecture">
+
+    <div class="architecture-node source">
+
+        <span>🌐</span>
+
+        <strong>
+            Facebook Page
+        </strong>
+
+        <small>
+            Web Source
+        </small>
+
+    </div>
+
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+
+    <div class="architecture-node">
+
+        <span>🕷️</span>
+
+        <strong>
+            Web Scraping
+        </strong>
+
+        <small>
+            Extraction
+        </small>
+
+    </div>
+
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+
+    <div class="architecture-node">
+
+        <span>📁</span>
+
+        <strong>
+            Raw Data
+        </strong>
+
+        <small>
+            Collection
+        </small>
+
+    </div>
+
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+
+    <div class="architecture-node">
+
+        <span>🧹</span>
+
+        <strong>
+            Data Processing
+        </strong>
+
+        <small>
+            Cleaning
+        </small>
+
+    </div>
+
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+
+    <div class="architecture-node">
+
+        <span>📊</span>
+
+        <strong>
+            Power BI
+        </strong>
+
+        <small>
+            Analysis
+        </small>
+
+    </div>
+
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+
+    <div class="architecture-node">
+
+        <span>📈</span>
+
+        <strong>
+            Dashboard
+        </strong>
+
+        <small>
+            Visualization
+        </small>
+
+    </div>
+
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+
+    <div class="architecture-node ml">
+
+        <span>🤖</span>
+
+        <strong>
+            Machine Learning
+        </strong>
+
+        <small>
+            SVR
+        </small>
+
+    </div>
+
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+
+    <div class="architecture-node">
+
+        <span>📦</span>
+
+        <strong>
+            WUBIK.pkl
+        </strong>
+
+        <small>
+            Saved Model
+        </small>
+
+    </div>
+
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+
+    <div class="architecture-node">
+
+        <span>🐍</span>
+
+        <strong>
+            Python
+        </strong>
+
+        <small>
+            Prediction
+        </small>
+
+    </div>
+
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+
+    <div class="architecture-node">
+
+        <span>🟢</span>
+
+        <strong>
+            Node.js
+        </strong>
+
+        <small>
+            Backend
+        </small>
+
+    </div>
+
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+
+    <div class="architecture-node">
+
+        <span>⚡</span>
+
+        <strong>
+            Express API
+        </strong>
+
+        <small>
+            POST /web
+        </small>
+
+    </div>
+
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+
+    <div class="architecture-node">
+
+        <span>⚛️</span>
+
+        <strong>
+            React / Redux
+        </strong>
+
+        <small>
+            Interface
+        </small>
+
+    </div>
+
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+
+    <div class="architecture-node result">
+
+        <span>🎯</span>
+
+        <strong>
+            Result
+        </strong>
+
+        <small>
+            Displayed Prediction
+        </small>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     23 — EXAMPLE
+====================================================== -->
+
+<section
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        23
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            EXAMPLE
+        </p>
+
+        <h2>
+            Practical Example
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <h3>
+        1. The frontend sends the data
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>{
+"x1": 50,
+"x2": 5
+}</code></pre>
+
+    </div>
+
+
+    <h3>
+        2. Express receives the data
+    </h3>
+
+    <pre><code>req.body</code></pre>
+
+
+    <h3>
+        3. Node.js calls Python
+    </h3>
+
+    <pre><code>runPython(req.body)</code></pre>
+
+
+    <h3>
+        4. Python prepares the variables
+    </h3>
+
+    <pre><code>x1 = 50
+x2 = 5
+
+X = [[50, 5]]</code></pre>
+
+
+    <h3>
+        5. The model performs the prediction
+    </h3>
+
+    <pre><code>model.predict(X)</code></pre>
+
+
+    <h3>
+        6. Python returns the result
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>{
+"prediction": 500
+}</code></pre>
+
+    </div>
+
+
+    <h3>
+        7. Express returns the response
+    </h3>
+
+    <div class="code-container">
+
+        <pre><code>{
+"message": "Prediction OK",
+"data": {
+    "prediction": 500
+}
+}</code></pre>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     24 — RESPONSIBILITIES
+====================================================== -->
+
+<section
+    class="documentation-section alternate"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        24
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            ARCHITECTURE
+        </p>
+
+        <h2>
+            Responsibilities of Each Technology
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="feature-grid">
+
+    <div class="feature-card">
+
+        <span>🕷️</span>
+
+        <h3>
+            Web Scraping
+        </h3>
+
+        <p>
+            Collecting data from the Web.
+        </p>
+
+    </div>
+
+
+    <div class="feature-card">
+
+        <span>🧹</span>
+
+        <h3>
+            Data Processing
+        </h3>
+
+        <p>
+            Cleaning and preparing the data.
+        </p>
+
+    </div>
+
+
+    <div class="feature-card">
+
+        <span>📊</span>
+
+        <h3>
+            Power BI
+        </h3>
+
+        <p>
+            Analysis and decision-oriented visualization.
+        </p>
+
+    </div>
+
+
+    <div class="feature-card">
+
+        <span>🤖</span>
+
+        <h3>
+            Machine Learning
+        </h3>
+
+        <p>
+            Building the predictive model.
+        </p>
+
+    </div>
+
+
+    <div class="feature-card">
+
+        <span>🐍</span>
+
+        <h3>
+            Python
+        </h3>
+
+        <p>
+            Training and executing the model.
+        </p>
+
+    </div>
+
+
+    <div class="feature-card">
+
+        <span>🟢</span>
+
+        <h3>
+            Node.js
+        </h3>
+
+        <p>
+            Running the JavaScript backend.
+        </p>
+
+    </div>
+
+
+    <div class="feature-card">
+
+        <span>⚡</span>
+
+        <h3>
+            Express
+        </h3>
+
+        <p>
+            Creating the REST API.
+        </p>
+
+    </div>
+
+
+    <div class="feature-card">
+
+        <span>⚛️</span>
+
+        <h3>
+            React
+        </h3>
+
+        <p>
+            Creating the user interface.
+        </p>
+
+    </div>
+
+
+    <div class="feature-card">
+
+        <span>🔄</span>
+
+        <h3>
+            Redux
+        </h3>
+
+        <p>
+            Global state management.
+        </p>
+
+    </div>
+
+
+    <div class="feature-card">
+
+        <span>🗄️</span>
+
+        <h3>
+            MySQL
+        </h3>
+
+        <p>
+            Data management and persistence.
+        </p>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     25 — SKILLS
+====================================================== -->
+
+<section
+    id="competences"
+    class="documentation-section"
+>
+
+<div class="section-header">
+
+    <span class="section-number">
+        25
+    </span>
+
+    <div>
+
+        <p class="section-label">
+            SKILLS
+        </p>
+
+        <h2>
+            Skills Developed
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="skills">
+
+    <span>Web Scraping</span>
+
+    <span>Data Collection</span>
+
+    <span>Data Cleaning</span>
+
+    <span>Data Processing</span>
+
+    <span>Power BI</span>
+
+    <span>Business Intelligence</span>
+
+    <span>Data Visualization</span>
+
+    <span>KPI</span>
+
+    <span>Machine Learning</span>
+
+    <span>Support Vector Regression</span>
+
+    <span>Python</span>
+
+    <span>Pandas</span>
+
+    <span>NumPy</span>
+
+    <span>Scikit-learn</span>
+
+    <span>Pickle</span>
+
+    <span>Node.js</span>
+
+    <span>Express.js</span>
+
+    <span>REST API</span>
+
+    <span>JSON</span>
+
+    <span>React</span>
+
+    <span>Redux</span>
+
+    <span>JavaScript</span>
+
+    <span>MySQL</span>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     26 — CONCLUSION
+====================================================== -->
+
+<section
+    class="documentation-section conclusion"
+>
+
+<div class="conclusion-card">
+
+    <span class="section-label">
+        CONCLUSION
+    </span>
+
+    <h2>
+        A Complete Web → Data → BI → Machine Learning Pipeline
+    </h2>
+
+
+    <p>
+
+        This dashboard demonstrates a complete pipeline,
+        from collecting data on the Web to
+        using it for prediction in an application.
+
+    </p>
+
+
+    <p>
+
+        The project therefore goes beyond simply creating
+        a Power BI dashboard.
+
+    </p>
+
+
+    <p>
+
+        It implements several complementary stages:
+        Web Scraping, Data Processing, Power BI,
+        Machine Learning, Python, Node.js, Express,
+        React, Redux and MySQL.
+
+    </p>
+
+
+    <div class="final-message">
+
+        Web Scraping
+        →
+        Data Processing
+        →
+        Power BI
+        →
+        Machine Learning
+        →
+        WUBIK.pkl
+        →
+        Python
+        →
+        Node.js
+        →
+        Express
+        →
+        React / Redux
+
+    </div>
+
+</div>
+
+</section>
+
+</main>
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="documentation-footer">
+
+<div class="footer-content">
+
+    <strong>
+        Web Dashboard.
+    </strong>
+
+    <p>
+        Web Scraping • Business Intelligence •
+        Machine Learning • Full Stack
+    </p>
+
+</div>
+
+
+<div class="footer-bottom">
+
+    © 2026 — Technical Project Documentation
+
+</div>
+
+</footer>
+
+<!-- =====================================================
+     BACK TO TOP
+====================================================== -->
+
+<button
+id="backToTop"
+class="back-to-top"
+aria-label="Back to top"
+
+>
+
+↑
+
+</button>
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

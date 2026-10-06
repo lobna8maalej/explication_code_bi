@@ -1,0 +1,1737 @@
+```html
+<!DOCTYPE html> 
+ 
+<html lang="es"> 
+ 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 
+<title>Proyecto Voyagito | Web Scraping, Business Intelligence & Machine Learning</title> 
+ 
+<meta name="description" 
+      content="Documentación técnica del proyecto Voyagito: Web Scraping, Data Cleaning, ETL, Data Warehouse, Power BI, Machine Learning, Python y Node.js."> 
+ 
+<link rel="stylesheet" href="voyagito.css"> 
+ 
+</head> 
+ 
+<body> 
+ 
+<!-- ========================================================= 
+     HEADER 
+========================================================= --> 
+ 
+<header class="hero"> 
+ 
+<div class="hero-overlay"></div> 
+ 
+<div class="hero-content"> 
+ 
+    <span class="badge"> 
+        WEB SCRAPING • BUSINESS INTELLIGENCE • MACHINE LEARNING 
+    </span> 
+ 
+    <h1>Proyecto Voyagito</h1> 
+ 
+    <p class="hero-subtitle"> 
+        Desde la extracción de datos de Facebook hasta la 
+        visualización en Power BI y la predicción con Machine Learning. 
+    </p> 
+ 
+    <div class="hero-buttons"> 
+ 
+        <a href="#presentation" class="btn primary"> 
+            Descubrir el proyecto 
+        </a> 
+ 
+        <a href="#prediction" class="btn secondary"> 
+            Ver la predicción 
+        </a> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</header> 
+ 
+<!-- ========================================================= 
+     NAVIGATION 
+========================================================= --> 
+ 
+<nav class="navbar"> 
+ 
+<div class="nav-container"> 
+ 
+    <a href="#" class="logo"> 
+        Voyagito<span>.</span> 
+    </a> 
+ 
+    <button class="menu-toggle" id="menuToggle"> 
+        ☰ 
+    </button> 
+ 
+    <ul class="nav-links" id="navLinks"> 
+ 
+        <li><a href="#presentation">Presentación</a></li> 
+        <li><a href="#scraping">Web Scraping</a></li> 
+        <li><a href="#nettoyage">Limpieza</a></li> 
+        <li><a href="#etl">ETL</a></li> 
+        <li><a href="#warehouse">Data Warehouse</a></li> 
+        <li><a href="#powerbi">Power BI</a></li> 
+        <li><a href="#prediction">Predicción</a></li> 
+        <li><a href="#python">Python</a></li> 
+        <li><a href="#nodejs">Node.js</a></li> 
+        <li><a href="#architecture">Arquitectura</a></li> 
+ 
+    </ul> 
+ 
+</div> 
+ 
+</nav> 
+ 
+<main> 
+ 
+<!-- ========================================================= 
+     01 - PRESENTATION 
+========================================================= --> 
+ 
+<section id="presentation" class="section"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">01</span> 
+ 
+        <div> 
+ 
+            <p class="section-label"> 
+                CONTEXTO 
+            </p> 
+ 
+            <h2> 
+                Presentación del proyecto 
+            </h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <p> 
+            El proyecto <strong>Voyagito</strong> fue realizado 
+            como parte de mi formación en 
+            <strong>Business Intelligence</strong>. 
+        </p> 
+ 
+        <p> 
+            Este proyecto me permitió practicar diferentes etapas 
+            de un proyecto Data, comenzando por la extracción de 
+            datos de Facebook mediante <strong>Web Scraping</strong>, 
+            seguida de su preparación, integración, visualización 
+            y finalmente su explotación mediante un modelo de 
+            Machine Learning. 
+        </p> 
+ 
+        <p> 
+            El objetivo es transformar datos brutos en información 
+            utilizable para el análisis de decisiones y la predicción. 
+        </p> 
+ 
+    </div> 
+ 
+    <div class="pipeline"> 
+ 
+        <div class="pipeline-item"> 
+            <span>01</span> 
+            <strong>Facebook</strong> 
+            <small>Fuente</small> 
+        </div> 
+ 
+        <div class="arrow">→</div> 
+ 
+        <div class="pipeline-item highlight"> 
+            <span>02</span> 
+            <strong>Web Scraping</strong> 
+            <small>Extracción</small> 
+        </div> 
+ 
+        <div class="arrow">→</div> 
+ 
+        <div class="pipeline-item"> 
+            <span>03</span> 
+            <strong>Limpieza</strong> 
+            <small>Data Cleaning</small> 
+        </div> 
+ 
+        <div class="arrow">→</div> 
+ 
+        <div class="pipeline-item"> 
+            <span>04</span> 
+            <strong>ETL</strong> 
+            <small>Talend</small> 
+        </div> 
+ 
+        <div class="arrow">→</div> 
+ 
+        <div class="pipeline-item"> 
+            <span>05</span> 
+            <strong>Data Warehouse</strong> 
+            <small>Almacenamiento</small> 
+        </div> 
+ 
+        <div class="arrow">→</div> 
+ 
+        <div class="pipeline-item"> 
+            <span>06</span> 
+            <strong>Power BI</strong> 
+            <small>Dashboard</small> 
+        </div> 
+ 
+        <div class="arrow">→</div> 
+ 
+        <div class="pipeline-item prediction-node"> 
+            <span>07</span> 
+            <strong>Machine Learning</strong> 
+            <small>Predicción</small> 
+        </div> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     02 - WEB SCRAPING 
+========================================================= --> 
+ 
+<section id="scraping" class="section alternate"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">02</span> 
+ 
+        <div> 
+ 
+            <p class="section-label"> 
+                DATA COLLECTION 
+            </p> 
+ 
+            <h2> 
+                Web Scraping de datos de Facebook 
+            </h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="two-columns"> 
+ 
+        <div class="content-card scraping-card"> 
+ 
+            <div class="card-icon">🌐</div> 
+ 
+            <h3> 
+                Extracción de datos 
+            </h3> 
+ 
+            <p> 
+                Una parte importante de este proyecto se centra 
+                en la extracción de datos de Facebook. 
+            </p> 
+ 
+            <p> 
+                Como parte de mi formación, esta etapa me permitió 
+                practicar <strong>Web Scraping</strong> y comprender 
+                cómo recuperar datos procedentes de una fuente web. 
+            </p> 
+ 
+        </div> 
+ 
+        <div class="content-card highlight"> 
+ 
+            <div class="card-icon">🎓</div> 
+ 
+            <h3> 
+                Una experiencia práctica 
+            </h3> 
+ 
+            <p> 
+                La formación me permitió trabajar de forma práctica 
+                en la extracción de datos y comprender la importancia 
+                de esta etapa dentro de una cadena completa de 
+                procesamiento Data. 
+            </p> 
+ 
+            <p> 
+                Los datos extraídos constituyen posteriormente la 
+                materia prima utilizada para las etapas de limpieza, 
+                integración, análisis y predicción. 
+            </p> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="process-grid"> 
+ 
+        <div class="process-card"> 
+            <span>01</span> 
+            <h3>Fuente</h3> 
+            <p>Página de Facebook que contiene la información necesaria para el proyecto.</p> 
+        </div> 
+ 
+        <div class="process-card"> 
+            <span>02</span> 
+            <h3>Extracción</h3> 
+            <p>Recuperación de la información desde la fuente web.</p> 
+        </div> 
+ 
+        <div class="process-card"> 
+            <span>03</span> 
+            <h3>Archivos</h3> 
+            <p>Los datos extraídos están disponibles posteriormente en forma de archivos utilizables.</p> 
+        </div> 
+ 
+        <div class="process-card"> 
+            <span>04</span> 
+            <h3>Preparación</h3> 
+            <p>Los datos pasan posteriormente por el proceso de limpieza y transformación.</p> 
+        </div> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     03 - NETTOYAGE 
+========================================================= --> 
+ 
+<section id="nettoyage" class="section"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">03</span> 
+ 
+        <div> 
+ 
+            <p class="section-label"> 
+                DATA PREPARATION 
+            </p> 
+ 
+            <h2> 
+                Limpieza y preparación de los datos 
+            </h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <p> 
+            Después de la extracción, los datos brutos deben ser 
+            controlados y preparados antes de utilizarlos en el 
+            proceso de toma de decisiones. 
+        </p> 
+ 
+        <p> 
+            Esta etapa permite mejorar la calidad de los datos y 
+            evitar que valores incorrectos o incoherentes influyan 
+            en los análisis realizados con Power BI o en el modelo 
+            de Machine Learning. 
+        </p> 
+ 
+    </div> 
+ 
+    <div class="check-grid"> 
+ 
+        <div>✓ Identificar valores faltantes</div> 
+        <div>✓ Detectar duplicados</div> 
+        <div>✓ Verificar formatos</div> 
+        <div>✓ Homogeneizar los datos</div> 
+        <div>✓ Verificar los tipos de datos</div> 
+        <div>✓ Corregir incoherencias</div> 
+        <div>✓ Eliminar información innecesaria</div> 
+        <div>✓ Preparar las columnas necesarias</div> 
+ 
+    </div> 
+ 
+    <div class="flow-box"> 
+ 
+        <span>Datos brutos</span> 
+        <b>→</b> 
+        <span>Control</span> 
+        <b>→</b> 
+        <span>Limpieza</span> 
+        <b>→</b> 
+        <span>Transformación</span> 
+        <b>→</b> 
+        <span>Datos limpios</span> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     04 - ETL 
+========================================================= --> 
+ 
+<section id="etl" class="section alternate"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">04</span> 
+ 
+        <div> 
+ 
+            <p class="section-label"> 
+                DATA ENGINEERING 
+            </p> 
+ 
+            <h2> 
+                Integración y ETL 
+            </h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <h3>🔄 Extract – Transform – Load</h3> 
+ 
+        <p> 
+            Después de preparar los datos, el proceso ETL permite 
+            recuperar los datos, transformarlos y cargarlos en el 
+            entorno de almacenamiento destinado al análisis. 
+        </p> 
+ 
+    </div> 
+ 
+    <div class="etl-grid"> 
+ 
+        <div class="etl-card"> 
+            <span>01</span> 
+            <h3>Extract</h3> 
+            <p>Recuperación de los datos procedentes de los archivos resultantes de la extracción.</p> 
+        </div> 
+ 
+        <div class="etl-card"> 
+            <span>02</span> 
+            <h3>Transform</h3> 
+            <p>Transformación y preparación de los datos para respetar la estructura necesaria para el análisis.</p> 
+        </div> 
+ 
+        <div class="etl-card"> 
+            <span>03</span> 
+            <h3>Load</h3> 
+            <p>Carga de los datos preparados en el sistema de almacenamiento y el Data Warehouse.</p> 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="flow-box"> 
+        <span>Fuentes</span> 
+        <b>→</b> 
+        <span>Extract</span> 
+        <b>→</b> 
+        <span>Transform</span> 
+        <b>→</b> 
+        <span>Load</span> 
+        <b>→</b> 
+        <span>Data Warehouse</span> 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     05 - DATA WAREHOUSE 
+========================================================= --> 
+ 
+<section id="warehouse" class="section"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">05</span> 
+ 
+        <div> 
+ 
+            <p class="section-label"> 
+                DATA STORAGE 
+            </p> 
+ 
+            <h2>Data Warehouse</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="two-columns"> 
+ 
+        <div class="content-card"> 
+ 
+            <div class="card-icon">🏢</div> 
+ 
+            <h3>Centralización</h3> 
+ 
+            <p> 
+                El Data Warehouse permite centralizar los datos 
+                preparados para proporcionar una base estructurada 
+                para el análisis de decisiones. 
+            </p> 
+ 
+            <p> 
+                Constituye una fuente organizada que posteriormente 
+                permite a Power BI explotar los datos. 
+            </p> 
+ 
+        </div> 
+ 
+        <div class="content-card"> 
+ 
+            <div class="card-icon">🎯</div> 
+ 
+            <h3>Objetivos</h3> 
+ 
+            <ul class="clean-list"> 
+                <li>Centralizar los datos</li> 
+                <li>Estructurar la información</li> 
+                <li>Facilitar las consultas analíticas</li> 
+                <li>Preparar los datos para Power BI</li> 
+                <li>Disponer de una fuente fiable para el análisis</li> 
+            </ul> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="architecture-mini"> 
+        <span>Archivos</span> 
+        <b>→</b> 
+        <span>ETL</span> 
+        <b>→</b> 
+        <span>Data Warehouse</span> 
+        <b>→</b> 
+        <span>Power BI</span> 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     06 - POWER BI 
+========================================================= --> 
+ 
+<section id="powerbi" class="section alternate"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">06</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">BUSINESS INTELLIGENCE</p> 
+ 
+            <h2>Dashboard Voyagito con Power BI</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <p> 
+            Una vez preparados y almacenados los datos, se explotan 
+            mediante <strong>Power BI</strong>. 
+        </p> 
+ 
+        <p> 
+            El dashboard permite transformar los datos disponibles 
+            en indicadores visuales que facilitan su interpretación 
+            y análisis. 
+        </p> 
+ 
+        <p> 
+            Las visualizaciones permiten pasar de una gran cantidad 
+            de datos a una representación sintética e interactiva. 
+        </p> 
+ 
+    </div> 
+ 
+    <div class="feature-grid"> 
+ 
+        <div class="feature-card"> 
+            <div class="icon">📊</div> 
+            <h3>KPI</h3> 
+            <p>Presentación de los principales indicadores.</p> 
+        </div> 
+ 
+        <div class="feature-card"> 
+            <div class="icon">📈</div> 
+            <h3>Gráficos</h3> 
+            <p>Análisis de tendencias y evoluciones.</p> 
+        </div> 
+ 
+        <div class="feature-card"> 
+            <div class="icon">🔎</div> 
+            <h3>Filtros</h3> 
+            <p>Exploración interactiva de los datos.</p> 
+        </div> 
+ 
+        <div class="feature-card"> 
+            <div class="icon">📋</div> 
+            <h3>Tablas</h3> 
+            <p>Consulta detallada de la información.</p> 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <h3>📌 Análisis para la toma de decisiones</h3> 
+ 
+        <p> 
+            El dashboard proporciona así una visión global de 
+            los datos y permite realizar análisis más detallados 
+            gracias a los filtros y a las diferentes visualizaciones. 
+        </p> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     07 - PASSAGE VERS MACHINE LEARNING 
+========================================================= --> 
+ 
+<section id="prediction" class="section prediction-section"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">07</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">MACHINE LEARNING</p> 
+ 
+            <h2>De la BI a la predicción</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card prediction-intro"> 
+ 
+        <h3>De la análisis descriptivo al análisis predictivo</h3> 
+ 
+        <p> 
+            Power BI permite analizar datos históricos y comprender 
+            las tendencias observadas. 
+        </p> 
+ 
+        <p> 
+            Machine Learning añade una dimensión predictiva al 
+            proyecto. El objetivo es utilizar datos históricos 
+            para estimar un valor desconocido. 
+        </p> 
+ 
+        <div class="prediction-transition"> 
+            <span>Datos históricos</span> 
+            <strong>→</strong> 
+            <span>Modelo Machine Learning</span> 
+            <strong>→</strong> 
+            <span>Valor predicho</span> 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="model-card"> 
+ 
+        <div class="model-header"> 
+ 
+            <div> 
+ 
+                <span class="technology">SCIKIT-LEARN</span> 
+ 
+                <h3>Modelo de predicción Voyagito</h3> 
+ 
+            </div> 
+ 
+            <span class="model-icon">🤖</span> 
+ 
+        </div> 
+ 
+        <p> 
+            El modelo guardado en <strong>voyagito.pkl</strong> 
+            es cargado por Python para realizar una nueva 
+            predicción a partir de los valores recibidos. 
+        </p> 
+ 
+        <p> 
+            El modelo recibe tres variables de entrada relacionadas 
+            con la información de precios utilizada en el proyecto. 
+        </p> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     08 - VARIABLES DE PREDICCION 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">08</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">INPUTS</p> 
+ 
+            <h2>Variables utilizadas para la predicción</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="variables-grid"> 
+ 
+        <div class="variable-card"> 
+            <span class="variable-number">01</span> 
+            <h3>prix_concurrent_2</h3> 
+            <p>Primera variable de precio proporcionada al modelo.</p> 
+            <code>prix2</code> 
+        </div> 
+ 
+        <div class="variable-card"> 
+            <span class="variable-number">02</span> 
+            <h3>prix_concurrent_agence2</h3> 
+            <p>Segunda variable de precio utilizada como entrada del modelo.</p> 
+            <code>prix_agence2</code> 
+        </div> 
+ 
+        <div class="variable-card"> 
+            <span class="variable-number">03</span> 
+            <h3>prix_extra</h3> 
+            <p>Variable correspondiente al precio adicional utilizado para la predicción.</p> 
+            <code>prix3</code> 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <h3>Construcción de X</h3> 
+ 
+        <p> 
+            Los tres valores se agrupan en un array NumPy para 
+            respetar el formato esperado por el modelo de 
+            Machine Learning. 
+        </p> 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+                <span>Python</span> 
+                <button class="copy-btn" data-copy="xCode">Copiar</button> 
+            </div> 
+ 
+            <pre id="xCode"><code>X = np.array([ 
+[prix2, prix_agence2, prix3] 
+])</code></pre> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     09 - PYTHON 
+========================================================= --> 
+ 
+<section id="python" class="section"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">09</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">PYTHON</p> 
+ 
+            <h2>Ejecución de la predicción con Python</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <p> 
+            El archivo <strong>voyage.py</strong> constituye 
+            el programa Python encargado de ejecutar la predicción. 
+        </p> 
+ 
+        <p> 
+            Recupera los datos enviados por Node.js, carga el 
+            modelo de Machine Learning guardado en 
+            <strong>voyagito.pkl</strong>, prepara las variables 
+            y ejecuta la predicción. 
+        </p> 
+ 
+    </div> 
+ 
+    <div class="code-container large-code"> 
+ 
+        <div class="code-header"> 
+            <span>voyage.py — Carga del modelo</span> 
+            <button class="copy-btn" data-copy="pythonModelCode">Copiar</button> 
+        </div> 
+ 
+        <pre id="pythonModelCode"><code>BASE_DIR = os.path.dirname(__file__) 
+model_path = os.path.join( 
+BASE_DIR, 
+"voyagito.pkl" 
+) 
+ 
+with open(model_path, "rb") as f: 
+model = pickle.load(f)</code></pre> 
+ 
+    </div> 
+ 
+    <div class="explanation-grid"> 
+ 
+        <div class="explanation-card"> 
+            <h3>📁 BASE_DIR</h3> 
+            <p>Permite obtener la ruta de la carpeta donde se encuentra el script Python.</p> 
+        </div> 
+ 
+        <div class="explanation-card"> 
+            <h3>💾 voyagito.pkl</h3> 
+            <p>Contiene el modelo de Machine Learning ya entrenado y guardado.</p> 
+        </div> 
+ 
+        <div class="explanation-card"> 
+            <h3>🐍 pickle</h3> 
+            <p>Permite cargar el modelo guardado para utilizarlo en una nueva predicción.</p> 
+        </div> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     10 - JSON INPUT 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">10</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">DATA EXCHANGE</p> 
+ 
+            <h2>Recepción de datos JSON</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <p> 
+            Node.js se comunica con Python enviando los valores 
+            en formato JSON. 
+        </p> 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+                <span>Python</span> 
+                <button class="copy-btn" data-copy="jsonInputCode">Copiar</button> 
+            </div> 
+ 
+            <pre id="jsonInputCode"><code>raw_input = sys.stdin.read().strip() 
+input_data = json.loads(raw_input)</code></pre> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="json-example"> 
+ 
+        <span>Ejemplo de datos recibidos</span> 
+ 
+        <pre>{ 
+"prix_concurrent_2": 1200, 
+"prix_concurrent_agence2": 1350, 
+"prix_extra": 150 
+}</pre> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <h3>🔢 Conversión de valores</h3> 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+                <span>Python</span> 
+                <button class="copy-btn" data-copy="conversionCode">Copiar</button> 
+            </div> 
+ 
+            <pre id="conversionCode"><code>prix2 = float( 
+input_data["prix_concurrent_2"] 
+) 
+ 
+prix_agence2 = float( 
+input_data["prix_concurrent_agence2"] 
+) 
+ 
+prix3 = float( 
+input_data["prix_extra"] 
+)</code></pre> 
+ 
+        </div> 
+ 
+        <p> 
+            La conversión a <strong>float</strong> permite 
+            transformar los valores recibidos en números utilizables 
+            por el modelo. 
+        </p> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     11 - PREDICTION 
+========================================================= --> 
+ 
+<section class="section prediction-section"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">11</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">MODEL INFERENCE</p> 
+ 
+            <h2>Cálculo de la predicción</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="prediction-result"> 
+ 
+        <div class="result-text"> 
+ 
+            <span class="result-label">MACHINE LEARNING</span> 
+ 
+            <h3>El modelo calcula el valor estimado</h3> 
+ 
+            <p> 
+                Una vez preparadas las tres variables, se envían 
+                al modelo mediante la función <strong>predict()</strong>. 
+            </p> 
+ 
+        </div> 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+                <span>voyage.py</span> 
+                <button class="copy-btn" data-copy="predictionCode">Copiar</button> 
+            </div> 
+ 
+            <pre id="predictionCode"><code>X = np.array([ 
+[prix2, prix_agence2, prix3] 
+]) 
+ 
+prediction = model.predict(X)[0]</code></pre> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <h3>📤 Retorno del resultado</h3> 
+ 
+        <p> 
+            Después del cálculo, Python devuelve el valor predicho 
+            en formato JSON. 
+        </p> 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+                <span>Python</span> 
+                <button class="copy-btn" data-copy="resultCode">Copiar</button> 
+            </div> 
+ 
+            <pre id="resultCode"><code>print(json.dumps({ 
+"prediction": float(prediction) 
+}))</code></pre> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="result-example"> 
+        <span>Ejemplo de respuesta</span> 
+        <pre>{ 
+"prediction": 1425.75 
+}</pre> 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     12 - NODE JS 
+========================================================= --> 
+ 
+<section id="nodejs" class="section alternate"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">12</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">BACKEND</p> 
+ 
+            <h2>Integración de Python con Node.js</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <p> 
+            Para hacer accesible el modelo Python desde una 
+            aplicación web, utilicé <strong>Node.js</strong>. 
+        </p> 
+ 
+        <p> 
+            Node.js actúa como intermediario entre la aplicación 
+            y el programa Python. 
+        </p> 
+ 
+    </div> 
+ 
+    <div class="architecture-flow"> 
+ 
+        <div class="architecture-node"><span>🌐</span><strong>Frontend</strong></div> 
+        <div>→</div> 
+        <div class="architecture-node"><span>🟢</span><strong>Node.js</strong></div> 
+        <div>→</div> 
+        <div class="architecture-node"><span>🐍</span><strong>Python</strong></div> 
+        <div>→</div> 
+        <div class="architecture-node"><span>🤖</span><strong>voyagito.pkl</strong></div> 
+        <div>→</div> 
+        <div class="architecture-node"><span>🎯</span><strong>Predicción</strong></div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <h3>Lanzamiento del programa Python</h3> 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+                <span>voyageService.js</span> 
+                <button class="copy-btn" data-copy="spawnCode">Copiar</button> 
+            </div> 
+ 
+            <pre id="spawnCode"><code>const py = spawn( 
+"python", 
+["python/voyage.py"] 
+);</code></pre> 
+ 
+        </div> 
+ 
+        <p> 
+            La función <strong>spawn()</strong> del módulo 
+            <strong>child_process</strong> permite ejecutar 
+            el programa Python desde Node.js. 
+        </p> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     13 - COMMUNICATION NODE / PYTHON 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">13</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">COMMUNICATION</p> 
+ 
+            <h2>Comunicación entre Node.js y Python</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="two-columns"> 
+ 
+        <div class="content-card"> 
+ 
+            <h3>📤 Node.js → Python</h3> 
+ 
+            <div class="code-container"> 
+ 
+                <pre><code>py.stdin.write( 
+JSON.stringify(inputData) 
+); 
+ 
+py.stdin.end();</code></pre> 
+ 
+            </div> 
+ 
+            <p> 
+                Node.js convierte los datos JavaScript a JSON 
+                y los transmite a la entrada estándar del programa Python. 
+            </p> 
+ 
+        </div> 
+ 
+        <div class="content-card"> 
+ 
+            <h3>📥 Python → Node.js</h3> 
+ 
+            <div class="code-container"> 
+ 
+                <pre><code>py.stdout.on("data", (data) => { 
+output += data.toString(); 
+});</code></pre> 
+ 
+            </div> 
+ 
+            <p> 
+                Node.js recupera posteriormente la salida generada por Python. 
+            </p> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <h3>🔎 Conversión de la respuesta</h3> 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+                <span>voyageService.js</span> 
+                <button class="copy-btn" data-copy="parseCode">Copiar</button> 
+            </div> 
+ 
+            <pre id="parseCode"><code>resolve( 
+JSON.parse(output.trim()) 
+);</code></pre> 
+ 
+        </div> 
+ 
+        <p> 
+            La respuesta JSON producida por Python se transforma 
+            en un objeto JavaScript para ser utilizada por la aplicación. 
+        </p> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     14 - EXPRESS API 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">14</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">API REST</p> 
+ 
+            <h2>Ruta Express de predicción</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <p> 
+            Una ruta Express recibe los datos enviados por el 
+            frontend y activa el proceso de predicción de Python. 
+        </p> 
+ 
+        <div class="endpoint"> 
+            <span>POST</span> 
+            <strong>/voyage</strong> 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="code-container large-code"> 
+ 
+        <div class="code-header"> 
+            <span>voyageRoute.js</span> 
+            <button class="copy-btn" data-copy="routeCode">Copiar</button> 
+        </div> 
+ 
+        <pre id="routeCode"><code>router.post("/", async (req, res) => { 
+ 
+try { 
+ 
+    if ( 
+        !req.body || 
+        Object.keys(req.body).length === 0 
+    ) { 
+ 
+        return res.status(400).json({ 
+            error: "No input data provided" 
+        }); 
+ 
+    } 
+ 
+    const result = 
+        await runVoyagePython(req.body); 
+ 
+    res.json({ 
+        message: "Prediction OK", 
+        data: result 
+    }); 
+ 
+} catch (err) { 
+ 
+    console.error("ERROR:", err); 
+ 
+    res.status(500).json({ 
+        error: err.toString() 
+    }); 
+ 
+} 
+});</code></pre> 
+ 
+    </div> 
+ 
+    <div class="explanation-grid"> 
+ 
+        <div class="explanation-card"> 
+            <h3>01 — Validación</h3> 
+            <p>El servidor verifica que se hayan enviado datos.</p> 
+        </div> 
+ 
+        <div class="explanation-card"> 
+            <h3>02 — Python</h3> 
+            <p>Node.js llama a la función que ejecuta el programa Python.</p> 
+        </div> 
+ 
+        <div class="explanation-card"> 
+            <h3>03 — Respuesta</h3> 
+            <p>El resultado de Python se devuelve al frontend en formato JSON.</p> 
+        </div> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     15 - MYSQL 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">15</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">DATABASE</p> 
+ 
+            <h2>Conexión a MySQL</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <p> 
+            El backend también puede conectarse a una base de 
+            datos MySQL para almacenar o utilizar los datos 
+            necesarios para la aplicación. 
+        </p> 
+ 
+        <p> 
+            La conexión se realiza mediante el módulo 
+            <strong>mysql2/promise</strong>. 
+        </p> 
+ 
+    </div> 
+ 
+    <div class="code-container"> 
+ 
+        <div class="code-header"> 
+            <span>Database configuration</span> 
+            <button class="copy-btn" data-copy="mysqlCode">Copiar</button> 
+        </div> 
+ 
+        <pre id="mysqlCode"><code>const mysql = require( 
+"mysql2/promise" 
+); 
+ 
+const dbConfig = { 
+ 
+host: "localhost", 
+ 
+user: "root", 
+ 
+password: "", 
+ 
+database: "POWERBI_PREDICTION" 
+ 
+}; 
+ 
+async function getConnection() { 
+ 
+return await mysql.createConnection( 
+    dbConfig 
+); 
+ 
+}</code></pre> 
+ 
+    </div> 
+ 
+    <div class="content-card"> 
+ 
+        <h3>🎯 Función de la base de datos</h3> 
+ 
+        <ul class="clean-list"> 
+            <li>Centralizar los datos necesarios para el proyecto</li> 
+            <li>Permitir al backend acceder a los datos</li> 
+            <li>Servir de soporte al proceso de la aplicación</li> 
+            <li>Facilitar la explotación de los resultados</li> 
+        </ul> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     16 - FINAL ARCHITECTURE 
+========================================================= --> 
+ 
+<section id="architecture" class="section architecture-section"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">16</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">ARQUITECTURA</p> 
+ 
+            <h2>Arquitectura completa del proyecto</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="full-architecture"> 
+ 
+        <div class="arch-row source"> 
+            <span>🌐</span> 
+            <strong>Facebook</strong> 
+            <small>Fuente de datos</small> 
+        </div> 
+ 
+        <div class="arch-arrow">↓</div> 
+ 
+        <div class="arch-row scraping"> 
+            <span>🕷️</span> 
+            <strong>Web Scraping</strong> 
+            <small>Extracción de datos</small> 
+        </div> 
+ 
+        <div class="arch-arrow">↓</div> 
+ 
+        <div class="arch-row"> 
+            <span>📁</span> 
+            <strong>Archivos de datos</strong> 
+            <small>Datos extraídos</small> 
+        </div> 
+ 
+        <div class="arch-arrow">↓</div> 
+ 
+        <div class="arch-row"> 
+            <span>🧹</span> 
+            <strong>Data Cleaning</strong> 
+            <small>Limpieza y preparación</small> 
+        </div> 
+ 
+        <div class="arch-arrow">↓</div> 
+ 
+        <div class="arch-row"> 
+            <span>🔄</span> 
+            <strong>ETL</strong> 
+            <small>Transformación e integración</small> 
+        </div> 
+ 
+        <div class="arch-arrow">↓</div> 
+ 
+        <div class="arch-row"> 
+            <span>🏢</span> 
+            <strong>Data Warehouse</strong> 
+            <small>Almacenamiento estructurado</small> 
+        </div> 
+ 
+        <div class="arch-arrow">↓</div> 
+ 
+        <div class="arch-row powerbi"> 
+            <span>📊</span> 
+            <strong>Power BI</strong> 
+            <small>Dashboard & análisis</small> 
+        </div> 
+ 
+        <div class="arch-arrow">↓</div> 
+ 
+        <div class="arch-row ml"> 
+            <span>🤖</span> 
+            <strong>Machine Learning</strong> 
+            <small>Modelo predictivo</small> 
+        </div> 
+ 
+        <div class="arch-arrow">↓</div> 
+ 
+        <div class="arch-row"> 
+            <span>💾</span> 
+            <strong>voyagito.pkl</strong> 
+            <small>Modelo guardado</small> 
+        </div> 
+ 
+        <div class="arch-arrow">↓</div> 
+ 
+        <div class="arch-row python"> 
+            <span>🐍</span> 
+            <strong>Python</strong> 
+            <small>Ejecución de la predicción</small> 
+        </div> 
+ 
+        <div class="arch-arrow">↓</div> 
+ 
+        <div class="arch-row node"> 
+            <span>🟢</span> 
+            <strong>Node.js / Express</strong> 
+            <small>API de predicción</small> 
+        </div> 
+ 
+        <div class="arch-arrow">↓</div> 
+ 
+        <div class="arch-row result"> 
+            <span>🎯</span> 
+            <strong>Resultado</strong> 
+            <small>Valor predicho devuelto</small> 
+        </div> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     17 - TECHNOLOGIES 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">17</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">STACK TÉCNICO</p> 
+ 
+            <h2>Tecnologías utilizadas</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="technology-grid"> 
+ 
+        <div class="technology-card"><span>🌐</span><h3>Facebook</h3><p>Fuente inicial de los datos.</p></div> 
+        <div class="technology-card"><span>🕷️</span><h3>Web Scraping</h3><p>Extracción de datos web.</p></div> 
+        <div class="technology-card"><span>🔄</span><h3>Talend</h3><p>ETL e integración de datos.</p></div> 
+        <div class="technology-card"><span>📊</span><h3>Power BI</h3><p>Business Intelligence y visualización.</p></div> 
+        <div class="technology-card"><span>🐍</span><h3>Python</h3><p>Ejecución del modelo Machine Learning.</p></div> 
+        <div class="technology-card"><span>🔢</span><h3>NumPy</h3><p>Preparación de datos numéricos.</p></div> 
+        <div class="technology-card"><span>🤖</span><h3>Machine Learning</h3><p>Realización de la predicción.</p></div> 
+        <div class="technology-card"><span>💾</span><h3>Pickle</h3><p>Guardado y carga del modelo.</p></div> 
+        <div class="technology-card"><span>🟢</span><h3>Node.js</h3><p>Backend y comunicación con Python.</p></div> 
+        <div class="technology-card"><span>⚡</span><h3>Express.js</h3><p>Creación de la API REST.</p></div> 
+        <div class="technology-card"><span>🗄️</span><h3>MySQL</h3><p>Conexión y gestión de los datos de la aplicación.</p></div> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     18 - SKILLS 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+<div class="container"> 
+ 
+    <div class="section-header"> 
+ 
+        <span class="section-number">18</span> 
+ 
+        <div> 
+ 
+            <p class="section-label">COMPETENCIAS</p> 
+ 
+            <h2>Competencias aplicadas</h2> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="skills"> 
+ 
+        <span>Web Scraping</span> 
+        <span>Data Collection</span> 
+        <span>Data Cleaning</span> 
+        <span>Data Preparation</span> 
+        <span>ETL</span> 
+        <span>Talend</span> 
+        <span>Data Warehouse</span> 
+        <span>Business Intelligence</span> 
+        <span>Power BI</span> 
+        <span>Data Visualization</span> 
+        <span>Data Analysis</span> 
+        <span>Machine Learning</span> 
+        <span>Python</span> 
+        <span>NumPy</span> 
+        <span>Scikit-learn</span> 
+        <span>Model Serialization</span> 
+        <span>Node.js</span> 
+        <span>Express.js</span> 
+        <span>API REST</span> 
+        <span>MySQL</span> 
+        <span>JSON</span> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+<!-- ========================================================= 
+     19 - CONCLUSION 
+========================================================= --> 
+ 
+<section class="section conclusion"> 
+ 
+<div class="container"> 
+ 
+    <div class="conclusion-card"> 
+ 
+        <span class="section-label">CONCLUSIÓN</span> 
+ 
+        <h2> 
+            Una experiencia completa desde los datos hasta la predicción 
+        </h2> 
+ 
+        <p> 
+            El proyecto Voyagito me permitió practicar una cadena 
+            completa de procesamiento de datos, desde su extracción 
+            hasta su explotación predictiva. 
+        </p> 
+ 
+        <p> 
+            La práctica de <strong>Web Scraping</strong> durante 
+            mi formación me permitió comprender mejor la primera 
+            etapa de un proyecto Data: recuperar datos utilizables 
+            a partir de una fuente web. 
+        </p> 
+ 
+        <p> 
+            Después trabajé en la preparación de los datos, su 
+            integración, su almacenamiento en un entorno de toma 
+            de decisiones y su visualización con <strong>Power BI</strong>. 
+        </p> 
+ 
+        <p> 
+            Finalmente, la parte de Machine Learning me permitió 
+            ir más allá del análisis descriptivo utilizando los 
+            datos para producir una predicción con Python. 
+        </p> 
+ 
+        <p> 
+            La integración de Python con Node.js permite posteriormente 
+            exponer esta funcionalidad mediante una API, creando una 
+            arquitectura que conecta <strong>Data, BI, Machine Learning 
+            y Backend</strong>. 
+        </p> 
+ 
+        <div class="final-message"> 
+ 
+            <strong> 
+                Web Scraping → Data Cleaning → ETL → 
+                Data Warehouse → Power BI → 
+                Machine Learning → Python → Node.js → Prediction 
+            </strong> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</div> 
+ 
+</section> 
+ 
+</main> 
+ 
+<!-- ========================================================= 
+     FOOTER 
+========================================================= --> 
+ 
+<footer class="footer"> 
+ 
+<div class="container"> 
+ 
+    <div class="footer-content"> 
+ 
+        <div> 
+ 
+            <strong>Proyecto Voyagito</strong> 
+ 
+            <p> 
+                Web Scraping • Business Intelligence • Machine Learning 
+            </p> 
+ 
+        </div> 
+ 
+        <div> 
+            <p>Documentación técnica</p> 
+        </div> 
+ 
+    </div> 
+ 
+    <div class="footer-bottom"> 
+        © 2026 – Proyecto Voyagito 
+    </div> 
+ 
+</div> 
+ 
+</footer> 
+ 
+<!-- ========================================================= 
+     BACK TO TOP 
+========================================================= --> 
+ 
+<button id="backToTop" 
+     class="back-to-top" 
+     aria-label="Volver arriba"> 
+ 
+</button> 
+ 
+<script src="script.js"></script> 
+ 
+</body> 
+ 
+</html>
+```

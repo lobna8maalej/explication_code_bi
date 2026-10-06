@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="Documentação técnica do sistema EduWorld Prediction: integração de Machine Learning em Python com Node.js, Express, NumPy, Pandas e Dashboard.">
+
+    <title>Documentação — EduWorld Prediction</title>
+
+    <!-- =====================================================
+         CSS CONNECTION
+    ====================================================== -->
+    <link rel="stylesheet" href="etudeEtranger.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav class="sidebar">
+
+        <h2>EduWorld</h2>
+
+        <ul>
+
+            <li>
+                <a href="#overview">Visão geral</a>
+            </li>
+
+            <li>
+                <a href="#ml-model">Modelo de ML</a>
+            </li>
+
+            <li>
+                <a href="#data">Dados</a>
+            </li>
+
+            <li>
+                <a href="#api">API</a>
+            </li>
+
+            <li>
+                <a href="#architecture">Arquitetura</a>
+            </li>
+
+            <li>
+                <a href="#technologies">Tecnologias</a>
+            </li>
+
+            <li>
+                <a href="#presentation">Apresentação</a>
+            </li>
+
+            <li>
+                <a href="#conclusion">Conclusão</a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="documentation">
+
+        <!-- =====================================================
+             OVERVIEW
+        ====================================================== -->
+
+        <section id="overview">
+
+            <h1>Documentação técnica</h1>
+
+            <h2>Sistema de previsão EduWorld</h2>
+
+            <p>
+                Este projeto apresenta a integração de um modelo de
+                <strong>Machine Learning em Python</strong> em uma aplicação web
+                baseada em <strong>Node.js / Express</strong>, desenvolvida para
+                análise e previsão no contexto de estudos no exterior.
+            </p>
+
+            <p>
+                O sistema recebe dados numéricos, envia essas informações para
+                um modelo de Machine Learning treinado, realiza a previsão e
+                retorna o resultado ao backend Node.js.
+            </p>
+
+            <p>
+                O resultado final é enviado em formato JSON e pode ser utilizado
+                pelo Dashboard para exibir as informações ao usuário.
+            </p>
+
+            <a href="#ml-model" class="btn">
+                Iniciar documentação
+            </a>
+
+        </section>
+
+
+        <!-- =====================================================
+             GENERAL SYSTEM OVERVIEW
+        ====================================================== -->
+
+        <section>
+
+            <h2>Visão geral do sistema</h2>
+
+            <p>
+                O funcionamento geral do sistema pode ser representado da
+                seguinte maneira:
+            </p>
+
+            <div class="flow">
+
+                <div>Dados</div>
+
+                <span>→</span>
+
+                <div>Python</div>
+
+                <span>→</span>
+
+                <div>Modelo PKL</div>
+
+                <span>→</span>
+
+                <div>NumPy</div>
+
+                <span>→</span>
+
+                <div>Previsão</div>
+
+                <span>→</span>
+
+                <div>stdout</div>
+
+                <span>→</span>
+
+                <div>Node.js</div>
+
+                <span>→</span>
+
+                <div>Express</div>
+
+                <span>→</span>
+
+                <div>JSON</div>
+
+                <span>→</span>
+
+                <div>Dashboard</div>
+
+            </div>
+
+            <p>
+                O objetivo dessa arquitetura é separar o processamento de
+                Machine Learning da aplicação web, permitindo uma arquitetura
+                mais organizada e escalável.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             ML MODEL
+        ====================================================== -->
+
+        <section id="ml-model">
+
+            <h2>Modelo de Machine Learning</h2>
+
+            <p>
+                O modelo de Machine Learning é treinado previamente e salvo
+                em um arquivo <strong>eduworld.pkl</strong>.
+            </p>
+
+            <h3>Localização do modelo</h3>
+
+            <pre><code>
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "eduworld.pkl")
+            </code></pre>
+
+
+            <h3>Importação das bibliotecas</h3>
+
+            <pre><code>
+import sys
+import os
+import pickle
+import numpy as np
+            </code></pre>
+
+
+            <h3>Carregamento do modelo</h3>
+
+            <pre><code>
+with open(MODEL_PATH, "rb") as f:
+    model = pickle.load(f)
+            </code></pre>
+
+            <p>
+                O modelo é carregado utilizando a biblioteca
+                <strong>Pickle</strong>.
+            </p>
+
+            <p>
+                Dessa forma, o modelo treinado pode ser reutilizado sem
+                precisar ser treinado novamente a cada requisição.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             PYTHON PREDICTION SCRIPT
+        ====================================================== -->
+
+        <section>
+
+            <h2>Script de previsão em Python</h2>
+
+            <p>
+                O script Python é responsável por receber os valores enviados
+                pelo backend, validar os dados e executar a previsão.
+            </p>
+
+
+            <h3>Recebimento e validação das variáveis</h3>
+
+            <pre><code>
+values = list(map(float, sys.argv[1:]))
+            </code></pre>
+
+            <p>
+                Os argumentos recebidos pelo script são convertidos em valores
+                numéricos do tipo <strong>float</strong>.
+            </p>
+
+
+            <h3>Tratamento de erros de entrada</h3>
+
+            <pre><code>
+try:
+    values = list(map(float, sys.argv[1:]))
+except:
+    print("error: invalid input format")
+    sys.exit()
+            </code></pre>
+
+
+            <h3>Número esperado de características</h3>
+
+            <pre><code>
+expected_features = model.n_features_in_
+            </code></pre>
+
+            <p>
+                O sistema verifica automaticamente quantas características
+                o modelo espera receber.
+            </p>
+
+
+            <h3>Validação das características</h3>
+
+            <pre><code>
+if len(values) != expected_features:
+    print("error: invalid number of features")
+    sys.exit()
+            </code></pre>
+
+
+            <h3>Criação do array NumPy</h3>
+
+            <pre><code>
+X = np.array([values])
+            </code></pre>
+
+            <p>
+                Os valores são transformados em um array NumPy para que possam
+                ser utilizados pelo modelo de Machine Learning.
+            </p>
+
+
+            <h3>Cálculo da previsão</h3>
+
+            <pre><code>
+prediction = model.predict(X)
+            </code></pre>
+
+
+            <h3>Retorno do resultado</h3>
+
+            <pre><code>
+print(float(prediction[0]))
+            </code></pre>
+
+            <p>
+                O resultado da previsão é convertido para um valor numérico
+                e enviado através do <strong>stdout</strong>.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             PYTHON FLOW
+        ====================================================== -->
+
+        <section>
+
+            <h2>Fluxo do Python</h2>
+
+            <ol>
+
+                <li>Receber os valores.</li>
+
+                <li>Converter os valores para números.</li>
+
+                <li>Validar o número de características.</li>
+
+                <li>Criar o array NumPy.</li>
+
+                <li>Executar o modelo.</li>
+
+                <li>Obter a previsão.</li>
+
+                <li>Enviar o resultado pelo stdout.</li>
+
+            </ol>
+
+        </section>
+
+
+        <!-- =====================================================
+             PANDAS AND JSON
+        ====================================================== -->
+
+        <section id="data">
+
+            <h2>Uso do Pandas e geração de JSON</h2>
+
+            <h3>Importação do Pandas</h3>
+
+            <pre><code>
+import pandas as pd
+            </code></pre>
+
+
+            <h3>Criação dos dados</h3>
+
+            <pre><code>
+data = {
+    "prediction": prediction
+}
+            </code></pre>
+
+
+            <h3>Criação do DataFrame</h3>
+
+            <pre><code>
+df = pd.DataFrame(data)
+            </code></pre>
+
+
+            <h3>Transformação em registros</h3>
+
+            <pre><code>
+result = df.to_dict(orient="records")
+            </code></pre>
+
+
+            <h3>Conversão para JSON</h3>
+
+            <pre><code>
+json.dumps(result)
+            </code></pre>
+
+            <p>
+                O formato JSON facilita a comunicação entre Python,
+                Node.js e o frontend.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             NODE.JS SERVICE
+        ====================================================== -->
+
+        <section>
+
+            <h2>Serviço Node.js e comunicação com Python</h2>
+
+            <p>
+                O backend Node.js é responsável por iniciar o processo Python
+                e recuperar o resultado da previsão.
+            </p>
+
+
+            <h3>Importação dos módulos</h3>
+
+            <pre><code>
+const { spawn } = require("child_process");
+const path = require("path");
+            </code></pre>
+
+
+            <h3>Criação da função</h3>
+
+            <pre><code>
+function runPrediction(values) {
+
+    return new Promise((resolve, reject) => {
+
+        const pythonScript = path.join(
+            __dirname,
+            "prediction.py"
+        );
+
+        const pythonProcess = spawn(
+            "python",
+            [pythonScript, ...values]
+        );
+
+        let stdout = "";
+        let stderr = "";
+
+        pythonProcess.stdout.on("data", (data) => {
+            stdout += data.toString();
+        });
+
+        pythonProcess.stderr.on("data", (data) => {
+            stderr += data.toString();
+        });
+
+        pythonProcess.on("close", (code) => {
+
+            if (code !== 0) {
+                reject(stderr);
+                return;
+            }
+
+            resolve(stdout.trim());
+
+        });
+
+    });
+
+}
+            </code></pre>
+
+        </section>
+
+
+        <!-- =====================================================
+             EXPRESS ROUTE
+        ====================================================== -->
+
+        <section id="api">
+
+            <h2>Rota do Dashboard no Express</h2>
+
+            <h3>Criação do router</h3>
+
+            <pre><code>
+const express = require("express");
+
+const router = express.Router();
+            </code></pre>
+
+
+            <h3>Importação do serviço</h3>
+
+            <pre><code>
+const { runPrediction } = require("../services/predictionService");
+            </code></pre>
+
+
+            <h3>Rota do Dashboard</h3>
+
+            <pre><code>
+router.get("/dashboard", async (req, res) => {
+
+    try {
+
+        const models = [
+            "edufrance",
+            "edutest",
+            "linked",
+            "eduworld"
+        ];
+
+        const results = [];
+
+        for (const model of models) {
+
+            const values = [
+                parseFloat(req.query.value1),
+                parseFloat(req.query.value2)
+            ];
+
+            const prediction = await runPrediction(values);
+
+            results.push({
+                model,
+                prediction
+            });
+
+        }
+
+        res.json(results);
+
+    } catch (error) {
+
+        res.status(500).json({
+            error: error.message
+        });
+
+    }
+
+});
+            </code></pre>
+
+
+            <h3>Lista de modelos</h3>
+
+            <p>
+                A rota pode trabalhar com diferentes modelos de previsão,
+                como:
+            </p>
+
+            <ul>
+
+                <li><strong>edufrance</strong></li>
+
+                <li><strong>edutest</strong></li>
+
+                <li><strong>linked</strong></li>
+
+                <li><strong>eduworld</strong></li>
+
+            </ul>
+
+
+            <h3>Processamento de cada previsão</h3>
+
+            <p>
+                Para cada modelo, o backend recupera os valores necessários,
+                converte os dados com <strong>parseFloat()</strong> e envia
+                essas informações para o serviço Python.
+            </p>
+
+
+            <h3>Resposta JSON</h3>
+
+            <pre><code>
+res.json(results);
+            </code></pre>
+
+            <p>
+                O resultado final é enviado para o frontend em formato JSON.
+            </p>
+
+
+            <h3>Tratamento de erros</h3>
+
+            <pre><code>
+res.status(500).json({
+    error: error.message
+});
+            </code></pre>
+
+        </section>
+
+
+        <!-- =====================================================
+             ARCHITECTURE
+        ====================================================== -->
+
+        <section id="architecture">
+
+            <h2>Arquitetura completa do sistema</h2>
+
+            <div class="architecture">
+
+                <div class="architecture-box">
+                    <h3>Frontend</h3>
+                    <p>Dashboard e visualização dos resultados</p>
+                </div>
+
+                <div class="arrow">↓</div>
+
+                <div class="architecture-box">
+                    <h3>REST API</h3>
+                    <p>Recebe as requisições do frontend</p>
+                </div>
+
+                <div class="arrow">↓</div>
+
+                <div class="architecture-box">
+                    <h3>Node.js Service</h3>
+                    <p>Comunica com o script Python</p>
+                </div>
+
+                <div class="arrow">↓</div>
+
+                <div class="architecture-box">
+                    <h3>Python</h3>
+                    <p>Executa o modelo de Machine Learning</p>
+                </div>
+
+                <div class="arrow">↓</div>
+
+                <div class="architecture-box">
+                    <h3>Modelo treinado</h3>
+                    <p>Arquivo eduworld.pkl</p>
+                </div>
+
+                <div class="arrow">↓</div>
+
+                <div class="architecture-box">
+                    <h3>Resultado de ML</h3>
+                    <p>Previsão retornada para o backend</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             TECHNOLOGIES
+        ====================================================== -->
+
+        <section id="technologies">
+
+            <h2>Função das tecnologias</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Tecnologia</th>
+
+                        <th>Função</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Python</td>
+
+                        <td>
+                            Execução do processamento de Machine Learning
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Pickle</td>
+
+                        <td>
+                            Salvamento e carregamento do modelo de ML
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>eduworld.pkl</td>
+
+                        <td>
+                            Modelo de Machine Learning treinado
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>NumPy</td>
+
+                        <td>
+                            Preparação das variáveis numéricas
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Pandas</td>
+
+                        <td>
+                            Manipulação e transformação dos dados
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Node.js</td>
+
+                        <td>
+                            Execução do backend JavaScript
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>child_process</td>
+
+                        <td>
+                            Comunicação entre Node.js e Python
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>spawn()</td>
+
+                        <td>
+                            Execução do processo Python
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Express</td>
+
+                        <td>
+                            Criação da API REST
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>JSON</td>
+
+                        <td>
+                            Formato de troca de dados
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Dashboard</td>
+
+                        <td>
+                            Visualização das previsões
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- =====================================================
+             CONCRETE EXAMPLE
+        ====================================================== -->
+
+        <section>
+
+            <h2>Exemplo concreto do processo</h2>
+
+            <p>
+                Um usuário acessa o Dashboard e envia valores para realizar
+                uma previsão.
+            </p>
+
+            <p>
+                O frontend envia uma requisição para:
+            </p>
+
+            <pre><code>
+GET /dashboard
+            </code></pre>
+
+            <p>
+                O backend Express recebe os dados e chama o serviço Node.js.
+            </p>
+
+            <p>
+                O serviço Node.js executa o script Python através de
+                <strong>spawn()</strong>.
+            </p>
+
+            <p>
+                O Python carrega o modelo <strong>eduworld.pkl</strong>,
+                prepara os dados com NumPy e executa a previsão.
+            </p>
+
+            <p>
+                O resultado é enviado pelo <strong>stdout</strong> para
+                Node.js.
+            </p>
+
+            <p>
+                Finalmente, Express retorna o resultado em formato JSON
+                para o frontend.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             PRESENTATION
+        ====================================================== -->
+
+        <section id="presentation">
+
+            <h2>Explicação para apresentar durante a apresentação</h2>
+
+            <h3>🎤 Exemplo de explicação oral</h3>
+
+            <div class="presentation-box">
+
+                <p>
+                    "Neste projeto, desenvolvemos um sistema de previsão
+                    baseado em Machine Learning.
+                </p>
+
+                <p>
+                    O modelo foi treinado e salvo em um arquivo
+                    <strong>eduworld.pkl</strong> utilizando Pickle.
+                </p>
+
+                <p>
+                    Quando o usuário envia os dados através do Dashboard,
+                    o frontend envia uma requisição para o backend Node.js.
+                </p>
+
+                <p>
+                    O backend utiliza o Express para receber a requisição
+                    e chama um serviço Node.js responsável pela comunicação
+                    com Python.
+                </p>
+
+                <p>
+                    O processo Python é executado através de
+                    <strong>spawn()</strong>.
+                </p>
+
+                <p>
+                    O script Python recebe os valores, valida o número de
+                    características, transforma os dados em um array NumPy
+                    e executa o modelo de Machine Learning.
+                </p>
+
+                <p>
+                    Depois da previsão, o resultado é enviado através do
+                    stdout para Node.js.
+                </p>
+
+                <p>
+                    Finalmente, Express retorna o resultado em formato JSON
+                    e o Dashboard apresenta a previsão ao usuário."
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CONCLUSION
+        ====================================================== -->
+
+        <section id="conclusion">
+
+            <h2>Conclusão</h2>
+
+            <p>
+                O sistema EduWorld Prediction integra com sucesso
+                Machine Learning, Python e uma aplicação web Node.js.
+            </p>
+
+            <div class="success-box">
+
+                <p>
+                    ✔ Modelo de Machine Learning salvo com Pickle
+                </p>
+
+                <p>
+                    ✔ Carregamento seguro do modelo
+                </p>
+
+                <p>
+                    ✔ Validação automática das características
+                </p>
+
+                <p>
+                    ✔ Preparação dos dados com NumPy
+                </p>
+
+                <p>
+                    ✔ Manipulação dos dados com Pandas
+                </p>
+
+                <p>
+                    ✔ Comunicação Node.js → Python
+                </p>
+
+                <p>
+                    ✔ Execução do Python com spawn()
+                </p>
+
+                <p>
+                    ✔ API REST com Express
+                </p>
+
+                <p>
+                    ✔ Resultados retornados em formato JSON
+                </p>
+
+                <p>
+                    ✔ Integração com o Dashboard
+                </p>
+
+                <p>
+                    ✔ Arquitetura escalável
+                </p>
+
+            </div>
+
+            <p>
+                Essa arquitetura permite separar claramente o processamento
+                de Machine Learning da aplicação web, facilitando a manutenção,
+                a evolução e a integração de novos modelos de previsão.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <p>
+            Documentação técnica — EduWorld Prediction
+        </p>
+
+        <p>
+            Python • Machine Learning • Pickle • NumPy • Pandas •
+            Node.js • Express • JSON
+        </p>
+
+    </footer>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script src="script.js"></script>
+
+</body>
+</html>

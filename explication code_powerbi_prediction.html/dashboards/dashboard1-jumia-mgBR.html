@@ -1,0 +1,1079 @@
+<!DOCTYPE html>   
+<html lang="pt-BR">   
+   
+<head>   
+   
+    <meta charset="UTF-8">   
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+   
+    <title>Dashboard 1 - Jumia & MG</title>   
+   
+    <link rel="stylesheet" href="dashboard1-jumia-mg.css">   
+   
+</head>   
+   
+<body>   
+   
+   
+    <!-- =====================================================   
+         CABEÇALHO   
+    ====================================================== -->   
+   
+    <header class="documentation-header">   
+   
+        <h1>Dashboard 1 — Jumia & MG</h1>   
+   
+        <p>   
+            Web Scraping • Python • Talend • Data Warehouse •   
+            Power BI • Predição   
+        </p>   
+   
+    </header>   
+   
+   
+    <!-- =====================================================   
+         NAVEGAÇÃO   
+    ====================================================== -->   
+   
+    <nav class="documentation-nav">   
+   
+        <ul>   
+   
+            <li>   
+                <a href="#presentation">   
+                    Visão geral   
+                </a>   
+            </li>   
+   
+            <li>   
+                <a href="#scraping">   
+                    Web Scraping   
+                </a>   
+            </li>   
+   
+            <li>   
+                <a href="#python">   
+                    Python   
+                </a>   
+            </li>   
+   
+            <li>   
+                <a href="#talend">   
+                    Talend   
+                </a>   
+            </li>   
+   
+            <li>   
+                <a href="#warehouse">   
+                    Data Warehouse   
+                </a>   
+            </li>   
+   
+            <li>   
+                <a href="#powerbi">   
+                    Power BI   
+                </a>   
+            </li>   
+   
+            <li>   
+                <a href="#prediction">   
+                    Predição   
+                </a>   
+            </li>   
+   
+            <li>   
+                <a href="#resultats">   
+                    Resultados   
+                </a>   
+            </li>   
+   
+        </ul>   
+   
+    </nav>   
+   
+   
+    <!-- =====================================================   
+         CONTEÚDO PRINCIPAL   
+    ====================================================== -->   
+   
+    <main class="documentation-container">   
+   
+   
+        <!-- =================================================   
+             1. APRESENTAÇÃO   
+        ================================================== -->   
+   
+        <section   
+            id="presentation"   
+            class="documentation-section"   
+        >   
+   
+            <h2>1. Visão geral do Dashboard</h2>   
+   
+            <p>   
+                Este primeiro dashboard é dedicado à análise   
+                dos dados provenientes das plataformas Jumia e MG.   
+            </p>   
+   
+            <p>   
+                O projeto implementa um processo completo de tratamento   
+                de dados, desde a coleta por meio de Web Scraping   
+                até a visualização no Power BI e a geração de   
+                predições por meio de um modelo de Machine Learning.   
+            </p>   
+   
+            <p>   
+                A arquitetura do projeto combina várias   
+                tecnologias: Python para a coleta de dados,   
+                preparação e predição, Talend para   
+                o processamento ETL, um Data Warehouse para   
+                o armazenamento estruturado, Power BI para   
+                a análise e Node.js / Express para   
+                a integração do modelo de predição.   
+            </p>   
+   
+        </section>   
+   
+   
+        <!-- =================================================   
+             2. WEB SCRAPING   
+        ================================================== -->   
+   
+        <section   
+            id="scraping"   
+            class="documentation-section"   
+        >   
+   
+            <h2>2. Coleta de dados — Web Scraping</h2>   
+   
+            <p>   
+                A primeira etapa consiste em recuperar os   
+                dados necessários para a análise das   
+                plataformas Jumia e MG.   
+            </p>   
+   
+            <p>   
+                O Web Scraping permite automatizar   
+                a recuperação das informações disponíveis   
+                nas páginas das plataformas.   
+            </p>   
+   
+            <h3>Objetivo</h3>   
+   
+            <p>   
+                Os dados coletados constituem a fonte   
+                inicial utilizada nas etapas seguintes   
+                do projeto.   
+            </p>   
+   
+            <p>   
+                Após a coleta, os dados são preparados   
+                e transformados para que possam ser integrados   
+                ao processo ETL e posteriormente utilizados no   
+                Power BI e no sistema de predição.   
+            </p>   
+   
+        </section>   
+   
+   
+        <!-- =================================================   
+             3. PYTHON   
+        ================================================== -->   
+   
+        <section   
+            id="python"   
+            class="documentation-section"   
+        >   
+   
+            <h2>3. Processamento de dados e predição com Python</h2>   
+   
+            <p>   
+                Python é utilizado em vários níveis deste   
+                projeto: preparação dos dados, treinamento   
+                do modelo de Machine Learning e geração de   
+                predições.   
+            </p>   
+   
+   
+            <!-- =============================================   
+                 3.1 TRAIN COMMERCE   
+            ============================================== -->   
+   
+            <div class="python-file">   
+   
+                <h3>3.1 Arquivo: train_commerce.py</h3>   
+   
+                <p>   
+                    <strong>Função do arquivo:</strong>   
+                </p>   
+   
+                <p>   
+                    O arquivo   
+                    <code>train_commerce.py</code>   
+                    é utilizado para treinar o   
+                    modelo de Machine Learning e salvar o   
+                    modelo treinado em um arquivo   
+                    <code>MG.pkl</code>.   
+                </p>   
+   
+   
+                <h4>Código-fonte</h4>   
+   
+                <pre><code>   
+import pickle   
+import pandas as pd   
+from xgboost import XGBClassifier   
+   
+# DATA   
+data = {   
+    'Numbers': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],   
+    'prix': [42, 59, 33.5, 44, 49, 149, 99, 40.59, 250, 349]   
+}   
+   
+df = pd.DataFrame(data)   
+   
+X = df[['Numbers', 'prix']]   
+y = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]   
+   
+# MODEL   
+model = XGBClassifier(   
+    use_label_encoder=False,   
+    eval_metric="logloss"   
+)   
+   
+model.fit(X, y)   
+   
+# SAVE PKL   
+with open("MG.pkl", "wb") as f:   
+    pickle.dump(model, f)   
+   
+print("Model saved successfully")   
+                </code></pre>   
+   
+   
+                <h4>Explicação do código</h4>   
+   
+   
+                <h5>1. Importação das bibliotecas</h5>   
+   
+                <p>   
+                    O programa começa importando as   
+                    bibliotecas necessárias.   
+                </p>   
+   
+                <ul>   
+   
+                    <li>   
+                        <code>pickle</code> é utilizado para salvar   
+                        o modelo treinado.   
+                    </li>   
+   
+                    <li>   
+                        <code>pandas</code> é utilizado para criar e   
+                        manipular os dados na forma de um   
+                        DataFrame.   
+                    </li>   
+   
+                    <li>   
+                        <code>XGBClassifier</code> é utilizado para   
+                        construir um modelo de classificação   
+                        baseado em XGBoost.   
+                    </li>   
+   
+                </ul>   
+   
+   
+                <h5>2. Criação dos dados</h5>   
+   
+                <pre><code>   
+data = {   
+    'Numbers': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],   
+    'prix': [42, 59, 33.5, 44, 49, 149, 99, 40.59, 250, 349]   
+}   
+                </code></pre>   
+   
+                <p>   
+                    São utilizadas duas variáveis:   
+                    <code>Numbers</code> e   
+                    <code>prix</code>.   
+                </p>   
+   
+                <p>   
+                    Esses dados constituem as variáveis de entrada   
+                    utilizadas para treinar o modelo.   
+                </p>   
+   
+   
+                <h5>3. Criação do DataFrame</h5>   
+   
+                <pre><code>   
+df = pd.DataFrame(data)   
+                </code></pre>   
+   
+                <p>   
+                    Os dados são convertidos em um DataFrame do Pandas   
+                    para facilitar sua manipulação.   
+                </p>   
+   
+   
+                <h5>4. Definição das variáveis de entrada</h5>   
+   
+                <pre><code>   
+X = df[['Numbers', 'prix']]   
+                </code></pre>   
+   
+                <p>   
+                    A variável <code>X</code> contém as   
+                    características utilizadas pelo modelo   
+                    para seu treinamento.   
+                </p>   
+   
+   
+                <h5>5. Definição da variável-alvo</h5>   
+   
+                <pre><code>   
+y = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]   
+                </code></pre>   
+   
+                <p>   
+                    <code>y</code> representa a variável-alvo   
+                    que o modelo deve aprender a prever.   
+                </p>   
+   
+   
+                <h5>6. Criação do modelo XGBoost</h5>   
+   
+                <pre><code>   
+model = XGBClassifier(   
+    use_label_encoder=False,   
+    eval_metric="logloss"   
+)   
+                </code></pre>   
+   
+                <p>   
+                    É criado um modelo   
+                    <strong>XGBClassifier</strong>   
+                    para realizar a classificação.   
+                </p>   
+   
+                <p>   
+                    O parâmetro   
+                    <code>eval_metric="logloss"</code>   
+                    define a função utilizada para avaliar   
+                    o desempenho do modelo durante   
+                    o treinamento.   
+                </p>   
+   
+   
+                <h5>7. Treinamento do modelo</h5>   
+   
+                <pre><code>   
+model.fit(X, y)   
+                </code></pre>   
+   
+                <p>   
+                    Esta instrução treina o modelo utilizando   
+                    as variáveis de entrada <code>X</code> e os   
+                    valores-alvo <code>y</code>.   
+                </p>   
+   
+   
+                <h5>8. Salvamento do modelo</h5>   
+   
+                <pre><code>   
+with open("MG.pkl", "wb") as f:   
+    pickle.dump(model, f)   
+                </code></pre>   
+   
+                <p>   
+                    Após o treinamento, o modelo é salvo   
+                    no arquivo <code>MG.pkl</code>.   
+                </p>   
+   
+                <p>   
+                    Isso permite reutilizar o modelo   
+                    posteriormente sem precisar realizar   
+                    novamente o processo de treinamento.   
+                </p>   
+   
+            </div>   
+   
+   
+            <!-- =============================================   
+                 3.2 COMMERCE.PY   
+            ============================================== -->   
+   
+            <div class="python-file">   
+   
+                <h3>3.2 Arquivo: commerce.py</h3>   
+   
+                <p>   
+                    <strong>Função do arquivo:</strong>   
+                </p>   
+   
+                <p>   
+                    O arquivo   
+                    <code>commerce.py</code>   
+                    carrega o modelo   
+                    <code>MG.pkl</code>,   
+                    recebe os dados do backend,   
+                    realiza a predição e posteriormente retorna   
+                    o resultado no formato JSON.   
+                </p>   
+   
+   
+                <h4>Código-fonte</h4>   
+   
+                <pre><code>   
+import sys   
+import json   
+import pickle   
+import numpy as np   
+import os   
+   
+BASE_DIR = os.path.dirname(__file__)   
+   
+model = pickle.load(   
+    open(   
+        os.path.join(BASE_DIR, "../models/MG.pkl"),   
+        "rb"   
+    )   
+)   
+   
+try:   
+   
+    raw = sys.stdin.read()   
+   
+    data = json.loads(raw)   
+   
+    x = np.array([   
+        [   
+            float(data["Numbers"]),   
+            float(data["prix"])   
+        ]   
+    ])   
+   
+    prediction = model.predict(x)[0]   
+   
+    print(json.dumps({   
+        "success": True,   
+        "prediction": float(prediction)   
+    }))   
+   
+except Exception as e:   
+   
+    print(json.dumps({   
+        "success": False,   
+        "error": str(e)   
+    }))   
+                </code></pre>   
+   
+   
+                <h4>Explicação do código</h4>   
+   
+   
+                <h5>1. Importação das bibliotecas</h5>   
+   
+                <ul>   
+   
+                    <li>   
+                        <code>sys</code> é utilizado principalmente   
+                        para interagir com a entrada padrão.   
+                    </li>   
+   
+                    <li>   
+                        <code>json</code> é utilizado para ler e   
+                        produzir dados JSON.   
+                    </li>   
+   
+                    <li>   
+                        <code>pickle</code> é utilizado para carregar   
+                        o modelo salvo.   
+                    </li>   
+   
+                    <li>   
+                        <code>numpy</code> é utilizado para preparar   
+                        os dados no formato de matriz.   
+                    </li>   
+   
+                    <li>   
+                        <code>os</code> é utilizado para gerenciar   
+                        os caminhos dos arquivos.   
+                    </li>   
+   
+                </ul>   
+   
+   
+                <h5>2. Localização do modelo</h5>   
+   
+                <pre><code>   
+BASE_DIR = os.path.dirname(__file__)   
+                </code></pre>   
+   
+                <p>   
+                    Esta instrução obtém o diretório   
+                    onde o arquivo Python está localizado.   
+                </p>   
+   
+   
+                <h5>3. Carregamento do modelo</h5>   
+   
+                <pre><code>   
+model = pickle.load(   
+    open(   
+        os.path.join(BASE_DIR, "../models/MG.pkl"),   
+        "rb"   
+    )   
+)   
+                </code></pre>   
+   
+                <p>   
+                    O modelo treinado anteriormente é carregado   
+                    a partir do arquivo <code>MG.pkl</code>.   
+                </p>   
+   
+   
+                <h5>4. Leitura dos dados enviados</h5>   
+   
+                <pre><code>   
+raw = sys.stdin.read()   
+   
+data = json.loads(raw)   
+                </code></pre>   
+   
+                <p>   
+                    O script recupera os dados recebidos por meio   
+                    da entrada padrão e posteriormente os converte   
+                    do formato JSON para um objeto Python.   
+                </p>   
+   
+   
+                <h5>5. Preparação das variáveis</h5>   
+   
+                <pre><code>   
+x = np.array([   
+    [   
+        float(data["Numbers"]),   
+        float(data["prix"])   
+    ]   
+])   
+                </code></pre>   
+   
+                <p>   
+                    Os valores   
+                    <code>Numbers</code> e   
+                    <code>prix</code>   
+                    são convertidos em números e colocados   
+                    em uma matriz NumPy.   
+                </p>   
+   
+   
+                <h5>6. Geração da predição</h5>   
+   
+                <pre><code>   
+prediction = model.predict(x)[0]   
+                </code></pre>   
+   
+                <p>   
+                    O modelo carregado utiliza os dados recebidos   
+                    para gerar uma predição.   
+                </p>   
+   
+   
+                <h5>7. Retorno do resultado</h5>   
+   
+                <pre><code>   
+print(json.dumps({   
+    "success": True,   
+    "prediction": float(prediction)   
+}))   
+                </code></pre>   
+   
+                <p>   
+                    O resultado é retornado no formato JSON para   
+                    que o backend Node.js possa recuperá-lo.   
+                </p>   
+   
+   
+                <h5>8. Tratamento de erros</h5>   
+   
+                <pre><code>   
+except Exception as e:   
+   
+    print(json.dumps({   
+        "success": False,   
+        "error": str(e)   
+    }))   
+                </code></pre>   
+   
+                <p>   
+                    Em caso de erro, o script retorna um objeto   
+                    JSON que contém <code>success: false</code>   
+                    e a mensagem de erro.   
+                </p>   
+   
+            </div>   
+   
+   
+            <!-- =============================================   
+                 3.3 SERVIÇO NODE.JS   
+            ============================================== -->   
+   
+            <div class="python-file">   
+   
+                <h3>   
+                    3.3 Integração do Python com Node.js   
+                </h3>   
+   
+                <p>   
+                    O backend Node.js gerencia a comunicação   
+                    entre a aplicação web e o script Python.   
+                </p>   
+   
+                <h4>Uso de child_process</h4>   
+   
+                <pre><code>   
+const { spawn } = require("child_process");   
+                </code></pre>   
+   
+                <p>   
+                    A função   
+                    <code>spawn()</code>   
+                    permite que o servidor Node.js inicie   
+                    um processo Python.   
+                </p>   
+   
+   
+                <h4>Execução do script Python</h4>   
+   
+                <pre><code>   
+const python = spawn("python", ["commerce.py"]);   
+                </code></pre>   
+   
+                <p>   
+                    O Node.js inicia aqui o arquivo   
+                    <code>commerce.py</code>.   
+                </p>   
+   
+   
+                <h4>Recuperação do resultado</h4>   
+   
+                <pre><code>   
+let result = "";   
+   
+python.stdout.on("data", (data) => {   
+    result += data.toString();   
+});   
+                </code></pre>   
+   
+                <p>   
+                    A saída produzida pelo Python é recuperada   
+                    pelo Node.js e armazenada na variável   
+                    <code>result</code>.   
+                </p>   
+   
+   
+                <h4>Gerenciamento da finalização do processo</h4>   
+   
+                <pre><code>   
+python.on("close", (code) => {   
+   
+    if (code !== 0) {   
+        return reject(   
+            new Error("Python script failed")   
+        );   
+    }   
+   
+    resolve(result);   
+   
+});   
+                </code></pre>   
+   
+                <p>   
+                    O Node.js verifica o código de saída do   
+                    processo Python. Se o processo for concluído corretamente,   
+                    o resultado é retornado.   
+                </p>   
+   
+            </div>   
+   
+   
+        </section>   
+   
+   
+        <!-- =================================================   
+             4. TALEND   
+        ================================================== -->   
+   
+        <section   
+            id="talend"   
+            class="documentation-section"   
+        >   
+   
+            <h2>4. Staging Area — Talend</h2>   
+   
+            <p>   
+                Após a coleta e preparação dos dados,   
+                o Talend participa do processo ETL.   
+            </p>   
+   
+            <p>   
+                Os dados são transferidos para uma   
+                <strong>Staging Area</strong> para preparar   
+                sua integração ao Data Warehouse.   
+            </p>   
+   
+            <h3>Fluxo de processamento</h3>   
+   
+            <pre><code>   
+Web Scraping   
+      ↓   
+Dados brutos   
+      ↓   
+Python   
+      ↓   
+Limpeza / Transformação   
+      ↓   
+Staging Area   
+      ↓   
+Talend   
+      ↓   
+Data Warehouse   
+      ↓   
+Power BI   
+      ↓   
+Predição   
+            </code></pre>   
+   
+        </section>   
+   
+   
+        <!-- =================================================   
+             5. DATA WAREHOUSE   
+        ================================================== -->   
+   
+        <section   
+            id="warehouse"   
+            class="documentation-section"   
+        >   
+   
+            <h2>5. Data Warehouse</h2>   
+   
+            <p>   
+                Os dados preparados são posteriormente integrados   
+                ao Data Warehouse.   
+            </p>   
+   
+            <p>   
+                As tabelas são organizadas por meio de chaves   
+                primárias e chaves estrangeiras para criar   
+                relacionamentos entre os diferentes dados.   
+            </p>   
+   
+            <p>   
+                Essa organização permite posteriormente que o Power BI   
+                utilize as diferentes tabelas dentro de um modelo   
+                de dados coerente.   
+            </p>   
+   
+        </section>   
+   
+   
+        <!-- =================================================   
+             6. POWER BI   
+        ================================================== -->   
+   
+        <section   
+            id="powerbi"   
+            class="documentation-section"   
+        >   
+   
+            <h2>6. Desenvolvimento do Dashboard Power BI</h2>   
+   
+            <p>   
+                Os dados estruturados provenientes do Data Warehouse   
+                são utilizados no Power BI.   
+            </p>   
+   
+            <h3>6.1 Modelo de dados</h3>   
+   
+            <p>   
+                Os relacionamentos entre as tabelas são utilizados   
+                para construir o modelo de dados do Power BI.   
+            </p>   
+   
+            <h3>6.2 Indicadores</h3>   
+   
+            <p>   
+                Os indicadores e medidas utilizados neste   
+                dashboard serão detalhados com base no relatório   
+                real do Power BI.   
+            </p>   
+   
+            <h3>6.3 Visualizações</h3>   
+   
+            <p>   
+                Gráficos, tabelas, filtros e outros   
+                elementos visuais permitem analisar os   
+                dados da Jumia e da MG.   
+            </p>   
+   
+        </section>   
+   
+   
+        <!-- =================================================   
+             7. PREDICTION   
+        ================================================== -->   
+   
+        <section   
+            id="prediction"   
+            class="documentation-section"   
+        >   
+   
+            <h2>7. Sistema de predição</h2>   
+   
+   
+            <h3>7.1 Treinamento do modelo</h3>   
+   
+            <p>   
+                O modelo é treinado no arquivo   
+                <code>train_commerce.py</code>.   
+            </p>   
+   
+            <p>   
+                As variáveis utilizadas para o treinamento são   
+                <code>Numbers</code> e <code>prix</code>.   
+            </p>   
+   
+   
+            <h3>7.2 Modelo XGBoost</h3>   
+   
+            <p>   
+                O projeto utiliza   
+                <strong>XGBClassifier</strong>   
+                da biblioteca XGBoost para construir   
+                o modelo de classificação.   
+            </p>   
+   
+   
+            <h3>7.3 Salvamento do modelo</h3>   
+   
+            <p>   
+                Após o treinamento, o modelo é salvo   
+                como um arquivo   
+                <code>MG.pkl</code>.   
+            </p>   
+   
+            <p>   
+                Esse arquivo permite preservar o modelo treinado   
+                e reutilizá-lo durante as predições.   
+            </p>   
+   
+   
+            <h3>7.4 Carregamento do modelo</h3>   
+   
+            <p>   
+                O arquivo <code>commerce.py</code> carrega   
+                <code>MG.pkl</code> por meio da biblioteca   
+                <code>pickle</code>.   
+            </p>   
+   
+   
+            <h3>7.5 Dados enviados ao modelo</h3>   
+   
+            <p>   
+                Os dados utilizados para uma nova predição   
+                são:   
+            </p>   
+   
+            <ul>   
+   
+                <li>   
+                    <strong>Numbers</strong>   
+                </li>   
+   
+                <li>   
+                    <strong>prix</strong>   
+                </li>   
+   
+            </ul>   
+   
+   
+            <h3>7.6 Geração da predição</h3>   
+   
+            <pre><code>   
+prediction = model.predict(x)[0]   
+            </code></pre>   
+   
+            <p>   
+                O modelo recebe as variáveis de entrada e   
+                retorna um valor de predição.   
+            </p>   
+   
+   
+            <h3>7.7 Comunicação Python → Node.js</h3>   
+   
+            <p>   
+                O Node.js utiliza   
+                <code>child_process.spawn()</code>   
+                para executar o script Python e recuperar   
+                o resultado retornado por meio da saída padrão.   
+            </p>   
+   
+   
+            <h3>7.8 Resposta JSON</h3>   
+   
+            <pre><code>   
+{   
+    "success": true,   
+    "prediction": 1   
+}   
+            </code></pre>   
+   
+            <p>   
+                O resultado da predição é retornado   
+                como dados JSON para que possa ser   
+                processado pelo backend.   
+            </p>   
+   
+   
+            <!-- =============================================   
+                 ROTA EXPRESS   
+            ============================================== -->   
+   
+            <h3>7.9 Rota Express</h3>   
+   
+            <p>   
+                O backend disponibiliza uma rota que permite   
+                executar o processo Python.   
+            </p>   
+   
+            <pre><code>   
+router.get("/predict", async (req, res) => {   
+   
+    try {   
+   
+        const result =   
+            await runCommercePython();   
+   
+        res.json({   
+            success: true,   
+            output: result   
+        });   
+   
+    } catch (err) {   
+   
+        res.status(500).json({   
+            error: err.message   
+        });   
+   
+    }   
+   
+});   
+            </code></pre>   
+   
+            <p>   
+                Quando essa rota é chamada, o Express   
+                executa a função   
+                <code>runCommercePython()</code>,   
+                recupera a saída do script Python e   
+                retorna o resultado ao cliente.   
+            </p>   
+   
+   
+        </section>   
+   
+   
+        <!-- =================================================   
+             8. RESULTADOS   
+        ================================================== -->   
+   
+        <section   
+            id="resultats"   
+            class="documentation-section"   
+        >   
+   
+            <h2>8. Resultados do projeto</h2>   
+   
+            <p>   
+                O projeto implementa um processo completo que vai   
+                desde a coleta de dados até sua análise   
+                e sua utilização em um modelo preditivo.   
+            </p>   
+   
+            <h3>Arquitetura geral</h3>   
+   
+            <pre><code>   
+             Jumia / MG   
+                  ↓   
+            Web Scraping   
+                  ↓   
+               Python   
+                  ↓   
+       Limpeza / Transformação   
+                  ↓   
+            Staging Area   
+                  ↓   
+               Talend   
+                  ↓   
+          Data Warehouse   
+                  ↓   
+              Power BI   
+                  ↓   
+          Análise / Dashboard   
+                  ↓   
+       Modelo XGBoost   
+                  ↓   
+              MG.pkl   
+                  ↓   
+           commerce.py   
+                  ↓   
+            Node.js   
+                  ↓   
+             Express   
+                  ↓   
+             Predição   
+            </code></pre>   
+   
+            <p>   
+                Essa arquitetura permite combinar   
+                Business Intelligence e Machine Learning   
+                dentro de um mesmo projeto.   
+            </p>   
+   
+            <p>   
+                O Power BI permite explorar e visualizar   
+                os dados, enquanto o modelo de Machine   
+                Learning permite gerar predições   
+                com base nas variáveis utilizadas pelo modelo.   
+            </p>   
+   
+        </section>   
+   
+   
+    </main>   
+   
+   
+    <!-- =====================================================   
+         RODAPÉ   
+    ====================================================== -->   
+   
+    <footer class="documentation-footer">   
+   
+        <p>   
+            Dashboard 1 — Jumia & MG   
+        </p>   
+   
+    </footer>   
+   
+   
+    <!-- =====================================================   
+         JAVASCRIPT   
+    ====================================================== -->   
+   
+    <script src="../script.js"></script>   
+   
+</body>   
+   
+</html>

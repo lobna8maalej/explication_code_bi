@@ -1,0 +1,2501 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+name="description"
+content="Technical documentation for the integration of Python, Node.js, Express and MySQL for Parapharmacy prediction models."
+
+>
+
+<title>
+    Documentation — Parapharmacy Prediction
+</title>
+
+<!-- =====================================================
+     CSS LINK
+====================================================== -->
+
+<link rel="stylesheet" href="parapharma.css">
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     NAVIGATION
+====================================================== -->
+
+<header class="navbar">
+
+```
+<div class="nav-container">
+
+    <div class="logo">
+        🧴 Parapharmacy ML
+    </div>
+
+    <nav>
+
+        <a href="#presentation">
+            Overview
+        </a>
+
+        <a href="#pickle">
+            PKL Models
+        </a>
+
+        <a href="#node">
+            Node.js
+        </a>
+
+        <a href="#service">
+            Service
+        </a>
+
+        <a href="#route">
+            API Route
+        </a>
+
+        <a href="#mysql">
+            MySQL
+        </a>
+
+        <a href="#architecture">
+            Architecture
+        </a>
+
+        <a href="#vente">
+            Business Presentation
+        </a>
+
+    </nav>
+
+</div>
+```
+
+</header>
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+```
+<div class="hero-content">
+
+    <span class="badge">
+        Technical Documentation
+    </span>
+
+    <h1>
+        Prediction System
+        <span>
+            Parapharmacy
+        </span>
+    </h1>
+
+    <p>
+        Integration of Python models saved as PKL files
+        with a Node.js / Express API and a MySQL database.
+    </p>
+
+    <a
+        href="#presentation"
+        class="hero-button"
+    >
+        Start Documentation
+    </a>
+
+</div>
+```
+
+</section>
+
+<!-- =====================================================
+     MAIN CONTENT
+====================================================== -->
+
+<main class="container">
+
+```
+<!-- =====================================================
+     01 — OVERVIEW
+====================================================== -->
+
+<section
+    id="presentation"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        01
+    </div>
+
+    <h2>
+        General Overview
+    </h2>
+
+    <p>
+        This module presents an architecture for
+        integrating data or Machine Learning models into
+        a Web application developed with Node.js and
+        Express, with MySQL used as the storage system
+        for the results. In this parapharmacy project,
+        two Python files in PKL format are generated:
+        <strong>biodream.pkl</strong> and
+        <strong>bonheur.pkl</strong>. These files
+        represent objects that are saved using the
+        Python <strong>pickle</strong> library.
+
+        The Node.js backend then uses Express to expose
+        an API accessible from the frontend. When a
+        request is sent to <strong>/parapharma</strong>,
+        Express calls a dedicated route. This route then
+        uses the <strong>parapharmaservice.js</strong>
+        service to produce real values and predicted
+        values.
+
+        The results are then stored in the MySQL database,
+        particularly in the <strong>gb_model1</strong>
+        table.
+
+        The objective of this architecture is therefore
+        to separate the different responsibilities:
+        models and processing are handled on the Python
+        side, Node.js manages backend logic and API
+        communication, Express organizes HTTP routes,
+        MySQL stores the results, and the frontend can
+        then use this data to display charts,
+        indicators, or dashboards.
+    </p>
+
+
+    <div class="flow">
+
+        <div class="flow-item">
+            <span>
+                01
+            </span>
+            Data
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>
+                02
+            </span>
+            Service
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>
+                03
+            </span>
+            Predictions
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>
+                04
+            </span>
+            Node.js
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>
+                05
+            </span>
+            MySQL
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>
+                06
+            </span>
+            Dashboard
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     02 — PICKLE MODELS
+====================================================== -->
+
+<section
+    id="pickle"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        02
+    </div>
+
+    <h2>
+        PKL File Generation
+    </h2>
+
+    <p>
+        The first part of the project concerns saving
+        objects into <strong>.pkl</strong> files. The
+        Python module uses the <strong>pickle</strong>
+        library.
+
+        This library allows a Python object to be
+        serialized, meaning that the object is transformed
+        into a format that can be stored in a file and
+        loaded again later.
+
+        In the provided code, a function called
+        <strong>save_pickle()</strong> is created to
+        centralize this saving operation.
+
+        The function receives two parameters: the object
+        to be saved and the file name. The file is opened
+        using the <strong>wb</strong> mode, which means
+        "write binary", and then
+        <strong>pickle.dump()</strong> saves the object
+        into the file.
+
+        The program then creates two objects:
+        <strong>data_biodream</strong> and
+        <strong>data_bonheur</strong>.
+
+        The first contains a score of 0.92 and the type
+        "biodream_model", while the second contains a
+        score of 0.88 and the type "bonheur_model".
+
+        These objects are then saved into
+        <strong>biodream.pkl</strong> and
+        <strong>bonheur.pkl</strong>.
+
+        It is important to specify that, in the provided
+        code, these PKL files currently contain Python
+        demonstration dictionaries rather than a Machine
+        Learning model trained with a library such as
+        Scikit-learn.
+
+        However, the architecture can use the same logic
+        with a real trained model.
+    </p>
+
+
+    <h3>
+        Python Code
+    </h3>
+
+    <div class="code-header">
+
+        <span>
+            📄 PKL model generation
+        </span>
+
+        <button class="copy-button">
+            Copy
+        </button>
+
+    </div>
+
+
+    <pre><code>import pickle
+```
+
+def save_pickle(objet, nom_fichier):
+
+with open(nom_fichier, 'wb') as f:
+
+```
+pickle.dump(objet, f)
+```
+
+print(f"✔ Saved to {nom_fichier}")
+
+# ======================
+
+# YOUR TWO MODELS
+
+# ======================
+
+data_biodream = {
+
+"score": 0.92,
+
+"type": "biodream_model"
+
+}
+
+data_bonheur = {
+
+"score": 0.88,
+
+"type": "bonheur_model"
+
+}
+
+# ======================
+
+# SAVE PKL
+
+# ======================
+
+save_pickle(
+
+data_biodream,
+
+"biodream.pkl"
+
+)
+
+save_pickle(
+
+data_bonheur,
+
+"bonheur.pkl"
+
+)
+
+print("DONE PKL GENERATION")</code></pre>
+
+```
+    <h3>
+        Importing pickle
+    </h3>
+
+
+    <pre><code>import pickle</code></pre>
+
+
+    <p>
+        The instruction <strong>import pickle</strong>
+        imports the Python library used to save and
+        reload Python objects.
+
+        In this project, it is used to create the
+        <strong>biodream.pkl</strong> and
+        <strong>bonheur.pkl</strong> files.
+    </p>
+
+
+    <h3>
+        save_pickle() Function
+    </h3>
+
+
+    <pre><code>def save_pickle(objet, nom_fichier):
+```
+
+with open(nom_fichier, 'wb') as f:
+
+```
+pickle.dump(objet, f)
+```
+
+print(f"✔ Saved to {nom_fichier}")</code></pre>
+
+```
+    <p>
+        The <strong>save_pickle()</strong> function
+        makes the saving operation reusable.
+
+        It receives the Python object through the
+        <strong>objet</strong> parameter and the file
+        name through <strong>nom_fichier</strong>.
+
+        The file is opened using <strong>open()</strong>
+        with the <strong>wb</strong> mode.
+
+        The "w" means writing and the "b" means binary.
+
+        Then, <strong>pickle.dump()</strong> writes the
+        object into the file.
+
+        Finally, a message is displayed in the console
+        to confirm that the object has been saved.
+    </p>
+
+
+    <h3>
+        BioDream Model
+    </h3>
+
+
+    <pre><code>data_biodream = {
+```
+
+"score": 0.92,
+
+"type": "biodream_model"
+
+}</code></pre>
+
+```
+    <p>
+        The <strong>data_biodream</strong> object
+        contains two pieces of information.
+
+        The <strong>score</strong> property contains
+        the value 0.92, while the <strong>type</strong>
+        property indicates that it is the model
+        associated with BioDream.
+
+        This object is then saved under the name
+        <strong>biodream.pkl</strong>.
+    </p>
+
+
+    <h3>
+        Bonheur Model
+    </h3>
+
+
+    <pre><code>data_bonheur = {
+```
+
+"score": 0.88,
+
+"type": "bonheur_model"
+
+}</code></pre>
+
+```
+    <p>
+        The second object is
+        <strong>data_bonheur</strong>.
+
+        It also contains a score and a type.
+
+        It is saved into the
+        <strong>bonheur.pkl</strong> file.
+
+        The principle is therefore to store the objects
+        in files that can be used later.
+    </p>
+
+
+    <div class="highlight">
+
+        biodream.pkl → BioDream model / object
+
+        <br>
+
+        bonheur.pkl → Bonheur model / object
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     03 — NODE SERVER
+====================================================== -->
+
+<section
+    id="node"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        03
+    </div>
+
+
+    <h2>
+        Node.js Server with Express
+    </h2>
+
+
+    <p>
+        The second part of the system concerns the
+        Node.js backend.
+
+        Node.js is the JavaScript runtime environment
+        used on the server side.
+
+        Express is used as the framework for creating
+        the API.
+
+        The server first imports Express using
+        <strong>require("express")</strong>, then
+        creates an application with
+        <strong>express()</strong>.
+
+        The instruction
+        <strong>app.use(express.json())</strong>
+        allows the server to process requests containing
+        data in JSON format.
+
+        Next, the routes for the parapharmacy module are
+        imported from
+        <strong>./Routes/parapharmaRoute</strong>.
+
+        The line
+        <strong>app.use("/parapharma",
+        parapharmaRoutes)</strong>
+        associates these routes with the
+        <strong>/parapharma</strong> prefix.
+
+        Finally, the server listens on port 3000.
+
+        This means that the API can be accessed from
+        <strong>http://localhost:3000</strong> and that
+        the main module route is available through
+        <strong>GET /parapharma</strong>.
+    </p>
+
+
+    <div class="code-header">
+
+        <span>
+            📄 server.js
+        </span>
+
+        <button class="copy-button">
+            Copy
+        </button>
+
+    </div>
+
+
+    <pre><code>const express = require("express");
+```
+
+const app = express();
+
+app.use(express.json());
+
+const parapharmaRoutes =
+require("./Routes/parapharmaRoute");
+
+app.use(
+"/parapharma",
+parapharmaRoutes
+);
+
+// START SERVER
+
+const PORT = 3000;
+
+app.listen(PORT, () => {
+
+console.log(
+`🚀 Server running on port ${PORT}`
+);
+
+});</code></pre>
+
+```
+    <h3>
+        Creating the Express Application
+    </h3>
+
+
+    <pre><code>const express = require("express");
+```
+
+const app = express();</code></pre>
+
+```
+    <p>
+        The first instruction imports Express.
+
+        The second creates the Express application.
+
+        This application becomes the core of the backend
+        and allows HTTP requests to be handled.
+    </p>
+
+
+    <h3>
+        JSON Middleware
+    </h3>
+
+
+    <pre><code>app.use(express.json());</code></pre>
+
+
+    <p>
+        This middleware allows Express to read data sent
+        in JSON format.
+
+        It is particularly useful when a frontend
+        communicates with the API.
+    </p>
+
+
+    <h3>
+        Parapharmacy Route
+    </h3>
+
+
+    <pre><code>const parapharmaRoutes =
+```
+
+require("./Routes/parapharmaRoute");
+
+app.use(
+"/parapharma",
+parapharmaRoutes
+);</code></pre>
+
+```
+    <p>
+        The file containing the parapharmacy routes is
+        imported and then connected to the server using
+        the <strong>/parapharma</strong> prefix.
+
+        This keeps the architecture organized by
+        separating the main server from the route logic.
+    </p>
+
+
+    <h3>
+        Starting the Server
+    </h3>
+
+
+    <pre><code>const PORT = 3000;
+```
+
+app.listen(PORT, () => {
+
+console.log(
+`🚀 Server running on port ${PORT}`
+);
+
+});</code></pre>
+
+```
+    <p>
+        The server is configured to listen on port 3000.
+
+        Once started, Node.js displays a message in the
+        console indicating that the server is running.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     04 — SERVICE
+====================================================== -->
+
+<section
+    id="service"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        04
+    </div>
+
+
+    <h2>
+        Prediction Service
+    </h2>
+
+
+    <p>
+        The <strong>parapharmaservice.js</strong> file
+        contains the <strong>trainModels()</strong>
+        function.
+
+        This function represents the service layer of
+        the backend.
+
+        Its role is to prepare the data and produce the
+        predictions that will then be sent to the Express
+        route.
+
+        The <strong>X</strong> array contains the input
+        values 1, 2, 3, 4 and 5.
+
+        The <strong>y</strong> array contains the real
+        values 100, 200, 300, 400 and 500.
+
+        The <strong>map()</strong> method then iterates
+        through each value of X and applies the rule
+        <strong>v * 100</strong>.
+
+        The result is stored in the
+        <strong>predictions</strong> array.
+
+        Therefore, for 1 the prediction is 100, for 2
+        it is 200, for 3 it is 300, for 4 it is 400 and
+        for 5 it is 500.
+
+        The function then returns an object containing
+        <strong>success</strong> and a
+        <strong>data</strong> object containing X, y and
+        predictions.
+
+        It is important to specify that this function
+        does not currently perform actual Machine
+        Learning model training.
+
+        It simulates a prediction using a simple
+        mathematical formula.
+
+        In an advanced version, this function could call
+        a real trained model or a Python service
+        responsible for performing the prediction.
+    </p>
+
+
+    <div class="code-header">
+
+        <span>
+            📄 parapharmaservice.js
+        </span>
+
+        <button class="copy-button">
+            Copy
+        </button>
+
+    </div>
+
+
+    <pre><code>async function trainModels() {
+```
+
+const X = [
+
+```
+1,
+
+2,
+
+3,
+
+4,
+
+5
+```
+
+];
+
+const y = [
+
+```
+100,
+
+200,
+
+300,
+
+400,
+
+500
+```
+
+];
+
+const predictions =
+
+```
+X.map(v => v * 100);
+```
+
+return {
+
+```
+success: true,
+
+data: {
+
+    X,
+
+    y,
+
+    predictions
+
+}
+```
+
+};
+
+}
+
+module.exports = {
+
+trainModels
+
+};</code></pre>
+
+```
+    <h3>
+        X Data
+    </h3>
+
+
+    <pre><code>const X = [1, 2, 3, 4, 5];</code></pre>
+
+
+    <p>
+        The <strong>X</strong> array represents the
+        input values used to produce the predictions.
+    </p>
+
+
+    <h3>
+        Real Values y
+    </h3>
+
+
+    <pre><code>const y = [
+```
+
+100,
+
+200,
+
+300,
+
+400,
+
+500
+
+];</code></pre>
+
+```
+    <p>
+        The <strong>y</strong> array contains the real
+        values corresponding to the different
+        observations.
+
+        They can be compared with the predictions in
+        order to evaluate the difference between the
+        real value and the predicted value.
+    </p>
+
+
+    <h3>
+        Prediction Calculation
+    </h3>
+
+
+    <pre><code>const predictions =
+```
+
+X.map(v => v * 100);</code></pre>
+
+```
+    <p>
+        The <strong>map()</strong> method iterates through
+        each value in the X array.
+
+        For each value, it applies the formula
+        <strong>v * 100</strong>.
+
+        The resulting array therefore contains the
+        predicted values.
+    </p>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    X
+                </th>
+
+                <th>
+                    Real Value
+                </th>
+
+                <th>
+                    Prediction
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    1
+                </td>
+
+                <td>
+                    100
+                </td>
+
+                <td>
+                    100
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    2
+                </td>
+
+                <td>
+                    200
+                </td>
+
+                <td>
+                    200
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    3
+                </td>
+
+                <td>
+                    300
+                </td>
+
+                <td>
+                    300
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    4
+                </td>
+
+                <td>
+                    400
+                </td>
+
+                <td>
+                    400
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    5
+                </td>
+
+                <td>
+                    500
+                </td>
+
+                <td>
+                    500
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+
+    <div class="warning-box">
+
+        <strong>
+            Important:
+        </strong>
+
+        <p>
+            In the current version of the code,
+            <strong>trainModels()</strong> does not
+            actually perform Machine Learning training.
+
+            The predictions are calculated directly using
+            the <strong>v * 100</strong> rule.
+
+            The <strong>biodream.pkl</strong> and
+            <strong>bonheur.pkl</strong> files are also
+            currently saved Python objects rather than
+            trained models.
+
+            However, this architecture can serve as a
+            foundation for integrating a real predictive
+            model later.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     05 — API ROUTE
+====================================================== -->
+
+<section
+    id="route"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        05
+    </div>
+
+
+    <h2>
+        Express Route and Result Processing
+    </h2>
+
+
+    <p>
+        The <strong>parapharmaRoute.js</strong> file
+        serves as the coordination point between the
+        prediction service and the MySQL database.
+
+        The route uses <strong>router.get("/")</strong>,
+        which means that when a client calls
+        <strong>GET /parapharma</strong>, this function
+        is executed.
+
+        The first step is to open a MySQL connection
+        using <strong>getConnection()</strong>.
+
+        The second step is to call
+        <strong>trainModels()</strong>.
+
+        The returned result contains the real values and
+        the predictions.
+
+        The code therefore retrieves
+        <strong>result.data.y</strong> into the
+        <strong>real</strong> variable and
+        <strong>result.data.predictions</strong> into the
+        <strong>pred</strong> variable.
+
+        Then, <strong>Math.min()</strong> determines the
+        number of elements shared by the two arrays.
+
+        A <strong>for</strong> loop then iterates through
+        the values and uses
+        <strong>connection.execute()</strong> to insert
+        each real value / prediction pair into the
+        <strong>gb_model1</strong> table.
+
+        After the insertion, Express returns a JSON
+        response containing a success message, the number
+        of inserted rows and the real values associated
+        with their predictions.
+
+        The route therefore represents the connection
+        between the calculation service and the database.
+    </p>
+
+
+    <div class="code-header">
+
+        <span>
+            📄 parapharmaRoute.js
+        </span>
+
+        <button class="copy-button">
+            Copy
+        </button>
+
+    </div>
+
+
+    <pre><code>const express = require("express");
+```
+
+const router = express.Router();
+
+const {
+getConnection
+} = require("../DBMysql/parapharmadb");
+
+const {
+trainModels
+} = require("../service/parapharmaservice");
+
+router.get("/", async (req, res) => {
+
+let connection;
+
+try {
+
+```
+connection =
+    await getConnection();
+
+const result =
+    await trainModels();
+
+const real =
+    result.data.y;
+
+const pred =
+    result.data.predictions;
+
+const length =
+    Math.min(
+        real.length,
+        pred.length
+    );
+
+for (
+
+    let i = 0;
+
+    i < length;
+
+    i++
+
+) {
+
+    await connection.execute(
+
+        `INSERT INTO gb_model1
+        (real_value, prediction)
+        VALUES (?, ?)`,
+
+        [
+            real[i],
+            pred[i]
+        ]
+
+    );
+
+}
+
+res.status(200).json({
+
+    message:
+        "Model trained and saved",
+
+    rowsInserted:
+        length,
+
+    data:
+        real.map((r, i) => ({
+
+            real: r,
+
+            prediction:
+                pred[i]
+
+        }))
+
+});
+```
+
+} catch (err) {
+
+```
+res.status(500).json({
+
+    error:
+        err.message
+
+});
+```
+
+} finally {
+
+```
+if (connection) {
+
+    await connection.end();
+
+}
+```
+
+}
+
+});
+
+module.exports = router;</code></pre>
+
+```
+    <h3>
+        Creating the Router
+    </h3>
+
+
+    <pre><code>const router = express.Router();</code></pre>
+
+
+    <p>
+        This instruction creates an Express router.
+
+        The router allows the application's endpoints
+        to be organized in a separate file.
+    </p>
+
+
+    <h3>
+        Importing the MySQL Connection
+    </h3>
+
+
+    <pre><code>const {
+```
+
+getConnection
+} = require("../DBMysql/parapharmadb");</code></pre>
+
+```
+    <p>
+        This instruction imports the
+        <strong>getConnection()</strong> function,
+        which allows a connection to the MySQL database
+        to be opened.
+    </p>
+
+
+    <h3>
+        Importing the Service
+    </h3>
+
+
+    <pre><code>const {
+```
+
+trainModels
+} = require("../service/parapharmaservice");</code></pre>
+
+```
+    <p>
+        The router imports the
+        <strong>trainModels()</strong> function.
+
+        The route can therefore ask the service to
+        calculate the predictions.
+    </p>
+
+
+    <h3>
+        GET Endpoint
+    </h3>
+
+
+    <pre><code>router.get("/", async (req, res) => {</code></pre>
+
+
+    <p>
+        Since the main server uses
+        <strong>app.use("/parapharma",
+        parapharmaRoutes)</strong>, this route becomes:
+    </p>
+
+
+    <div class="endpoint">
+        GET http://localhost:3000/parapharma
+    </div>
+
+
+    <h3>
+        Retrieving the Data
+    </h3>
+
+
+    <pre><code>const real = result.data.y;
+```
+
+const pred =
+result.data.predictions;</code></pre>
+
+```
+    <p>
+        The real values are retrieved into
+        <strong>real</strong>, while the predicted
+        values are retrieved into
+        <strong>pred</strong>.
+
+        These two arrays are then compared and stored
+        in MySQL.
+    </p>
+
+
+    <h3>
+        Checking the Length
+    </h3>
+
+
+    <pre><code>const length = Math.min(
+```
+
+real.length,
+
+pred.length
+
+);</code></pre>
+
+```
+    <p>
+        This instruction takes the smallest length
+        between the two arrays.
+
+        This prevents the code from iterating beyond
+        the limits of an array if the two arrays do not
+        have exactly the same size.
+    </p>
+
+
+    <h3>
+        Inserting into MySQL
+    </h3>
+
+
+    <pre><code>await connection.execute(
+```
+
+`INSERT INTO gb_model1
+(real_value, prediction)
+VALUES (?, ?)`,
+
+[
+
+```
+real[i],
+
+pred[i]
+```
+
+]
+
+);</code></pre>
+
+```
+    <p>
+        Each real value and its associated prediction
+        are inserted into the
+        <strong>gb_model1</strong> table.
+
+        The <strong>?</strong> parameters are replaced
+        by the values provided in the following array.
+
+        This method allows the use of a parameterized
+        query instead of directly building the SQL query
+        with the values.
+    </p>
+
+
+    <h3>
+        API Response
+    </h3>
+
+
+    <pre><code>res.status(200).json({
+```
+
+message:
+
+```
+"Model trained and saved",
+```
+
+rowsInserted:
+
+```
+length,
+```
+
+data:
+
+```
+real.map((r, i) => ({
+
+    real: r,
+
+    prediction:
+
+        pred[i]
+
+}))
+```
+
+});</code></pre>
+
+```
+    <p>
+        Once the data has been stored, Express returns
+        an HTTP 200 response containing a message, the
+        number of inserted rows and an array associating
+        each real value with its prediction.
+    </p>
+
+
+    <h3>
+        Error Handling
+    </h3>
+
+
+    <pre><code>catch (err) {
+```
+
+res.status(500).json({
+
+```
+error:
+
+    err.message
+```
+
+});
+
+}</code></pre>
+
+```
+    <p>
+        If an error occurs during the MySQL connection,
+        calculation or data insertion, the
+        <strong>catch</strong> block captures the error
+        and returns an HTTP 500 response.
+    </p>
+
+
+    <h3>
+        Closing the Connection
+    </h3>
+
+
+    <pre><code>finally {
+```
+
+if (connection) {
+
+```
+await connection.end();
+```
+
+}
+
+}</code></pre>
+
+```
+    <p>
+        The <strong>finally</strong> block is executed
+        at the end of the process.
+
+        It closes the MySQL connection if it was
+        successfully created.
+
+        This allows the server to properly release the
+        resources being used.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     06 — MYSQL
+====================================================== -->
+
+<section
+    id="mysql"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        06
+    </div>
+
+
+    <h2>
+        MySQL Connection
+    </h2>
+
+
+    <p>
+        The <strong>parapharmadb.js</strong> file is
+        responsible for the connection between Node.js
+        and MySQL.
+
+        It uses the <strong>mysql2/promise</strong>
+        module, which allows the application to work
+        with Promises and therefore with
+        <strong>async / await</strong>.
+
+        The configuration contains the local MySQL
+        server, the user, the password and the database
+        name.
+
+        In this project, the database used is
+        <strong>POWERBI_PREDICTION</strong>.
+
+        The <strong>getConnection()</strong> function
+        uses this configuration to create a connection.
+
+        This function is then exported so that the
+        Express route can use it.
+    </p>
+
+
+    <div class="code-header">
+
+        <span>
+            📄 parapharmadb.js
+        </span>
+
+        <button class="copy-button">
+            Copy
+        </button>
+
+    </div>
+
+
+    <pre><code>const mysql =
+```
+
+require("mysql2/promise");
+
+const dbConfig = {
+
+host: "localhost",
+
+user: "root",
+
+password: "",
+
+database:
+"POWERBI_PREDICTION"
+
+};
+
+async function getConnection() {
+
+return await mysql.createConnection(
+
+```
+dbConfig
+```
+
+);
+
+}
+
+module.exports = {
+
+getConnection
+
+};</code></pre>
+
+```
+    <h3>
+        Database Configuration
+    </h3>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Parameter
+                </th>
+
+                <th>
+                    Value
+                </th>
+
+                <th>
+                    Function
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    host
+                </td>
+
+                <td>
+                    localhost
+                </td>
+
+                <td>
+                    Local MySQL server
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    user
+                </td>
+
+                <td>
+                    root
+                </td>
+
+                <td>
+                    MySQL user
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    password
+                </td>
+
+                <td>
+                    empty
+                </td>
+
+                <td>
+                    Development password
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    database
+                </td>
+
+                <td>
+                    POWERBI_PREDICTION
+                </td>
+
+                <td>
+                    Database used by the project
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+
+    <h3>
+        getConnection() Function
+    </h3>
+
+
+    <pre><code>async function getConnection() {
+```
+
+return await mysql.createConnection(
+
+```
+dbConfig
+```
+
+);
+
+}</code></pre>
+
+```
+    <p>
+        The <strong>getConnection()</strong> function
+        creates a MySQL connection using the configuration
+        defined in <strong>dbConfig</strong>.
+
+        The use of <strong>async</strong> and
+        <strong>await</strong> allows the application to
+        wait for the connection to be created before
+        continuing the process.
+    </p>
+
+
+    <div class="highlight">
+
+        Database:
+        <strong>
+            POWERBI_PREDICTION
+        </strong>
+
+        <br>
+
+        Table:
+        <strong>
+            gb_model1
+        </strong>
+
+        <br>
+
+        Columns:
+        <strong>
+            real_value
+        </strong>
+
+        and
+        <strong>
+            prediction
+        </strong>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     07 — ARCHITECTURE
+====================================================== -->
+
+<section
+    id="architecture"
+    class="documentation-section"
+>
+
+    <div class="section-number">
+        07
+    </div>
+
+
+    <h2>
+        Complete Architecture
+    </h2>
+
+
+    <p>
+        The complete architecture works as a processing
+        chain.
+
+        The frontend or dashboard calls the Node.js API
+        through the <strong>/parapharma</strong>
+        endpoint.
+
+        Express receives this request and executes the
+        route defined in
+        <strong>parapharmaRoute.js</strong>.
+
+        The route opens a connection to MySQL and then
+        calls <strong>trainModels()</strong>.
+
+        The service prepares the X and y data and
+        calculates the predictions.
+
+        The real and predicted values are then retrieved
+        by the route.
+
+        For each observation, Node.js executes an SQL
+        query to store the real value and the prediction
+        in <strong>gb_model1</strong>.
+
+        Once all rows have been stored, Express returns
+        a JSON response to the frontend.
+
+        The dashboard can then retrieve this data from
+        the API and display it as charts or indicators.
+
+        The <strong>biodream.pkl</strong> and
+        <strong>bonheur.pkl</strong> files belong to the
+        Python layer responsible for saving objects and
+        can later be used as a foundation for integrating
+        real predictive models.
+    </p>
+
+
+    <div class="architecture">
+
+
+        <div class="architecture-box frontend">
+
+            <strong>
+                Frontend / Dashboard
+            </strong>
+
+            <small>
+                User Interface
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ HTTP
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Node.js
+            </strong>
+
+            <small>
+                Backend
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Express
+            </strong>
+
+            <small>
+                API
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                /parapharma
+            </strong>
+
+            <small>
+                GET Route
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                trainModels()
+            </strong>
+
+            <small>
+                Service
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box python">
+
+            <strong>
+                Python / PKL
+            </strong>
+
+            <small>
+                biodream.pkl / bonheur.pkl
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Predictions
+            </strong>
+
+            <small>
+                real / prediction
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ INSERT
+        </div>
+
+
+        <div class="architecture-box mysql">
+
+            <strong>
+                MySQL
+            </strong>
+
+            <small>
+                gb_model1
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Dashboard
+            </strong>
+
+            <small>
+                Visualization
+            </small>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     08 — TECHNOLOGY ROLES
+====================================================== -->
+
+<section class="documentation-section">
+
+    <div class="section-number">
+        08
+    </div>
+
+
+    <h2>
+        Role of the Technologies
+    </h2>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Technology
+                </th>
+
+                <th>
+                    Role
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    Python
+                </td>
+
+                <td>
+                    Creation and storage of objects
+                    or models
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    pickle
+                </td>
+
+                <td>
+                    Serialization of objects into
+                    PKL files
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    biodream.pkl
+                </td>
+
+                <td>
+                    Object / model associated with BioDream
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    bonheur.pkl
+                </td>
+
+                <td>
+                    Object / model associated with Bonheur
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Node.js
+                </td>
+
+                <td>
+                    Application backend
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Express
+                </td>
+
+                <td>
+                    API creation and management
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    mysql2
+                </td>
+
+                <td>
+                    Communication between Node.js and MySQL
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    MySQL
+                </td>
+
+                <td>
+                    Storage of real values and predictions
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Dashboard
+                </td>
+
+                <td>
+                    Visualization and use of results
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- =====================================================
+     09 — BUSINESS EXPLANATION
+====================================================== -->
+
+<section
+    id="vente"
+    class="documentation-section commercial"
+>
+
+    <div class="section-number">
+        09
+    </div>
+
+
+    <h2>
+        Explanation to Give During a Sales Presentation
+    </h2>
+
+
+    <p>
+        During a business presentation, it is not
+        necessary to present every line of code to the
+        client.
+
+        The main objective is to explain how the system
+        works and the value it provides.
+
+        You can explain that the parapharmacy module uses
+        an architecture divided into several layers.
+
+        Data and models are prepared on the Python side
+        and can be saved as PKL files.
+
+        In this version, two objects are saved:
+        <strong>biodream.pkl</strong> and
+        <strong>bonheur.pkl</strong>.
+
+        The Node.js backend then uses Express to expose
+        an API.
+
+        When the frontend requests the results through
+        <strong>/parapharma</strong>, Express executes
+        the corresponding route.
+
+        This route calls the
+        <strong>trainModels()</strong> service, which
+        prepares the data and calculates the predictions.
+
+        The results are then compared with the real
+        values and stored in MySQL in the
+        <strong>gb_model1</strong> table.
+
+        Once the processing is complete, the API returns
+        the data to the frontend in JSON format.
+
+        The dashboard can then use this information to
+        create charts and indicators that help visualize
+        model performance.
+
+        The main advantage of this architecture is the
+        separation of responsibilities:
+
+        Python is used for the model and processing,
+        Node.js and Express handle backend communication,
+        MySQL stores the results, and the frontend
+        provides visualization.
+
+        This organization allows the project to gradually
+        evolve into a real predictive system by replacing
+        the current simulation with a genuinely trained
+        Machine Learning model.
+    </p>
+
+
+    <div class="presentation-script">
+
+        <h3>
+            🎤 Example of an Oral Explanation
+        </h3>
+
+
+        <p>
+            "In this part of the project, I implemented
+            a prediction architecture for the
+            parapharmacy sector.
+
+            The system is organized around several
+            technologies that communicate with each other.
+        </p>
+
+
+        <p>
+            First, we have Python, which allows us to
+            save objects or models as PKL files.
+
+            In our example, we have two files:
+            <strong>biodream.pkl</strong> and
+            <strong>bonheur.pkl</strong>.
+        </p>
+
+
+        <p>
+            Then, we have Node.js and Express, which form
+            the backend.
+
+            Express exposes an API through the
+            <strong>/parapharma</strong> route.
+
+            When this route is called, it triggers the
+            prediction service.
+        </p>
+
+
+        <p>
+            The service prepares the real data and the
+            predictions.
+
+            In this demonstration version, the prediction
+            is calculated using a simple rule.
+
+            In a final version, this part can be replaced
+            by a real trained Machine Learning model.
+        </p>
+
+
+        <p>
+            Once the results are obtained, Node.js
+            retrieves them and stores them in MySQL.
+
+            Each real value is associated with its
+            predicted value in the
+            <strong>gb_model1</strong> table.
+        </p>
+
+
+        <p>
+            Finally, the API returns the results to the
+            frontend in JSON format.
+
+            The dashboard can then use this data to
+            display charts, compare real and predicted
+            values and provide decision-making insights
+            to the user.
+        </p>
+
+
+        <p>
+            The advantage of this architecture is that
+            each technology has a specific role.
+
+            Python handles the models, Node.js and
+            Express handle the API, MySQL handles storage,
+            and the frontend handles visualization.
+
+            The system is therefore organized, scalable
+            and can be adapted to real predictive models
+            in a professional version."
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     10 — FINAL FLOW
+====================================================== -->
+
+<section class="documentation-section conclusion">
+
+    <div class="section-number">
+        10
+    </div>
+
+
+    <h2>
+        Conclusion
+    </h2>
+
+
+    <p>
+        This module provides a complete architecture for
+        connecting model preparation, the backend, the
+        API and the database.
+
+        PKL files allow Python objects to be saved, while
+        Node.js and Express provide access to the
+        functionality from a Web application.
+
+        The prediction service produces the required
+        values, and the Express route then stores them
+        in MySQL.
+
+        The results can then be used by a dashboard.
+
+        The complete chain can therefore be represented
+        as:
+
+        <strong>
+            Data → Prediction Service →
+            Node.js → Express → MySQL → Dashboard
+        </strong>.
+
+        In a future version, the calculation currently
+        simulated inside <strong>trainModels()</strong>
+        can be replaced with a real Machine Learning
+        model trained on real data.
+
+        The PKL files can then contain the trained models,
+        and the backend can retrieve the predictions and
+        present them directly in the Web application.
+    </p>
+
+
+    <div class="final-flow">
+
+        <span>
+            Data
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            Model
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            Prediction
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            Node.js
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            Express
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            MySQL
+        </span>
+
+        <b>
+            →
+        </b>
+
+
+        <span>
+            Dashboard
+        </span>
+
+    </div>
+
+
+    <div class="success-box">
+
+        ✔ Organized Architecture
+
+        <br>
+
+        ✔ REST API with Express
+
+        <br>
+
+        ✔ MySQL Storage
+
+        <br>
+
+        ✔ Results Ready for Dashboard Use
+
+        <br>
+
+        ✔ Ability to Integrate a Real
+        Machine Learning Model
+
+    </div>
+
+</section>
+```
+
+</main>
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+```
+<p>
+    Technical Documentation —
+    Parapharmacy Prediction
+</p>
+
+
+<p>
+    Python • Pickle • Node.js • Express • MySQL
+</p>
+```
+
+</footer>
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

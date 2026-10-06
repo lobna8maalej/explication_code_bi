@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+    name="description"
+    content="Documentación técnica del sistema de predicción EduWorld utilizando Python, Machine Learning, Pickle, NumPy, Pandas, Node.js y Express."
+>
+
+<title>
+    Documentación — Predicción EduWorld
+</title>
+
+<!-- =====================================================
+     CONEXIÓN CSS
+====================================================== -->
+
+<link
+    rel="stylesheet"
+    href="etudeEtranger.css"
+>
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     NAVEGACIÓN
+====================================================== -->
+
+<header class="navbar">
+
+<div class="nav-container">
+
+    <div class="logo">
+        🎓 EduWorld ML
+    </div>
+
+    <nav>
+
+        <a href="#presentation">
+            Visión general
+        </a>
+
+        <a href="#python">
+            Python
+        </a>
+
+        <a href="#model">
+            Modelo ML
+        </a>
+
+        <a href="#data">
+            Datos
+        </a>
+
+        <a href="#node">
+            Node.js
+        </a>
+
+        <a href="#route">
+            API
+        </a>
+
+        <a href="#architecture">
+            Arquitectura
+        </a>
+
+        <a href="#technologies">
+            Tecnologías
+        </a>
+
+        <a href="#commercial">
+            Presentación
+        </a>
+
+        <a href="#conclusion">
+            Conclusión
+        </a>
+
+    </nav>
+
+</div>
+
+</header>
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+    <span class="badge">
+        Documentación técnica
+    </span>
+
+    <h1>
+
+        Sistema de Predicción
+
+        <span>
+            EduWorld
+        </span>
+
+    </h1>
+
+    <p>
+
+        Integración de un modelo de Machine Learning
+        desarrollado en Python dentro de una aplicación
+        Web con Node.js / Express diseñada para el análisis
+        y la predicción en el ámbito de los estudios
+        en el extranjero.
+
+    </p>
+
+    <a
+        href="#presentation"
+        class="hero-button"
+    >
+        Iniciar documentación
+    </a>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     CONTENIDO PRINCIPAL
+====================================================== -->
+
+<main class="container">
+
+<!-- =====================================================
+     01 — PRESENTACIÓN
+====================================================== -->
+
+<section
+    id="presentation"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    01
+</div>
+
+<h2>
+    Visión general del sistema
+</h2>
+
+<p>
+
+    Este sistema implementa una arquitectura de predicción
+    basada en Machine Learning diseñada para una aplicación
+    Web relacionada con los estudios en el extranjero.
+    El objetivo es permitir que una aplicación desarrollada
+    con Node.js y Express utilice un modelo de Machine
+    Learning entrenado en Python. El funcionamiento se
+    divide en varias partes con el fin de hacer que la
+    aplicación sea organizada, modular y fácilmente
+    escalable. La primera parte corresponde al modelo de
+    Machine Learning guardado en el archivo
+    <strong>eduworld.pkl</strong>. Este archivo contiene
+    un modelo previamente entrenado que puede ser cargado
+    por Python para producir una predicción sin tener que
+    volver a entrenar el modelo en cada solicitud.
+    La segunda parte corresponde al script de Python
+    <strong>predict.py</strong>. Este script actúa como
+    motor de predicción. Recupera los valores enviados
+    como argumentos desde Node.js, los convierte en
+    números utilizando <strong>float()</strong>, verifica
+    que el número de variables coincida exactamente con
+    el número de características esperado por el modelo,
+    transforma los datos en un array de NumPy y después
+    llama al método <strong>predict()</strong> del modelo
+    cargado. El resultado se envía posteriormente a la
+    salida estándar utilizando <strong>print()</strong>.
+    Otra parte del proyecto también utiliza
+    <strong>Pandas</strong> para crear y manipular datos
+    tabulares. El DataFrame creado con Pandas puede
+    convertirse en objetos JSON para facilitar su uso
+    por parte de una aplicación Web. La tercera parte
+    corresponde al servicio de Node.js
+    <strong>etudeEtranger</strong>. Este servicio utiliza
+    el módulo nativo <strong>child_process</strong>,
+    especialmente la función <strong>spawn()</strong>,
+    para ejecutar el programa Python desde Node.js.
+    Los valores se pasan al script de Python como
+    argumentos de línea de comandos. Node.js escucha
+    <strong>stdout</strong> para recuperar el resultado
+    de Python y <strong>stderr</strong> para recuperar
+    posibles errores. Finalmente, una ruta de Express
+    llamada <strong>/dashboard</strong> utiliza este
+    servicio varias veces con diferentes modos de
+    predicción. Los resultados se agrupan en un array
+    y posteriormente se devuelven al frontend como un
+    objeto JSON. Por lo tanto, la arquitectura completa
+    permite conectar un modelo de Machine Learning de
+    Python con una aplicación Web moderna y centralizar
+    múltiples predicciones en un dashboard.
+
+</p>
+
+
+<div class="flow">
+
+    <div class="flow-item">
+        <span>01</span>
+        Datos
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>02</span>
+        Modelo ML
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>03</span>
+        PKL
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>04</span>
+        Python
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>05</span>
+        Node.js
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>06</span>
+        Express
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>07</span>
+        Dashboard
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     02 — PYTHON
+====================================================== -->
+
+<section
+    id="python"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    02
+</div>
+
+<h2>
+    Script de predicción en Python
+</h2>
+
+<p>
+
+    El archivo <strong>predict.py</strong> representa
+    el núcleo del procesamiento de Machine Learning.
+    Su función es cargar el modelo guardado, recibir
+    los datos enviados por Node.js, validarlos, preparar
+    las variables en formato numérico y posteriormente
+    ejecutar la predicción. El script comienza importando
+    las bibliotecas necesarias. El módulo <strong>sys</strong>
+    proporciona acceso a los argumentos enviados al
+    programa Python desde Node.js. El módulo
+    <strong>os</strong> se utiliza para construir rutas
+    de archivos fiables independientemente del directorio
+    desde el cual se ejecuta el programa. La biblioteca
+    <strong>pickle</strong> permite volver a cargar el
+    modelo de Machine Learning guardado previamente.
+    Finalmente, <strong>numpy</strong> se utiliza para
+    crear el array numérico que será enviado al modelo.
+    Después de las importaciones, el script determina
+    automáticamente el directorio en el que se encuentra
+    utilizando <strong>os.path.abspath(__file__)</strong>
+    y <strong>os.path.dirname()</strong>. A continuación,
+    se construye la ruta hacia <strong>eduworld.pkl</strong>
+    utilizando <strong>os.path.join()</strong>. El archivo
+    se abre en modo binario utilizando <strong>"rb"</strong>
+    y el modelo se carga mediante <strong>pickle.load()</strong>.
+    El modelo queda entonces disponible en memoria y puede
+    utilizarse para realizar una predicción.
+
+</p>
+
+
+<h3>
+    Importación de las bibliotecas
+</h3>
+
+<pre><code>import sys
+
+import os
+import pickle
+import numpy as np</code></pre>
+
+<p>
+
+    <strong>sys</strong> se utiliza para recuperar los
+    argumentos enviados al script de Python.
+    <strong>os</strong> se utiliza para gestionar las
+    rutas de archivos. <strong>pickle</strong> se utiliza
+    para cargar el modelo de Machine Learning guardado
+    en un archivo PKL. Finalmente, <strong>NumPy</strong>
+    se utiliza para transformar los datos recibidos en
+    una estructura numérica compatible con el modelo.
+
+</p>
+
+
+<h3>
+    Determinación del directorio de Python
+</h3>
+
+<pre><code>BASE_DIR = os.path.dirname(
+os.path.abspath(__file__)
+)</code></pre>
+
+<p>
+
+    Esta instrucción determina la ruta absoluta del
+    directorio que contiene el script de Python.
+    <strong>__file__</strong> representa el archivo que
+    se está ejecutando actualmente. <strong>abspath()</strong>
+    transforma su ruta en una ruta absoluta y
+    <strong>dirname()</strong> recupera únicamente el
+    directorio. Este enfoque evita depender del directorio
+    actual desde el cual Node.js ejecuta Python.
+
+</p>
+
+
+<h3>
+    Ubicación del modelo
+</h3>
+
+<pre><code>MODEL_PATH = os.path.join(
+BASE_DIR,
+"eduworld.pkl"
+)</code></pre>
+
+<p>
+
+    La ruta completa del modelo se construye combinando
+    el directorio del script con el nombre de archivo
+    <strong>eduworld.pkl</strong>. De esta manera, el
+    modelo puede cargarse incluso cuando la aplicación
+    se ejecuta desde otra ubicación.
+
+</p>
+
+
+<h3>
+    Carga del modelo
+</h3>
+
+<pre><code>with open(
+MODEL_PATH,
+"rb"
+) as f:
+
+model = pickle.load(f)</code></pre>
+
+<p>
+
+    El archivo PKL se abre en modo de lectura binaria
+    utilizando <strong>"rb"</strong>. La función
+    <strong>pickle.load()</strong> reconstruye el objeto
+    de Machine Learning que se había guardado previamente.
+    El modelo queda entonces disponible en la variable
+    <strong>model</strong>. La ventaja de este enfoque es
+    que un modelo ya entrenado puede reutilizarse
+    directamente en lugar de volver a entrenarlo para
+    cada predicción.
+
+</p>
+
+</section>
+
+<!-- =====================================================
+     03 — ENTRADA Y VALIDACIÓN
+====================================================== -->
+
+<section
+    id="model"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    03
+</div>
+
+<h2>
+    Recepción y validación de variables
+</h2>
+
+<p>
+
+    Una vez cargado el modelo, el script debe recuperar
+    las variables necesarias para realizar la predicción.
+    En esta arquitectura, Node.js envía los valores a
+    Python directamente mediante la línea de comandos.
+    Python puede recuperar estos valores utilizando
+    <strong>sys.argv</strong>. La expresión
+    <strong>sys.argv[1:]</strong> recupera únicamente
+    los argumentos enviados después del nombre del script.
+    La función <strong>map(float, ...)</strong> convierte
+    cada valor recibido en un número decimal. Todo el
+    resultado se convierte posteriormente en una lista
+    mediante <strong>list()</strong>. El bloque
+    <strong>try / except</strong> protege esta operación.
+    Si un valor no puede convertirse en un número,
+    el programa muestra un mensaje de error y utiliza
+    <strong>sys.exit()</strong> para detener su ejecución.
+    Después de esta validación inicial, el programa
+    comprueba el número de variables recibidas.
+    La propiedad <strong>model.n_features_in_</strong>
+    permite determinar el número de características
+    utilizadas por el modelo durante el entrenamiento.
+    Por lo tanto, el script compara el número de valores
+    recibidos con el número de características esperadas.
+    Esta verificación es importante porque un modelo
+    entrenado con cuatro variables no puede recibir
+    arbitrariamente una o cinco variables. Si el número
+    no coincide, el script devuelve un error explícito.
+    Este paso permite asegurar la transferencia de datos
+    entre la aplicación Web y el modelo de Machine Learning.
+
+</p>
+
+
+<h3>
+    Recuperación de argumentos
+</h3>
+
+<pre><code>values = list(
+map(float, sys.argv[1:])
+)</code></pre>
+
+<p>
+
+    <strong>sys.argv</strong> contiene los argumentos
+    enviados al programa Python. La expresión
+    <strong>sys.argv[1:]</strong> ignora el primer
+    elemento, que generalmente corresponde al nombre
+    del script, y recupera los valores reales utilizados
+    para la predicción. Cada valor se convierte en un
+    <strong>float</strong>.
+
+</p>
+
+
+<h3>
+    Gestión de errores de entrada
+</h3>
+
+<pre><code>try:
+
+values = list(
+    map(float, sys.argv[1:])
+)
+
+except:
+
+print(
+    "error: invalid input format"
+)
+
+sys.exit()</code></pre>
+
+<p>
+
+    El bloque <strong>try</strong> intenta convertir
+    los datos. Si un valor no es válido, se ejecuta
+    el bloque <strong>except</strong>. El programa
+    muestra entonces un mensaje indicando que el formato
+    de entrada es incorrecto y detiene el proceso.
+    Esta validación evita enviar datos incompatibles
+    al modelo.
+
+</p>
+
+
+<h3>
+    Número esperado de características
+</h3>
+
+<pre><code>expected_features =
+model.n_features_in_</code></pre>
+
+<p>
+
+    Esta propiedad determina automáticamente el número
+    de variables esperadas por el modelo. Por lo tanto,
+    el script no supone directamente un número fijo de
+    variables: pregunta al modelo cuántas características
+    se utilizaron durante su entrenamiento.
+
+</p>
+
+
+<h3>
+    Validación de características
+</h3>
+
+<pre><code>if len(values) != expected_features:
+
+print(
+    f"error: expected {expected_features} features, got {len(values)}"
+)
+
+sys.exit()</code></pre>
+
+<p>
+
+    El programa compara el número de valores recibidos
+    con el número esperado de variables. Si los dos
+    números son diferentes, se devuelve un error.
+    Esta verificación protege el modelo frente a una
+    estructura de entrada incorrecta.
+
+</p>
+
+</section>
+
+<!-- =====================================================
+     04 — PREDICCIÓN
+====================================================== -->
+
+<section
+    id="data"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    04
+</div>
+
+<h2>
+    Preparación de datos y predicción
+</h2>
+
+<p>
+
+    Después de validar el número de variables, el script
+    prepara los datos para el modelo de Machine Learning.
+    Los valores se transforman en un array de NumPy
+    utilizando <strong>np.array([values])</strong>.
+    Este paso produce una estructura compatible con los
+    modelos de Scikit-learn. La estructura creada representa
+    una observación que contiene varias características.
+    El modelo puede entonces recibir esta observación
+    utilizando el método <strong>predict()</strong>.
+    La instrucción <strong>model.predict(X)</strong>
+    utiliza el modelo previamente cargado con Pickle
+    y aplica los parámetros aprendidos durante su
+    entrenamiento. El resultado generalmente se devuelve
+    como un array de NumPy. Por ello, el código recupera
+    el primer valor utilizando <strong>prediction[0]</strong>.
+    La función <strong>float()</strong> convierte después
+    el resultado en un número estándar de Python para
+    que pueda mostrarse y transmitirse fácilmente a
+    Node.js. Esta parte representa el paso esencial
+    entre los datos numéricos recibidos por la aplicación
+    y el resultado calculado por el modelo de Machine Learning.
+
+</p>
+
+
+<h3>
+    Creación del array de NumPy
+</h3>
+
+<pre><code>X = np.array([
+values
+])</code></pre>
+
+<p>
+
+    NumPy transforma la lista de valores en un array
+    numérico. El uso de <strong>np.array([values])</strong>
+    representa una observación que contiene todas sus
+    características en una estructura adecuada para
+    los modelos de Scikit-learn.
+
+</p>
+
+
+<h3>
+    Cálculo de la predicción
+</h3>
+
+<pre><code>prediction = model.predict(X)</code></pre>
+
+<p>
+
+    El método <strong>predict()</strong> aplica el modelo
+    de Machine Learning a los datos X. El modelo utiliza
+    el conocimiento aprendido durante el entrenamiento
+    para calcular el valor previsto.
+
+</p>
+
+
+<h3>
+    Retorno del resultado
+</h3>
+
+<pre><code>print(
+float(prediction[0])
+)</code></pre>
+
+<p>
+
+    El resultado devuelto por
+    <strong>model.predict()</strong> generalmente se
+    encuentra dentro de un array. El índice <strong>[0]</strong>
+    recupera la primera predicción. La función
+    <strong>float()</strong> convierte este valor en
+    un número estándar de Python. Finalmente,
+    <strong>print()</strong> escribe la predicción en
+    <strong>stdout</strong>. Node.js recupera este valor
+    mediante el proceso hijo.
+
+</p>
+
+
+<div class="highlight">
+
+    <strong>Flujo de Python:</strong>
+
+    Argumentos →
+    Validación →
+    NumPy →
+    Modelo PKL →
+    predict() →
+    Resultado
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     05 — PANDAS
+====================================================== -->
+
+<section class="documentation-section">
+
+<div class="section-number">
+    05
+</div>
+
+<h2>
+    Uso de Pandas y generación de JSON
+</h2>
+
+<p>
+
+    Otra parte del sistema demuestra el uso de la
+    biblioteca <strong>Pandas</strong> para manipular
+    datos tabulares. Pandas se utiliza ampliamente en
+    proyectos de Data Science y Machine Learning para
+    cargar, limpiar, transformar y analizar datos.
+    En este ejemplo, un diccionario de Python contiene
+    dos columnas: <strong>x</strong> y <strong>y</strong>.
+    Los valores son respectivamente 1, 2, 3 y 10, 20, 30.
+    La función <strong>pd.DataFrame()</strong> transforma
+    este diccionario en una tabla de datos. El DataFrame
+    permite manipular información en filas y columnas.
+    Después, el método
+    <strong>to_dict(orient="records")</strong> convierte
+    cada fila del DataFrame en un diccionario de Python.
+    El resultado se convierte entonces en una lista de
+    objetos que contienen las propiedades x e y. Esta
+    estructura se coloca posteriormente en el objeto
+    <strong>result</strong>. Finalmente,
+    <strong>json.dumps()</strong> transforma el objeto
+    Python en una cadena JSON. Este paso es importante
+    en una arquitectura Web porque JSON es un formato
+    que puede utilizarse fácilmente con JavaScript,
+    Node.js y aplicaciones frontend. Pandas puede,
+    por lo tanto, utilizarse en el proceso para preparar
+    los datos antes de enviarlos a la aplicación Web.
+
+</p>
+
+
+<h3>
+    Importación de Pandas
+</h3>
+
+<pre><code>import pandas as pd</code></pre>
+
+<p>
+
+    Esta instrucción importa Pandas y le asigna el alias
+    <strong>pd</strong>. Este alias es una convención muy
+    común en proyectos Python que utilizan Pandas.
+
+</p>
+
+
+<h3>
+    Creación de los datos
+</h3>
+
+<pre><code>data = {
+
+"x": [1, 2, 3],
+
+"y": [10, 20, 30]
+}</code></pre>
+
+<p>
+
+    El diccionario contiene dos series de datos.
+    Cada clave representa una columna del futuro
+    DataFrame.
+
+</p>
+
+
+<h3>
+    Creación del DataFrame
+</h3>
+
+<pre><code>df = pd.DataFrame(
+data
+)</code></pre>
+
+<p>
+
+    Pandas transforma el diccionario en un DataFrame.
+    El resultado se presenta como una tabla que contiene
+    dos columnas y tres filas.
+
+</p>
+
+
+<h3>
+    Transformación en registros
+</h3>
+
+<pre><code>result = {
+
+"rows":
+    df.to_dict(
+        orient="records"
+    )
+}</code></pre>
+
+<p>
+
+    <strong>to_dict(orient="records")</strong> transforma
+    las filas del DataFrame en una lista de diccionarios.
+    Esta estructura resulta especialmente conveniente
+    para enviar datos a una API o a un frontend.
+
+</p>
+
+
+<h3>
+    Conversión a JSON
+</h3>
+
+<pre><code>print(
+json.dumps(result)
+)</code></pre>
+
+<p>
+
+    <strong>json.dumps()</strong> transforma el objeto
+    Python en una cadena JSON. JavaScript y Node.js
+    pueden utilizar fácilmente esta estructura.
+
+</p>
+
+</section>
+
+<!-- =====================================================
+     06 — NODE.JS
+====================================================== -->
+
+<section
+    id="node"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    06
+</div>
+
+<h2>
+    Servicio Node.js y comunicación con Python
+</h2>
+
+<p>
+
+    El archivo de servicio
+    <strong>etudeEtranger.js</strong> permite que Node.js
+    se comunique con el programa Python. Esta comunicación
+    se realiza utilizando el módulo nativo
+    <strong>child_process</strong>. Node.js tiene la
+    capacidad de ejecutar programas externos y aquí se
+    utiliza <strong>spawn()</strong> para crear un proceso
+    Python independiente. La función
+    <strong>runPrediction(values)</strong> devuelve una
+    Promise porque la ejecución de Python es asíncrona.
+    La ruta del script Python se construye utilizando
+    <strong>path.join()</strong>. Después,
+    <strong>spawn("python", ...)</strong> ejecuta Python
+    y le pasa la ruta del archivo junto con los valores
+    recibidos. El método <strong>split(",")</strong>
+    transforma una cadena como
+    <strong>"10,20,30"</strong> en el array
+    <strong>["10", "20", "30"]</strong>. El operador
+    <strong>...</strong> permite entonces pasar cada
+    valor como un argumento independiente al programa
+    Python. Durante la ejecución, Node.js escucha
+    <strong>stdout</strong> para recuperar la predicción
+    devuelta por Python. También escucha
+    <strong>stderr</strong> para recuperar posibles
+    mensajes de error. Cuando Python termina, se activa
+    el evento <strong>close</strong>. Node.js comprueba
+    entonces el código de salida. Si el código es
+    diferente de cero, la Promise es rechazada. De lo
+    contrario, el resultado se limpia utilizando
+    <strong>trim()</strong> y se devuelve mediante
+    <strong>resolve()</strong>. Por lo tanto, esta función
+    actúa como puente técnico entre la aplicación
+    JavaScript y el modelo de Machine Learning desarrollado
+    en Python.
+
+</p>
+
+
+<h3>
+    Importación de los módulos
+</h3>
+
+<pre><code>const {
+spawn
+} = require(
+"child_process"
+);
+
+const path =
+require("path");</code></pre>
+
+<p>
+
+    <strong>child_process</strong> proporciona la función
+    <strong>spawn()</strong> utilizada para ejecutar
+    Python. <strong>path</strong> proporciona las
+    funciones necesarias para construir la ruta del script.
+
+</p>
+
+
+<h3>
+    Creación de la función
+</h3>
+
+<pre><code>function runPrediction(
+values
+) {
+
+return new Promise(
+    (resolve, reject) => {
+
+        ...
+
+    }
+);
+
+}</code></pre>
+
+<p>
+
+    La función recibe los valores como una cadena y
+    devuelve una Promise. <strong>resolve()</strong>
+    se utiliza cuando Python produce una respuesta
+    correcta, mientras que <strong>reject()</strong>
+    se utiliza en caso de error.
+
+</p>
+
+
+<h3>
+    Ruta del script Python
+</h3>
+
+<pre><code>const pyFile =
+path.join(
+    __dirname,
+    "../../python/predict.py"
+);</code></pre>
+
+<p>
+
+    Esta instrucción construye la ruta hacia el archivo
+    Python. <strong>__dirname</strong> representa el
+    directorio del archivo JavaScript actual y
+    <strong>path.join()</strong> combina correctamente
+    las diferentes partes de la ruta.
+
+</p>
+
+
+<h3>
+    Ejecución de Python
+</h3>
+
+<pre><code>const py = spawn(
+"python",
+[
+    pyFile,
+    ...values.split(",")
+]
+);</code></pre>
+
+<p>
+
+    <strong>spawn()</strong> inicia Python. El primer
+    argumento especifica el programa que debe ejecutarse
+    y el segundo argumento contiene la lista de parámetros.
+    La ruta del script se pasa primero, seguida de cada
+    valor como un argumento individual. Por ejemplo,
+    la cadena <strong>"10,20,30"</strong> se convierte
+    en tres argumentos Python: 10, 20 y 30.
+
+</p>
+
+
+<h3>
+    Recuperación de stdout
+</h3>
+
+<pre><code>py.stdout.on(
+"data",
+(data) => {
+
+    result +=
+        data.toString();
+
+}
+);</code></pre>
+
+<p>
+
+    Python utiliza <strong>print()</strong> para enviar
+    la predicción a stdout. Node.js escucha esta salida
+    y añade los datos recibidos a la variable
+    <strong>result</strong>. Como stdout puede recibirse
+    en varios fragmentos, el código utiliza
+    <strong>+=</strong> para reconstruir el resultado
+    completo.
+
+</p>
+
+
+<h3>
+    Recuperación de errores
+</h3>
+
+<pre><code>py.stderr.on(
+"data",
+(data) => {
+
+    error +=
+        data.toString();
+
+}
+);</code></pre>
+
+<p>
+
+    Los mensajes de error de Python se recuperan a través
+    de <strong>stderr</strong>. Esto permite al backend
+    determinar la causa de un fallo en el proceso Python.
+
+</p>
+
+
+<h3>
+    Finalización del proceso
+</h3>
+
+<pre><code>py.on(
+"close",
+(code) => {
+
+    if (code !== 0)
+        return reject(error);
+
+    resolve(
+        result.trim()
+    );
+
+}
+);</code></pre>
+
+<p>
+
+    Cuando Python termina su ejecución, se activa el evento
+    <strong>close</strong>. El código de salida indica si
+    el programa se completó correctamente. Un código
+    diferente de cero indica un error. En este caso,
+    la Promise es rechazada. De lo contrario, el resultado
+    se limpia utilizando <strong>trim()</strong> y se
+    devuelve mediante <strong>resolve()</strong>.
+
+</p>
+
+</section>
+
+<!-- =====================================================
+     07 — RUTA EXPRESS
+====================================================== -->
+
+<section
+    id="route"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    07
+</div>
+
+<h2>
+    Ruta del Dashboard en Express
+</h2>
+
+<p>
+
+    El router de Express representa la capa API que
+    permite al frontend o al dashboard solicitar
+    múltiples predicciones. El archivo comienza
+    importando Express y posteriormente crea un router
+    utilizando <strong>express.Router()</strong>.
+    A continuación, se importa el servicio
+    <strong>etudeEtranger</strong> para poder llamar
+    a la función <strong>runPrediction()</strong>.
+    La ruta <strong>GET /dashboard</strong> representa
+    el punto de entrada principal. Cuando una solicitud
+    llega a esta ruta, el servidor define un array
+    <strong>models</strong> que contiene varios modos:
+    <strong>edufrance</strong>, <strong>edutest</strong>,
+    <strong>linked</strong> y <strong>eduworld</strong>.
+    Cada modo contiene una cadena de valores que se
+    enviará al servicio Python. Un bucle
+    <strong>for...of</strong> recorre cada elemento
+    del array. Para cada modelo, el servidor llama a
+    <strong>await runPrediction()</strong> para esperar
+    a que finalice el proceso Python. La predicción
+    devuelta como texto se convierte en un número mediante
+    <strong>parseFloat()</strong>. Posteriormente, se
+    añade un objeto que contiene el modo, los valores
+    y la predicción al array <strong>results</strong>.
+    Una vez completadas todas las predicciones, Express
+    devuelve un objeto JSON que contiene la propiedad
+    <strong>data</strong>. El frontend puede entonces
+    recuperar todas las predicciones en una sola solicitud
+    y mostrarlas en un dashboard mediante tarjetas,
+    gráficos, indicadores o tablas.
+
+</p>
+
+
+<h3>
+    Creación del Router
+</h3>
+
+<pre><code>const express =
+require("express");
+
+const router =
+express.Router();</code></pre>
+
+<p>
+
+    Express se importa y se crea un router independiente.
+    Esto permite separar las rutas del resto de la
+    aplicación backend.
+
+</p>
+
+
+<h3>
+    Importación del servicio
+</h3>
+
+<pre><code>const runPrediction =
+require(
+    "../service/etudeEtranger"
+);</code></pre>
+
+<p>
+
+    El router importa la función responsable de ejecutar
+    Python. Por lo tanto, la ruta puede activar el modelo
+    de Machine Learning mediante esta función.
+
+</p>
+
+
+<h3>
+    Ruta del Dashboard
+</h3>
+
+<pre><code>router.get(
+"/dashboard",
+async (req, res) => {
+
+    ...
+
+}
+);</code></pre>
+
+<p>
+
+    Esta ruta utiliza el método HTTP
+    <strong>GET</strong>. Se declara como
+    <strong>async</strong> porque debe esperar varias
+    operaciones asíncronas relacionadas con la ejecución
+    de Python.
+
+</p>
+
+
+<h3>
+    Lista de modelos
+</h3>
+
+<pre><code>const models = [
+
+{
+    mode: "edufrance",
+    values: "1,2,3,4"
+},
+
+{
+    mode: "edutest",
+    values: "2,3,4,5"
+},
+
+{
+    mode: "linked",
+    values: "1"
+},
+
+{
+    mode: "eduworld",
+    values: "10"
+}
+];</code></pre>
+
+<p>
+
+    Este array centraliza los diferentes modos de
+    predicción. Cada objeto contiene un nombre lógico
+    utilizado para identificar el resultado y una cadena
+    que contiene las variables que se enviarán a Python.
+
+</p>
+
+
+<h3>
+    Procesamiento de cada predicción
+</h3>
+
+<pre><code>for (let m of models) {
+
+const prediction =
+    await runPrediction(
+        m.values
+    );
+
+results.push({
+
+    mode: m.mode,
+
+    value: m.values,
+
+    prediction:
+        parseFloat(
+            prediction
+        )
+
+});
+}</code></pre>
+
+<p>
+
+    El bucle procesa cada configuración una después de
+    otra. <strong>await</strong> espera a que Python
+    termine antes de pasar a la siguiente predicción.
+    El resultado se convierte después en un número
+    utilizando <strong>parseFloat()</strong> y se añade
+    al array <strong>results</strong> junto con su modo
+    y sus valores de entrada.
+
+</p>
+
+
+<h3>
+    Respuesta JSON
+</h3>
+
+<pre><code>res.json({
+data: results
+});</code></pre>
+
+<p>
+
+    Una vez completadas todas las predicciones, Express
+    devuelve los resultados en formato JSON. El frontend
+    puede utilizar directamente esta estructura para
+    rellenar su dashboard.
+
+</p>
+
+
+<h3>
+    Gestión de errores
+</h3>
+
+<pre><code>catch (err) {
+
+res.status(500).json({
+
+    error:
+        err.toString()
+
+});
+}</code></pre>
+
+<p>
+
+    El bloque <strong>catch</strong> captura los errores
+    encontrados durante la ejecución. El servidor devuelve
+    entonces el estado HTTP <strong>500</strong>, que
+    indica un error interno del servidor, junto con un
+    mensaje que puede ayudar a diagnosticar el problema.
+
+</p>
+
+</section>
+
+<!-- =====================================================
+     08 — ARQUITECTURA
+====================================================== -->
+
+<section
+    id="architecture"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    08
+</div>
+
+<h2>
+    Arquitectura completa del sistema
+</h2>
+
+<p>
+
+    La arquitectura general se basa en una separación
+    clara entre Machine Learning y la aplicación Web.
+    El proceso comienza en el nivel del dashboard o
+    frontend. Este solicita la información necesaria
+    mediante una petición HTTP a la API de Express.
+    La ruta <strong>/dashboard</strong> recibe esta
+    solicitud y prepara la lista de los diferentes
+    modos de predicción. Para cada modo, Express llama
+    a la función <strong>runPrediction()</strong> del
+    servicio Node.js. Esta función utiliza
+    <strong>child_process.spawn()</strong> para ejecutar
+    el script Python. Las variables se pasan a Python
+    como argumentos de línea de comandos. El script
+    Python carga entonces <strong>eduworld.pkl</strong>
+    utilizando Pickle. Las variables recibidas se
+    convierten en números y el número de características
+    se verifica utilizando
+    <strong>model.n_features_in_</strong>. Los datos
+    validados se transforman en un array de NumPy y
+    posteriormente se envían al modelo mediante
+    <strong>model.predict()</strong>. Python produce
+    entonces el resultado utilizando <strong>print()</strong>.
+    Node.js recupera este valor mediante stdout y lo
+    devuelve a la ruta Express. Express convierte cada
+    predicción en un número y construye el array final
+    <strong>results</strong>. Finalmente, se envía al
+    frontend una respuesta JSON que contiene todas
+    las predicciones. El dashboard puede utilizar estos
+    datos para mostrar diferentes indicadores de rendimiento,
+    gráficos o estadísticas. Esta arquitectura permite
+    mantener Python para la capa de Data Science y
+    Machine Learning mientras Node.js y Express se
+    utilizan para la capa Web y API.
+
+</p>
+
+
+<div class="architecture">
+
+    <div class="architecture-box frontend">
+
+        <strong>
+            Frontend
+        </strong>
+
+        <small>
+            Dashboard
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ HTTP GET
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            Express
+        </strong>
+
+        <small>
+            API REST
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            /dashboard
+        </strong>
+
+        <small>
+            Ruta API
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            runPrediction()
+        </strong>
+
+        <small>
+            Servicio Node.js
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ spawn()
+    </div>
+
+    <div class="architecture-box python">
+
+        <strong>
+            Python
+        </strong>
+
+        <small>
+            predict.py
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            eduworld.pkl
+        </strong>
+
+        <small>
+            Modelo entrenado
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ predict()
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            NumPy
+        </strong>
+
+        <small>
+            Preparación de X
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            Predicción
+        </strong>
+
+        <small>
+            Resultado ML
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ stdout
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            Node.js
+        </strong>
+
+        <small>
+            Recuperación de datos
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ JSON
+    </div>
+
+    <div class="architecture-box frontend">
+
+        <strong>
+            Dashboard
+        </strong>
+
+        <small>
+            Visualización
+        </small>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     09 — TECNOLOGÍAS
+====================================================== -->
+
+<section
+    id="technologies"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    09
+</div>
+
+<h2>
+    Papel de las tecnologías
+</h2>
+
+<p>
+
+    Cada tecnología desempeña un papel específico en la
+    arquitectura. Python proporciona el entorno utilizado
+    para ejecutar el modelo de Machine Learning. Pickle
+    permite guardar el objeto del modelo y posteriormente
+    volver a cargarlo desde el archivo
+    <strong>eduworld.pkl</strong>. NumPy se utiliza para
+    representar las variables de entrada como un array
+    numérico compatible con el modelo. Pandas se utiliza
+    para manipular datos tabulares y transformarlos en
+    estructuras que pueden ser utilizadas por una
+    aplicación Web. Node.js proporciona el entorno de
+    ejecución JavaScript para el backend. El módulo
+    <strong>child_process</strong> permite a Node.js
+    ejecutar el script Python. <strong>spawn()</strong>
+    crea el proceso Python y permite recuperar su salida.
+    Express proporciona la API REST y la ruta
+    <strong>/dashboard</strong>. Finalmente, JSON se
+    utiliza para estructurar los resultados devueltos
+    al frontend. Todas estas tecnologías forman una
+    cadena completa que va desde la ejecución del modelo
+    de Machine Learning hasta la visualización de los
+    resultados en un dashboard Web.
+
+</p>
+
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>
+                Tecnología
+            </th>
+
+            <th>
+                Función
+            </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>
+                Python
+            </td>
+
+            <td>
+                Ejecución del procesamiento
+                de Machine Learning
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Pickle
+            </td>
+
+            <td>
+                Guardado y carga del
+                modelo ML
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                eduworld.pkl
+            </td>
+
+            <td>
+                Modelo de Machine Learning
+                entrenado
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                NumPy
+            </td>
+
+            <td>
+                Preparación de variables
+                numéricas
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Pandas
+            </td>
+
+            <td>
+                Manipulación y
+                transformación de datos
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Node.js
+            </td>
+
+            <td>
+                Ejecución del backend
+                JavaScript
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                child_process
+            </td>
+
+            <td>
+                Comunicación entre Node.js
+                y Python
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                spawn()
+            </td>
+
+            <td>
+                Ejecución del proceso Python
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Express
+            </td>
+
+            <td>
+                Creación de la API REST
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                JSON
+            </td>
+
+            <td>
+                Formato de intercambio
+                de datos
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Dashboard
+            </td>
+
+            <td>
+                Visualización de predicciones
+            </td>
+        </tr>
+
+    </tbody>
+
+</table>
+
+</section>
+
+<!-- =====================================================
+     10 — EJEMPLO
+====================================================== -->
+
+<section class="documentation-section">
+
+<div class="section-number">
+    10
+</div>
+
+<h2>
+    Ejemplo concreto del proceso
+</h2>
+
+<p>
+
+    Para comprender el proceso completo, imaginemos que
+    el frontend llama a la ruta <strong>GET /dashboard</strong>.
+    Express recibe la solicitud y construye la lista de
+    los cuatro modos: edufrance, edutest, linked y eduworld.
+    El primer elemento contiene, por ejemplo, los valores
+    <strong>"1,2,3,4"</strong>. Express llama entonces a
+    <strong>runPrediction("1,2,3,4")</strong>. El servicio
+    Node.js separa la cadena utilizando
+    <strong>split(",")</strong>, produciendo los valores
+    1, 2, 3 y 4. Mediante <strong>spawn()</strong>,
+    Node.js ejecuta entonces <strong>predict.py</strong>
+    y pasa estos cuatro valores como argumentos. Python
+    recupera los valores utilizando <strong>sys.argv</strong>,
+    los convierte en números mediante <strong>float()</strong>
+    y comprueba que el modelo espera cuatro características.
+    Los datos se transforman posteriormente en un array de
+    NumPy. El modelo <strong>eduworld.pkl</strong> ya ha
+    sido cargado en memoria y el método <strong>predict()</strong>
+    calcula la predicción. Python muestra este valor
+    utilizando <strong>print()</strong>. Node.js recupera
+    el resultado desde stdout, elimina los espacios
+    innecesarios mediante <strong>trim()</strong> y
+    devuelve el valor a la ruta Express. Express utiliza
+    entonces <strong>parseFloat()</strong> para convertir
+    la predicción en un número. El resultado se añade
+    al array <strong>results</strong>. El mismo proceso
+    se repite para los demás modos. Al final, Express
+    devuelve un objeto JSON que contiene todas las
+    predicciones. El frontend puede entonces utilizar
+    esta información para mostrar los resultados en
+    su dashboard.
+
+</p>
+
+
+<div class="endpoint">
+
+    GET /dashboard
+
+</div>
+
+
+<pre><code>{
+"data": [
+    {
+        "mode": "edufrance",
+        "value": "1,2,3,4",
+        "prediction": 123.45
+    },
+    {
+        "mode": "edutest",
+        "value": "2,3,4,5",
+        "prediction": 156.78
+    },
+    {
+        "mode": "linked",
+        "value": "1",
+        "prediction": 98.50
+    },
+    {
+        "mode": "eduworld",
+        "value": "10",
+        "prediction": 245.20
+    }
+]
+}</code></pre>
+
+<p>
+
+    Esta estructura es un ejemplo utilizado para comprender
+    el formato de salida. Los valores de predicción
+    mostrados aquí son ilustrativos. Los resultados reales
+    dependen del modelo contenido en
+    <strong>eduworld.pkl</strong> y de los datos utilizados
+    durante su entrenamiento.
+
+</p>
+
+</section>
+
+<!-- =====================================================
+     11 — EXPLICACIÓN COMERCIAL
+====================================================== -->
+
+<section
+    id="commercial"
+    class="documentation-section commercial"
+>
+
+<div class="section-number">
+    11
+</div>
+
+<h2>
+    Explicación para realizar durante la presentación
+</h2>
+
+<p>
+
+    Durante una presentación profesional, este sistema
+    puede presentarse como una arquitectura de inteligencia
+    artificial integrada en una plataforma Web. El objetivo
+    es permitir que una aplicación dedicada a los estudios
+    en el extranjero utilice un modelo de Machine Learning
+    para generar automáticamente predicciones a partir
+    de datos de entrada. El modelo se entrena en Python
+    y posteriormente se guarda en un archivo
+    <strong>eduworld.pkl</strong>. Este proceso de guardado
+    conserva el modelo entrenado y permite reutilizarlo
+    rápidamente sin realizar un nuevo entrenamiento en
+    cada solicitud. Cuando un usuario accede al dashboard,
+    el frontend se comunica con la API de Express. Express
+    llama entonces a un servicio Node.js que utiliza
+    <strong>child_process</strong> y <strong>spawn()</strong>
+    para ejecutar el programa Python. El script Python
+    carga el modelo, comprueba automáticamente que el
+    número de variables recibidas coincide con las
+    características esperadas, prepara los datos con
+    NumPy y ejecuta el método <strong>predict()</strong>.
+    La predicción se devuelve posteriormente a Node.js
+    mediante stdout. Node.js recupera esta información
+    y Express la envía al frontend en formato JSON.
+    El dashboard puede presentar entonces los diferentes
+    resultados mediante tarjetas, gráficos, indicadores
+    o tablas. Esta separación de responsabilidades permite
+    utilizar las herramientas especializadas de Python
+    para Machine Learning mientras Node.js y Express se
+    encargan de la comunicación Web. La arquitectura
+    también puede ampliarse progresivamente con nuevos
+    modelos, nuevas variables, nuevos destinos o nuevos
+    indicadores sin modificar el principio general de
+    comunicación entre el frontend, Node.js y Python.
+
+</p>
+
+
+<div class="presentation-script">
+
+    <h3>
+        🎤 Ejemplo de explicación oral
+    </h3>
+
+    <p>
+
+        “En esta parte de mi proyecto, integré
+        un modelo de Machine Learning desarrollado
+        en Python dentro de una aplicación Web
+        dedicada al ámbito de los estudios
+        en el extranjero.
+
+    </p>
+
+    <p>
+
+        El modelo de Machine Learning se guarda en
+        un archivo <strong>eduworld.pkl</strong>.
+        Esto permite conservar el modelo entrenado
+        y utilizarlo directamente durante las
+        predicciones sin tener que volver a
+        entrenarlo para cada solicitud.
+
+    </p>
+
+    <p>
+
+        Después desarrollé un script Python que
+        recupera las variables enviadas por Node.js.
+        Los datos se convierten en números y el
+        programa comprueba automáticamente que el
+        número de variables coincide con el número
+        de características esperado por el modelo.
+
+    </p>
+
+    <p>
+
+        Los datos se preparan posteriormente con NumPy
+        y se envían al modelo utilizando el método
+        <strong>predict()</strong>. El resultado es
+        devuelto por Python mediante la salida estándar.
+
+    </p>
+
+    <p>
+
+        Para integrar este modelo en mi aplicación Web,
+        utilizo Node.js y el módulo
+        <strong>child_process</strong>. La función
+        <strong>spawn()</strong> permite ejecutar el
+        script Python desde Node.js y recuperar
+        automáticamente su resultado.
+
+    </p>
+
+    <p>
+
+        Express actúa entonces como la capa API.
+        La ruta <strong>/dashboard</strong> ejecuta
+        los diferentes escenarios de predicción,
+        recupera los resultados y los agrupa en
+        una respuesta JSON.
+
+    </p>
+
+    <p>
+
+        Por lo tanto, el frontend puede llamar a una
+        única API para recuperar los diferentes
+        resultados y mostrarlos en un dashboard
+        en forma de estadísticas, gráficos
+        o indicadores.
+
+    </p>
+
+    <p>
+
+        La principal ventaja de esta arquitectura
+        es la separación de responsabilidades:
+        Python se utiliza para Machine Learning,
+        Pickle para almacenar el modelo, NumPy
+        para preparar los datos, Node.js para la
+        comunicación con Python, Express para la
+        API y el frontend para la visualización.
+
+    </p>
+
+    <p>
+
+        Esta arquitectura es escalable y puede
+        adaptarse a un entorno profesional añadiendo
+        nuevos modelos, nuevas variables y nuevas
+        funcionalidades de apoyo a la toma de decisiones.”
+
+    </p>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     12 — CONCLUSIÓN
+====================================================== -->
+
+<section
+    id="conclusion"
+    class="documentation-section conclusion"
+>
+
+<div class="section-number">
+    12
+</div>
+
+<h2>
+    Conclusión
+</h2>
+
+<p>
+
+    Este sistema representa una integración completa
+    de un modelo de Machine Learning dentro de una
+    arquitectura Web. El modelo entrenado se guarda
+    mediante Pickle en <strong>eduworld.pkl</strong>.
+    El script Python vuelve a cargar este modelo,
+    recupera las variables transmitidas por Node.js,
+    valida su número, las transforma en un array de
+    NumPy y produce una predicción utilizando
+    <strong>predict()</strong>. Node.js gestiona
+    posteriormente la comunicación entre la aplicación
+    Web y Python utilizando el módulo
+    <strong>child_process</strong> y la función
+    <strong>spawn()</strong>. Express expone la ruta
+    <strong>/dashboard</strong>, que permite ejecutar
+    múltiples predicciones y agrupar sus resultados.
+    Pandas también puede utilizarse para procesar y
+    transformar datos tabulares antes de utilizarlos
+    en el sistema. Todo el proceso forma una cadena
+    tecnológica coherente:
+    <strong>Datos → Python → Modelo PKL → NumPy →
+    Predicción → stdout → Node.js → Express → JSON →
+    Dashboard</strong>. Esta arquitectura demuestra
+    cómo un modelo de Data Science desarrollado en
+    Python puede integrarse en una aplicación Web
+    moderna basada en Node.js y Express.
+
+</p>
+
+
+<div class="final-flow">
+
+    <span>
+        Datos
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Python
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        PKL
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        NumPy
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Predict
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Node.js
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Express
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        JSON
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Dashboard
+    </span>
+
+</div>
+
+
+<div class="success-box">
+
+    ✔ Modelo de Machine Learning guardado con Pickle
+
+    <br>
+
+    ✔ Carga segura del modelo
+
+    <br>
+
+    ✔ Validación automática de características
+
+    <br>
+
+    ✔ Preparación de datos con NumPy
+
+    <br>
+
+    ✔ Manipulación de datos con Pandas
+
+    <br>
+
+    ✔ Comunicación Node.js → Python
+
+    <br>
+
+    ✔ Ejecución de Python con spawn()
+
+    <br>
+
+    ✔ API REST con Express
+
+    <br>
+
+    ✔ Resultados devueltos en formato JSON
+
+    <br>
+
+    ✔ Integración con el Dashboard
+
+    <br>
+
+    ✔ Arquitectura escalable
+
+</div>
+
+</section>
+
+</main>
+
+<!-- =====================================================
+     PIE DE PÁGINA
+====================================================== -->
+
+<footer>
+
+<p>
+
+    Documentación técnica —
+    Predicción EduWorld
+
+</p>
+
+<p>
+
+    Python • Machine Learning • Pickle • NumPy •
+    Pandas • Node.js • Express • JSON
+
+</p>
+
+</footer>
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

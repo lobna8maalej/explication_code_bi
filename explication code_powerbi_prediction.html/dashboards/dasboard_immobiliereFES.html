@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explicación del Dashboard Inmobiliario - Redux Toolkit y React</title>
+    <link rel="stylesheet" href="ImmobilierExplanation.css">
+</head>
+
+<body>
+
+<main class="documentation">
+
+    <header class="documentation-header">
+        <h1>🏠 Dashboard Inmobiliario — Explicación del código</h1>
+        <p>
+            Documentación técnica que explica cómo funcionan Redux Toolkit,
+            Axios, React, Chart.js y Power BI.
+        </p>
+    </header>
+
+
+    <!-- ===================================================== -->
+    <!-- 47 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2># 47 — Gestión de datos inmobiliarios con Redux Toolkit y React</h2>
+
+        <p>
+            En esta parte del proyecto, se ha desarrollado un sistema de gestión de datos inmobiliarios
+            utilizando varias tecnologías frontend complementarias,
+            entre ellas <strong>React, Redux Toolkit, Axios, Chart.js y Power BI</strong>.
+            El objetivo principal de esta funcionalidad es permitir al usuario
+            visualizar un dashboard inmobiliario que contiene un informe de Power BI, un gráfico
+            que representa los precios inmobiliarios y una funcionalidad que permite insertar datos inmobiliarios
+            en el backend. La arquitectura se basa en una
+            separación clara entre la gestión de datos y su visualización. Redux Toolkit
+            se utiliza para centralizar el estado relacionado con la inserción de datos inmobiliarios,
+            mientras que React es responsable de la interfaz de usuario y de las interacciones.
+            Axios gestiona la comunicación HTTP entre el frontend y el backend Node.js/Express.
+            Cuando un usuario hace clic en el botón <strong>"Insertar datos"</strong>,
+            la función <code>handleInsert()</code> prepara un array que contiene varios
+            bienes inmobiliarios y luego ejecuta la acción de Redux
+            <code>insertImmobilier()</code>. Esta acción se crea con
+            <code>createAsyncThunk()</code> y envía una solicitud HTTP POST
+            a <code>http://localhost:3000/insert</code>. El backend
+            recibe los datos y los procesa. Redux Toolkit gestiona automáticamente
+            los diferentes estados de la operación asíncrona mediante
+            <code>pending</code>, <code>fulfilled</code> y <code>rejected</code>.
+            Cuando comienza la inserción, la propiedad <code>loading</code> pasa a true.
+            Cuando la inserción se realiza correctamente, Redux recupera el estado, el mensaje y el número
+            de filas procesadas devueltos por el backend. En caso de error,
+            el mensaje correspondiente se almacena en <code>error</code>. El componente React
+            utiliza posteriormente <code>useSelector()</code> para recuperar esta información del store de Redux
+            y mostrar el resultado al usuario. Al mismo tiempo, Chart.js se utiliza para representar gráficamente
+            los precios de dos bienes inmobiliarios, una casa y un apartamento,
+            mientras que un iframe permite integrar un informe de Power BI directamente en
+            la interfaz. Esta arquitectura combina, por tanto, Business Intelligence con Power BI,
+            visualización gráfica con Chart.js, gestión del estado con Redux Toolkit
+            y comunicación con el backend mediante Axios en una misma página.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 48 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2># 48 — Importación de Redux Toolkit y Axios</h2>
+
+        <p>
+            El archivo Redux comienza importando dos funcionalidades esenciales de Redux Toolkit:
+            <code>createSlice</code> y <code>createAsyncThunk</code>.
+            <code>createSlice</code> se utiliza para crear una parte específica del store de Redux
+            dedicada a la gestión de los datos inmobiliarios. Permite definir
+            el nombre del slice, su estado inicial y la lógica asociada a las diferentes acciones.
+            <code>createAsyncThunk</code> se utiliza para crear una acción asíncrona capaz
+            de realizar una operación que requiere tiempo, como una solicitud HTTP a
+            un servidor backend. El código también importa Axios mediante
+            <code>import axios from "axios"</code>. Axios es una biblioteca de JavaScript
+            utilizada para enviar solicitudes HTTP. En este proyecto, Axios se utiliza para enviar datos inmobiliarios
+            desde el frontend React hacia el backend Node.js/Express.
+            La combinación de Redux Toolkit y Axios permite, por tanto,
+            crear una comunicación organizada entre la interfaz de usuario y la API backend.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 49 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2># 49 — Creación de la acción asíncrona insertImmobilier</h2>
+
+        <p>
+            La acción principal del archivo Redux es <code>insertImmobilier</code>. Se
+            crea utilizando <code>createAsyncThunk()</code>. El primer parámetro,
+            <code>"immobilier/insertImmobilier"</code>, corresponde al tipo de acción de Redux
+            y permite identificar esta operación dentro de la aplicación. El segundo parámetro
+            es una función asíncrona que recibe los datos inmobiliarios en la
+            variable <code>data</code>. La función utiliza posteriormente un bloque
+            <code>try/catch</code> para gestionar correctamente una comunicación exitosa o fallida con el
+            servidor. Dentro del bloque <code>try</code>, Axios utiliza
+            <code>axios.post("http://localhost:3000/insert", data)</code> para enviar una 
+            solicitud HTTP POST al backend. La variable <code>data</code> contiene la 
+            información inmobiliaria preparada en el componente React. Cuando el servidor 
+            responde, la respuesta se almacena en la variable <code>res</code>. 
+            <code>res.data</code> contiene la información devuelta por el backend. 
+            Este valor se devuelve posteriormente mediante <code>return res.data</code>. 
+            Se convierte automáticamente en el <strong>payload</strong> de la 
+            acción <code>fulfilled</code> cuando la operación tiene éxito. En el 
+            bloque <code>catch</code>, si Axios encuentra un error, el código utiliza 
+            <code>rejectWithValue()</code> para transmitir el error al reducer de Redux. 
+            La expresión <code>err.response.data</code> permite recuperar 
+            la información del error enviada por el backend. Esta organización permite 
+            gestionar correctamente la comunicación entre el frontend y el backend.
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 50 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 50 — Creación del slice inmobiliario</h2> 
+
+        <p> 
+            A continuación, el código crea el slice de Redux utilizando 
+            <code>createSlice()</code>. El slice se denomina 
+            <code>"immobilier"</code> mediante la propiedad 
+            <code>name</code>. Representa una parte del store global dedicada 
+            a la funcionalidad inmobiliaria. El estado inicial contiene varias propiedades: 
+            <code>status</code>, <code>message</code>, <code>rows</code>, 
+            <code>loading</code> y <code>error</code>. La propiedad 
+            <code>status</code> se establece inicialmente en <code>null</code> y se utilizará 
+            para recibir el estado devuelto por el backend después de la inserción. 
+            <code>message</code> contiene inicialmente una cadena vacía y se utilizará 
+            para mostrar el mensaje devuelto por el servidor. <code>rows</code> se inicializa 
+            en cero y representa el número de filas procesadas o insertadas. 
+            La propiedad <code>loading</code> se establece inicialmente en <code>false</code>, 
+            lo que significa que ninguna operación de inserción está en curso cuando se inicia la aplicación. 
+            Finalmente, <code>error</code> se inicializa en <code>null</code> para poder 
+            almacenar un posible error. Por lo tanto, el slice centraliza toda la información 
+            necesaria para supervisar la operación de inserción. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 51 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 51 — Gestión del estado Pending</h2> 
+
+        <p> 
+            Cuando el usuario hace clic en el botón de inserción, la acción 
+            <code>insertImmobilier</code> se envía a Redux mediante 
+            <code>dispatch()</code>. Redux Toolkit activa automáticamente el 
+            estado <code>pending</code> al inicio de la operación asíncrona. 
+            El código <code>.addCase(insertImmobilier.pending, (state) =&gt; { ... })</code> 
+            define lo que debe ocurrir mientras la operación está cargando. 
+            La propiedad <code>state.loading</code> se establece entonces en 
+            <code>true</code>. Esto indica a la interfaz React que una inserción 
+            está actualmente en curso. El código también establece 
+            <code>state.error = null</code>, lo que elimina un error anterior antes 
+            de iniciar una nueva operación. En el componente React, el valor 
+            <code>loading</code> se utiliza para desactivar temporalmente 
+            el botón y cambiar su texto. Por lo tanto, durante la inserción, el usuario ve 
+            <strong>"Insertando..."</strong> en lugar de 
+            <strong>"Insertar datos"</strong>. Esta lógica también evita 
+            que el usuario haga clic varias veces en el botón durante la misma 
+            operación. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 52 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 52 — Gestión del estado Fulfilled</h2> 
+
+        <p> 
+            Cuando la solicitud POST al backend tiene éxito, Redux Toolkit activa automáticamente 
+            el estado <code>fulfilled</code>. El código recupera entonces 
+            la información devuelta por el servidor mediante 
+            <code>action.payload</code>. La primera instrucción es 
+            <code>state.loading = false</code>, lo que indica que la inserción 
+            ha finalizado. A continuación, el código recupera el estado devuelto por el backend 
+            mediante <code>state.status = action.payload.status</code>. El mensaje 
+            devuelto por el servidor se almacena en 
+            <code>state.message = action.payload.message</code>. Finalmente, el número 
+            de filas procesadas se almacena mediante 
+            <code>state.rows = action.payload.rows</code>. Gracias a esta lógica, 
+            el frontend puede mostrar con precisión el resultado de la operación. 
+            Por ejemplo, si el backend devuelve un estado de éxito, un mensaje 
+            que confirma la inserción y el número de filas insertadas, esta información 
+            queda disponible en el store de Redux. React la recupera posteriormente 
+            mediante <code>useSelector()</code> para mostrarla al usuario. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 53 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 53 — Gestión del estado Rejected</h2> 
+
+        <p> 
+            Cuando la solicitud de Axios falla, Redux Toolkit activa el 
+            estado <code>rejected</code>. Esta situación puede producirse si el servidor 
+            backend está detenido, si la dirección de la API es incorrecta, si aparece un error 
+            del servidor o si otro error impide la inserción. En esta 
+            situación, el código vuelve a establecer <code>state.loading</code> en 
+            <code>false</code>, porque la operación ha terminado aunque haya fallado. 
+            El error se recupera posteriormente mediante <code>action.payload.message</code> 
+            y se almacena en <code>state.error</code>. El componente React puede 
+            entonces mostrar este error en la interfaz mediante la condición 
+            <code>{error &amp;&amp; ...}</code>. Esta gestión permite, por tanto, 
+            informar claramente al usuario cuando no se puede realizar una inserción. 
+            Todo el ciclo de la operación asíncrona es gestionado por Redux Toolkit: 
+            <strong>pending</strong> al inicio, 
+            <strong>fulfilled</strong> en caso de éxito y 
+            <strong>rejected</strong> en caso de error. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 54 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 54 — Exportación del reducer</h2> 
+
+        <p> 
+            Al final del archivo Redux, el código utiliza 
+            <code>export default immobilierSlice.reducer</code>. 
+            Esta instrucción exporta el reducer creado por 
+            <code>createSlice()</code>. Este reducer deberá añadirse posteriormente al 
+            store principal de Redux de la aplicación. Una vez registrado en el store, 
+            estará disponible para el componente React mediante 
+            <code>useSelector()</code>, y las acciones podrán ejecutarse mediante 
+            <code>useDispatch()</code>. Esta organización permite, por tanto, 
+            centralizar toda la lógica de estado relacionada con la inserción de datos inmobiliarios 
+            en el slice <code>immobilier</code>. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 55 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 55 — Importación de las funcionalidades de React</h2> 
+
+        <p> 
+            El componente <code>ImmobilierDashboard</code> comienza importando 
+            React, así como las herramientas necesarias de Redux. <code>useDispatch</code> 
+            permite al componente enviar acciones a Redux, mientras que 
+            <code>useSelector</code> permite recuperar los datos presentes en 
+            el store. El componente también importa la acción 
+            <code>insertImmobilier</code> desde el archivo Redux 
+            <code>immobilierSlice</code>. Esta acción se utilizará cuando 
+            el usuario haga clic en el botón de inserción. El archivo CSS 
+            <code>ImmobilierDashboard.css</code> también se importa para 
+            separar la lógica de presentación de la lógica JavaScript. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 56 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 56 — Importación y configuración de Chart.js</h2> 
+
+        <p> 
+            El componente también utiliza la biblioteca 
+            <strong>Chart.js</strong> con el componente React 
+            <code>Bar</code> proporcionado por <code>react-chartjs-2</code>. 
+            Esta biblioteca permite representar los datos inmobiliarios 
+            en forma de gráfico. Se importan varios elementos de Chart.js: 
+            <code>CategoryScale</code> para el eje que contiene las categorías, 
+            <code>LinearScale</code> para el eje numérico, 
+            <code>BarElement</code> para las barras del gráfico, 
+            <code>Title</code> para la gestión del título, 
+            <code>Tooltip</code> para mostrar información al pasar el cursor y 
+            <code>Legend</code> para la leyenda. Estos elementos se registran posteriormente 
+            mediante <code>ChartJS.register()</code>. Este paso es necesario para que 
+            Chart.js pueda utilizar correctamente estos componentes en el gráfico. 
+            El proyecto puede, por tanto, crear un gráfico de barras que muestre los precios 
+            asociados a diferentes tipos de bienes inmobiliarios. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 57 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 57 — Creación del componente ImmobilierDashboard</h2> 
+
+        <p> 
+            La función <code>ImmobilierDashboard()</code> representa la página principal 
+            del dashboard inmobiliario. Combina varias funcionalidades: 
+            mostrar el informe de Power BI, el gráfico de precios inmobiliarios, 
+            el botón de inserción y los resultados devueltos por el backend. 
+            Por tanto, el componente actúa como capa de presentación. Recibe 
+            información desde Redux y la transforma en elementos visibles 
+            en la interfaz. El usuario puede así consultar la información inmobiliaria 
+            e iniciar una operación de inserción sin tener que comunicarse 
+            directamente con la API backend. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 58 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 58 — Uso de useDispatch</h2> 
+
+        <p> 
+            El código utiliza <code>const dispatch = useDispatch()</code> para 
+            obtener la función utilizada para enviar acciones de Redux. 
+            Esta función se utiliza posteriormente en <code>handleInsert()</code> 
+            mediante la instrucción <code>dispatch(insertImmobilier(data))</code>. 
+            Esto significa que React prepara los datos y luego solicita a Redux 
+            que ejecute la acción asíncrona de inserción. El componente no 
+            realiza directamente la solicitud de Axios. La comunicación con el backend 
+            está centralizada en el slice de Redux. Esta separación hace que el código 
+            esté más organizado y facilita el mantenimiento de la aplicación. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 59 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 59 — Recuperación del estado con useSelector</h2> 
+
+        <p> 
+            El componente recupera posteriormente la información del slice inmobiliario 
+            mediante <code>useSelector()</code>. La instrucción 
+            <code>const &#123; status, message, rows, loading, error &#125; = 
+            useSelector((state) =&gt; state.immobilier)</code> extrae varias 
+            propiedades del store de Redux. <code>status</code> contiene el estado 
+            de la operación, <code>message</code> contiene el mensaje devuelto por 
+            el backend, <code>rows</code> contiene el número de filas procesadas, 
+            <code>loading</code> indica si la inserción está en curso y 
+            <code>error</code> contiene un posible error. Gracias a 
+            <code>useSelector()</code>, el componente React recibe automáticamente 
+            la información cuando estos valores cambian en Redux y puede actualizar 
+            la interfaz en consecuencia. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 60 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 60 — Creación de la función handleInsert</h2> 
+
+        <p> 
+            La función <code>handleInsert()</code> se ejecuta cuando el usuario 
+            hace clic en el botón <strong>"Insertar datos"</strong>. Comienza 
+            creando una constante llamada <code>data</code>. Esta constante contiene 
+            un array de dos objetos que representan dos bienes inmobiliarios. 
+            El primer objeto corresponde a una <strong>Casa</strong> con una superficie de 
+            <strong>120 m²</strong>, un precio de <strong>200000</strong> y una fuente 
+            llamada <strong>AROUS</strong>. El segundo objeto corresponde a un 
+            <strong>Apartamento</strong> con una superficie de <strong>80 m²</strong>, 
+            un precio de <strong>150000</strong> y una fuente llamada 
+            <strong>GEMMA</strong>. Cada objeto también posee un identificador 
+            <code>idImmobilier</code>. Después de preparar este array, 
+            la función llama a <code>dispatch(insertImmobilier(data))</code>. 
+            Redux recibe los datos y activa el proceso asíncrono. 
+            Axios envía posteriormente los datos al backend mediante la solicitud POST 
+            definida en el slice. Esta función representa, por tanto, el punto de partida 
+            de toda la operación de inserción desde la interfaz de usuario. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 61 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 61 — Preparación de los datos del gráfico</h2> 
+
+        <p> 
+            El gráfico se prepara utilizando la constante <code>chartData</code>. 
+            Esta constante contiene la información necesaria para que Chart.js 
+            construya el gráfico de barras. La propiedad <code>labels</code> contiene 
+            las categorías mostradas en el eje horizontal: <strong>Casa</strong> y 
+            <strong>Apartamento</strong>. La propiedad <code>datasets</code> contiene 
+            las series de datos del gráfico. Se define una serie llamada 
+            <strong>Precio Inmobiliario</strong> que contiene los valores 
+            <strong>200000</strong> y <strong>150000</strong>. Estos valores corresponden 
+            a los precios de la casa y del apartamento definidos anteriormente en los 
+            datos de ejemplo. El gráfico permite, por tanto, comparar visualmente los precios 
+            de los dos tipos de bienes inmobiliarios. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 62 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 62 — Integración del Dashboard de Power BI</h2> 
+
+        <p> 
+            El componente también integra un informe de Power BI mediante un elemento 
+            <code>iframe</code>. El iframe recibe una URL publicada de Power BI 
+            mediante su propiedad <code>src</code>. Esto permite mostrar 
+            directamente el informe de Power BI dentro de la página React. La 
+            clase <code>iframe-card</code> controla su apariencia mediante el 
+            archivo CSS. La propiedad <code>title</code> identifica el contenido integrado 
+            y <code>allowFullScreen</code> permite la visualización en pantalla completa cuando 
+            esta funcionalidad está disponible. Esta integración permite combinar 
+            el análisis de Business Intelligence de Power BI con funcionalidades interactivas 
+            desarrolladas directamente en React. El dashboard inmobiliario puede, por tanto, 
+            mostrar tanto las visualizaciones de Power BI como el procesamiento 
+            dinámico realizado en el frontend. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 63 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 63 — Visualización del estado de carga</h2> 
+
+        <p> 
+            El componente utiliza la propiedad <code>loading</code> para determinar si 
+            la inserción está actualmente en curso. El botón tiene la propiedad 
+            <code>disabled={loading}</code>. Cuando <code>loading</code> es 
+            <code>true</code>, el botón se desactiva para evitar múltiples 
+            inserciones simultáneas. Su texto también cambia mediante una expresión 
+            condicional: <code>{loading ? "Insertion..." : "Insert data"}</code>. 
+            De esta manera, el usuario puede comprender inmediatamente que la operación está 
+            en curso. Cuando Redux pasa al estado <code>fulfilled</code> o 
+            <code>rejected</code>, <code>loading</code> vuelve a ser 
+            <code>false</code> y el botón vuelve a estar disponible. 
+            Esta pequeña lógica mejora la experiencia del usuario y permite 
+            seguir visualmente el procesamiento de la solicitud. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 64 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 64 — Visualización del resultado de la inserción</h2> 
+
+        <p> 
+            Después de una inserción exitosa, el componente comprueba si 
+            <code>status</code> existe mediante la condición 
+            <code>{status &amp;&amp; (...)}</code>. Si esta condición es verdadera, 
+            se muestra un párrafo con la clase CSS <code>success</code>. 
+            Su contenido combina el mensaje devuelto por el backend y el número de 
+            filas procesadas. La expresión <code>{message} ({rows} rows)</code> 
+            permite mostrar información como el mensaje de éxito 
+            acompañado del número de filas insertadas. Los valores mostrados no están 
+            escritos directamente dentro del componente: proceden del backend, 
+            se han almacenado en Redux y posteriormente React los recupera mediante 
+            <code>useSelector()</code>. Esta cadena muestra claramente el recorrido 
+            de la información desde el servidor hasta la interfaz de usuario. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 65 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 65 — Visualización de errores</h2> 
+
+        <p> 
+            El componente también permite mostrar errores mediante 
+            <code>{error &amp;&amp; (...)}</code>. Si existe un error en 
+            el estado de Redux, se muestra un párrafo con la clase 
+            <code>error</code> que contiene el valor de la variable 
+            <code>error</code>. Esta información procede del bloque 
+            <code>catch</code> del thunk de Redux. Cuando se produce un error, 
+            <code>rejectWithValue()</code> transmite la información al reducer 
+            <code>rejected</code>, que la almacena en <code>state.error</code>. 
+            React recupera posteriormente este valor mediante <code>useSelector()</code>. 
+            El usuario puede así ser informado directamente en la interfaz 
+            cuando un error impide la inserción de los datos inmobiliarios. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 66 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 66 — Visualización del gráfico con Chart.js</h2> 
+
+        <p> 
+            El gráfico se muestra utilizando el componente <code>Bar</code> proporcionado 
+            por <code>react-chartjs-2</code>. La instrucción 
+            <code>&lt;Bar data={chartData} /&gt;</code> transmite a Chart.js 
+            los datos preparados anteriormente. Chart.js utiliza entonces las 
+            <code>labels</code> para mostrar las categorías y los valores del 
+            dataset para construir las barras. En este caso, el gráfico representa 
+            los precios de dos categorías inmobiliarias: Casa y Apartamento. 
+            El dataset también contiene una propiedad <code>backgroundColor</code> 
+            que define los colores utilizados para las barras. El gráfico proporciona 
+            así una representación visual sencilla que permite comparar rápidamente 
+            los precios de los diferentes tipos de bienes inmobiliarios. Esta visualización 
+            complementa la información mostrada en el dashboard de Power BI. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 67 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 67 — Organización general de la interfaz</h2> 
+
+        <p> 
+            La interfaz principal está contenida en un div que posee la clase 
+            <code>immobilier-container</code>. Primero contiene el título 
+            <strong>🏠 Dashboard Inmobiliario</strong>, seguido de una sección dedicada 
+            al informe de Power BI. A continuación, una sección <code>chart-box</code> 
+            contiene el gráfico de Chart.js. Finalmente, una sección 
+            <code>prediction-card</code> contiene el título de los resultados, 
+            el botón de inserción y los mensajes de éxito o error. 
+            Esta organización permite separar visualmente las diferentes 
+            funcionalidades del dashboard. El archivo CSS 
+            <code>ImmobilierDashboard.css</code> puede definir posteriormente el ancho, 
+            los espacios, los bordes, las sombras, los colores y la disposición 
+            de cada una de estas áreas sin mezclar la presentación con la lógica 
+            de JavaScript. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 68 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 68 — Comunicación completa entre React, Redux, Axios y Backend</h2> 
+
+        <p> 
+            El proceso completo comienza cuando el usuario abre el 
+            <strong>Dashboard Inmobiliario</strong>. React muestra el componente 
+            <code>ImmobilierDashboard</code> junto con el informe de Power BI 
+            y el gráfico de Chart.js. Cuando el usuario hace clic en el 
+            <strong>"Insertar datos"</strong>, la función 
+            <code>handleInsert()</code> crea el array que contiene 
+            la información inmobiliaria. A continuación, llama a 
+            <code>dispatch(insertImmobilier(data))</code>. Redux Toolkit activa 
+            entonces el estado <code>pending</code> y la propiedad 
+            <code>loading</code> pasa a <code>true</code>. El thunk 
+            <code>insertImmobilier</code> utiliza Axios para enviar una 
+            solicitud HTTP POST a <code>/insert</code>. El backend recibe los datos, 
+            los procesa y devuelve una respuesta. Si la respuesta es correcta, 
+            Redux activa <code>fulfilled</code>, desactiva la carga y 
+            almacena el estado, el mensaje y el número de filas en el store. 
+            Si se produce un error, Redux activa <code>rejected</code> y 
+            almacena el mensaje de error. Gracias a <code>useSelector()</code>, 
+            React recupera automáticamente los nuevos valores y actualiza 
+            la interfaz. El botón vuelve a su estado normal y se muestra el resultado 
+            o el error. Esta comunicación forma, por tanto, una cadena completa 
+            entre el usuario, React, Redux Toolkit, Axios, el backend 
+            y finalmente el retorno de la información a la interfaz. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 69 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 69 — Flujo general del funcionamiento</h2> 
+
+        <div class="flow"> 
+
+            <div class="flow-box">👤 Usuario</div> 
+            <div class="arrow">↓</div> 
+
+            <div class="flow-box">⚛️ React</div> 
+            <div class="arrow">↓</div> 
+
+            <div class="flow-box">handleInsert()</div> 
+            <div class="arrow">↓</div> 
+
+            <div class="flow-box">Redux dispatch()</div> 
+            <div class="arrow">↓</div> 
+
+            <div class="flow-box">createAsyncThunk</div> 
+            <div class="arrow">↓</div> 
+
+            <div class="flow-box">Axios POST</div> 
+            <div class="arrow">↓</div> 
+
+            <div class="flow-box">🖥️ Backend Node.js / Express</div> 
+            <div class="arrow">↓</div> 
+
+            <div class="flow-box">📦 Respuesta JSON</div> 
+            <div class="arrow">↓</div> 
+
+            <div class="flow-box">fulfilled / rejected</div> 
+            <div class="arrow">↓</div> 
+
+            <div class="flow-box">Redux Store</div> 
+            <div class="arrow">↓</div> 
+
+            <div class="flow-box">useSelector()</div> 
+            <div class="arrow">↓</div> 
+
+            <div class="flow-box">📊 Interfaz React</div> 
+
+        </div> 
+
+        <p> 
+            Este diagrama representa el ciclo completo de la operación. El usuario 
+            activa una acción en React. React utiliza Redux para iniciar 
+            la operación asíncrona. Redux utiliza posteriormente Axios para comunicarse 
+            con el backend. El backend procesa los datos y devuelve una respuesta. 
+            Redux recupera esta respuesta y actualiza el store. Finalmente, React 
+            recupera la nueva información mediante <code>useSelector()</code> 
+            y actualiza automáticamente la interfaz. Esta arquitectura permite 
+            separar las responsabilidades y evita que el componente React 
+            contenga directamente toda la lógica de comunicación con el servidor. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 70 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 70 — Función de cada tecnología</h2> 
+
+        <p> 
+            Cada tecnología utilizada en esta funcionalidad tiene un papel 
+            específico. <strong>React</strong> es responsable de crear la 
+            interfaz de usuario y mostrar el dashboard. <strong>Redux Toolkit</strong> centraliza 
+            el estado relacionado con la inserción de datos inmobiliarios y gestiona los 
+            diferentes estados de la solicitud. 
+            <strong>createAsyncThunk</strong> facilita la creación de la 
+            operación asíncrona. <strong>Axios</strong> permite enviar los datos al 
+            backend mediante una solicitud HTTP POST. 
+            <strong>Node.js/Express</strong> representa la parte backend que 
+            recibe y procesa los datos. 
+            <strong>Chart.js</strong> permite representar gráficamente los precios inmobiliarios. 
+            <strong>Power BI</strong> proporciona una capa de Business 
+            Intelligence que permite integrar un dashboard de toma de decisiones 
+            en la aplicación. Finalmente, el archivo CSS independiente 
+            controla la apariencia de toda la interfaz sin mezclar 
+            los estilos con la lógica del componente React. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 71 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 71 — Arquitectura frontend completa</h2> 
+
+        <p> 
+            La arquitectura frontend de esta funcionalidad se basa, por tanto, en 
+            una separación de responsabilidades. El componente React se encarga de 
+            la visualización y de las interacciones con el usuario. Redux Toolkit 
+            se encarga de la gestión centralizada del estado. El thunk 
+            <code>insertImmobilier</code> gestiona la operación asíncrona. 
+            Axios realiza la comunicación HTTP con el backend. El backend 
+            devuelve posteriormente una respuesta que contiene la información del procesamiento. 
+            Redux almacena esta información en <code>status</code>, 
+            <code>message</code> y <code>rows</code>. React recupera estos valores 
+            y los muestra. Al mismo tiempo, Chart.js transforma los datos definidos 
+            en <code>chartData</code> en un gráfico y Power BI se integra 
+            directamente mediante el iframe. Esta arquitectura permite, por tanto, 
+            combinar una aplicación frontend moderna con herramientas de visualización 
+            y Business Intelligence. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 72 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 72 — Ciclo completo de inserción de datos</h2> 
+
+        <p> 
+            El ciclo comienza cuando el usuario hace clic en el botón 
+            <strong>"Insertar datos"</strong>. La función 
+            <code>handleInsert()</code> prepara dos objetos inmobiliarios 
+            y los agrupa en un array. El array se pasa posteriormente a 
+            <code>insertImmobilier(data)</code> mediante <code>dispatch()</code>. 
+            Redux Toolkit activa el estado <code>pending</code>, lo que activa 
+            el indicador de carga y desactiva el botón. El thunk utiliza 
+            posteriormente Axios para enviar los datos a la API backend mediante una 
+            solicitud POST. El servidor recibe los datos y los procesa. Si la operación tiene éxito, 
+            la respuesta del servidor se convierte en el payload de 
+            <code>fulfilled</code>. Redux recupera entonces el estado, el mensaje y 
+            el número de filas. La carga se desactiva y el mensaje de éxito se hace 
+            visible en la interfaz. Si la operación falla, el bloque 
+            <code>catch</code> transmite el error a Redux mediante 
+            <code>rejectWithValue()</code>. El reducer <code>rejected</code> 
+            almacena este error y React lo muestra al usuario. El ciclo completo 
+            permite, por tanto, supervisar con precisión el estado de la operación 
+            desde su inicio hasta su resultado final. 
+        </p> 
+
+    </section> 
+
+
+    <!-- ===================================================== --> 
+    <!-- 73 --> 
+    <!-- ===================================================== --> 
+
+    <section class="chapter"> 
+
+        <h2># 73 — Conclusión</h2> 
+
+        <p> 
+            El Dashboard Inmobiliario es una funcionalidad frontend completa 
+            que combina gestión del estado, comunicación con una API, visualización 
+            gráfica y Business Intelligence. Redux Toolkit permite centralizar 
+            la gestión de la inserción de datos inmobiliarios mediante el 
+            slice <code>immobilier</code> y la acción asíncrona 
+            <code>insertImmobilier</code>. Axios garantiza la transmisión de los datos 
+            al backend mediante una solicitud POST. Los estados 
+            <code>pending</code>, <code>fulfilled</code> y <code>rejected</code> 
+            permiten gestionar respectivamente la carga, el éxito y el error. 
+            React utiliza <code>useDispatch()</code> para ejecutar la acción de Redux y 
+            <code>useSelector()</code> para recuperar los resultados desde el store. 
+            La función <code>handleInsert()</code> permite al usuario 
+            activar la inserción de datos. Chart.js proporciona una representación 
+            gráfica de los precios inmobiliarios para facilitar su comparación, mientras que 
+            Power BI permite integrar un dashboard de toma de decisiones 
+            directamente en la página. Todo el sistema forma, por tanto, una arquitectura 
+            frontend organizada en la que cada tecnología tiene una responsabilidad precisa: 
+            <strong>React para la interfaz, Redux Toolkit para la gestión del estado, 
+            Axios para la comunicación con el backend, Chart.js para los gráficos 
+            y Power BI para el análisis de toma de decisiones.</strong> 
+        </p> 
+
+    </section> 
+
+</main> 
+
+</body> 
+</html>

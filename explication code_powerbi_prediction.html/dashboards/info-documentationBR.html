@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação — INFO Prediction</title>
+    <meta
+        name="description"
+        content="Documentação técnica do sistema de previsão INFO com Python, Machine Learning, Node.js e Express."
+    >
+    <link rel="stylesheet" href="info-documentation.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Documentação — INFO Prediction</h1>
+    <p>
+        Integração de modelos de Machine Learning desenvolvidos em Python
+        com uma aplicação Node.js / Express.
+    </p>
+</header>
+
+<nav>
+    <a href="#presentation">01 Apresentação</a>
+    <a href="#python">02 Python</a>
+    <a href="#models">03 Modelos</a>
+    <a href="#input">04 Entrada</a>
+    <a href="#predictions">05 Previsões</a>
+    <a href="#json">06 JSON</a>
+    <a href="#service">07 Serviço Node</a>
+    <a href="#route">08 Rota</a>
+    <a href="#server">09 Servidor</a>
+    <a href="#architecture">10 Arquitetura</a>
+    <a href="#technologies">11 Tecnologias</a>
+    <a href="#api">12 API</a>
+    <a href="#oral">13 Apresentação oral</a>
+    <a href="#conclusion">14 Conclusão</a>
+</nav>
+
+<main>
+
+    <!-- 01 -->
+    <section id="presentation">
+        <h2>01 — Apresentação geral do sistema</h2>
+
+        <p>
+            Este sistema permite integrar modelos de Machine Learning
+            desenvolvidos em Python em uma aplicação web desenvolvida
+            com Node.js e Express.
+        </p>
+
+        <p>
+            O objetivo é receber dados enviados pelo frontend,
+            executar os modelos de previsão e retornar os resultados
+            em formato JSON.
+        </p>
+
+        <div class="info-box">
+            <strong>Fluxo geral:</strong>
+            Frontend → Express → Node.js → Python → Modelos ML
+            → Python → Node.js → Express → Frontend
+        </div>
+    </section>
+
+
+    <!-- 02 -->
+    <section id="python">
+        <h2>02 — Script Python de previsão</h2>
+
+        <p>
+            O arquivo <strong>info.py</strong> é responsável por executar
+            a parte Machine Learning do sistema.
+        </p>
+
+        <p>
+            Ele recebe os dados enviados pelo Node.js, carrega os modelos
+            treinados, realiza as previsões e retorna os resultados em JSON.
+        </p>
+
+        <pre><code>import sys
+import json
+import pickle
+import numpy as np</code></pre>
+
+        <h3>Importação das bibliotecas</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Biblioteca</th>
+                    <th>Função</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>sys</td>
+                    <td>Permite recuperar os argumentos enviados pelo Node.js.</td>
+                </tr>
+
+                <tr>
+                    <td>json</td>
+                    <td>Permite converter os dados JSON.</td>
+                </tr>
+
+                <tr>
+                    <td>pickle</td>
+                    <td>Permite carregar os modelos Machine Learning.</td>
+                </tr>
+
+                <tr>
+                    <td>numpy</td>
+                    <td>Permite preparar os dados para os modelos.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+
+    <!-- 03 -->
+    <section id="models">
+        <h2>03 — Carregamento dos três modelos de Machine Learning</h2>
+
+        <p>
+            O sistema utiliza três modelos previamente treinados e salvos
+            no formato <strong>.pkl</strong>.
+        </p>
+
+        <pre><code>with open("INFO2.pkl", "rb") as f:
+    model_info2 = pickle.load(f)
+
+with open("INFO3.pkl", "rb") as f:
+    model_info3 = pickle.load(f)
+
+with open("gomycode.pkl", "rb") as f:
+    model_gomycode = pickle.load(f)</code></pre>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Arquivo</th>
+                    <th>Função</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>INFO2.pkl</td>
+                    <td>Modelo de previsão INFO2.</td>
+                </tr>
+
+                <tr>
+                    <td>INFO3.pkl</td>
+                    <td>Modelo de previsão INFO3.</td>
+                </tr>
+
+                <tr>
+                    <td>gomycode.pkl</td>
+                    <td>Modelo de previsão Gomycode.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>
+            O formato <strong>pickle</strong> permite salvar e reutilizar
+            modelos Python previamente treinados.
+        </p>
+    </section>
+
+
+    <!-- 04 -->
+    <section id="input">
+        <h2>04 — Recepção e preparação dos dados</h2>
+
+        <p>
+            O Node.js envia os dados para o script Python em formato JSON.
+        </p>
+
+        <pre><code>data = json.loads(sys.argv[1])</code></pre>
+
+        <p>
+            O JSON recebido é convertido em um objeto Python.
+        </p>
+
+        <p>
+            Em seguida, os dados são transformados em uma matriz NumPy
+            de duas dimensões para serem compatíveis com os modelos.
+        </p>
+
+        <pre><code>X = np.array([[
+    data["value"]
+]])</code></pre>
+
+        <p>
+            Antes da previsão, o sistema também verifica se os dados
+            contêm valores inválidos ou <strong>NaN</strong>.
+        </p>
+
+        <pre><code>if np.isnan(X).any():
+    raise ValueError("Os dados contêm valores NaN")</code></pre>
+    </section>
+
+
+    <!-- 05 -->
+    <section id="predictions">
+        <h2>05 — Execução das três previsões</h2>
+
+        <p>
+            Depois de preparar os dados, o Python executa os três modelos
+            de Machine Learning.
+        </p>
+
+        <pre><code>prediction_info2 = model_info2.predict(X)
+prediction_info3 = model_info3.predict(X)
+prediction_gomycode = model_gomycode.predict(X)</code></pre>
+
+        <p>
+            Cada modelo retorna uma previsão independente.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Modelo</th>
+                    <th>Resultado</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>INFO2</td>
+                    <td>Previsão do modelo INFO2.</td>
+                </tr>
+
+                <tr>
+                    <td>INFO3</td>
+                    <td>Previsão do modelo INFO3.</td>
+                </tr>
+
+                <tr>
+                    <td>Gomycode</td>
+                    <td>Previsão do modelo Gomycode.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+
+    <!-- 06 -->
+    <section id="json">
+        <h2>06 — Resultado JSON e tratamento de erros</h2>
+
+        <p>
+            Depois de executar as previsões, o Python prepara um objeto
+            JSON contendo os três resultados.
+        </p>
+
+        <pre><code>result = {
+    "info2": prediction_info2.tolist(),
+    "info3": prediction_info3.tolist(),
+    "gomycode": prediction_gomycode.tolist()
+}
+
+print(json.dumps(result))</code></pre>
+
+        <p>
+            O comando <strong>print()</strong> envia o resultado para
+            o processo Node.js através do <strong>stdout</strong>.
+        </p>
+
+        <p>
+            Em caso de erro, o script também pode retornar uma mensagem
+            para permitir que o Node.js identifique o problema.
+        </p>
+    </section>
+
+
+    <!-- 07 -->
+    <section id="service">
+        <h2>07 — Serviço Node.js e comunicação com Python</h2>
+
+        <p>
+            No backend Node.js, a função
+            <strong>runInfoPrediction()</strong> é responsável por
+            executar o script Python.
+        </p>
+
+        <p>
+            Para isso, o sistema utiliza
+            <strong>child_process.spawn()</strong>.
+        </p>
+
+        <pre><code>const { spawn } = require("child_process");</code></pre>
+
+        <p>
+            Le principe est de lancer le processus Python depuis Node.js
+            et de lui transmettre les données nécessaires.
+        </p>
+
+        <pre><code>const pythonProcess = spawn("python", [
+    "info.py",
+    JSON.stringify(data)
+]);</code></pre>
+
+        <p>
+            O JSON é enviado como argumento para o script Python.
+        </p>
+    </section>
+
+
+    <!-- 08 -->
+    <section id="route">
+        <h2>08 — Rota Express de previsão</h2>
+
+        <p>
+            Uma rota Express recebe a solicitação do frontend e chama
+            o serviço de previsão.
+        </p>
+
+        <pre><code>router.post("/predict", async (req, res) =&gt; {
+    try {
+        const result = await runInfoPrediction(req.body);
+
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+});</code></pre>
+
+        <p>
+            A rota utilizada para a previsão é:
+        </p>
+
+        <div class="route-box">
+            POST /info/predict
+        </div>
+
+        <p>
+            O frontend envia os dados para essa rota e recebe o resultado
+            da previsão em formato JSON.
+        </p>
+    </section>
+
+
+    <!-- 09 -->
+    <section id="server">
+        <h2>09 — Servidor Express principal</h2>
+
+        <p>
+            O servidor Express registra a rota de previsão.
+        </p>
+
+        <pre><code>app.use("/info", infoRoutes);</code></pre>
+
+        <p>
+            Isso significa que todas as rotas definidas em
+            <strong>infoRoutes</strong> estarão disponíveis a partir
+            do prefixo <strong>/info</strong>.
+        </p>
+
+        <p>
+            Portanto, a rota final será:
+        </p>
+
+        <div class="route-box">
+            POST /info/predict
+        </div>
+    </section>
+
+
+    <!-- 10 -->
+    <section id="architecture">
+        <h2>10 — Arquitetura completa</h2>
+
+        <div class="architecture">
+
+            <div class="architecture-item">
+                <h3>1. Frontend</h3>
+                <p>
+                    O usuário fornece os dados necessários para realizar
+                    a previsão.
+                </p>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="architecture-item">
+                <h3>2. Express</h3>
+                <p>
+                    A API recebe a solicitação através da rota
+                    <strong>/info/predict</strong>.
+                </p>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="architecture-item">
+                <h3>3. Node.js</h3>
+                <p>
+                    Node.js executa a função
+                    <strong>runInfoPrediction()</strong>.
+                </p>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="architecture-item">
+                <h3>4. Python</h3>
+                <p>
+                    Node.js executa o arquivo
+                    <strong>info.py</strong> usando
+                    <strong>child_process.spawn()</strong>.
+                </p>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="architecture-item">
+                <h3>5. Machine Learning</h3>
+                <p>
+                    Os três modelos <strong>.pkl</strong> realizam
+                    as previsões.
+                </p>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="architecture-item">
+                <h3>6. Resultado JSON</h3>
+                <p>
+                    Python retorna os resultados em formato JSON.
+                </p>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="architecture-item">
+                <h3>7. Frontend</h3>
+                <p>
+                    O dashboard recebe e apresenta os resultados
+                    da previsão.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 11 -->
+    <section id="technologies">
+        <h2>11 — Função das tecnologias</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Tecnologia</th>
+                    <th>Função</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Python</td>
+                    <td>Execução dos modelos Machine Learning.</td>
+                </tr>
+
+                <tr>
+                    <td>NumPy</td>
+                    <td>Preparação e manipulação dos dados.</td>
+                </tr>
+
+                <tr>
+                    <td>Pickle</td>
+                    <td>Carregamento dos modelos treinados.</td>
+                </tr>
+
+                <tr>
+                    <td>Node.js</td>
+                    <td>Execução do backend e comunicação com Python.</td>
+                </tr>
+
+                <tr>
+                    <td>Express</td>
+                    <td>Criação da API e das rotas HTTP.</td>
+                </tr>
+
+                <tr>
+                    <td>child_process</td>
+                    <td>Execução do processo Python a partir do Node.js.</td>
+                </tr>
+
+                <tr>
+                    <td>JSON</td>
+                    <td>Comunicação entre o frontend, Node.js e Python.</td>
+                </tr>
+
+                <tr>
+                    <td>Machine Learning</td>
+                    <td>Geração das previsões.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+
+    <!-- 12 -->
+    <section id="api">
+        <h2>12 — Exemplo de comunicação com a API</h2>
+
+        <h3>Solicitação</h3>
+
+        <pre><code>POST /info/predict</code></pre>
+
+        <pre><code>{
+    "value": 100
+}</code></pre>
+
+        <h3>Resposta</h3>
+
+        <pre><code>{
+    "info2": [...],
+    "info3": [...],
+    "gomycode": [...]
+}</code></pre>
+
+        <p>
+            O frontend pode então utilizar esses valores para exibir
+            os resultados em um dashboard, gráfico ou outro componente
+            de visualização.
+        </p>
+    </section>
+
+
+    <!-- 13 -->
+    <section id="oral">
+        <h2>13 — Explicação para a apresentação</h2>
+
+        <div class="oral-box">
+
+            <p>
+                “Nesta parte do meu projeto, integrei vários modelos
+                de Machine Learning desenvolvidos em Python em uma
+                aplicação web utilizando Node.js e Express.”
+            </p>
+
+            <p>
+                “Primeiro, o frontend envia os dados para a API através
+                da rota <strong>/info/predict</strong>.”
+            </p>
+
+            <p>
+                “Em seguida, o Node.js recebe esses dados e utiliza
+                <strong>child_process.spawn()</strong> para executar
+                o script Python.”
+            </p>
+
+            <p>
+                “O script Python recebe os dados em formato JSON,
+                carrega os três modelos Machine Learning salvos em
+                arquivos <strong>.pkl</strong> e prepara os dados
+                usando NumPy.”
+            </p>
+
+            <p>
+                “Depois, cada modelo realiza sua própria previsão.”
+            </p>
+
+            <p>
+                “Os resultados são convertidos para JSON e enviados
+                novamente ao Node.js através do stdout.”
+            </p>
+
+            <p>
+                “Por fim, o Node.js retorna o resultado para o frontend,
+                onde ele pode ser apresentado no dashboard.”
+            </p>
+
+            <p>
+                “Essa arquitetura permite conectar uma aplicação web
+                desenvolvida em JavaScript com modelos de Machine Learning
+                desenvolvidos em Python.”
+            </p>
+
+        </div>
+    </section>
+
+
+    <!-- 14 -->
+    <section id="conclusion">
+        <h2>14 — Conclusão</h2>
+
+        <p>
+            Este sistema permite integrar de forma eficiente modelos
+            de Machine Learning em uma aplicação web.
+        </p>
+
+        <p>
+            A arquitetura utiliza Node.js e Express para gerenciar
+            a API, enquanto Python executa os modelos de previsão.
+        </p>
+
+        <p>
+            A comunicação entre as diferentes partes do sistema é feita
+            através de JSON.
+        </p>
+
+        <p>
+            Essa abordagem permite combinar as vantagens do ecossistema
+            JavaScript para o desenvolvimento web com as ferramentas
+            disponíveis no ecossistema Python para Machine Learning.
+        </p>
+
+        <div class="success-box">
+            <strong>Fluxo final:</strong>
+            Frontend → API Express → Node.js → Python
+            → Modelos ML → JSON → Node.js → Frontend
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>
+        Documentação técnica — INFO Prediction
+    </p>
+
+    <p>
+        Python • Machine Learning • Node.js • Express • JSON
+    </p>
+</footer>
+
+</body>
+</html>

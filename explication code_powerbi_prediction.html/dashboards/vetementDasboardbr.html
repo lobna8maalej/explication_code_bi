@@ -1,0 +1,2800 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Documentação detalhada do componente VetementDashboard.jsx e do arquivo vetementSlice.js: React, Fetch API, Redux Toolkit, Recharts, Scatter Plot, Power BI e Machine Learning."
+    >
+
+    <title>
+        Vetement ML Dashboard — Documentação técnica
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="VetementDashboard.css"
+    >
+
+</head>
+
+
+<body>
+
+<main class="documentation">
+
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    <header class="documentation-header">
+
+        <h1>
+            👕 Vetement ML Dashboard — Documentação técnica
+        </h1>
+
+        <p>
+            Esta documentação explica em detalhes o funcionamento do
+            componente <strong>VetementDashboard.jsx</strong>, sua comunicação
+            com o backend por meio da <strong>Fetch API</strong>, a estrutura
+            do arquivo <strong>vetementSlice.js</strong>, bem como o uso de
+            <strong>React</strong>,
+            <strong>Redux Toolkit</strong>,
+            <strong>Recharts</strong>,
+            <strong>ScatterChart</strong>,
+            <strong>Power BI</strong> e do sistema de
+            <strong>Machine Learning</strong>.
+        </p>
+
+    </header>
+
+
+    <!-- ===================================================== -->
+    <!-- INTRODUÇÃO -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <p>
+            O Dashboard de Roupas permite enviar automaticamente
+            dados relacionados a um produto de vestuário para o backend.
+        </p>
+
+        <p>
+            Os dados enviados são:
+        </p>
+
+        <ul>
+
+            <li>
+                <strong>Prix_C1 = 150</strong>
+            </li>
+
+            <li>
+                <strong>Prix_C2 = 180</strong>
+            </li>
+
+            <li>
+                <strong>numbers = 15</strong>
+            </li>
+
+            <li>
+                <strong>Target = 1</strong>
+            </li>
+
+        </ul>
+
+        <p>
+            A requisição é enviada usando o método HTTP
+            <strong>POST</strong> para:
+        </p>
+
+        <pre><code>http://localhost:3000/vetement</code></pre>
+
+        <p>
+            O backend processa esses dados e retorna uma resposta JSON.
+            Essa resposta é armazenada na variável de estado
+            <code>items</code>.
+        </p>
+
+        <p>
+            Os dados retornados são então usados para construir um
+            <strong>Scatter Plot</strong> com Recharts.
+        </p>
+
+        <p>
+            Paralelamente, um relatório do <strong>Power BI</strong>
+            é exibido diretamente no Dashboard por meio de uma
+            <code>iframe</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- FLUXO GLOBAL -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            🔄 Fluxo global do Dashboard
+        </h2>
+
+        <div class="flow">
+
+<pre>
+Carregamento do VetementDashboard
+        ↓
+useEffect()
+        ↓
+fetch()
+        ↓
+POST /vetement
+        ↓
+Backend Node.js
+        ↓
+Processamento dos dados
+        ↓
+Machine Learning
+        ↓
+Resposta JSON
+        ↓
+res.json()
+        ↓
+setItems(data)
+        ↓
+items
+        ↓
+scatterData
+        ↓
+Recharts ScatterChart
+        ↓
+Exibição do gráfico
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 1 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            1. Apresentação geral do projeto
+        </h2>
+
+        <p>
+            O componente <strong>VetementDashboard.jsx</strong>
+            representa a interface React do Dashboard dedicado aos
+            dados de roupas.
+        </p>
+
+        <p>
+            Seu objetivo é enviar automaticamente dados ao backend
+            para obter uma resposta do sistema de processamento
+            e de Machine Learning.
+        </p>
+
+        <p>
+            O componente então exibe os dados recebidos na forma
+            de um <strong>Scatter Plot</strong>.
+        </p>
+
+        <p>
+            Ele também contém um relatório do Power BI integrado
+            por meio de uma <code>iframe</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 2 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            2. Arquivos e tecnologias utilizadas
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>
+                        Arquivo / tecnologia
+                    </th>
+
+                    <th>
+                        Função
+                    </th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        VetementDashboard.jsx
+                    </td>
+
+                    <td>
+                        Constrói a interface do Dashboard de Roupas.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        vetementSlice.js
+                    </td>
+
+                    <td>
+                        Define uma lógica Redux Toolkit para recuperar
+                        os dados do backend com Axios.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        VetementDashboard.css
+                    </td>
+
+                    <td>
+                        Controla a apresentação visual do Dashboard.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        React
+                    </td>
+
+                    <td>
+                        Constrói a interface do usuário.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        useState
+                    </td>
+
+                    <td>
+                        Armazena a resposta recebida do backend.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        useEffect
+                    </td>
+
+                    <td>
+                        Aciona automaticamente a requisição POST
+                        ao carregar o componente.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Fetch API
+                    </td>
+
+                    <td>
+                        Envia a requisição HTTP POST ao backend.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Redux Toolkit
+                    </td>
+
+                    <td>
+                        Fornece uma estrutura de gerenciamento de estado
+                        para os dados de Roupas.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Axios
+                    </td>
+
+                    <td>
+                        É usado em <code>vetementSlice.js</code>
+                        para realizar uma requisição GET.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Recharts
+                    </td>
+
+                    <td>
+                        Permite construir o gráfico.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        ScatterChart
+                    </td>
+
+                    <td>
+                        Representa os dados na forma de um gráfico
+                        de dispersão.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Power BI
+                    </td>
+
+                    <td>
+                        Exibe o relatório analítico integrado.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Machine Learning
+                    </td>
+
+                    <td>
+                        Permite que o backend processe os dados de
+                        acordo com o modelo utilizado.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 3 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            3. Importação do React
+        </h2>
+
+        <pre><code>import React, { useEffect, useState } from "react";</code></pre>
+
+        <p>
+            Esta instrução importa React junto com dois Hooks:
+            <code>useEffect</code> e <code>useState</code>.
+        </p>
+
+        <h3>
+            useState
+        </h3>
+
+        <p>
+            <code>useState</code> permite criar uma variável de estado
+            chamada <code>items</code>.
+        </p>
+
+        <h3>
+            useEffect
+        </h3>
+
+        <p>
+            <code>useEffect</code> permite executar automaticamente
+            uma operação após o carregamento do componente.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 4 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            4. Criação do estado items
+        </h2>
+
+        <pre><code>const [items, setItems] = useState(null);</code></pre>
+
+        <p>
+            Esta instrução cria um estado React chamado
+            <code>items</code>.
+        </p>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>
+                        Elemento
+                    </th>
+
+                    <th>
+                        Função
+                    </th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        items
+                    </td>
+
+                    <td>
+                        Contém a resposta recebida do backend.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        setItems
+                    </td>
+
+                    <td>
+                        Permite alterar o valor de <code>items</code>.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        null
+                    </td>
+
+                    <td>
+                        Valor inicial antes de receber a resposta.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <div class="flow">
+
+<pre>
+Inicialização
+      ↓
+items = null
+      ↓
+Requisição POST
+      ↓
+Resposta do backend
+      ↓
+setItems(data)
+      ↓
+items contém os dados
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 5 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            5. Uso do useEffect
+        </h2>
+
+        <pre><code>useEffect(() => {
+    ...
+}, []);</code></pre>
+
+        <p>
+            O array vazio <code>[]</code> significa que o efeito
+            é executado apenas uma vez quando o componente é montado.
+        </p>
+
+        <p>
+            Essa lógica permite enviar automaticamente a requisição POST
+            sem pedir ao usuário que clique em um botão.
+        </p>
+
+        <div class="flow">
+
+<pre>
+VetementDashboard carregado
+        ↓
+useEffect()
+        ↓
+fetch()
+        ↓
+POST /vetement
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 6 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            6. Requisição POST para o backend
+        </h2>
+
+        <pre><code>fetch("http://localhost:3000/vetement", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        Prix_C1: 150,
+        Prix_C2: 180,
+        numbers: 15,
+        Target: 1
+    })
+})</code></pre>
+
+        <p>
+            Esta instrução usa a Fetch API nativa do JavaScript.
+        </p>
+
+        <p>
+            Ela envia uma requisição HTTP POST para o endpoint
+            <code>/vetement</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 7 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            7. Por que usar POST?
+        </h2>
+
+        <p>
+            O método <strong>POST</strong> permite enviar dados
+            ao servidor no corpo da requisição.
+        </p>
+
+        <p>
+            Neste projeto, os dados de roupas são enviados ao backend
+            para que possam ser processados.
+        </p>
+
+        <div class="flow">
+
+<pre>
+Frontend React
+        ↓
+POST
+        ↓
+/vetement
+        ↓
+Backend
+        ↓
+Processamento
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 8 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            8. Content-Type application/json
+        </h2>
+
+        <pre><code>headers: {
+    "Content-Type": "application/json"
+}</code></pre>
+
+        <p>
+            Esta propriedade informa ao servidor que os dados enviados
+            estão no formato JSON.
+        </p>
+
+        <p>
+            O backend pode, portanto, interpretar corretamente
+            o conteúdo da requisição.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 9 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            9. JSON.stringify()
+        </h2>
+
+        <pre><code>body: JSON.stringify({
+    Prix_C1: 150,
+    Prix_C2: 180,
+    numbers: 15,
+    Target: 1
+})</code></pre>
+
+        <p>
+            <code>JSON.stringify()</code> transforma o objeto JavaScript
+            em uma string JSON antes de enviá-lo ao servidor.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 10 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            10. Dados enviados ao backend
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>
+                        Variável
+                    </th>
+
+                    <th>
+                        Valor
+                    </th>
+
+                    <th>
+                        Função
+                    </th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Prix_C1
+                    </td>
+
+                    <td>
+                        150
+                    </td>
+
+                    <td>
+                        Primeira variável de preço.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Prix_C2
+                    </td>
+
+                    <td>
+                        180
+                    </td>
+
+                    <td>
+                        Segunda variável de preço.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        numbers
+                    </td>
+
+                    <td>
+                        15
+                    </td>
+
+                    <td>
+                        Variável numérica que representa a quantidade
+                        ou o número usado pelo sistema.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Target
+                    </td>
+
+                    <td>
+                        1
+                    </td>
+
+                    <td>
+                        Variável-alvo enviada ao backend.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 11 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            11. Recebimento da resposta
+        </h2>
+
+        <pre><code>.then(res => res.json())</code></pre>
+
+        <p>
+            Após o envio da requisição, o servidor retorna
+            uma resposta HTTP.
+        </p>
+
+        <p>
+            <code>res.json()</code> transforma o conteúdo JSON
+            da resposta em um objeto JavaScript que pode ser
+            usado pelo React.
+        </p>
+
+        <div class="flow">
+
+<pre>
+Resposta HTTP
+      ↓
+res.json()
+      ↓
+Objeto JavaScript
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 12 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            12. Armazenamento da resposta com setItems
+        </h2>
+
+        <pre><code>.then(data => setItems(data))</code></pre>
+
+        <p>
+            Depois que a resposta é convertida em um objeto JavaScript,
+            ela é armazenada no estado do React com
+            <code>setItems(data)</code>.
+        </p>
+
+        <div class="flow">
+
+<pre>
+Backend
+   ↓
+data
+   ↓
+setItems(data)
+   ↓
+items
+   ↓
+Re-render React
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 13 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            13. Gerenciamento de erros
+        </h2>
+
+        <pre><code>.catch(err => console.error("Erreur:", err));</code></pre>
+
+        <p>
+            Se ocorrer um erro durante a requisição ou durante
+            o processamento da cadeia de Promises, o bloco
+            <code>catch()</code> é executado.
+        </p>
+
+        <p>
+            O erro é exibido no console do navegador com:
+        </p>
+
+        <pre><code>console.error("Erreur:", err);</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 14 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            14. Construção de scatterData
+        </h2>
+
+        <pre><code>const scatterData = items?.data
+    ? [
+        {
+            x: items.data.Prix_C1,
+            y: items.data.Prix_C2,
+            z: items.data.numbers
+        }
+      ]
+    : [];</code></pre>
+
+        <p>
+            Esta parte transforma os dados recebidos do backend
+            em uma estrutura adequada para o Recharts.
+        </p>
+
+        <p>
+            Três coordenadas são usadas:
+        </p>
+
+        <ul>
+
+            <li>
+                <code>x</code> corresponde a <code>Prix_C1</code>
+            </li>
+
+            <li>
+                <code>y</code> corresponde a <code>Prix_C2</code>
+            </li>
+
+            <li>
+                <code>z</code> corresponde a <code>numbers</code>
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 15 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            15. Optional Chaining com items?.data
+        </h2>
+
+        <pre><code>items?.data</code></pre>
+
+        <p>
+            O operador <code>?.</code> permite acessar
+            <code>data</code> somente se <code>items</code> existir.
+        </p>
+
+        <p>
+            Isso evita um erro quando <code>items</code> ainda é
+            <code>null</code>.
+        </p>
+
+        <div class="flow">
+
+<pre>
+items existe?
+      ↓
+Sim → items.data
+      ↓
+Criação de scatterData
+
+Não
+      ↓
+scatterData = []
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 16 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            16. Correspondência Prix_C1 → X
+        </h2>
+
+        <pre><code>x: items.data.Prix_C1</code></pre>
+
+        <p>
+            O valor <code>Prix_C1</code> recebido do backend
+            se torna a coordenada horizontal <code>x</code> do ponto.
+        </p>
+
+        <p>
+            Com os dados enviados:
+        </p>
+
+        <pre><code>Prix_C1 = 150</code></pre>
+
+        <p>
+            O ponto, portanto, possui:
+        </p>
+
+        <pre><code>x = 150</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 17 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            17. Correspondência Prix_C2 → Y
+        </h2>
+
+        <pre><code>y: items.data.Prix_C2</code></pre>
+
+        <p>
+            O valor <code>Prix_C2</code> se torna a coordenada
+            vertical <code>y</code>.
+        </p>
+
+        <p>
+            Com os dados enviados:
+        </p>
+
+        <pre><code>Prix_C2 = 180</code></pre>
+
+        <p>
+            O ponto, portanto, possui:
+        </p>
+
+        <pre><code>y = 180</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 18 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            18. Correspondência numbers → Z
+        </h2>
+
+        <pre><code>z: items.data.numbers</code></pre>
+
+        <p>
+            O valor <code>numbers</code> é usado como a terceira
+            dimensão do ponto.
+        </p>
+
+        <p>
+            Em seguida, ele é interpretado pelo <code>ZAxis</code>
+            para determinar o tamanho visual do ponto.
+        </p>
+
+        <pre><code>numbers = 15</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 19 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            19. Estrutura final de scatterData
+        </h2>
+
+        <p>
+            Quando os dados estão disponíveis, a estrutura obtida
+            é conceitualmente:
+        </p>
+
+        <pre><code>[
+    {
+        x: 150,
+        y: 180,
+        z: 15
+    }
+]</code></pre>
+
+        <p>
+            Essa estrutura é diretamente compatível com o componente
+            <code>Scatter</code> do Recharts.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 20 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            20. Contêiner principal
+        </h2>
+
+        <pre><code>&lt;div className="vetement-container"&gt;</code></pre>
+
+        <p>
+            Esse contêiner representa a estrutura principal
+            do Dashboard.
+        </p>
+
+        <p>
+            A classe <code>vetement-container</code> é estilizada
+            em <strong>VetementDashboard.css</strong>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 21 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            21. Título do Dashboard
+        </h2>
+
+        <pre><code>&lt;h1 className="vetement-title"&gt;
+    Vetement ML Dashboard (POST)
+&lt;/h1&gt;</code></pre>
+
+        <p>
+            O título identifica o Dashboard e lembra que os dados
+            são enviados usando uma requisição POST.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 22 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            22. Integração do Power BI
+        </h2>
+
+        <pre><code>&lt;div className="vetement-iframe-wrapper"&gt;
+
+    &lt;iframe
+        className="vetement-iframe"
+        title="lobna@vetement"
+        src="https://app.powerbi.com/view?r=..."
+        allowFullScreen
+    /&gt;
+
+&lt;/div&gt;</code></pre>
+
+        <p>
+            O relatório do Power BI é integrado diretamente ao
+            Dashboard React por meio de uma tag <code>iframe</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 23 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            23. Função da iframe
+        </h2>
+
+        <p>
+            Uma <code>iframe</code> permite exibir um recurso externo
+            dentro de uma página web.
+        </p>
+
+        <p>
+            Neste projeto, o recurso externo é um relatório
+            do <strong>Power BI</strong>.
+        </p>
+
+        <div class="flow">
+
+<pre>
+Relatório Power BI
+       ↓
+URL Power BI
+       ↓
+iframe
+       ↓
+vetement-iframe
+       ↓
+Dashboard React
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 24 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            24. Gerenciamento do carregamento
+        </h2>
+
+        <pre><code>{!items && (
+    &lt;p className="vetement-loading"&gt;
+        ⏳ Waiting for scatter data...
+    &lt;/p&gt;
+)}</code></pre>
+
+        <p>
+            Inicialmente, <code>items</code> é <code>null</code>.
+        </p>
+
+        <p>
+            A condição <code>!items</code> é, portanto, verdadeira,
+            e a mensagem de carregamento é exibida.
+        </p>
+
+        <div class="flow">
+
+<pre>
+items = null
+      ↓
+!items = true
+      ↓
+Waiting for scatter data...
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 25 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            25. Exibição do conteúdo após o recebimento
+        </h2>
+
+        <pre><code>{items && (
+    &lt;&gt;
+        ...
+    &lt;/&gt;
+)}</code></pre>
+
+        <p>
+            Quando <code>items</code> contém uma resposta,
+            a condição se torna verdadeira.
+        </p>
+
+        <p>
+            O React então exibe a mensagem e o gráfico.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 26 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            26. Exibição da mensagem do backend
+        </h2>
+
+        <pre><code>&lt;p className="vetement-message"&gt;
+    {items.message}
+&lt;/p&gt;</code></pre>
+
+        <p>
+            O componente recupera a propriedade <code>message</code>
+            da resposta do backend e a exibe na interface.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 27 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            27. Título do gráfico
+        </h2>
+
+        <pre><code>&lt;h2&gt;
+    📈 Scatter Plot Prix_C1 vs Prix_C2
+&lt;/h2&gt;</code></pre>
+
+        <p>
+            Este título indica que o gráfico representa a relação
+            entre <code>Prix_C1</code> e <code>Prix_C2</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 28 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            28. Contêiner do gráfico
+        </h2>
+
+        <pre><code>&lt;div className="vetement-chart"&gt;</code></pre>
+
+        <p>
+            Esse contêiner permite aplicar o estilo CSS ao gráfico
+            do Recharts.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 29 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            29. ResponsiveContainer
+        </h2>
+
+        <pre><code>&lt;ResponsiveContainer
+    width="100%"
+    height={350}
+&gt;</code></pre>
+
+        <p>
+            <code>ResponsiveContainer</code> permite que o gráfico
+            se adapte automaticamente à largura disponível.
+        </p>
+
+        <p>
+            A altura é definida como:
+        </p>
+
+        <pre><code>350 pixels</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 30 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            30. ScatterChart
+        </h2>
+
+        <pre><code>&lt;ScatterChart&gt;</code></pre>
+
+        <p>
+            <code>ScatterChart</code> define a estrutura do gráfico
+            como um gráfico de dispersão.
+        </p>
+
+        <p>
+            Ao contrário de um gráfico de barras, um Scatter Plot
+            permite visualizar coordenadas X e Y.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 31 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            31. CartesianGrid
+        </h2>
+
+        <pre><code>&lt;CartesianGrid /&gt;</code></pre>
+
+        <p>
+            <code>CartesianGrid</code> adiciona uma grade que facilita
+            a leitura da posição do ponto no gráfico.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 32 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            32. XAxis
+        </h2>
+
+        <pre><code>&lt;XAxis dataKey="x" /&gt;</code></pre>
+
+        <p>
+            O eixo horizontal usa a propriedade <code>x</code>
+            de cada elemento de <code>scatterData</code>.
+        </p>
+
+        <p>
+            Neste projeto:
+        </p>
+
+        <pre><code>x = Prix_C1</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 33 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            33. YAxis
+        </h2>
+
+        <pre><code>&lt;YAxis dataKey="y" /&gt;</code></pre>
+
+        <p>
+            O eixo vertical usa a propriedade <code>y</code>.
+        </p>
+
+        <p>
+            Neste projeto:
+        </p>
+
+        <pre><code>y = Prix_C2</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 34 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            34. ZAxis
+        </h2>
+
+        <pre><code>&lt;ZAxis
+    dataKey="z"
+    range={[60, 400]}
+/&gt;</code></pre>
+
+        <p>
+            <code>ZAxis</code> usa a propriedade <code>z</code>
+            para controlar o tamanho do ponto.
+        </p>
+
+        <p>
+            Neste projeto:
+        </p>
+
+        <pre><code>z = numbers</code></pre>
+
+        <p>
+            O tamanho visual do ponto está dentro do intervalo:
+        </p>
+
+        <pre><code>[60, 400]</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 35 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            35. Tooltip
+        </h2>
+
+        <pre><code>&lt;Tooltip
+    cursor={{ strokeDasharray: "3 3" }}
+/&gt;</code></pre>
+
+        <p>
+            <code>Tooltip</code> exibe informações adicionais quando
+            o usuário passa o mouse sobre o ponto do gráfico.
+        </p>
+
+        <p>
+            A propriedade <code>cursor</code> permite personalizar
+            a indicação visual durante o movimento do mouse.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 36 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            36. Scatter
+        </h2>
+
+        <pre><code>&lt;Scatter
+    data={scatterData}
+    fill="#6366f1"
+/&gt;</code></pre>
+
+        <p>
+            O componente <code>Scatter</code> representa os dados
+            na forma de pontos.
+        </p>
+
+        <p>
+            Os dados usados são os contidos em:
+        </p>
+
+        <pre><code>scatterData</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 37 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            37. Fluxo completo do Scatter Plot
+        </h2>
+
+        <div class="flow">
+
+<pre>
+Resposta do backend
+      ↓
+items.data
+      ↓
+Prix_C1
+      ↓
+x
+
+Prix_C2
+      ↓
+y
+
+numbers
+      ↓
+z
+      ↓
+scatterData
+      ↓
+ScatterChart
+      ↓
+Scatter
+      ↓
+Gráfico de dispersão
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 38 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            38. Arquitetura do componente React
+        </h2>
+
+        <div class="flow">
+
+<pre>
+VetementDashboard.jsx
+        │
+        ├── useState
+        │      ↓
+        │    items
+        │
+        ├── useEffect
+        │      ↓
+        │    fetch()
+        │      ↓
+        │    POST /vetement
+        │
+        ├── scatterData
+        │      ↓
+        │    items.data
+        │
+        ├── Power BI
+        │      ↓
+        │    iframe
+        │
+        └── Recharts
+               ↓
+          ScatterChart
+               ↓
+             Scatter
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 39 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            39. Apresentação do arquivo vetementSlice.js
+        </h2>
+
+        <p>
+            O arquivo <strong>vetementSlice.js</strong> usa
+            <strong>Redux Toolkit</strong> para definir uma lógica
+            Redux destinada aos dados de Roupas.
+        </p>
+
+        <p>
+            Ele contém, entre outras, a seguinte ação assíncrona:
+        </p>
+
+        <pre><code>fetchVetementData</code></pre>
+
+        <p>
+            Essa ação usa Axios para realizar uma requisição GET
+            ao backend.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 40 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            40. Importação do Redux Toolkit
+        </h2>
+
+        <pre><code>import {
+    createSlice,
+    createAsyncThunk
+} from "@reduxjs/toolkit";</code></pre>
+
+        <p>
+            <code>createSlice</code> permite criar a estrutura Redux
+            do módulo de Roupas.
+        </p>
+
+        <p>
+            <code>createAsyncThunk</code> permite gerenciar uma
+            operação assíncrona, neste caso a recuperação de dados
+            do backend.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 41 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            41. Importação do Axios
+        </h2>
+
+        <pre><code>import axios from "axios";</code></pre>
+
+        <p>
+            Axios é usado no Slice para se comunicar com o backend.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 42 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            42. Criação de fetchVetementData
+        </h2>
+
+        <pre><code>export const fetchVetementData = createAsyncThunk(
+    "vetement/fetch",
+    async (_, thunkAPI) => {
+        ...
+    }
+);</code></pre>
+
+        <p>
+            Esta função cria uma ação Redux assíncrona chamada:
+        </p>
+
+        <pre><code>vetement/fetch</code></pre>
+
+        <p>
+            Ela permite recuperar os dados do endpoint
+            <code>/vetement</code>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 43 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            43. Requisição GET com Axios
+        </h2>
+
+        <pre><code>const res = await axios.get(
+    "http://localhost:3000/vetement"
+);</code></pre>
+
+        <p>
+            Axios envia aqui uma requisição HTTP
+            <strong>GET</strong>.
+        </p>
+
+        <p>
+            O backend então retorna os dados disponíveis
+            para o módulo de Roupas.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 44 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            44. Retorno de res.data
+        </h2>
+
+        <pre><code>return res.data;</code></pre>
+
+        <p>
+            Esta instrução retorna os dados recebidos do backend
+            para o sistema Redux.
+        </p>
+
+        <p>
+            A resposta pode ter, por exemplo, uma estrutura como:
+        </p>
+
+        <pre><code>{
+    message: "...",
+    size: ...,
+    data: [...]
+}</code></pre>
+
+        <p>
+            A estrutura exata depende da resposta fornecida
+            pelo backend.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 45 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            45. Gerenciamento de erros no Slice
+        </h2>
+
+        <pre><code>catch (error) {
+    return thunkAPI.rejectWithValue(
+        error.response?.data?.error ||
+        error.message
+    );
+}</code></pre>
+
+        <p>
+            Se o Axios encontrar um erro, o Slice usa
+            <code>rejectWithValue()</code> para transmitir
+            uma mensagem de erro personalizada ao Redux.
+        </p>
+
+        <p>
+            O operador <code>?.</code> permite verificar se as
+            propriedades intermediárias existem antes de acessá-las.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 46 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            46. Criação do Slice
+        </h2>
+
+        <pre><code>const vetementSlice = createSlice({
+    name: "vetement",
+    initialState: {
+        items: null,
+        loading: false,
+        error: null,
+    },
+    ...
+});</code></pre>
+
+        <p>
+            Esta instrução cria o Slice Redux chamado
+            <strong>vetement</strong>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 47 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            47. InitialState
+        </h2>
+
+        <pre><code>initialState: {
+    items: null,
+    loading: false,
+    error: null,
+}</code></pre>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Propriedade
+                    </th>
+
+                    <th>
+                        Valor inicial
+                    </th>
+
+                    <th>
+                        Função
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        items
+                    </td>
+
+                    <td>
+                        null
+                    </td>
+
+                    <td>
+                        Conterá os dados recuperados.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        loading
+                    </td>
+
+                    <td>
+                        false
+                    </td>
+
+                    <td>
+                        Indica se a requisição está em andamento.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        error
+                    </td>
+
+                    <td>
+                        null
+                    </td>
+
+                    <td>
+                        Contém um possível erro.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 48 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            48. extraReducers
+        </h2>
+
+        <pre><code>extraReducers: (builder) => {
+    builder
+        ...
+}</code></pre>
+
+        <p>
+            <code>extraReducers</code> permite que o Slice reaja
+            aos diferentes estados da ação assíncrona
+            <code>fetchVetementData</code>.
+        </p>
+
+        <p>
+            Três estados principais são gerenciados:
+        </p>
+
+        <ul>
+
+            <li>
+                <code>pending</code>
+            </li>
+
+            <li>
+                <code>fulfilled</code>
+            </li>
+
+            <li>
+                <code>rejected</code>
+            </li>
+
+        </ul>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 49 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            49. Estado pending
+        </h2>
+
+        <pre><code>.addCase(
+    fetchVetementData.pending,
+    (state) => {
+        state.loading = true;
+        state.error = null;
+    }
+)</code></pre>
+
+        <p>
+            Quando a requisição começa, o Redux define:
+        </p>
+
+        <pre><code>loading = true</code></pre>
+
+        <p>
+            O erro anterior também é removido:
+        </p>
+
+        <pre><code>error = null</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 50 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            50. Estado fulfilled
+        </h2>
+
+        <pre><code>.addCase(
+    fetchVetementData.fulfilled,
+    (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+    }
+)</code></pre>
+
+        <p>
+            Quando a requisição é bem-sucedida:
+        </p>
+
+        <ul>
+
+            <li>
+                <code>loading</code> se torna <code>false</code>
+            </li>
+
+            <li>
+                <code>items</code> recebe os dados retornados
+                pela ação assíncrona.
+            </li>
+
+        </ul>
+
+        <div class="flow">
+
+<pre>
+Requisição bem-sucedida
+      ↓
+fulfilled
+      ↓
+loading = false
+      ↓
+items = action.payload
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 51 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            51. Estado rejected
+        </h2>
+
+        <pre><code>.addCase(
+    fetchVetementData.rejected,
+    (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+    }
+)</code></pre>
+
+        <p>
+            Se a requisição falhar:
+        </p>
+
+        <pre><code>loading = false</code></pre>
+
+        <p>
+            e a mensagem de erro é armazenada em:
+        </p>
+
+        <pre><code>error = action.payload</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 52 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            52. Ciclo completo do Slice Redux
+        </h2>
+
+        <div class="flow">
+
+<pre>
+fetchVetementData()
+        ↓
+pending
+        ↓
+loading = true
+        ↓
+Axios GET /vetement
+        ↓
+┌─────────────────────┐
+│                     │
+│       Sucesso       │
+│        ↓            │
+│    fulfilled        │
+│        ↓            │
+│ loading = false     │
+│ items = payload     │
+│                     │
+└─────────────────────┘
+
+ou
+
+┌─────────────────────┐
+│                     │
+│        Erro         │
+│        ↓            │
+│     rejected        │
+│        ↓            │
+│ loading = false     │
+│ error = payload     │
+│                     │
+└─────────────────────┘
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 53 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            53. Diferença entre VetementDashboard.jsx
+            e vetementSlice.js
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Arquivo
+                    </th>
+
+                    <th>
+                        Tecnologia
+                    </th>
+
+                    <th>
+                        Função
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        VetementDashboard.jsx
+                    </td>
+
+                    <td>
+                        React
+                    </td>
+
+                    <td>
+                        Interface do usuário e requisição POST com Fetch.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        vetementSlice.js
+                    </td>
+
+                    <td>
+                        Redux Toolkit
+                    </td>
+
+                    <td>
+                        Gerenciamento de estado e requisição GET com Axios.
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        VetementDashboard.css
+                    </td>
+
+                    <td>
+                        CSS
+                    </td>
+
+                    <td>
+                        Apresentação visual.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 54 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            54. Ponto importante: Fetch e Redux não são usados
+            juntos neste componente
+        </h2>
+
+        <div class="important">
+
+            <p>
+                No código fornecido, <strong>VetementDashboard.jsx</strong>
+                usa diretamente a <strong>Fetch API</strong> com
+                <code>useState</code>.
+            </p>
+
+            <p>
+                Ele não usa <code>useDispatch()</code> nem
+                <code>useSelector()</code>.
+            </p>
+
+            <p>
+                No entanto, <strong>vetementSlice.js</strong> possui
+                sua própria lógica Redux com
+                <code>fetchVetementData()</code> e Axios.
+            </p>
+
+            <p>
+                É preciso, portanto, distinguir os dois fluxos:
+            </p>
+
+        </div>
+
+        <div class="flow">
+
+<pre>
+FLUXO ATUAL DO DASHBOARD
+
+VetementDashboard.jsx
+        ↓
+useEffect()
+        ↓
+Fetch POST
+        ↓
+/vetement
+        ↓
+Backend
+        ↓
+setItems()
+        ↓
+items
+        ↓
+ScatterChart
+
+
+FLUXO REDUX DO SLICE
+
+fetchVetementData()
+        ↓
+Axios GET
+        ↓
+/vetement
+        ↓
+Redux
+        ↓
+items / loading / error
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 55 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            55. Por que essa distinção é importante?
+        </h2>
+
+        <p>
+            Essa distinção permite compreender com precisão
+            a arquitetura atual do projeto.
+        </p>
+
+        <p>
+            Atualmente, o Dashboard usa um estado local do React:
+        </p>
+
+        <pre><code>const [items, setItems] = useState(null);</code></pre>
+
+        <p>
+            enquanto o Slice Redux possui seu próprio estado:
+        </p>
+
+        <pre><code>{
+    items: null,
+    loading: false,
+    error: null
+}</code></pre>
+
+        <p>
+            Portanto, atualmente existem dois mecanismos de
+            gerenciamento dos dados de Roupas.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 56 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            56. Arquitetura global atual
+        </h2>
+
+        <div class="flow">
+
+<pre>
+                    VetementDashboard.jsx
+                              │
+             ┌────────────────┼────────────────┐
+             │                │                │
+             ▼                ▼                ▼
+         useState          useEffect        Power BI
+             │                │                │
+             ▼                ▼                ▼
+           items          Fetch POST        iframe
+                              │
+                              ▼
+                       /vetement
+                              │
+                              ▼
+                          Backend
+                              │
+                              ▼
+                     Processamento / ML
+                              │
+                              ▼
+                            JSON
+                              │
+                              ▼
+                         setItems()
+                              │
+                              ▼
+                            items
+                              │
+                              ▼
+                        scatterData
+                              │
+                              ▼
+                        Recharts
+                              │
+                              ▼
+                        ScatterChart
+
+
+              Redux Toolkit — vetementSlice.js
+                              │
+                              ▼
+                    fetchVetementData()
+                              │
+                              ▼
+                         Axios GET
+                              │
+                              ▼
+                         /vetement
+                              │
+                              ▼
+                         Redux State
+                              │
+                 ┌────────────┼────────────┐
+                 ▼            ▼            ▼
+               items       loading       error
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 57 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            57. Fluxo completo de uma requisição POST
+        </h2>
+
+        <div class="flow">
+
+<pre>
+1. O usuário abre o Dashboard
+        ↓
+2. O React monta VetementDashboard
+        ↓
+3. useEffect() é executado
+        ↓
+4. fetch() é chamado
+        ↓
+5. método POST
+        ↓
+6. dados JSON enviados
+        ↓
+7. backend /vetement
+        ↓
+8. processamento dos dados
+        ↓
+9. sistema de Machine Learning
+        ↓
+10. resposta JSON
+        ↓
+11. res.json()
+        ↓
+12. data
+        ↓
+13. setItems(data)
+        ↓
+14. items é atualizado
+        ↓
+15. React realiza uma nova renderização
+        ↓
+16. scatterData é calculado
+        ↓
+17. ScatterChart recebe scatterData
+        ↓
+18. Scatter exibe o ponto
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 58 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            58. Exemplo concreto
+        </h2>
+
+        <p>
+            O Dashboard envia:
+        </p>
+
+        <pre><code>{
+    Prix_C1: 150,
+    Prix_C2: 180,
+    numbers: 15,
+    Target: 1
+}</code></pre>
+
+        <p>
+            Suponha que o backend retorne uma resposta contendo:
+        </p>
+
+        <pre><code>{
+    message: "Prediction completed",
+    data: {
+        Prix_C1: 150,
+        Prix_C2: 180,
+        numbers: 15
+    }
+}</code></pre>
+
+        <p>
+            O componente então constrói:
+        </p>
+
+        <pre><code>const scatterData = [
+    {
+        x: 150,
+        y: 180,
+        z: 15
+    }
+];</code></pre>
+
+        <p>
+            O Recharts então usa esses valores para posicionar
+            o ponto no gráfico.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 59 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            59. Correspondência das classes CSS
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Em VetementDashboard.jsx
+                    </th>
+
+                    <th>
+                        Em VetementDashboard.css
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>
+                        vetement-container
+                    </td>
+
+                    <td>
+                        .vetement-container
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        vetement-title
+                    </td>
+
+                    <td>
+                        .vetement-title
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        vetement-iframe-wrapper
+                    </td>
+
+                    <td>
+                        .vetement-iframe-wrapper
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        vetement-iframe
+                    </td>
+
+                    <td>
+                        .vetement-iframe
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        vetement-loading
+                    </td>
+
+                    <td>
+                        .vetement-loading
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        vetement-message
+                    </td>
+
+                    <td>
+                        .vetement-message
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        vetement-chart
+                    </td>
+
+                    <td>
+                        .vetement-chart
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 60 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter conclusion">
+
+        <h2>
+            60. Resumo final a lembrar
+        </h2>
+
+        <div class="important">
+
+            <p>
+
+                <strong>
+                    React constrói a interface →
+                    useState inicializa items →
+                    useEffect aciona automaticamente a requisição →
+                    Fetch API envia uma requisição POST para /vetement →
+                    o backend recebe os dados Prix_C1, Prix_C2,
+                    numbers e Target →
+                    o backend processa os dados →
+                    o sistema de Machine Learning atua de acordo
+                    com a lógica do backend →
+                    o servidor retorna uma resposta JSON →
+                    res.json() transforma a resposta →
+                    setItems(data) armazena a resposta →
+                    items é atualizado →
+                    scatterData transforma os dados em coordenadas
+                    x, y e z →
+                    Recharts usa ScatterChart →
+                    XAxis representa Prix_C1 →
+                    YAxis representa Prix_C2 →
+                    ZAxis usa numbers para o tamanho do ponto →
+                    Scatter exibe o gráfico de dispersão →
+                    Power BI exibe paralelamente o relatório analítico →
+                    VetementDashboard.css garante a apresentação visual.
+                </strong>
+
+            </p>
+
+        </div>
+
+        <div class="flow">
+
+<pre>
+React
+  ↓
+useState
+  ↓
+items
+  ↓
+useEffect
+  ↓
+Fetch POST
+  ↓
+Backend /vetement
+  ↓
+Machine Learning
+  ↓
+Resposta JSON
+  ↓
+setItems()
+  ↓
+items.data
+  ↓
+scatterData
+  ↓
+Recharts
+  ↓
+ScatterChart
+  ↓
+Scatter Plot
+  ↓
+Power BI
+  ↓
+VetementDashboard.css
+  ↓
+Dashboard final
+</pre>
+
+        </div>
+
+        <p class="footer-note">
+            👕 Documentação técnica — Vetement ML Dashboard
+        </p>
+
+    </section>
+
+
+</main>
+
+</body>
+
+</html>
+```
+

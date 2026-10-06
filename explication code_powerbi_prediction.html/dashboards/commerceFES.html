@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Documentación técnica del Dashboard de Comercio con React, Redux Toolkit, Axios, Recharts y Power BI."
+    >
+
+    <title>Documentación — Commerce Dashboard | React & Redux</title>
+
+    <!-- Enlace al archivo CSS -->
+    <link rel="stylesheet" href="commerceF.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="documentation-header">
+
+        <div class="header-content">
+
+            <span class="header-badge">
+                DOCUMENTACIÓN TÉCNICA
+            </span>
+
+            <h1>
+                🛒 Gestión de datos de Comercio
+                con Redux Toolkit y React
+            </h1>
+
+            <p>
+                Documentación completa del módulo de Comercio:
+                Redux Toolkit, React, Axios, Recharts
+                y Power BI.
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONTENIDO PRINCIPAL
+    ====================================================== -->
+
+    <main class="documentation-container">
+
+
+        <!-- =================================================
+             INTRODUCCIÓN
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                47 — Gestión de datos de Comercio con Redux Toolkit y React
+            </h2>
+
+            <p>
+                En esta parte del proyecto, se ha desarrollado un sistema completo
+                para recuperar, gestionar, transformar, filtrar y mostrar datos
+                comerciales utilizando
+                <strong>React, Redux Toolkit, Axios y Recharts</strong>.
+                El objetivo de esta funcionalidad es recuperar los datos
+                del comercio desde el backend, almacenarlos en el store de Redux,
+                transformarlos para facilitar su utilización en la
+                interfaz de usuario y, posteriormente, permitir al usuario
+                filtrar los datos según el comercio seleccionado, por ejemplo
+                <strong>Jumia</strong> o <strong>MG</strong>. Los datos recuperados
+                se utilizan posteriormente en un gráfico de barras mediante la
+                biblioteca <strong>Recharts</strong>,
+                pero también se muestran en forma de lista detallada.
+                Esta parte del frontend se comunica directamente con el backend
+                mediante una solicitud HTTP <code>GET</code> a la dirección
+                <code>http://localhost:3000/commerce/train</code>. El funcionamiento
+                general es el siguiente: cuando se carga el componente React
+                <code>Commerce</code>, el hook <code>useEffect</code>
+                activa la acción Redux <code>fetchCommerce</code>.
+                Esta acción utiliza <code>createAsyncThunk</code> para realizar
+                una solicitud Axios al backend. El backend devuelve los
+                datos comerciales, Redux recupera estos datos y los almacena
+                en el estado global. El componente React utiliza posteriormente
+                <code>useSelector</code> para recuperar los datos desde Redux.
+                Se aplica una lógica de transformación mediante el método
+                <code>map()</code> para añadir una propiedad <code>label</code>
+                a cada elemento. El componente también utiliza
+                <code>useState</code> para gestionar el comercio seleccionado
+                en el filtro. Cuando el usuario selecciona
+                <strong>Jumia</strong> o <strong>MG</strong>, el estado local
+                <code>filter</code> se modifica y los datos se filtran
+                mediante el método <code>filter()</code>. Los datos filtrados
+                se utilizan simultáneamente para construir el gráfico
+                con <code>BarChart</code> y para mostrar la lista detallada.
+                El proyecto también incluye una integración de Power BI mediante
+                un elemento <code>iframe</code>, lo que permite mostrar
+                directamente el dashboard de Power BI en la página React.
+                Por lo tanto, esta arquitectura separa claramente la recuperación
+                y gestión de los datos, realizadas con Redux, de su presentación
+                y de la interacción con el usuario, realizadas con React.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             REDUX TOOLKIT
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                48 — Importación de Redux Toolkit y Axios
+            </h2>
+
+            <p>
+                El archivo Redux comienza importando dos funcionalidades importantes
+                de Redux Toolkit: <code>createSlice</code> y
+                <code>createAsyncThunk</code>. La función
+                <code>createSlice</code> permite crear una parte del store Redux
+                dedicada al comercio. Permite definir el nombre
+                del slice, su estado inicial y la lógica de procesamiento
+                asociada a las diferentes situaciones de la
+                acción asíncrona. La función
+                <code>createAsyncThunk</code> se utiliza para crear una
+                acción Redux capaz de realizar una operación asíncrona,
+                en este caso una solicitud HTTP al backend. Esta funcionalidad es
+                especialmente adecuada cuando una aplicación React necesita
+                recuperar datos desde una API. El código también importa
+                <code>Axios</code>, que se utiliza como cliente HTTP para
+                enviar una solicitud <code>GET</code> al servidor Node.js/Express.
+                Por lo tanto, el objetivo de esta parte es conectar el
+                frontend React/Redux con el backend que proporciona
+                los datos comerciales.
+            </p>
+
+            <pre><code>import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";</code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             FETCH COMMERCE
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                49 — Creación de la acción asíncrona fetchCommerce
+            </h2>
+
+            <p>
+                La acción principal del archivo Redux es
+                <code>fetchCommerce</code>. Esta acción se crea con
+                <code>createAsyncThunk</code>. El primer argumento
+                <code>"commerce/fetchCommerce"</code> corresponde al
+                tipo de acción Redux y permite identificar esta operación.
+                El segundo argumento es una función asíncrona que se
+                ejecutará cuando se active la acción. Dentro de esta
+                función, Axios realiza una solicitud HTTP
+                <code>GET</code> a la URL
+                <code>http://localhost:3000/commerce/train</code>.
+                Esta ruta corresponde a una ruta del backend encargada de
+                proporcionar los datos comerciales. La palabra clave
+                <code>await</code> permite esperar la respuesta del servidor
+                antes de continuar con la ejecución. Una vez recibida la
+                respuesta, se almacena en la variable <code>response</code>.
+                Axios coloca los datos devueltos por el servidor en
+                <code>response.data</code>. En este proyecto, el backend
+                devuelve una estructura que contiene una propiedad <code>data</code>.
+                Por lo tanto, el código recupera exactamente
+                <code>response.data.data</code>. Este valor corresponde al
+                array de datos comerciales que será transmitido a Redux.
+                El <code>return</code> de esta función se convierte posteriormente
+                en el payload de la acción Redux cuando la solicitud termina
+                correctamente.
+            </p>
+
+            <pre><code>export const fetchCommerce = createAsyncThunk(
+    "commerce/fetchCommerce",
+    async () => {
+        const response = await axios.get(
+            "http://localhost:3000/commerce/train"
+        );
+
+        return response.data.data;
+    }
+);</code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             SLICE
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                50 — Creación del Commerce Slice
+            </h2>
+
+            <p>
+                A continuación, el código crea el slice de Redux utilizando
+                <code>createSlice()</code>. Esta función permite organizar
+                toda la lógica Redux relacionada con el comercio dentro de
+                una única estructura. La propiedad
+                <code>name: "commerce"</code> proporciona el nombre
+                del slice y permite identificar esta parte del store global.
+                <code>initialState</code> define el estado inicial
+                de los datos. La propiedad <code>data</code> se inicializa
+                con un array vacío porque todavía no se han recuperado datos
+                desde el backend. La propiedad <code>loading</code> se
+                establece inicialmente en <code>false</code>, lo que significa
+                que actualmente no se está realizando ninguna recuperación
+                de datos. Estos valores serán modificados automáticamente
+                según el estado de la acción <code>fetchCommerce</code>.
+            </p>
+
+            <pre><code>const commerceSlice = createSlice({
+    name: "commerce",
+
+    initialState: {
+        data: [],
+        loading: false
+    },
+
+    extraReducers: (builder) => {
+        // Gestion des états asynchrones
+    }
+});</code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             PENDING
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                51 — Gestión del estado pending
+            </h2>
+
+            <p>
+                Redux Toolkit genera automáticamente varios estados para una
+                acción creada con <code>createAsyncThunk</code>. El primero
+                es <code>pending</code>. Este estado se ejecuta cuando
+                comienza la solicitud. Cuando el componente React activa
+                <code>dispatch(fetchCommerce())</code>, Redux entra
+                automáticamente en el estado <code>pending</code>. El código
+                modifica entonces <code>state.loading</code> y le asigna
+                el valor <code>true</code>. Esto significa que la aplicación
+                sabe que la recuperación de los datos está actualmente en curso.
+                El componente React puede utilizar esta información para mostrar
+                un mensaje como <strong>Loading...</strong>. Esta lógica
+                permite informar al usuario de que los datos se están cargando.
+            </p>
+
+            <pre><code>.addCase(fetchCommerce.pending, (state) => {
+    state.loading = true;
+})</code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             FULFILLED
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                52 — Gestión del estado fulfilled y transformación de los datos
+            </h2>
+
+            <p>
+                Cuando la solicitud Axios termina correctamente, Redux Toolkit
+                activa el estado <code>fulfilled</code>. Esto significa que
+                la solicitud se realizó correctamente y que los datos han sido
+                recibidos. La primera operación consiste en volver a establecer
+                <code>state.loading</code> en <code>false</code>, porque
+                la carga ha terminado. A continuación, los datos recibidos
+                se almacenan en <code>state.data</code>. Sin embargo, antes
+                de almacenarlos, el código utiliza el método JavaScript
+                <code>map()</code>. Este método recorre cada elemento del array
+                recibido en <code>action.payload</code>. Para cada elemento,
+                el operador spread <code>...item</code> conserva todas las
+                propiedades existentes y, posteriormente, se añade una nueva
+                propiedad llamada <code>label</code>. Esta propiedad se construye
+                a partir de los valores de <code>commerce</code> y
+                <code>web_scraper</code>. Por ejemplo, si el comercio es
+                Jumia y el scraper es Python, el nuevo valor puede ser
+                <strong>Jumia - Python</strong>. Esta transformación permite
+                preparar los datos directamente en Redux para que el componente
+                React disponga de información lista para utilizar.
+            </p>
+
+            <pre><code>.addCase(fetchCommerce.fulfilled, (state, action) => {
+    state.loading = false;
+
+    state.data = action.payload.map((item) => ({
+        ...item,
+        label: `${item.commerce} - ${item.web_scraper}`
+    }));
+})</code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             REJECTED
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                53 — Gestión del estado rejected
+            </h2>
+
+            <p>
+                El tercer estado es <code>rejected</code>. Se ejecuta
+                cuando la solicitud falla. Esto puede ocurrir si el servidor
+                backend no está disponible, si la URL es incorrecta o
+                cuando un error de red impide que Axios reciba los datos.
+                En esta situación, el código vuelve a establecer
+                <code>loading</code> en <code>false</code> para indicar
+                que la carga ha terminado. En esta versión del slice,
+                no se almacena ninguna propiedad <code>error</code>
+                en el estado. Por lo tanto, el componente sabe que
+                la carga ha terminado, pero aquí no recupera los detalles
+                precisos del error. El objetivo es gestionar correctamente
+                el ciclo de vida de la solicitud:
+                <strong>pending</strong> cuando comienza la recuperación,
+                <strong>fulfilled</strong> cuando los datos se recuperan
+                correctamente y <strong>rejected</strong> cuando se produce
+                un error.
+            </p>
+
+            <pre><code>.addCase(fetchCommerce.rejected, (state) => {
+    state.loading = false;
+})</code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             REACT
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                54 — Importación de las funcionalidades de React
+            </h2>
+
+            <p>
+                El archivo <code>Commerce.jsx</code> utiliza varias
+                funcionalidades importantes de React y React Redux.
+                <code>useEffect</code> permite ejecutar una operación
+                después de que el componente se haya renderizado,
+                especialmente para iniciar la recuperación de datos.
+                <code>useState</code> permite gestionar un estado local,
+                utilizado aquí para recordar el comercio seleccionado
+                en el filtro. <code>useDispatch</code> permite enviar
+                una acción Redux desde React, mientras que
+                <code>useSelector</code> permite recuperar los datos
+                almacenados en el store Redux. El componente también importa
+                la acción <code>fetchCommerce</code> del archivo
+                <code>commerceSlice</code>. Finalmente, el archivo
+                <code>Commerce.css</code> se importa para aplicar
+                el estilo gráfico al dashboard.
+            </p>
+
+            <pre><code>import React, { useEffect, useState } from "react";
+
+import {
+    useDispatch,
+    useSelector
+} from "react-redux";
+
+import { fetchCommerce } from "../redux/commerceSlice";
+
+import "./Commerce.css";</code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             USE DISPATCH
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                55 — Uso de useDispatch
+            </h2>
+
+            <p>
+                El hook <code>useDispatch()</code> proporciona la función
+                <code>dispatch</code>. Esta función permite enviar una
+                acción al store Redux. En este proyecto, se utiliza
+                para activar la acción <code>fetchCommerce()</code>.
+                Cuando esta acción se envía, Redux Toolkit ejecuta
+                el proceso asíncrono definido en el slice e inicia la
+                solicitud Axios al backend. Por lo tanto, el componente React
+                no necesita realizar directamente la solicitud HTTP.
+                Simplemente solicita a Redux que recupere los datos.
+            </p>
+
+            <pre><code>const dispatch = useDispatch();
+
+dispatch(fetchCommerce());</code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             USE SELECTOR
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                56 — Recuperación de datos con useSelector
+            </h2>
+
+            <p>
+                El hook <code>useSelector()</code> permite al componente React
+                acceder al estado global de Redux. Aquí, el código recupera
+                <code>data</code> y <code>loading</code> desde
+                <code>state.commerce</code>. La propiedad <code>data</code>
+                contiene los datos comerciales recuperados desde el backend
+                y transformados en el slice Redux. La propiedad
+                <code>loading</code> indica si la recuperación de datos
+                está actualmente en curso. Gracias a esta arquitectura,
+                el componente React no gestiona directamente Axios.
+                Recupera la información desde el store Redux, lo que permite
+                separar claramente la lógica de recuperación de datos
+                de la lógica de visualización.
+            </p>
+
+            <pre><code>const { data, loading } =
+    useSelector((state) => state.commerce);</code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             USE STATE
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                57 — Gestión del filtro con useState
+            </h2>
+
+            <p>
+                El hook <code>useState()</code> se utiliza para crear un
+                estado local llamado <code>filter</code>. Su valor inicial
+                es <strong>Jumia</strong>. Esto significa que cuando el
+                componente se muestra por primera vez, los datos
+                presentados en el gráfico y en la lista corresponden
+                al comercio Jumia. La función <code>setFilter()</code>
+                permite posteriormente modificar este valor cuando el usuario
+                selecciona otro comercio. Por lo tanto, el estado local se utiliza
+                para gestionar la interacción del usuario con el filtro sin
+                modificar los datos almacenados en Redux.
+            </p>
+
+            <pre><code>const [filter, setFilter] = useState("Jumia");</code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             USE EFFECT
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                58 — Recuperación automática de datos con useEffect
+            </h2>
+
+            <p>
+                El hook <code>useEffect()</code> permite ejecutar una operación
+                después de que el componente se haya renderizado. Aquí, su objetivo
+                es activar automáticamente la recuperación de datos cuando
+                se carga la página Commerce. La instrucción
+                <code>dispatch(fetchCommerce())</code> envía la acción Redux.
+                Redux Toolkit inicia entonces el <code>createAsyncThunk</code>,
+                que realiza la solicitud Axios al backend. La dependencia
+                <code>[dispatch]</code> indica que el efecto depende de la
+                función dispatch. El flujo puede resumirse de la siguiente manera:
+                el componente React se carga, <code>useEffect</code>
+                se ejecuta, <code>dispatch</code> activa
+                <code>fetchCommerce</code>, Redux inicia Axios, Axios se comunica
+                con el backend, el backend devuelve los datos, Redux almacena
+                los datos y React los recupera mediante <code>useSelector</code>.
+            </p>
+
+            <pre><code>useEffect(() => {
+    dispatch(fetchCommerce());
+}, [dispatch]);</code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             FILTER
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                59 — Filtrado de los datos
+            </h2>
+
+            <p>
+                Después de recuperar los datos, el código crea una nueva
+                variable llamada <code>filteredData</code>. El método
+                JavaScript <code>filter()</code> permite seleccionar
+                únicamente los elementos correspondientes al comercio seleccionado.
+                La condición <code>item.commerce === filter</code> compara
+                la propiedad <code>commerce</code> de cada elemento con
+                el valor actual del estado <code>filter</code>.
+                Si el valor del filtro es Jumia, solo se conservan los datos
+                cuyo comercio es Jumia. Si el usuario selecciona MG,
+                el estado <code>filter</code> pasa a ser MG y solo se conservan
+                los datos correspondientes a MG. El resultado se almacena
+                en <code>filteredData</code>, que posteriormente será utilizado
+                tanto por el gráfico como por la lista detallada.
+            </p>
+
+            <pre><code>const filteredData = data
+    ? data.filter((item) => item.commerce === filter)
+    : [];</code></pre>
+
+        </section>
+
+
+        <!-- =================================================
+             POWER BI
+        ================================================== -->
+
+        <section class="documentation-section">
+
+            <h2>
+                60 — Integración del Dashboard de Power BI
+            </h2>
+
+            <p>
+                El componente React también integra un dashboard de Power BI
+                mediante un elemento <code>iframe</code>. Esta técnica permite
+                mostrar directamente un informe de Power BI publicado
+                en una página web. El dashboard de Power BI representa
+                la parte de análisis para la toma de decisiones del proyecto
+                y permite presentar los indicadores y las visualizaciones
+                creadas en Power BI. Esta integración permite reunir
+                en una misma página dos tipos de visualización:
+                el informe de Power BI y los gráficos dinámicos
+                generados con React y Recharts. La propiedad
+                <code>allowFullScreen</code> también permite autorizar
+                la visualización del informe en pantalla completa cuando
+                esta funcionalidad está disponible.
+            </p>
+
+            <pre><code>&lt;iframe
+    className="commerce-iframe"
+    title="PRIX"
+    src="https://app.powerbi.com/view?r=..."  
+    frameBorder="0"  
+    allowFullScreen  
+&gt;&lt;/iframe&gt;</code></pre>  
+  
+        </section>  
+  
+  
+        <!-- =================================================  
+             FILTER UI 
+        ================================================== -->  
+  
+        <section class="documentation-section">  
+  
+            <h2>  
+                61 — Creación del filtro de Comercio
+            </h2>  
+  
+            <p>  
+                La lista desplegable permite al usuario seleccionar
+                el comercio que desea analizar. La propiedad
+                <code>value={filter}</code> vincula el valor del componente
+                HTML select con el estado React <code>filter</code>.
+                Cuando el usuario modifica la selección, se activa el
+                evento <code>onChange</code> y
+                <code>setFilter(e.target.value)</code> recupera el nuevo
+                valor. Las dos opciones disponibles son Jumia y MG.
+                En cuanto se modifica el estado <code>filter</code>, React
+                realiza automáticamente un nuevo renderizado del componente.
+                La variable <code>filteredData</code> se recalcula entonces,
+                lo que permite que el gráfico y la lista muestren
+                inmediatamente los datos correspondientes al nuevo comercio.
+            </p>  
+  
+            <pre><code>&lt;select  
+    className="filter-select"  
+    value={filter}  
+    onChange={(e) => setFilter(e.target.value)}  
+&gt;  
+    &lt;option value="Jumia"&gt;Jumia&lt;/option&gt;  
+    &lt;option value="MG"&gt;MG&lt;/option&gt;  
+&lt;/select&gt;</code></pre>  
+  
+        </section>  
+  
+  
+        <!-- =================================================  
+             RECHARTS 
+        ================================================== -->  
+  
+        <section class="documentation-section">  
+  
+            <h2>  
+                62 — Visualización del gráfico de Comercio con Recharts
+            </h2>  
+  
+            <p>  
+                El gráfico se construye con la biblioteca Recharts.
+                El componente <code>ResponsiveContainer</code> permite que
+                el gráfico se adapte automáticamente al ancho disponible.
+                El componente <code>BarChart</code> recibe los datos filtrados
+                mediante <code>data={filteredData}</code>. A continuación,
+                el gráfico utiliza <code>CartesianGrid</code> para mostrar
+                una cuadrícula, <code>XAxis</code> para el eje horizontal,
+                <code>YAxis</code> para el eje vertical y
+                <code>Tooltip</code> para mostrar los valores cuando el usuario
+                mueve el ratón sobre las barras. Se utilizan dos barras:
+                una barra para <code>target</code> y otra para
+                <code>prix</code>. Por lo tanto, el gráfico permite
+                comparar visualmente el valor objetivo y el precio
+                correspondientes a los datos comerciales seleccionados.
+            </p>  
+  
+            <pre><code>&lt;ResponsiveContainer width="100%" height={300}&gt;  
+  
+    &lt;BarChart data={filteredData}&gt;  
+  
+        &lt;CartesianGrid strokeDasharray="3 3" /&gt;  
+  
+        &lt;XAxis dataKey="commerce" /&gt;  
+  
+        &lt;YAxis /&gt;  
+  
+        &lt;Tooltip /&gt;  
+  
+        &lt;Bar dataKey="target" name="Target" /&gt;  
+  
+        &lt;Bar dataKey="prix" name="Prix" /&gt;  
+  
+    &lt;/BarChart&gt;  
+  
+&lt;/ResponsiveContainer&gt;</code></pre>  
+  
+        </section>  
+  
+  
+        <!-- =================================================  
+             LIST 
+        ================================================== -->  
+  
+        <section class="documentation-section">  
+  
+            <h2>  
+                63 — Visualización de los detalles
+            </h2>  
+  
+            <p>  
+                Después del gráfico, el componente muestra los datos
+                en forma de lista detallada. El método <code>map()</code>
+                recorre cada elemento del array <code>filteredData</code>
+                y genera un elemento HTML correspondiente. La propiedad
+                <code>key={item.id}</code> permite a React identificar
+                cada elemento de forma única. Para cada dato,
+                la interfaz muestra el comercio, el valor Target y el precio.
+                Esta lista complementa el gráfico proporcionando la misma
+                información en una forma textual más precisa y más
+                directamente legible para el usuario.
+            </p>  
+  
+            <pre><code>{filteredData.map((item) => (  
+    &lt;li key={item.id} className="list-item"&gt;  
+        {item.commerce}  
+        → Target: {item.target}  
+        | Prix: {item.prix}  
+    &lt;/li&gt;  
+))}</code></pre>  
+  
+        </section>  
+  
+  
+        <!-- =================================================  
+             ARCHITECTURE 
+        ================================================== -->  
+  
+        <section class="documentation-section">  
+  
+            <h2>  
+                64 — Funcionamiento general entre Redux y React
+            </h2>  
+  
+            <p>  
+                El funcionamiento completo de esta funcionalidad se basa en
+                una comunicación organizada entre React, Redux Toolkit, Axios
+                y el backend. Cuando el usuario abre la página Commerce,
+                se carga el componente React. El hook <code>useEffect</code>
+                activa entonces <code>dispatch(fetchCommerce())</code>.
+                Redux Toolkit inicia la acción asíncrona creada con
+                <code>createAsyncThunk</code>. Se activa el estado
+                <code>pending</code> y la propiedad <code>loading</code>
+                pasa a ser <code>true</code>. Axios envía posteriormente
+                una solicitud GET al backend. El servidor procesa la solicitud
+                y devuelve los datos comerciales en formato JSON. Cuando la
+                respuesta llega correctamente, Redux activa el estado
+                <code>fulfilled</code>. La propiedad <code>loading</code>
+                vuelve a ser <code>false</code> y los datos se transforman
+                mediante <code>map()</code>. A continuación, los datos se
+                almacenan en <code>state.data</code>. El componente React
+                recupera los nuevos datos mediante <code>useSelector</code>.
+                El estado local <code>filter</code> permite posteriormente
+                seleccionar Jumia o MG. El método <code>filter()</code> crea
+                <code>filteredData</code>, que se transmite al gráfico
+                de Recharts y a la lista de detalles. Por lo tanto, esta
+                arquitectura separa claramente las responsabilidades:
+                Redux gestiona los datos, mientras que React gestiona
+                la interfaz y la interacción con el usuario.
+            </p>  
+  
+        </section>  
+  
+  
+        <!-- =================================================  
+             CONCLUSION 
+        ================================================== -->  
+  
+        <section class="documentation-section conclusion">  
+  
+            <h2>  
+                65 — Conclusión
+            </h2>  
+  
+            <p>  
+                La funcionalidad Commerce constituye una cadena completa
+                de procesamiento frontend que conecta el backend,
+                Redux Toolkit, React, Recharts y Power BI. Los datos se
+                recuperan automáticamente mediante <code>createAsyncThunk</code>
+                y Axios, y posteriormente se almacenan en Redux para que
+                estén disponibles en el componente React. La gestión de los
+                estados <strong>pending</strong>, <strong>fulfilled</strong> y
+                <strong>rejected</strong> permite gestionar el ciclo de vida
+                de la solicitud. Los datos recibidos se transforman mediante
+                <code>map()</code>, especialmente para añadir la propiedad
+                <code>label</code>. React recupera posteriormente estos datos
+                mediante <code>useSelector</code> y utiliza <code>useState</code>
+                para gestionar el filtro entre Jumia y MG. El método
+                <code>filter()</code> selecciona los datos correspondientes,
+                y Recharts los transforma posteriormente en un gráfico para
+                comparar <code>target</code> y <code>prix</code>. La información
+                también se presenta en forma de lista detallada. Al mismo tiempo,
+                Power BI se integra mediante un iframe para mostrar el dashboard
+                de análisis para la toma de decisiones. Por lo tanto, esta
+                arquitectura demuestra el uso complementario de varias
+                tecnologías modernas: <strong>React para la interfaz,
+                Redux Toolkit para la gestión del estado, Axios para la
+                comunicación con el backend, Recharts para la visualización
+                y Power BI para el análisis de toma de decisiones</strong>.
+                El resultado es un dashboard Commerce dinámico capaz de
+                recuperar, transformar, filtrar y visualizar automáticamente
+                los datos procedentes del backend.
+            </p>  
+  
+        </section>  
+  
+    </main>  
+  
+  
+    <!-- =====================================================  
+         FOOTER  
+    ====================================================== -->  
+  
+    <footer class="documentation-footer">  
+  
+        <p>  
+            Documentación técnica — Commerce Dashboard
+        </p>  
+  
+        <p>  
+            React • Redux Toolkit • Axios • Recharts • Power BI
+        </p>  
+  
+    </footer>  
+  
+</body>  
+  
+</html>

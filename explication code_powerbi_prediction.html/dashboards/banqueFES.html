@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Documentación técnica del Frontend: React, Redux Toolkit, Axios, predicción bancaria, Power BI y Recharts."
+    >
+
+    <title>
+        Documentación Frontend | Redux Toolkit, React, Axios, Power BI y Recharts
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+            line-height: 1.8;
+        }
+
+        header {
+            background: #1f2937;
+            color: white;
+            padding: 45px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header p {
+            margin-top: 12px;
+            font-size: 17px;
+            opacity: 0.9;
+        }
+
+        main {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        section {
+            background: white;
+            padding: 35px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            color: #2563eb;
+            margin-top: 0;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 12px;
+        }
+
+        h3 {
+            color: #374151;
+            margin-top: 30px;
+        }
+
+        p {
+            text-align: justify;
+            font-size: 16px;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 3px 6px;
+            border-radius: 4px;
+            color: #dc2626;
+        }
+
+        pre {
+            background: #111827;
+            color: #f9fafb;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        .architecture {
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .important {
+            background: #fff7ed;
+            border-left: 5px solid #f97316;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #1f2937;
+            color: white;
+            margin-top: 50px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>
+        📊 Documentación del Frontend
+    </h1>
+
+    <p>
+        React • Redux Toolkit • Axios • Power BI • Recharts
+    </p>
+
+</header>
+
+<main>
+
+    <!-- ========================================================= -->
+    <!-- 1. PRESENTACIÓN GENERAL -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            1 — Descripción general del sistema Frontend
+        </h2>
+
+        <p>
+            En esta parte del proyecto, desarrollamos el Frontend de la aplicación utilizando React y Redux Toolkit con el fin de gestionar la visualización del dashboard bancario, comunicarnos con el Backend y recuperar automáticamente el resultado de una predicción. El Frontend actúa como una interfaz entre el usuario y el sistema de procesamiento de datos. El usuario accede a una página llamada <code>Banque</code> que muestra un dashboard de Power BI, así como un resultado de predicción generado por el Backend. Para organizar correctamente la comunicación entre los diferentes componentes, utilizamos Redux Toolkit. Redux permite centralizar y gestionar el estado de la aplicación, mientras que <code>createAsyncThunk</code> se utiliza para gestionar una operación asíncrona, en nuestro caso el envío de una solicitud HTTP al Backend. Para realizar esta comunicación HTTP, utilizamos Axios. Cuando se carga el componente React, la función <code>useEffect()</code> activa automáticamente la acción Redux <code>createBanquePrediction</code> enviando los valores <code>x1: 10</code> y <code>x2: 2</code>. Redux envía entonces una solicitud POST a <code>http://localhost:3000/banque</code>. El Backend recibe estos datos, realiza el procesamiento o la predicción y devuelve una respuesta. Esta respuesta se almacena posteriormente en el store de Redux mediante el estado <code>predictionData</code>. El componente React recupera entonces los datos utilizando <code>useSelector()</code> y actualiza automáticamente la interfaz. El sistema también gestiona tres situaciones importantes: la carga mediante <code>loading</code>, el éxito mediante <code>fulfilled</code> y el error mediante <code>rejected</code>. Cuando la predicción está disponible, el componente muestra su valor en una tarjeta de resultado y también crea un gráfico con Recharts para comparar los valores X1, X2 y la predicción. Al mismo tiempo, un informe de Power BI se integra en la página utilizando un elemento HTML <code>iframe</code>. Por lo tanto, tenemos una arquitectura Frontend en la que React gestiona la interfaz de usuario, Redux Toolkit administra el estado y las operaciones asíncronas, Axios gestiona la comunicación con el Backend, Power BI muestra el dashboard de apoyo a la toma de decisiones y Recharts representa gráficamente el resultado de la predicción.
+        </p>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 2. REDUX TOOLKIT -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            2 — Redux Toolkit y gestión del estado
+        </h2>
+
+        <p>
+            El primer archivo corresponde al Redux Slice dedicado a la predicción bancaria. Redux Toolkit se utiliza para simplificar la gestión global del estado de la aplicación. La primera línea <code>import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";</code> nos permite importar dos funcionalidades importantes. <code>createSlice</code> se utiliza para crear una parte del store de Redux llamada aquí <code>banque</code>, mientras que <code>createAsyncThunk</code> se utiliza para crear una acción asíncrona destinada a comunicarse con el Backend. La línea <code>import axios from "axios";</code> importa Axios, una biblioteca utilizada para realizar solicitudes HTTP. En nuestra aplicación, Axios se utiliza para enviar los datos de predicción al servidor. El principio consiste, por tanto, en separar la lógica de comunicación con el Backend de la lógica de visualización del componente React. Esto hace que la aplicación esté mejor organizada y sea más fácil de mantener.
+        </p>
+
+        <pre><code>import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 3. CREATE ASYNC THUNK -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            3 — Función createAsyncThunk
+        </h2>
+
+        <p>
+            La función <code>createBanquePrediction</code> se crea con <code>createAsyncThunk</code>. Su función es realizar una operación asíncrona que envía datos al Backend. El primer argumento <code>"banque/create"</code> representa el nombre de la acción Redux. El segundo argumento es una función asíncrona que recibe los datos en el parámetro <code>data</code>. La función utiliza entonces <code>axios.post()</code> para enviar una solicitud HTTP POST a <code>http://localhost:3000/banque</code>. La palabra <code>data</code> representa los datos enviados por el componente React. En nuestro ejemplo, estos datos están compuestos por <code>x1: 10</code> y <code>x2: 2</code>. Por lo tanto, el servidor recibe estos dos valores y puede utilizarlos para realizar la predicción. La palabra clave <code>await</code> permite esperar la respuesta del servidor antes de continuar la ejecución. Una vez recibida la respuesta, <code>res.data</code> se utiliza para recuperar únicamente los datos devueltos por el Backend. La función devuelve entonces estos datos mediante <code>return res.data</code>. Redux Toolkit pasará automáticamente esta respuesta al reducer correspondiente al estado <code>fulfilled</code>. Si se produce un error durante la solicitud de Axios, la instrucción <code>catch</code> intercepta el error. Utilizamos entonces <code>rejectWithValue()</code> para transmitir el error al reducer de Redux. La expresión <code>err.response?.data</code> permite recuperar el mensaje enviado por el servidor cuando existe una respuesta. El símbolo <code>?.</code> corresponde al encadenamiento opcional y evita un error si <code>response</code> no existe. Si no hay información de error disponible por parte del servidor, se utiliza el mensaje <code>"Erreur serveur"</code>. Esta función actúa, por tanto, como puente entre el Frontend Redux y el Backend.
+        </p>
+
+        <pre><code>export const createBanquePrediction = createAsyncThunk(
+  "banque/create",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/banque",
+        data
+      );
+
+      return res.data;
+
+    } catch (err) {
+
+      return rejectWithValue(
+        err.response?.data || "Erreur serveur"
+      );
+
+    }
+  }
+);</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 4. INITIAL STATE -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            4 — Creación de banqueSlice y estado inicial
+        </h2>
+
+        <p>
+            Después de crear la acción asíncrona, creamos el <code>banqueSlice</code> utilizando <code>createSlice()</code>. Este Slice representa la parte del store de Redux dedicada a la funcionalidad bancaria. La propiedad <code>name: "banque"</code> proporciona un nombre a esta parte del estado. La propiedad <code>initialState</code> define el estado inicial de esta funcionalidad. Tenemos tres elementos principales de información. El primero es <code>predictionData: null</code>, lo que significa que todavía no hay ninguna predicción disponible al iniciar la aplicación. El segundo es <code>loading: false</code>, que indica que ninguna solicitud está actualmente en curso en el momento inicial. El tercero es <code>error: null</code>, que indica que todavía no se ha producido ningún error. Esta organización permite que el componente React conozca con precisión en qué situación se encuentra la solicitud: espera, carga, éxito o error.
+        </p>
+
+        <pre><code>const banqueSlice = createSlice({
+  name: "banque",
+
+  initialState: {
+    predictionData: null,
+    loading: false,
+    error: null,
+  },
+
+  reducers: {},
+
+  extraReducers: (builder) => {
+    ...
+  },
+});</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 5. PENDING -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            5 — Gestión del estado pending
+        </h2>
+
+        <p>
+            Cuando se ejecuta <code>createBanquePrediction</code> y comienza la solicitud al Backend, Redux Toolkit activa automáticamente el estado <code>pending</code>. El código <code>.addCase(createBanquePrediction.pending, (state) =&gt; { ... })</code> define lo que debe suceder durante la carga. Establecemos entonces <code>state.loading = true</code>. El componente React puede saber de esta manera que hay una solicitud en curso y mostrar el mensaje <code>Loading prediction...</code>. También restablecemos <code>state.error = null</code> para eliminar un posible error anterior. Esta gestión permite disponer de una interfaz dinámica e informar al usuario de que el sistema está recuperando actualmente la predicción.
+        </p>
+
+        <pre><code>.addCase(createBanquePrediction.pending, (state) => {
+  state.loading = true;
+  state.error = null;
+})</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 6. FULFILLED -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            6 — Gestión del estado fulfilled
+        </h2>
+
+        <p>
+            Cuando la solicitud de Axios termina correctamente y el Backend devuelve una respuesta válida, Redux Toolkit activa el estado <code>fulfilled</code>. El código <code>.addCase(createBanquePrediction.fulfilled, (state, action) =&gt; { ... })</code> recupera entonces la respuesta del servidor en <code>action.payload</code>. Establecemos <code>state.loading = false</code> porque la solicitud ha terminado. A continuación, <code>state.predictionData = action.payload</code> almacena el resultado de la predicción en el store de Redux. Estos datos quedan entonces disponibles para los componentes React que utilizan <code>useSelector()</code>. El proceso es, por tanto, muy importante: el Backend produce el resultado, Redux lo almacena en su estado global y React recupera automáticamente este nuevo valor para actualizar la visualización.
+        </p>
+
+        <pre><code>.addCase(createBanquePrediction.fulfilled, (state, action) => {
+  state.loading = false;
+  state.predictionData = action.payload;
+})</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 7. REJECTED -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            7 — Gestión del estado rejected
+        </h2>
+
+        <p>
+            Si la solicitud falla, por ejemplo si el Backend está detenido, si la URL es incorrecta o si el servidor devuelve un error, Redux Toolkit activa el estado <code>rejected</code>. El código <code>.addCase(createBanquePrediction.rejected, (state, action) =&gt; { ... })</code> gestiona esta situación. Establecemos <code>state.loading = false</code> porque la solicitud ha terminado aunque haya fallado. A continuación, <code>state.error = action.payload</code> recupera el mensaje de error enviado mediante <code>rejectWithValue()</code>. El componente React puede entonces leer este estado y mostrar un mensaje de error al usuario. Esta organización evita que el usuario se quede sin información cuando falla la comunicación con el servidor.
+        </p>
+
+        <pre><code>.addCase(createBanquePrediction.rejected, (state, action) => {
+  state.loading = false;
+  state.error = action.payload;
+})</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 8. REDUX FLOW -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            8 — Ciclo completo de Redux
+        </h2>
+
+        <p>
+            El funcionamiento completo de Redux Toolkit puede resumirse de la siguiente manera: el componente React ejecuta <code>dispatch(createBanquePrediction(...))</code>. Redux Toolkit inicia entonces la acción asíncrona. En cuanto comienza la solicitud, se activa el estado <code>pending</code> y <code>loading</code> pasa a <code>true</code>. Axios envía entonces los datos al Backend. Si el Backend devuelve correctamente la predicción, se activa el estado <code>fulfilled</code> y el resultado se almacena en <code>predictionData</code>. Si la solicitud falla, se activa el estado <code>rejected</code> y el error se almacena en <code>error</code>. React observa los cambios en el store mediante <code>useSelector()</code> y actualiza automáticamente la interfaz. Esta arquitectura permite, por tanto, gestionar correctamente las operaciones asíncronas sin colocar toda la lógica directamente dentro del componente React.
+        </p>
+
+        <div class="architecture">
+
+            <strong>Flujo de datos:</strong>
+
+            <br><br>
+
+            React
+            →
+            dispatch()
+            →
+            Redux Toolkit
+            →
+            createAsyncThunk
+            →
+            Axios
+            →
+            Backend
+            →
+            Predicción
+            →
+            Redux Store
+            →
+            useSelector()
+            →
+            Interfaz React
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 9. REACT COMPONENT -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            9 — Componente React Banque
+        </h2>
+
+        <p>
+            El segundo archivo corresponde al componente React llamado <code>Banque</code>. Su función es construir la interfaz de usuario del dashboard bancario y recuperar los datos de predicción almacenados en Redux. La primera línea <code>import React, { useEffect } from "react";</code> importa React así como el Hook <code>useEffect</code>. A continuación, <code>useDispatch</code> y <code>useSelector</code> se importan desde <code>react-redux</code>. <code>useDispatch()</code> permite al componente enviar una acción Redux, mientras que <code>useSelector()</code> le permite leer información del store de Redux. El archivo CSS <code>Banque.css</code> también se importa para gestionar los estilos de la página. Finalmente, se importan varios componentes de Recharts para construir el gráfico: <code>BarChart</code>, <code>Bar</code>, <code>XAxis</code>, <code>YAxis</code>, <code>Tooltip</code>, <code>CartesianGrid</code>, <code>ResponsiveContainer</code> y <code>Legend</code>.
+        </p>
+
+        <pre><code>import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createBanquePrediction } from "../redux/banqueSlice";
+import "./Banque.css";</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 10. USE DISPATCH -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            10 — useDispatch
+        </h2>
+
+        <p>
+            En el componente <code>Banque</code>, utilizamos <code>const dispatch = useDispatch()</code>. El Hook <code>useDispatch()</code> proporciona la función <code>dispatch</code>, que se utiliza para enviar acciones a Redux. Mediante esta función, el componente React puede solicitar a Redux que ejecute la predicción bancaria. Sin <code>dispatch</code>, el componente no podría activar directamente nuestra acción <code>createBanquePrediction</code>. El papel de <code>dispatch</code> es, por tanto, transmitir una acción desde el componente React hacia el sistema Redux.
+        </p>
+
+        <pre><code>const dispatch = useDispatch();</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 11. USE SELECTOR -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            11 — useSelector y recuperación del estado Redux
+        </h2>
+
+        <p>
+            El Hook <code>useSelector()</code> permite al componente React recuperar los datos almacenados en el store de Redux. En nuestro código, recuperamos tres elementos de información. El primero es <code>predictionData</code>, que contiene el resultado devuelto por el Backend. El segundo es <code>loading</code>, que indica si la solicitud está en curso. El tercero es <code>error</code>, que puede contener un mensaje de error. La expresión <code>state.banque?.predictionData</code> significa que buscamos la propiedad <code>predictionData</code> dentro de la parte <code>banque</code> del store. El símbolo <code>?.</code> evita un error si el objeto <code>banque</code> no existe temporalmente. Gracias a <code>useSelector()</code>, cuando Redux modifica esta información, React detecta el cambio y actualiza automáticamente el componente.
+        </p>
+
+        <pre><code>const predictionData = useSelector(
+  (state) => state.banque?.predictionData
+);
+
+const loading = useSelector(
+  (state) => state.banque?.loading
+);
+
+const error = useSelector(
+  (state) => state.banque?.error
+);</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 12. USE EFFECT -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            12 — useEffect y lanzamiento automático de la predicción
+        </h2>
+
+        <p>
+            El Hook <code>useEffect()</code> se utiliza para ejecutar automáticamente una operación cuando se carga el componente. En nuestro código, utilizamos <code>dispatch(createBanquePrediction({ x1: 10, x2: 2 }))</code>. Esto significa que cuando se muestra la página Banque, el componente envía automáticamente una acción Redux para solicitar una predicción al Backend. Los valores enviados son <code>x1: 10</code> y <code>x2: 2</code>. El array de dependencias contiene <code>dispatch</code>. En este contexto, el efecto se ejecuta cuando el componente se monta. Este enfoque permite lanzar automáticamente la predicción sin necesidad de que el usuario haga clic en un botón. El proceso es entonces: visualización del componente, ejecución de <code>useEffect()</code>, llamada a <code>dispatch()</code>, lanzamiento de <code>createBanquePrediction</code>, solicitud Axios al Backend, recepción de la respuesta y actualización de Redux.
+        </p>
+
+        <pre><code>useEffect(() => {
+  dispatch(
+    createBanquePrediction({
+      x1: 10,
+      x2: 2,
+    })
+  );
+}, [dispatch]);</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 13. CHART DATA -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            13 — Preparación de los datos del gráfico
+        </h2>
+
+        <p>
+            Después de recuperar el resultado desde Redux, el componente crea una nueva variable llamada <code>chartData</code>. Esta variable está destinada a Recharts. La expresión condicional <code>predictionData ? [...] : []</code> significa que si existe una predicción, creamos un array que contiene los datos del gráfico. En caso contrario, creamos un array vacío. El objeto contiene una propiedad <code>name</code> con el valor <code>"Banque"</code>, seguida de los valores <code>X1</code>, <code>X2</code> y <code>Prediction</code>. Para X1, utilizamos <code>predictionData.x1 || 0</code>. Esto significa que si existe el valor X1, se utiliza; de lo contrario, se utiliza el valor 0. El mismo principio se aplica a X2 y a la predicción. Este paso transforma los datos recibidos del Backend en una estructura que puede ser utilizada directamente por el gráfico de Recharts.
+        </p>
+
+        <pre><code>const chartData = predictionData
+  ? [
+      {
+        name: "Banque",
+        X1: predictionData.x1 || 0,
+        X2: predictionData.x2 || 0,
+        Prediction:
+          predictionData.prediction || 0,
+      },
+    ]
+  : [];</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 14. POWER BI -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            14 — Integración del Dashboard de Power BI
+        </h2>
+
+        <p>
+            El componente React también integra un informe de Power BI utilizando un elemento HTML <code>iframe</code>. El objetivo es mostrar un dashboard de apoyo a la toma de decisiones creado con Power BI directamente dentro de nuestra aplicación Web. La clase <code>powerbi-frame</code> permite aplicar el estilo definido en <code>Banque.css</code>. La propiedad <code>title="BANQUE"</code> proporciona un título al elemento integrado. La propiedad <code>src</code> contiene la dirección del informe de Power BI publicado. La propiedad <code>frameBorder="0"</code> elimina el borde del iframe y <code>allowFullScreen</code> permite la visualización en pantalla completa. Esta integración permite, por tanto, reunir dos dimensiones del proyecto en la misma página: por un lado, el dashboard de apoyo a la toma de decisiones de Power BI y, por otro, la predicción generada dinámicamente por el Backend y mostrada por React.
+        </p>
+
+        <pre><code>&lt;div className="powerbi-container"&gt;
+
+  &lt;iframe
+    className="powerbi-frame"
+    title="BANQUE"
+    src="https://app.powerbi.com/view?..."
+    frameBorder="0"
+    allowFullScreen
+  /&gt;
+
+&lt;/div&gt;</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 15. LOADING -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            15 — Visualización del estado de carga
+        </h2>
+
+        <p>
+            El componente utiliza la variable <code>loading</code> de Redux para informar al usuario cuando una predicción está en curso. La condición <code>{loading && (...)}</code> significa que el párrafo se muestra únicamente cuando <code>loading</code> es <code>true</code>. El mensaje mostrado es <code>Loading prediction...</code>. Esto corresponde al estado <code>pending</code> definido en el Redux Slice. Existe, por tanto, una relación directa entre el Backend, Redux y la interfaz: cuando comienza la solicitud, Redux activa <code>loading</code> y React muestra el mensaje de carga.
+        </p>
+
+        <pre><code>{loading && (
+  &lt;p className="loading"&gt;
+    Loading prediction...
+  &lt;/p&gt;
+)}</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 16. ERROR -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            16 — Visualización de errores
+        </h2>
+
+        <p>
+            El componente también contempla la posibilidad de que se produzca un error. La condición <code>{error && (...)}</code> significa que el mensaje de error se muestra únicamente cuando existe un error en el store de Redux. Este error puede proceder de Axios, del Backend o de un problema de comunicación con el servidor. El valor de <code>error</code> se almacenó en Redux cuando se activó el estado <code>rejected</code>. React recupera entonces este valor utilizando <code>useSelector()</code> y lo muestra al usuario en un párrafo con la clase CSS <code>error</code>.
+        </p>
+
+        <pre><code>{error && (
+  &lt;p className="error"&gt;
+    {error}
+  &lt;/p&gt;
+)}</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 17. WAITING -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            17 — Estado de espera
+        </h2>
+
+        <p>
+            El componente también contempla una situación en la que no hay ninguna predicción disponible y ninguna solicitud está actualmente en curso. La condición <code>!loading && !error && !predictionData</code> comprueba tres elementos: la carga ha terminado, no existe ningún error y todavía no hay datos de predicción disponibles. En esta situación, la aplicación muestra el mensaje <code>Waiting for prediction result...</code>. Esto permite gestionar correctamente el estado inicial de la página antes de recibir el resultado de la predicción.
+        </p>
+
+        <pre><code>{!loading &&
+  !error &&
+  !predictionData && (
+    &lt;p className="waiting"&gt;
+      ⏳ Waiting for prediction result...
+    &lt;/p&gt;
+)}</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 18. PREDICTION CARD -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            18 — Visualización del resultado de la predicción
+        </h2>
+
+        <p>
+            Cuando existe <code>predictionData</code>, el componente muestra una tarjeta que contiene el resultado de la predicción. La condición <code>{predictionData && (...)}</code> renderiza esta parte de la interfaz únicamente cuando los datos están disponibles. El título <code>📌 Result</code> indica claramente al usuario que se trata del resultado producido por el modelo. El valor mostrado utiliza <code>predictionData.prediction?.toFixed(2)</code>. La propiedad <code>prediction</code> corresponde al resultado enviado por el Backend. La función <code>toFixed(2)</code> muestra el número con dos dígitos después del punto decimal. El símbolo <code>?.</code> comprueba que la propiedad existe antes de llamar al método. Esta tarjeta representa, por tanto, la parte principal de la visualización del resultado predictivo.
+        </p>
+
+        <pre><code>{predictionData && (
+  &lt;div className="prediction-card"&gt;
+
+    &lt;h2 className="prediction-title"&gt;
+      📌 Result
+    &lt;/h2&gt;
+
+    &lt;div className="prediction-value"&gt;
+      {predictionData.prediction?.toFixed(2)}
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+)}</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 19. RECHARTS -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            19 — Creación del gráfico con Recharts
+        </h2>
+
+        <p>
+            Después de mostrar el valor numérico, el componente crea un gráfico utilizando la biblioteca Recharts. El objetivo es representar visualmente los valores X1, X2 y Prediction. El componente <code>ResponsiveContainer</code> permite que el gráfico se adapte automáticamente al ancho disponible. La propiedad <code>width="100%"</code> indica que el gráfico utiliza todo el ancho de su contenedor y <code>height={350}</code> define una altura de 350 píxeles. El componente <code>BarChart</code> recibe los datos mediante <code>data={chartData}</code>. El componente <code>CartesianGrid</code> muestra una cuadrícula que facilita la lectura del gráfico. <code>XAxis</code> define el eje horizontal y utiliza <code>dataKey="name"</code> para mostrar el nombre de la categoría, aquí <code>Banque</code>. <code>YAxis</code> representa el eje vertical que contiene los valores numéricos. <code>Tooltip</code> muestra información cuando el usuario coloca el cursor sobre una barra. <code>Legend</code> muestra la leyenda de las diferentes series. Finalmente, tres componentes <code>Bar</code> representan respectivamente X1, X2 y Prediction. Cada barra utiliza una clave de datos diferente mediante <code>dataKey</code>. El gráfico proporciona, por tanto, una representación visual y comparativa de los datos utilizados para la predicción y del resultado obtenido.
+        </p>
+
+        <pre><code>&lt;ResponsiveContainer
+  width="100%"
+  height={350}
+&gt;
+
+  &lt;BarChart data={chartData}&gt;
+
+    &lt;CartesianGrid strokeDasharray="3 3" /&gt;
+
+    &lt;XAxis dataKey="name" /&gt;
+
+    &lt;YAxis /&gt;
+
+    &lt;Tooltip /&gt;
+
+    &lt;Legend /&gt;
+
+    &lt;Bar
+      dataKey="X1"
+      fill="#2196F3"
+      name="X1"
+    /&gt;
+
+    &lt;Bar
+      dataKey="X2"
+      fill="#FFC107"
+      name="X2"
+    /&gt;
+
+    &lt;Bar
+      dataKey="Prediction"
+      fill="#FF4D4D"
+      name="Prediction"
+    /&gt;
+
+  &lt;/BarChart&gt;
+
+&lt;/ResponsiveContainer&gt;</code></pre>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 20. COMPLETE ARCHITECTURE -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            20 — Arquitectura completa del Frontend
+        </h2>
+
+        <p>
+            Los dos archivos de Redux y React trabajan juntos siguiendo una arquitectura organizada. El componente <code>Banque</code> representa la parte visual. Cuando se carga, <code>useEffect()</code> llama a <code>dispatch()</code> con la acción <code>createBanquePrediction</code>. Esta acción está definida en <code>banqueSlice.js</code> utilizando <code>createAsyncThunk</code>. Redux Toolkit inicia entonces una solicitud Axios al Backend con los valores X1 y X2. Durante esta comunicación, Redux entra en el estado <code>pending</code> y la variable <code>loading</code> pasa a ser true. Cuando el Backend devuelve una respuesta correcta, Redux entra en el estado <code>fulfilled</code> y coloca la respuesta en <code>predictionData</code>. El componente React recupera estos datos utilizando <code>useSelector()</code>. React detecta automáticamente el cambio de estado y actualiza la interfaz. El resultado se muestra entonces en la tarjeta de predicción y los datos se preparan en <code>chartData</code> para construir el gráfico de Recharts. Si se produce un error durante la comunicación, Redux entra en el estado <code>rejected</code>, almacena el error en <code>error</code> y React muestra el mensaje correspondiente. Al mismo tiempo, el iframe de Power BI muestra el dashboard de apoyo a la toma de decisiones. Tenemos, por tanto, una separación clara entre presentación, gestión del estado, comunicación con el servidor y visualización de datos.
+        </p>
+
+        <div class="architecture">
+
+            <strong>Arquitectura:</strong>
+
+            <br><br>
+
+            <strong>React Banque.jsx</strong>
+            <br>
+            ↓
+            <br>
+            <strong>useEffect()</strong>
+            <br>
+            ↓
+            <br>
+            <strong>dispatch()</strong>
+            <br>
+            ↓
+            <br>
+            <strong>Redux Toolkit</strong>
+            <br>
+            ↓
+            <br>
+            <strong>createAsyncThunk</strong>
+            <br>
+            ↓
+            <br>
+            <strong>Axios POST</strong>
+            <br>
+            ↓
+            <br>
+            <strong>Backend /banque</strong>
+            <br>
+            ↓
+            <br>
+            <strong>Resultado de la predicción</strong>
+            <br>
+            ↓
+            <br>
+            <strong>fulfilled → predictionData</strong>
+            <br>
+            ↓
+            <br>
+            <strong>useSelector()</strong>
+            <br>
+            ↓
+            <br>
+            <strong>React</strong>
+            <br>
+            ↓
+            <br>
+            <strong>Tarjeta + Recharts</strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 21. DIFFERENCE REDUX / REACT -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            21 — Función de Redux y función de React
+        </h2>
+
+        <p>
+            En esta arquitectura, React y Redux tienen responsabilidades diferentes pero complementarias. React es principalmente responsable de la interfaz de usuario: construye la página, muestra el dashboard de Power BI, muestra el resultado de la predicción y crea el gráfico. Redux Toolkit es responsable de la gestión del estado y de la comunicación con el Backend. El Redux Slice contiene la información <code>predictionData</code>, <code>loading</code> y <code>error</code>. <code>createAsyncThunk</code> gestiona la operación asíncrona y Axios se comunica con el servidor. React utiliza posteriormente <code>useSelector()</code> para leer el estado de Redux y <code>useDispatch()</code> para enviar acciones. Esta separación hace que el código sea más limpio porque la lógica de recuperación de datos no está completamente mezclada con el código de visualización. React se concentra principalmente en presentar la información, mientras que Redux organiza su flujo y su estado dentro de la aplicación.
+        </p>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 22. MANAGEMENT OF THE THREE STATES -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            22 — Gestión de los tres estados de la solicitud
+        </h2>
+
+        <p>
+            Un elemento importante de esta arquitectura es la gestión de los tres estados generados automáticamente por <code>createAsyncThunk</code>. El primer estado es <code>pending</code>: corresponde al momento en que la solicitud está en curso y permite mostrar un indicador de carga. El segundo estado es <code>fulfilled</code>: corresponde a una solicitud exitosa y permite almacenar la respuesta en <code>predictionData</code>. El tercer estado es <code>rejected</code>: corresponde a una solicitud fallida y permite almacenar el problema en <code>error</code>. Gracias a estos tres estados, la interfaz React puede reaccionar automáticamente a los cambios en la comunicación con el Backend. El usuario sabe, por tanto, si el sistema está funcionando, si la predicción está disponible o si se ha producido un error.
+        </p>
+
+        <div class="architecture">
+
+            <strong>pending</strong>
+            → Solicitud en curso
+            → <code>loading = true</code>
+
+            <br><br>
+
+            <strong>fulfilled</strong>
+            → Solicitud exitosa
+            → <code>predictionData = result</code>
+
+            <br><br>
+
+            <strong>rejected</strong>
+            → Solicitud fallida
+            → <code>error = message</code>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 23. CONCLUSION -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            23 — Conclusión
+        </h2>
+
+        <p>
+            Para concluir, estos dos archivos constituyen una parte esencial del Frontend de nuestra aplicación de predicción bancaria. El archivo Redux utiliza Redux Toolkit para centralizar el estado de la funcionalidad bancaria y gestionar la comunicación asíncrona con el Backend mediante <code>createAsyncThunk</code> y Axios. El estado inicial contiene la información necesaria para conocer el resultado de la predicción, el estado de carga y los posibles errores. Los tres estados <code>pending</code>, <code>fulfilled</code> y <code>rejected</code> permiten gestionar automáticamente las diferentes etapas de la solicitud. El componente React <code>Banque</code> utiliza posteriormente <code>useDispatch()</code> para activar la acción Redux y <code>useSelector()</code> para recuperar información del store. El Hook <code>useEffect()</code> permite lanzar automáticamente la predicción cuando se carga el componente. Una vez recibido el resultado, React muestra el valor de la predicción en una tarjeta y utiliza Recharts para crear una representación gráfica que compara X1, X2 y la predicción. El componente también integra un dashboard de Power BI mediante un iframe con el objetivo de reunir el análisis de apoyo a la toma de decisiones y el análisis predictivo en una misma interfaz. La arquitectura final se basa, por tanto, en la comunicación entre React, Redux Toolkit, Axios, el Backend, el modelo de predicción, Power BI y Recharts. Esta organización permite construir una aplicación Frontend dinámica y estructurada capaz de presentar al usuario tanto datos de apoyo a la toma de decisiones como resultados predictivos.
+        </p>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 24. ORAL EXPLANATION -->
+    <!-- ========================================================= -->
+
+    <section>
+
+        <h2>
+            24 — Explicación oral para la presentación
+        </h2>
+
+        <p>
+            Para presentar esta parte ante un jurado, podemos explicar que el Frontend de la aplicación está desarrollado con React y que Redux Toolkit se utiliza para gestionar el estado y la comunicación con el Backend. En el archivo Redux, creé una acción asíncrona con <code>createAsyncThunk</code>. Esta acción utiliza Axios para enviar los valores X1 y X2 al Backend mediante una solicitud POST. Redux Toolkit gestiona automáticamente tres estados: <code>pending</code> cuando la solicitud está en curso, <code>fulfilled</code> cuando la respuesta se recibe correctamente y <code>rejected</code> cuando se produce un error. El resultado devuelto por el Backend se almacena en <code>predictionData</code>. En el componente React Banque, utilizo <code>useDispatch</code> para activar la acción y <code>useSelector</code> para recuperar los datos desde Redux. Con <code>useEffect</code>, la predicción se lanza automáticamente cuando se carga la página. Cuando llega la respuesta, React muestra el resultado en una tarjeta y utiliza Recharts para representar gráficamente X1, X2 y la predicción. También integré un dashboard de Power BI mediante un iframe para mostrar resultados de apoyo a la toma de decisiones en la misma interfaz. El objetivo es, por tanto, combinar Business Intelligence con Power BI y Machine Learning con predicción dentro de una sola aplicación, utilizando Redux para organizar el flujo de datos entre el Frontend y el Backend.
+        </p>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        Documentación técnica — Frontend React & Redux Toolkit
+    </p>
+
+    <p>
+        Power BI • Machine Learning • Axios • Recharts
+    </p>
+
+</footer>
+
+</body>
+
+</html>

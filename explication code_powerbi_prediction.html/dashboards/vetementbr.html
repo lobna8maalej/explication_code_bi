@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Documentação | Predição de Machine Learning & Node.js</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f7fb;
+        color: #263238;
+        line-height: 1.7;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 270px;
+        height: 100vh;
+        background: #111827;
+        color: white;
+        padding: 25px 18px;
+        overflow-y: auto;
+        z-index: 1000;
+    }
+
+    .sidebar h2 {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .sidebar .subtitle {
+        color: #9ca3af;
+        font-size: 13px;
+        margin-bottom: 25px;
+    }
+
+    .sidebar a {
+        display: block;
+        color: #d1d5db;
+        text-decoration: none;
+        padding: 10px 12px;
+        border-radius: 8px;
+        margin-bottom: 5px;
+        font-size: 14px;
+        transition: 0.25s;
+    }
+
+    .sidebar a:hover {
+        background: #1f2937;
+        color: white;
+        transform: translateX(3px);
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main {
+        margin-left: 270px;
+        padding: 40px;
+        max-width: 1400px;
+    }
+
+    .hero {
+        background: linear-gradient(135deg, #111827, #2563eb);
+        color: white;
+        padding: 45px;
+        border-radius: 18px;
+        margin-bottom: 30px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+    }
+
+    .hero h1 {
+        font-size: 38px;
+        margin-bottom: 12px;
+    }
+
+    .hero p {
+        max-width: 900px;
+        color: #e5e7eb;
+    }
+
+    .section {
+        background: white;
+        padding: 32px;
+        margin-bottom: 28px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    h2 {
+        color: #111827;
+        font-size: 28px;
+        margin-bottom: 20px;
+        border-left: 5px solid #2563eb;
+        padding-left: 14px;
+    }
+
+    h3 {
+        color: #1d4ed8;
+        margin-top: 25px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        margin-bottom: 15px;
+    }
+
+    ul,
+    ol {
+        margin-left: 25px;
+        margin-bottom: 18px;
+    }
+
+    li {
+        margin-bottom: 7px;
+    }
+
+    /* =========================
+       CODE
+    ========================= */
+
+    .code-title {
+        background: #1f2937;
+        color: #dbeafe;
+        padding: 10px 15px;
+        border-radius: 8px 8px 0 0;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    pre {
+        background: #0b1120;
+        color: #e5e7eb;
+        padding: 20px;
+        overflow-x: auto;
+        border-radius: 0 0 8px 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    code {
+        font-family: Consolas, Monaco, monospace;
+    }
+
+    .inline-code {
+        background: #eef2ff;
+        color: #3730a3;
+        padding: 3px 7px;
+        border-radius: 5px;
+        font-family: Consolas, monospace;
+    }
+
+    /* =========================
+       INFO BOX
+    ========================= */
+
+    .info {
+        background: #eff6ff;
+        border-left: 5px solid #2563eb;
+        padding: 18px;
+        border-radius: 8px;
+        margin: 20px 0;
+    }
+
+    .success {
+        background: #ecfdf5;
+        border-left: 5px solid #10b981;
+        padding: 18px;
+        border-radius: 8px;
+        margin: 20px 0;
+    }
+
+    .warning {
+        background: #fffbeb;
+        border-left: 5px solid #f59e0b;
+        padding: 18px;
+        border-radius: 8px;
+        margin: 20px 0;
+    }
+
+    /* =========================
+       FLOW
+    ========================= */
+
+    .flow {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        margin: 30px 0;
+    }
+
+    .flow-box {
+        background: #eff6ff;
+        border: 2px solid #2563eb;
+        padding: 18px;
+        border-radius: 12px;
+        text-align: center;
+        min-width: 150px;
+        font-weight: bold;
+    }
+
+    .arrow {
+        font-size: 25px;
+        color: #2563eb;
+        font-weight: bold;
+    }
+
+    /* =========================
+       TABLE
+    ========================= */
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    th,
+    td {
+        border: 1px solid #dbe3ef;
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background: #111827;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background: #f8fafc;
+    }
+
+    /* =========================
+       BUTTON
+    ========================= */
+
+    .top-button {
+        position: fixed;
+        right: 25px;
+        bottom: 25px;
+        width: 45px;
+        height: 45px;
+        border: none;
+        border-radius: 50%;
+        background: #2563eb;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        display: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .top-button:hover {
+        background: #1d4ed8;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 850px) {
+
+        .sidebar {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        .main {
+            margin-left: 0;
+            padding: 20px;
+        }
+
+        .hero {
+            padding: 30px 20px;
+        }
+
+        .hero h1 {
+            font-size: 28px;
+        }
+
+        .section {
+            padding: 22px;
+        }
+
+        .flow {
+            flex-direction: column;
+        }
+
+        .arrow {
+            transform: rotate(90deg);
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+<h2>🤖 Documentação de ML</h2>
+
+<p class="subtitle">
+    Predição de Roupas & Node.js
+</p>
+
+<a href="#presentation">1. Apresentação</a> <a href="#architecture">2. Arquitetura</a> <a href="#model">3. Modelo ML</a> <a href="#python">4. Código Python</a> <a href="#prediction">5. Função predict()</a> <a href="#json">6. Resultado JSON</a> <a href="#node">7. Node.js</a> <a href="#express">8. Express</a> <a href="#route">9. Rota de Roupas</a> <a href="#integration">10. Integração com Python</a> <a href="#flow">11. Fluxo completo</a> <a href="#example">12. Exemplo</a> <a href="#security">13. Segurança</a> <a href="#summary">14. Conclusão</a>
+
+</aside>
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+<!-- HERO -->
+
+<section class="hero">
+
+```
+<h1>
+    🤖 Predição de Machine Learning
+</h1>
+
+<p>
+    Documentação técnica da integração de um modelo
+    de Machine Learning em Python com uma API Node.js e Express.
+</p>
+```
+
+</section>
+
+<!-- =================================================
+     1. APRESENTAÇÃO
+================================================== -->
+
+<section class="section" id="presentation">
+
+```
+<h2>1. Apresentação</h2>
+
+<p>
+    Esta parte do projeto permite integrar um modelo
+    de Machine Learning em uma aplicação Web.
+</p>
+
+<p>
+    O modelo é treinado e depois salvo em um arquivo
+    <span class="inline-code">vetement.pkl</span>.
+</p>
+
+<p>
+    Python é utilizado para carregar o modelo e realizar
+    a predição.
+</p>
+
+<p>
+    Node.js e Express são utilizados como backend para
+    se comunicar com a aplicação Web.
+</p>
+
+<div class="info">
+
+    <strong>Objetivo:</strong>
+
+    permitir que o frontend envie um dado ao backend,
+    solicite uma predição ao modelo de Machine Learning,
+    e depois receba o resultado no formato JSON.
+
+</div>
+```
+
+</section>
+
+<!-- =================================================
+     2. ARQUITETURA
+================================================== -->
+
+<section class="section" id="architecture">
+
+```
+<h2>2. Arquitetura geral</h2>
+
+<p>
+    O sistema é composto por várias partes.
+</p>
+
+<div class="flow">
+
+    <div class="flow-box">
+        🌐<br>
+        Frontend
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="flow-box">
+        🟢<br>
+        Node.js
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="flow-box">
+        🚏<br>
+        Rota Express
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="flow-box">
+        🐍<br>
+        Python
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="flow-box">
+        🤖<br>
+        vetement.pkl
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="flow-box">
+        📊<br>
+        Predição
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="flow-box">
+        📦<br>
+        JSON
+    </div>
+
+</div>
+
+<p>
+    O resultado segue então o caminho inverso:
+</p>
+
+<div class="flow">
+
+    <div class="flow-box">
+        📦 JSON
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="flow-box">
+        🟢 Node.js
+    </div>
+
+    <div class="arrow">→</div>
+
+    <div class="flow-box">
+        🌐 Frontend
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- =================================================
+     3. MODELO ML
+================================================== -->
+
+<section class="section" id="model">
+
+```
+<h2>3. Modelo Machine Learning</h2>
+
+<p>
+    O modelo Machine Learning é responsável por analisar
+    os dados recebidos e produzir uma predição.
+</p>
+
+<p>
+    O modelo treinado é armazenado no arquivo
+    <span class="inline-code">vetement.pkl</span>.
+</p>
+
+<div class="info">
+
+    <strong>Arquivo do modelo:</strong>
+
+    <span class="inline-code">vetement.pkl</span>
+
+</div>
+```
+
+</section>
+
+<!-- =================================================
+     4. CODE PYTHON
+================================================== -->
+
+<section class="section" id="python">
+
+```
+<h2>4. Código Python</h2>
+
+<p>
+    Python é responsável por carregar o modelo e executar
+    a predição.
+</p>
+
+<div class="code-title">
+    📄 predict.py
+</div>
+
+<pre><code>import pickle
+```
+
+import json
+
+with open("vetement.pkl", "rb") as file:
+model = pickle.load(file)
+
+value = 30
+
+result = model.predict([[value]])
+
+print(json.dumps({
+"prediction": float(result[0])
+}))</code></pre>
+
+```
+<table>
+
+    <tr>
+        <th>Elemento</th>
+        <th>Função</th>
+    </tr>
+
+    <tr>
+        <td>[[30]]</td>
+        <td>Uma observação com uma variável</td>
+    </tr>
+
+    <tr>
+        <td>model.predict()</td>
+        <td>Cálculo da predição</td>
+```

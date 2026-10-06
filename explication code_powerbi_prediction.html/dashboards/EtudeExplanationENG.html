@@ -1,0 +1,2134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Technical documentation of the Study Abroad Dashboard using React, Redux Toolkit, Axios, Recharts and Power BI."
+    >
+
+    <title>
+        Study Abroad Dashboard Explanation — Redux Toolkit, React, Axios, Recharts and Power BI
+    </title>
+
+    <link rel="stylesheet" href="EtudeExplanation.css">
+
+</head>
+
+
+<body>
+
+<main class="documentation">
+
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    <header class="documentation-header">
+
+        <h1>
+            🌍 Study Abroad Dashboard — Code Explanation
+        </h1>
+
+        <p>
+            Technical documentation explaining how
+            <strong>React, Redux Toolkit, Axios, Recharts and Power BI</strong>
+            work together to retrieve, display and visualize
+            data related to studying abroad.
+        </p>
+
+    </header>
+
+
+    <!-- ===================================================== -->
+    <!-- 109 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 109 — Study Abroad Dashboard Overview
+        </h2>
+
+        <p>
+
+            The Study Abroad Dashboard is a frontend interface
+            developed with <strong>React</strong> that allows
+            users to display and analyze data related to
+            studying abroad.
+
+            This functionality uses several complementary technologies:
+
+            <strong>React</strong> to build the user interface,
+
+            <strong>Redux Toolkit</strong> to centralize and manage
+            the application state,
+
+            <strong>Axios</strong> to communicate with the backend,
+
+            <strong>Recharts</strong> to represent data graphically,
+
+            and <strong>Power BI</strong> to integrate a
+            Business Intelligence report directly into the page.
+
+            Unlike a traditional data-entry form,
+            the Study Dashboard automatically retrieves data
+            from the backend when the component is loaded.
+
+            The user can therefore directly access the
+            available information, the values associated with
+            the different study modes and the prediction values.
+
+            The dashboard therefore combines several levels of visualization:
+
+            the Power BI report,
+
+            the list of retrieved data,
+
+            and the comparison chart generated with Recharts.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 110 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 110 — Importing React and useEffect
+        </h2>
+
+        <p>
+
+            The <code>EtudeDashboard.jsx</code> file begins by
+            importing React and the <code>useEffect</code> hook:
+
+        </p>
+
+        <pre><code>
+import React, { useEffect } from "react";
+        </code></pre>
+
+        <p>
+
+            <code>React</code> is used to create the
+            user interface component.
+
+            The <code>useEffect</code> hook allows an operation
+            to be executed after the component has been rendered.
+
+            In this dashboard, <code>useEffect</code> plays
+            an important role because it automatically starts
+            data retrieval when the page is loaded.
+
+            The user therefore does not need to click a button
+            to trigger the data retrieval.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 111 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 111 — Importing useDispatch and useSelector
+        </h2>
+
+        <p>
+
+            The component then imports two hooks from
+            <code>react-redux</code>:
+
+        </p>
+
+        <pre><code>
+import { useDispatch, useSelector } from "react-redux";
+        </code></pre>
+
+        <p>
+
+            <code>useDispatch()</code> allows the React component
+            to send an action to Redux.
+
+            In our application, it will be used to trigger
+            the asynchronous action <code>fetchEtudeData()</code>.
+
+            <code>useSelector()</code>, on the other hand, allows
+            the component to read information stored in the Redux store.
+
+            The component can therefore retrieve:
+
+            <code>items</code> for the data,
+
+            <code>loading</code> to determine the loading state,
+
+            and <code>error</code> to retrieve a possible error.
+
+            These two hooks therefore establish communication
+            between the React component and the Redux store.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 112 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 112 — Importing fetchEtudeData
+        </h2>
+
+        <p>
+
+            The component then imports the asynchronous action
+            <code>fetchEtudeData</code> from the Redux file:
+
+        </p>
+
+        <pre><code>
+import { fetchEtudeData } from "../redux/etudeSlice";
+        </code></pre>
+
+        <p>
+
+            This function is defined in the
+            <code>etudeSlice.js</code> file.
+
+            It is created using <code>createAsyncThunk()</code>
+            and its purpose is to contact the backend in order
+            to retrieve the Study Dashboard data.
+
+            The React component therefore does not perform
+            the Axios request directly.
+
+            The server communication logic is centralized
+            inside the Redux slice.
+
+            This separation makes the architecture
+            clearer and easier to maintain.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 113 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 113 — Importing Recharts Components
+        </h2>
+
+        <p>
+
+            The dashboard also uses the
+            <strong>Recharts</strong> library:
+
+        </p>
+
+        <pre><code>
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer
+} from "recharts";
+        </code></pre>
+
+        <p>
+
+            Each component has a specific responsibility.
+
+            <code>BarChart</code> represents the general structure
+            of the chart as a bar chart.
+
+            <code>Bar</code> represents a data series.
+
+            <code>XAxis</code> represents the horizontal axis.
+
+            <code>YAxis</code> represents the vertical axis.
+
+            <code>Tooltip</code> displays information when
+            the user hovers over a bar.
+
+            <code>CartesianGrid</code> adds a grid to improve
+            the readability of the chart.
+
+            <code>Legend</code> displays the legend of the series.
+
+            Finally, <code>ResponsiveContainer</code> allows
+            the chart to automatically adapt to the available width.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 114 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 114 — Importing the CSS File
+        </h2>
+
+        <p>
+
+            The file also imports its CSS file:
+
+        </p>
+
+        <pre><code>
+import "./EtudeDashboard.css";
+        </code></pre>
+
+        <p>
+
+            This organization separates the JavaScript logic
+            from the visual presentation.
+
+            The JSX file contains the structure and behavior
+            of the dashboard, while <code>EtudeDashboard.css</code>
+            contains the rules used to control colors,
+            dimensions, spacing, borders, cards and responsiveness.
+
+            This separation improves readability and makes
+            future interface modifications easier.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 115 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 115 — Creating the EtudeDashboard Component
+        </h2>
+
+        <p>
+
+            The main component is defined with:
+
+        </p>
+
+        <pre><code>
+export default function EtudeDashboard() {
+        </code></pre>
+
+        <p>
+
+            <code>EtudeDashboard</code> represents the complete page
+            dedicated to study abroad data.
+
+            It contains several elements:
+
+            data retrieval,
+
+            the Power BI report,
+
+            loading information,
+
+            error messages,
+
+            the data list,
+
+            and the Recharts graph.
+
+            The component therefore represents the presentation
+            layer of the functionality.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 116 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 116 — Initializing useDispatch
+        </h2>
+
+        <p>
+
+            The code uses:
+
+        </p>
+
+        <pre><code>
+const dispatch = useDispatch();
+        </code></pre>
+
+        <p>
+
+            This instruction retrieves the <code>dispatch</code>
+            function provided by Redux.
+
+            It allows the component to send an action to the store.
+
+            In our case, this function will be used to trigger:
+
+        </p>
+
+        <pre><code>
+dispatch(fetchEtudeData());
+        </code></pre>
+
+        <p>
+
+            This instruction therefore asks Redux to execute
+            the asynchronous action responsible for retrieving
+            the Study data.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 117 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 117 — Retrieving the Study State with useSelector
+        </h2>
+
+        <p>
+
+            The component then retrieves the data from the Redux store:
+
+        </p>
+
+        <pre><code>
+const { items, loading, error } =
+    useSelector(state => state.etude);
+        </code></pre>
+
+        <p>
+
+            <code>useSelector()</code> provides access to the
+            <code>etude</code> section of the Redux store.
+
+            Three properties are extracted.
+
+            <strong>items</strong> contains the data retrieved
+            from the backend.
+
+            <strong>loading</strong> indicates whether the request
+            is currently in progress.
+
+            <strong>error</strong> contains a possible error.
+
+            When Redux modifies one of these values,
+            React is automatically notified of the change
+            and the component is re-rendered so that
+            the interface can be updated.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 118 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 118 — Automatic Data Retrieval with useEffect
+        </h2>
+
+        <p>
+
+            The dashboard uses the <code>useEffect</code> hook:
+
+        </p>
+
+        <pre><code>
+useEffect(() => {
+    dispatch(fetchEtudeData());
+}, [dispatch]);
+        </code></pre>
+
+        <p>
+
+            This logic automatically triggers data retrieval
+            after the component has been loaded.
+
+            When the user opens the Study Dashboard,
+            React executes the <code>useEffect</code>.
+
+            It calls:
+
+            <code>dispatch(fetchEtudeData())</code>.
+
+            Redux Toolkit then starts the asynchronous
+            action cycle.
+
+            The backend is subsequently contacted through Axios.
+
+            The dependency array contains <code>dispatch</code>
+            in order to follow the dependency management rules
+            of the hook.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 119 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 119 — Transforming Data for Recharts
+        </h2>
+
+        <p>
+
+            The data received from Redux is transformed
+            so that it is compatible with Recharts:
+
+        </p>
+
+        <pre><code>
+const chartData = items.map(item => ({
+    name: item.mode,
+    Value: item.value,
+    Prediction: item.prediction ?? 0
+}));
+        </code></pre>
+
+        <p>
+
+            The <code>map()</code> method iterates through each element
+            of the <code>items</code> array.
+
+            For each element, a new object is created.
+
+            The <code>name</code> property receives
+            <code>item.mode</code>.
+
+            It represents the study mode and will be used
+            as a category on the horizontal axis.
+
+            The <code>Value</code> property receives
+            <code>item.value</code>.
+
+            It represents the actual value associated
+            with the study mode.
+
+            Finally, the <code>Prediction</code> property receives
+            <code>item.prediction</code>.
+
+            The <code>??</code> operator allows the value
+            <code>0</code> to be used when the prediction value
+            is missing or is <code>null</code>.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 120 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 120 — Main Dashboard Structure
+        </h2>
+
+        <p>
+
+            The entire interface is contained inside:
+
+        </p>
+
+        <pre><code>
+&lt;div className="etude-container"&gt;
+        </code></pre>
+
+        <p>
+
+            This class allows the CSS file to control
+            the complete layout.
+
+            Inside the main container, the dashboard
+            successively displays:
+
+            the title,
+
+            the Power BI report,
+
+            the loading state,
+
+            the error state,
+
+            the data list,
+
+            and finally the comparison chart.
+
+            This organization provides a clear page structure.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 121 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 121 — Displaying the Title
+        </h2>
+
+        <p>
+
+            The main title is displayed with:
+
+        </p>
+
+        <pre><code>
+&lt;h1 className="etude-title"&gt;
+    📊 Etude Dashboard
+&lt;/h1&gt;
+        </code></pre>
+
+        <p>
+
+            The title allows the user to immediately identify
+            the functionality being presented.
+
+            The <code>etude-title</code> class allows its
+            appearance to be modified using CSS.
+
+            It can control the text size, alignment, colors,
+            margins, borders and visual effects.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 122 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 122 — Integrating the Power BI Report
+        </h2>
+
+        <p>
+
+            The dashboard then integrates a Power BI report
+            using an <code>iframe</code> element:
+
+        </p>
+
+        <pre><code>
+&lt;iframe
+    className="etude-iframe"
+    title="etude A L'Etranger"
+    src="https://app.powerbi.com/view?r=..."
+    allowFullScreen
+/&gt;
+        </code></pre>
+
+        <p>
+
+            The <code>src</code> attribute contains the address
+            of the published Power BI report.
+
+            Using an iframe makes it possible to display
+            the report directly inside the React application.
+
+            The user can therefore access Power BI visualizations
+            without leaving the dashboard.
+
+            The <code>etude-iframe</code> class allows the
+            dimensions and appearance of the iframe to be
+            controlled through CSS.
+
+            The <code>title</code> attribute provides a description
+            of the embedded content.
+
+            Finally, <code>allowFullScreen</code> enables
+            full-screen mode when it is available.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 123 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 123 — Managing the Loading State
+        </h2>
+
+        <p>
+
+            The component checks the <code>loading</code> property:
+
+        </p>
+
+        <pre><code>
+{loading && (
+    &lt;p className="etude-loading"&gt;
+        Loading...
+    &lt;/p&gt;
+)}
+        </code></pre>
+
+        <p>
+
+            If <code>loading</code> is <code>true</code>,
+            the <strong>Loading...</strong> message is displayed.
+
+            This information allows the user to understand
+            that the data is currently being retrieved.
+
+            When Redux receives the backend response,
+            <code>loading</code> becomes <code>false</code>
+            and the message automatically disappears.
+
+            This logic improves the user experience
+            during the loading period.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 124 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 124 — Error Handling
+        </h2>
+
+        <p>
+
+            The component also provides error display:
+
+        </p>
+
+        <pre><code>
+{error && (
+    &lt;p className="etude-error"&gt;
+        {error}
+    &lt;/p&gt;
+)}
+        </code></pre>
+
+        <p>
+
+            If the <code>error</code> property contains a value,
+            it is displayed in the interface.
+
+            This value comes from the Redux slice.
+
+            It may correspond to a network error,
+            a backend error or an error produced by Axios.
+
+            The user therefore receives a direct indication
+            whenever a problem prevents the data from being retrieved.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 125 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 125 — Displaying the Data List
+        </h2>
+
+        <p>
+
+            The dashboard then uses <code>items.map()</code>
+            to display the data as a list:
+
+        </p>
+
+        <pre><code>
+&lt;ul className="etude-list"&gt;
+
+    {items.map((item, i) => (
+
+        &lt;li key={i}&gt;
+
+            Mode: {item.mode}
+            |
+            Value: {item.value}
+            |
+            Prediction: {item.prediction ?? "N/A"}
+
+        &lt;/li&gt;
+
+    ))}
+
+&lt;/ul&gt;
+        </code></pre>
+
+        <p>
+
+            Each element of the <code>items</code> array
+            produces an <code>li</code> element.
+
+            <code>item.mode</code> represents the study mode.
+
+            <code>item.value</code> represents the actual value.
+
+            <code>item.prediction</code> represents the prediction.
+
+            When the prediction does not exist,
+            the <code>??</code> operator displays
+            <strong>N/A</strong>.
+
+            The <code>key</code> property allows React
+            to identify each list element when updating
+            the interface.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 126 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 126 — Creating the Comparison Chart
+        </h2>
+
+        <p>
+
+            The dashboard then displays the title:
+
+        </p>
+
+        <pre><code>
+&lt;h2 className="etude-subtitle"&gt;
+    📈 Comparison
+&lt;/h2&gt;
+        </code></pre>
+
+        <p>
+
+            This title indicates that the next section contains
+            a graphical representation of the data.
+
+            The chart is built with Recharts
+            and is mainly used to visualize
+            the prediction values.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 127 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 127 — ResponsiveContainer
+        </h2>
+
+        <p>
+
+            The chart is placed inside:
+
+        </p>
+
+        <pre><code>
+&lt;ResponsiveContainer
+    width="100%"
+    height={350}
+&gt;
+        </code></pre>
+
+        <p>
+
+            <code>width="100%"</code> indicates that the chart
+            should occupy the entire available width.
+
+            <code>height={350}</code> sets its height
+            to 350 pixels.
+
+            Using <code>ResponsiveContainer</code> allows
+            the chart to automatically adapt to the width
+            of its container.
+
+            This feature is particularly useful for making
+            the dashboard compatible with different screen sizes.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 128 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 128 — Creating the BarChart
+        </h2>
+
+        <p>
+
+            The main component of the chart is:
+
+        </p>
+
+        <pre><code>
+&lt;BarChart data={chartData}&gt;
+        </code></pre>
+
+        <p>
+
+            The <code>data</code> property receives the
+            <code>chartData</code> array prepared earlier.
+
+            Recharts then iterates through the different objects
+            and uses their properties to build the chart bars.
+
+            The data is therefore prepared by React
+            and then passed to Recharts for visualization.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 129 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 129 — Configuring the Axes
+        </h2>
+
+        <p>
+
+            The chart uses two axes:
+
+        </p>
+
+        <pre><code>
+&lt;XAxis dataKey="name" /&gt;
+
+&lt;YAxis /&gt;
+        </code></pre>
+
+        <p>
+
+            <code>XAxis</code> represents the horizontal axis.
+
+            The <code>dataKey="name"</code> property indicates
+            that Recharts should use the <code>name</code>
+            property of each object in <code>chartData</code>.
+
+            In our case, <code>name</code> corresponds to
+            <code>item.mode</code>.
+
+            <code>YAxis</code> represents the numerical
+            vertical axis.
+
+            It allows the values associated with
+            the different study modes to be visualized.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 130 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 130 — Grid, Tooltip and Legend
+        </h2>
+
+        <p>
+
+            Several Recharts components improve
+            the readability of the chart:
+
+        </p>
+
+        <pre><code>
+&lt;CartesianGrid strokeDasharray="3 3" /&gt;
+
+&lt;Tooltip /&gt;
+
+&lt;Legend /&gt;
+        </code></pre>
+
+        <p>
+
+            <code>CartesianGrid</code> adds a reference grid
+            to the chart.
+
+            <code>Tooltip</code> displays additional information
+            when the user hovers over a bar.
+
+            <code>Legend</code> displays the legend of the
+            different series represented in the chart.
+
+            These components therefore make the visualization
+            more interactive and easier to understand.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 131 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 131 — Displaying the Prediction Series
+        </h2>
+
+        <p>
+
+            The chart currently contains:
+
+        </p>
+
+        <pre><code>
+&lt;Bar
+    dataKey="Prediction"
+    fill="#6366f1"
+/&gt;
+        </code></pre>
+
+        <p>
+
+            The <code>dataKey="Prediction"</code> property
+            tells Recharts to use the <code>Prediction</code>
+            property present in each object of the
+            <code>chartData</code> array.
+
+            This property corresponds to:
+
+            <code>item.prediction ?? 0</code>.
+
+            The chart therefore represents the values produced
+            by the prediction system.
+
+            The <code>fill</code> property defines the color
+            of the chart bars.
+
+        </p>
+
+        <div class="important">
+
+            <strong>⚠️ Important point:</strong>
+
+            The <code>chartData</code> array also contains
+            the <code>Value</code> property, but the current
+            chart does not display this series.
+
+            To actually compare
+            <strong>Value</strong> and <strong>Prediction</strong>,
+            a second bar could be added:
+
+            <pre><code>
+&lt;Bar dataKey="Value" /&gt;
+&lt;Bar dataKey="Prediction" /&gt;
+            </code></pre>
+
+            The chart would then display both series
+            side by side for each study mode.
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 132 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 132 — Creating the etudeSlice.js File
+        </h2>
+
+        <p>
+
+            Data management is centralized in the
+            <code>etudeSlice.js</code> file.
+
+            This file uses Redux Toolkit and Axios:
+
+        </p>
+
+        <pre><code>
+import { createSlice, createAsyncThunk }
+from "@reduxjs/toolkit";
+
+import axios from "axios";
+        </code></pre>
+
+        <p>
+
+            <code>createAsyncThunk</code> allows an asynchronous
+            action to be created.
+
+            <code>createSlice</code> creates the part of the store
+            dedicated to the Study data.
+
+            Axios is responsible for communicating
+            with the backend.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 133 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 133 — Creating fetchEtudeData
+        </h2>
+
+        <p>
+
+            The main asynchronous action is:
+
+        </p>
+
+        <pre><code>
+export const fetchEtudeData = createAsyncThunk(
+    "etude/fetchEtudeData",
+    async (_, thunkAPI) => {
+        ...
+    }
+);
+        </code></pre>
+
+        <p>
+
+            <code>fetchEtudeData</code> is responsible
+            for retrieving the Study data.
+
+            The first parameter:
+
+            <code>"etude/fetchEtudeData"</code>
+
+            represents the Redux action type.
+
+            The <code>_</code> symbol indicates that no
+            specific argument is required to launch this action.
+
+            The <code>thunkAPI</code> parameter provides
+            Redux Toolkit tools that can be used,
+            in particular, to handle errors.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 134 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 134 — Axios Request to the Backend
+        </h2>
+
+        <p>
+
+            Inside the thunk, Axios sends a GET request:
+
+        </p>
+
+        <pre><code>
+const response = await axios.get(
+    "http://localhost:3000/etude/dashboard"
+);
+        </code></pre>
+
+        <p>
+
+            The <code>GET</code> method allows the frontend
+            to request data from the server.
+
+            The endpoint used is:
+
+            <code>/etude/dashboard</code>.
+
+            The backend therefore receives the request
+            and returns the data required by the dashboard.
+
+            The <code>await</code> keyword allows the program
+            to wait for the server response before continuing execution.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 135 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 135 — Returning Data from the Backend
+        </h2>
+
+        <p>
+
+            After the Axios response, the code uses:
+
+        </p>
+
+        <pre><code>
+return response.data.data;
+        </code></pre>
+
+        <p>
+
+            <code>response</code> contains the complete response
+            provided by Axios.
+
+            <code>response.data</code> corresponds to the body
+            of the HTTP response.
+
+            Finally, <code>response.data.data</code> retrieves
+            the data array contained in the <code>data</code>
+            property of the backend response.
+
+            This value then becomes the payload
+            of the Redux action when it succeeds.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 136 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 136 — Handling Axios Errors
+        </h2>
+
+        <p>
+
+            The thunk also contains a
+            <code>try/catch</code> block:
+
+        </p>
+
+        <pre><code>
+try {
+
+    const response = await axios.get(
+        "http://localhost:3000/etude/dashboard"
+    );
+
+    return response.data.data;
+
+} catch (error) {
+
+    return thunkAPI.rejectWithValue(
+        error.message
+    );
+
+}
+        </code></pre>
+
+        <p>
+
+            If the request succeeds, the data is returned.
+
+            If an error occurs, the program enters
+            the <code>catch</code> block.
+
+            The instruction:
+
+            <code>rejectWithValue(error.message)</code>
+
+            sends the error message to the
+            <code>rejected</code> reducer.
+
+            This approach allows the React component
+            to display the problem to the user.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 137 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 137 — Creating the Study Slice
+        </h2>
+
+        <p>
+
+            The Redux slice is created with:
+
+        </p>
+
+        <pre><code>
+const etudeSlice = createSlice({
+
+    name: "etude",
+
+    initialState: {
+        items: [],
+        loading: false,
+        error: null
+    },
+
+    ...
+});
+        </code></pre>
+
+        <p>
+
+            The <code>name</code> property identifies
+            the slice under the name <code>etude</code>.
+
+            The <code>initialState</code> defines
+            the initial state values.
+
+            <code>items</code> starts with an empty array
+            because no data has been retrieved yet.
+
+            <code>loading</code> starts as <code>false</code>
+            because no request is running at startup.
+
+            <code>error</code> starts as <code>null</code>
+            because there is initially no error.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 138 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 138 — Pending State
+        </h2>
+
+        <p>
+
+            When <code>fetchEtudeData()</code> starts,
+            Redux Toolkit automatically triggers
+            the <code>pending</code> state:
+
+        </p>
+
+        <pre><code>
+.addCase(
+    fetchEtudeData.pending,
+    (state) => {
+
+        state.loading = true;
+        state.error = null;
+
+    }
+)
+        </code></pre>
+
+        <p>
+
+            <code>loading</code> becomes <code>true</code>.
+
+            The React component can then display
+            the <strong>Loading...</strong> message.
+
+            The previous error is also cleared
+            with <code>state.error = null</code>.
+
+            The system is therefore ready to receive
+            a new response from the backend.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 139 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 139 — Fulfilled State
+        </h2>
+
+        <p>
+
+            When the request succeeds, Redux Toolkit triggers
+            the <code>fulfilled</code> state:
+
+        </p>
+
+        <pre><code>
+.addCase(
+    fetchEtudeData.fulfilled,
+    (state, action) => {
+
+        state.loading = false;
+
+        state.items = action.payload;
+
+    }
+)
+        </code></pre>
+
+        <p>
+
+            <code>loading</code> becomes
+            <code>false</code> because the request is complete.
+
+            The data returned by the thunk is available
+            in <code>action.payload</code>.
+
+            It is then stored in:
+
+            <code>state.items</code>.
+
+            The React component automatically receives
+            the new data through <code>useSelector()</code>.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 140 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 140 — Rejected State
+        </h2>
+
+        <p>
+
+            When the request fails, Redux Toolkit triggers
+            the <code>rejected</code> state:
+
+        </p>
+
+        <pre><code>
+.addCase(
+    fetchEtudeData.rejected,
+    (state, action) => {
+
+        state.loading = false;
+
+        state.error = action.payload;
+
+    }
+)
+        </code></pre>
+
+        <p>
+
+            <code>loading</code> is set back to
+            <code>false</code> because the request is complete.
+
+            The error message transmitted by
+            <code>rejectWithValue()</code> is retrieved
+            through <code>action.payload</code>.
+
+            It is then stored in:
+
+            <code>state.error</code>.
+
+            React can then display this error
+            in the interface.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 141 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 141 — Exporting the Reducer
+        </h2>
+
+        <p>
+
+            At the end of the Redux file,
+            the reducer is exported:
+
+        </p>
+
+        <pre><code>
+export default etudeSlice.reducer;
+        </code></pre>
+
+        <p>
+
+            This reducer must then be registered
+            in the main Redux store.
+
+            Once registered, the React component can access
+            the state using:
+
+        </p>
+
+        <pre><code>
+useSelector(state => state.etude);
+        </code></pre>
+
+        <p>
+
+            The connection between the Redux store
+            and the <code>EtudeDashboard</code> component
+            is therefore established.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 142 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 142 — Complete Redux Cycle
+        </h2>
+
+        <p>
+
+            The Redux Toolkit workflow is based on
+            three main states:
+
+        </p>
+
+        <div class="state-grid">
+
+            <div class="state-card">
+
+                <h3>⏳ Pending</h3>
+
+                <p>
+                    The request starts.
+                    <code>loading = true</code>.
+                </p>
+
+            </div>
+
+            <div class="state-card">
+
+                <h3>✅ Fulfilled</h3>
+
+                <p>
+                    The request succeeds.
+                    The data is stored in
+                    <code>items</code>.
+                </p>
+
+            </div>
+
+            <div class="state-card">
+
+                <h3>❌ Rejected</h3>
+
+                <p>
+                    The request fails.
+                    The error is stored in
+                    <code>error</code>.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 143 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 143 — Complete Data Flow
+        </h2>
+
+        <p>
+
+            The complete process starts when the user
+            opens the <strong>Study Dashboard</strong> page.
+
+            React loads the <code>EtudeDashboard</code> component.
+
+            The <code>useEffect()</code> hook is then executed.
+
+            It triggers:
+
+            <code>dispatch(fetchEtudeData())</code>.
+
+            Redux Toolkit then enters the
+            <code>pending</code> state.
+
+            The thunk uses Axios to send a GET request to:
+
+            <code>http://localhost:3000/etude/dashboard</code>.
+
+            The backend processes the request and returns
+            a JSON response.
+
+            If the response succeeds, the thunk returns
+            <code>response.data.data</code>.
+
+            Redux then triggers <code>fulfilled</code>
+            and stores the data in
+            <code>state.items</code>.
+
+            React retrieves this data using
+            <code>useSelector()</code>.
+
+            The data is then transformed into
+            <code>chartData</code>.
+
+            Finally, Recharts uses this array
+            to build the chart.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 144 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 144 — Overall Workflow Diagram
+        </h2>
+
+        <div class="flow">
+
+            <div class="flow-box">
+                👤 User
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                ⚛️ React
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                EtudeDashboard
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                useEffect()
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                dispatch(fetchEtudeData())
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                Redux Toolkit
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                createAsyncThunk
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                Axios GET
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                🖥️ Node.js / Express Backend
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                📦 JSON Response
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                fulfilled / rejected
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                Redux Store
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                useSelector()
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                items
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                chartData
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                📊 Recharts
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="flow-box">
+                📈 Prediction
+            </div>
+
+        </div>
+
+        <p>
+
+            This diagram shows the complete path of the data
+            from the moment the dashboard is opened
+            until it is represented graphically.
+
+            Each technology has a specific responsibility.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 145 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 145 — Role of React
+        </h2>
+
+        <p>
+
+            <strong>React</strong> represents the user interface layer.
+
+            It is responsible for displaying the Dashboard,
+            the title, the data list, loading and error messages,
+            as well as the chart.
+
+            React also automatically reacts
+            to changes in the Redux state.
+
+            When <code>items</code> is updated,
+            the component is re-rendered and the new data
+            automatically appears in the interface.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 146 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 146 — Role of Redux Toolkit
+        </h2>
+
+        <p>
+
+            <strong>Redux Toolkit</strong> centralizes the management
+            of the Study data.
+
+            The <code>etude</code> slice contains:
+
+            <code>items</code>,
+
+            <code>loading</code>,
+
+            and <code>error</code>.
+
+            It also manages the different states
+            of the asynchronous action:
+
+            <strong>pending</strong>,
+
+            <strong>fulfilled</strong>,
+
+            and <strong>rejected</strong>.
+
+            This organization avoids placing all the backend
+            communication logic directly inside the React component.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 147 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 147 — Role of Axios
+        </h2>
+
+        <p>
+
+            <strong>Axios</strong> is responsible for HTTP communication
+            between the frontend and the backend.
+
+            In this functionality, Axios uses a GET request:
+
+            <code>http://localhost:3000/etude/dashboard</code>.
+
+            It then receives the response from the server.
+
+            The Redux thunk retrieves the data using:
+
+            <code>response.data.data</code>.
+
+            Axios therefore acts as the communication bridge
+            between the React/Redux application and the backend API.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 148 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 148 — Role of Recharts
+        </h2>
+
+        <p>
+
+            <strong>Recharts</strong> is used to transform
+            the retrieved data into a graphical representation.
+
+            The data is prepared inside <code>chartData</code>.
+
+            Recharts then uses:
+
+            <code>BarChart</code>,
+
+            <code>Bar</code>,
+
+            <code>XAxis</code>,
+
+            <code>YAxis</code>,
+
+            <code>Tooltip</code>,
+
+            <code>Legend</code>,
+
+            and <code>ResponsiveContainer</code>.
+
+            This library therefore makes it possible to transform
+            numerical data into an easily understandable visualization.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 149 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 149 — Role of Power BI
+        </h2>
+
+        <p>
+
+            <strong>Power BI</strong> brings the
+            Business Intelligence dimension to the Study Dashboard.
+
+            The report is integrated directly into React
+            using an iframe.
+
+            This integration makes it possible to combine
+            two complementary approaches.
+
+            Power BI provides advanced visualizations
+            and decision-making analysis.
+
+            React, on the other hand, provides a customized interface
+            capable of retrieving data from the backend,
+            displaying predictions and producing
+            additional charts with Recharts.
+
+            The dashboard therefore becomes a hybrid interface
+            combining web development, data analysis
+            and Business Intelligence.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 150 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            # 150 — Complete Architecture
+        </h2>
+
+        <p>
+
+            The architecture of this functionality can be
+            summarized in several layers.
+
+            The <strong>React frontend</strong> contains
+            the <code>EtudeDashboard</code> component.
+
+            The <strong>Redux slice</strong> contains
+            the data retrieval logic.
+
+            <strong>createAsyncThunk</strong> orchestrates
+            the asynchronous operation.
+
+            <strong>Axios</strong> communicates with the API.
+
+            The <strong>Node.js / Express backend</strong>
+            processes the request and returns the data.
+
+            Redux then stores the results.
+
+            React retrieves the data using
+            <code>useSelector()</code>.
+
+            The data is transformed into
+            <code>chartData</code>.
+
+            Recharts produces the graphical visualization.
+
+            At the same time, Power BI provides
+            the integrated decision-making report.
+
+            This separation of responsibilities makes
+            the application more organized, scalable
+            and maintainable.
+
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 151 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter conclusion">
+
+        <h2>
+            # 151 — Conclusion
+        </h2>
+
+        <p>
+
+            The Study Abroad Dashboard represents a complete
+            functionality combining frontend development,
+            state management, backend communication,
+            data visualization, prediction and
+            Business Intelligence.
+
+            <strong>React</strong> builds the user interface.
+
+            <strong>useEffect</strong> automatically triggers
+            data retrieval.
+
+            <strong>Redux Toolkit</strong> centralizes the state
+            and manages the asynchronous cycle.
+
+            <strong>createAsyncThunk</strong> facilitates the creation
+            of the data retrieval action.
+
+            <strong>Axios</strong> communicates with the backend
+            through an HTTP GET request.
+
+            <strong>Node.js / Express</strong> provides
+            the data requested by the frontend.
+
+            <strong>Recharts</strong> transforms the data
+            into a graphical visualization.
+
+            Finally, <strong>Power BI</strong> adds a
+            Business Intelligence layer directly integrated
+            into the application.
+
+            The entire system therefore forms a modern architecture
+            capable of connecting backend data, Redux state management,
+            the React interface, prediction, graphical visualization
+            and Power BI decision-making analysis.
+
+        </p>
+
+    </section>
+
+
+</main>
+
+</body>
+
+</html>

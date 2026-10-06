@@ -1,4 +1,165 @@
-<!DOCTYPE html>
+
+
+        <div class="arrow">→</div>
+
+        <div class="flow-box">
+            🌐 Frontend
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =================================================
+     3. MODELE
+================================================== -->
+
+<section class="section" id="model">
+
+    <h2>3. Le modèle Machine Learning</h2>
+
+    <p>
+        Le fichier :
+    </p>
+
+    <pre><code>vetement.pkl</code></pre>
+
+    <p>
+        contient le modèle Machine Learning entraîné.
+    </p>
+
+    <p>
+        Le fichier <span class="inline-code">.pkl</span> est
+        utilisé pour sauvegarder un objet Python, notamment
+        un modèle entraîné avec une bibliothèque comme
+        Scikit-learn.
+    </p>
+
+    <div class="warning">
+
+        <strong>Important :</strong>
+
+        le fichier <span class="inline-code">vetement.pkl</span>
+        n'est pas entraîné au moment de la prédiction.
+
+        Il est simplement chargé puis utilisé pour calculer
+        une nouvelle prédiction.
+
+    </div>
+
+</section>
+
+
+<!-- =================================================
+     4. PYTHON
+================================================== -->
+
+<section class="section" id="python">
+
+    <h2>4. Code Python de prédiction</h2>
+
+    <p>
+        Le fichier Python utilisé pour effectuer la prédiction
+        peut être écrit ainsi :
+    </p>
+
+    <div class="code-title">
+        📄 predict.py
+    </div>
+
+    <pre><code>import pickle
+```
+
+import json
+
+# load model
+
+with open("vetement.pkl", "rb") as f:
+model = pickle.load(f)
+
+# input
+
+value = 30
+
+# prediction
+
+result = model.predict([[value]])
+
+# output JSON
+
+print(json.dumps({
+"prediction": float(result[0])
+}))</code></pre>
+
+```
+</section>
+
+
+<!-- =================================================
+     5. PREDICT
+================================================== -->
+
+<section class="section" id="prediction">
+
+    <h2>5. Exécution de la prédiction</h2>
+
+    <h3>5.1 Chargement du modèle</h3>
+
+    <pre><code>with open("vetement.pkl", "rb") as f:
+model = pickle.load(f)</code></pre>
+
+    <p>
+        Le fichier <span class="inline-code">vetement.pkl</span>
+        est ouvert en mode binaire.
+    </p>
+
+    <p>
+        La fonction <span class="inline-code">pickle.load()</span>
+        reconstruit le modèle Python sauvegardé.
+    </p>
+
+    <h3>5.2 Définition de l'entrée</h3>
+
+    <pre><code>value = 30</code></pre>
+
+    <p>
+        Dans cet exemple, la valeur envoyée au modèle est
+        <strong>30</strong>.
+    </p>
+
+    <h3>5.3 Appel du modèle</h3>
+
+    <pre><code>result = model.predict([[value]])</code></pre>
+
+    <p>
+        La méthode <span class="inline-code">predict()</span>
+        demande au modèle de calculer une prédiction à partir
+        de la donnée reçue.
+    </p>
+
+    <p>
+        La forme <span class="inline-code">[[value]]</span>
+        représente une matrice contenant une observation
+        avec une variable.
+    </p>
+
+    <table>
+
+        <tr>
+            <th>Élément</th>
+            <th>Signification</th>
+        </tr>
+
+        <tr>
+            <td>30</td>
+            <td>Valeur d'entrée</td>
+        </tr>
+
+        <tr>
+            <td>[30]</td>
+            <td>Une observation</td>
+        </tr><!DOCTYPE html>
 
 <html lang="fr">
 <head>
@@ -496,167 +657,6 @@
         <div class="flow-box">
             🟢 Node.js
         </div>
-
-        <div class="arrow">→</div>
-
-        <div class="flow-box">
-            🌐 Frontend
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =================================================
-     3. MODELE
-================================================== -->
-
-<section class="section" id="model">
-
-    <h2>3. Le modèle Machine Learning</h2>
-
-    <p>
-        Le fichier :
-    </p>
-
-    <pre><code>vetement.pkl</code></pre>
-
-    <p>
-        contient le modèle Machine Learning entraîné.
-    </p>
-
-    <p>
-        Le fichier <span class="inline-code">.pkl</span> est
-        utilisé pour sauvegarder un objet Python, notamment
-        un modèle entraîné avec une bibliothèque comme
-        Scikit-learn.
-    </p>
-
-    <div class="warning">
-
-        <strong>Important :</strong>
-
-        le fichier <span class="inline-code">vetement.pkl</span>
-        n'est pas entraîné au moment de la prédiction.
-
-        Il est simplement chargé puis utilisé pour calculer
-        une nouvelle prédiction.
-
-    </div>
-
-</section>
-
-
-<!-- =================================================
-     4. PYTHON
-================================================== -->
-
-<section class="section" id="python">
-
-    <h2>4. Code Python de prédiction</h2>
-
-    <p>
-        Le fichier Python utilisé pour effectuer la prédiction
-        peut être écrit ainsi :
-    </p>
-
-    <div class="code-title">
-        📄 predict.py
-    </div>
-
-    <pre><code>import pickle
-```
-
-import json
-
-# load model
-
-with open("vetement.pkl", "rb") as f:
-model = pickle.load(f)
-
-# input
-
-value = 30
-
-# prediction
-
-result = model.predict([[value]])
-
-# output JSON
-
-print(json.dumps({
-"prediction": float(result[0])
-}))</code></pre>
-
-```
-</section>
-
-
-<!-- =================================================
-     5. PREDICT
-================================================== -->
-
-<section class="section" id="prediction">
-
-    <h2>5. Exécution de la prédiction</h2>
-
-    <h3>5.1 Chargement du modèle</h3>
-
-    <pre><code>with open("vetement.pkl", "rb") as f:
-model = pickle.load(f)</code></pre>
-
-    <p>
-        Le fichier <span class="inline-code">vetement.pkl</span>
-        est ouvert en mode binaire.
-    </p>
-
-    <p>
-        La fonction <span class="inline-code">pickle.load()</span>
-        reconstruit le modèle Python sauvegardé.
-    </p>
-
-    <h3>5.2 Définition de l'entrée</h3>
-
-    <pre><code>value = 30</code></pre>
-
-    <p>
-        Dans cet exemple, la valeur envoyée au modèle est
-        <strong>30</strong>.
-    </p>
-
-    <h3>5.3 Appel du modèle</h3>
-
-    <pre><code>result = model.predict([[value]])</code></pre>
-
-    <p>
-        La méthode <span class="inline-code">predict()</span>
-        demande au modèle de calculer une prédiction à partir
-        de la donnée reçue.
-    </p>
-
-    <p>
-        La forme <span class="inline-code">[[value]]</span>
-        représente une matrice contenant une observation
-        avec une variable.
-    </p>
-
-    <table>
-
-        <tr>
-            <th>Élément</th>
-            <th>Signification</th>
-        </tr>
-
-        <tr>
-            <td>30</td>
-            <td>Valeur d'entrée</td>
-        </tr>
-
-        <tr>
-            <td>[30]</td>
-            <td>Une observation</td>
-        </tr>
 
         <tr>
             <td>[[30]]</td>

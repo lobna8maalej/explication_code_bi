@@ -1,0 +1,2171 @@
+```html
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Detailed documentation of the PredictionForm.jsx component, the kantraSlice.js file, and their connection with kantra.css."
+    >
+
+    <title>Documentation — Kantra ML Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.8;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .documentation {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 50px 0;
+        }
+
+        .documentation-header {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .chapter {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #2563eb;
+        }
+
+        h3 {
+            color: #374151;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        code {
+            background: #eef2ff;
+            color: #4338ca;
+            padding: 3px 6px;
+            border-radius: 5px;
+            font-family: Consolas, monospace;
+        }
+
+        pre {
+            background: #111827;
+            color: #f9fafb;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        .flow {
+            background: #f8fafc;
+            border-left: 5px solid #2563eb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            white-space: pre-line;
+        }
+
+        .important {
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .warning {
+            background: #fff7ed;
+            border-left: 5px solid #f97316;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #d1d5db;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #2563eb;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #6b7280;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<main class="documentation">
+
+<header class="documentation-header">
+
+    <h1>
+        📊 Kantra ML Dashboard — Technical Documentation
+    </h1>
+
+    <p>
+        This documentation explains in detail how the
+        <strong>kantraSlice.js</strong> file, the
+        <strong>PredictionForm.jsx</strong> component, and their connection with
+        the <strong>kantra.css</strong> file work.
+    </p>
+
+    <p>
+        The architecture uses React, Redux Toolkit, Axios,
+        Recharts, Power BI, and a backend responsible for performing
+        Machine Learning predictions.
+    </p>
+
+</header>
+
+
+<!-- ===================================================== -->
+<!-- 1 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>1. General Overview of the Project</h2>
+
+    <p>
+        The <strong>PredictionForm.jsx</strong> component is the
+        user interface of the Machine Learning Dashboard
+        dedicated to Kantra.
+    </p>
+
+    <p>
+        It allows the user to enter two values,
+        <strong>A</strong> and <strong>B</strong>, and then start a
+        prediction.
+    </p>
+
+    <p>
+        The prediction is sent to the backend through Redux Toolkit
+        and Axios. Once the result is received, it is added to
+        a history.
+    </p>
+
+    <p>
+        The component then displays the latest entered values,
+        the obtained prediction, and a chart representing
+        the prediction history.
+    </p>
+
+    <p>
+        The Dashboard also contains an integrated Power BI report
+        using an <code>iframe</code> element.
+    </p>
+
+    <div class="flow">
+PredictionForm.jsx
+↓
+User enters A and B
+↓
+handlePredict()
+↓
+dispatch(fetchPrediction({ a, b }))
+↓
+kantraSlice.js
+↓
+Axios POST /kantra
+↓
+Backend
+↓
+Machine Learning
+↓
+Result
+↓
+Redux history
+↓
+PredictionForm.jsx
+↓
+KPI + chart
+↓
+kantra.css
+↓
+Final interface
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 2 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>2. Files Used</h2>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>File / Technology</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>kantraSlice.js</td>
+                <td>
+                    Manages Redux state, the asynchronous request,
+                    history, loading, and errors.
+                </td>
+            </tr>
+
+            <tr>
+                <td>PredictionForm.jsx</td>
+                <td>
+                    Builds the React Dashboard interface.
+                </td>
+            </tr>
+
+            <tr>
+                <td>kantra.css</td>
+                <td>
+                    Controls the visual appearance of the Dashboard.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Axios</td>
+                <td>
+                    Communicates with the backend.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Redux Toolkit</td>
+                <td>
+                    Manages state and asynchronous operations.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Recharts</td>
+                <td>
+                    Generates the prediction chart.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Power BI</td>
+                <td>
+                    Displays the integrated business intelligence report.
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 3 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>3. Imports in kantraSlice.js</h2>
+
+    <p>
+        The <strong>kantraSlice.js</strong> file starts by
+        importing two important functions from Redux Toolkit:
+        <code>createSlice</code> and <code>createAsyncThunk</code>.
+    </p>
+
+    <pre><code>import {
+createSlice,
+createAsyncThunk
+} from "@reduxjs/toolkit";</code></pre>
+
+    <p>
+        <code>createSlice</code> is used to create a section of the Redux store
+        with its initial state and reducers.
+    </p>
+
+    <p>
+        <code>createAsyncThunk</code> is used to manage an
+        asynchronous operation, here the prediction request to the backend.
+    </p>
+
+    <p>
+        The file also imports Axios:
+    </p>
+
+    <pre><code>import axios from "axios";</code></pre>
+
+    <p>
+        Axios is used to perform the HTTP POST request to
+        the backend.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 4 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>4. Creating fetchPrediction</h2>
+
+    <p>
+        The <strong>fetchPrediction</strong> function is created using
+        <code>createAsyncThunk</code>.
+    </p>
+
+    <pre><code>export const fetchPrediction = createAsyncThunk(
+"kantra/fetchPrediction",
+async ({ a, b }, { rejectWithValue }) => {
+    ...
+}
+);</code></pre>
+
+    <p>
+        The first argument:
+    </p>
+
+    <pre><code>"kantra/fetchPrediction"</code></pre>
+
+    <p>
+        corresponds to the Redux action identifier.
+    </p>
+
+    <p>
+        The asynchronous function receives an object containing two
+        parameters:
+        <code>a</code> and <code>b</code>.
+    </p>
+
+    <p>
+        These two values correspond to the inputs provided by
+        the user.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 5 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>5. Axios Request to the Backend</h2>
+
+    <p>
+        Inside <code>fetchPrediction</code>, Axios sends
+        a POST request:
+    </p>
+
+    <pre><code>const res = await axios.post(
+"http://localhost:3000/kantra",
+{ a, b }
+);</code></pre>
+
+    <p>
+        The URL used is:
+    </p>
+
+    <pre><code>http://localhost:3000/kantra</code></pre>
+
+    <p>
+        The backend therefore receives an object containing:
+    </p>
+
+    <pre><code>{
+a,
+b
+}</code></pre>
+
+    <p>
+        The server can then use these two values to
+        perform the prediction with the Machine Learning model.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 6 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>6. Preserving the Input Values</h2>
+
+    <p>
+        After the backend response, the code returns:
+    </p>
+
+    <pre><code>return {
+...res.data,
+a,
+b
+};</code></pre>
+
+    <p>
+        The <code>...</code> operator retrieves the properties
+        contained in <code>res.data</code>.
+    </p>
+
+    <p>
+        The code also adds the original values
+        <code>a</code> and <code>b</code>.
+    </p>
+
+    <p>
+        This makes it possible to preserve both the
+        input values and the obtained prediction in Redux.
+    </p>
+
+    <div class="important">
+
+        <strong>Example:</strong>
+
+        <pre><code>{
+a: 100,
+b: 200,
+prediction: 350.25
+}</code></pre>
+
+        <p>
+            The history can therefore identify which values
+            produced which prediction.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 7 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>7. Error Handling in fetchPrediction</h2>
+
+    <p>
+        The Axios request is placed inside a
+        <code>try/catch</code> block.
+    </p>
+
+    <pre><code>try {
+...
+} catch (err) {
+return rejectWithValue(
+err.response?.data || "Server error"
+);
+}</code></pre>
+
+    <p>
+        If the backend returns an error, the code retrieves
+        <code>err.response.data</code> when available.
+    </p>
+
+    <p>
+        If no response is available, the message
+        <strong>"Server error"</strong> is used.
+    </p>
+
+    <p>
+        <code>rejectWithValue</code> then allows this error
+        to be passed to the <code>rejected</code> reducer.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 8 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>8. Creating the kantraSlice</h2>
+
+    <p>
+        The code then creates the Redux slice:
+    </p>
+
+    <pre><code>const kantraSlice = createSlice({
+name: "kantra",
+...
+});</code></pre>
+
+    <p>
+        The property:
+    </p>
+
+    <pre><code>name: "kantra"</code></pre>
+
+    <p>
+        identifies this section of the Redux store.
+    </p>
+
+    <p>
+        The React component can therefore access this state with:
+    </p>
+
+    <pre><code>s.kantra</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 9 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>9. initialState</h2>
+
+    <p>
+        The initial state of the slice is:
+    </p>
+
+    <pre><code>initialState: {
+history: [],
+loading: false,
+error: null,
+}</code></pre>
+
+    <p>
+        It contains three properties.
+    </p>
+
+    <ul>
+        <li>
+            <strong>history</strong>: contains the prediction history.
+        </li>
+
+        <li>
+            <strong>loading</strong>: indicates whether a prediction
+            is currently being processed.
+        </li>
+
+        <li>
+            <strong>error</strong>: contains a possible error.
+        </li>
+    </ul>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 10 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>10. The resetKantra Reducer</h2>
+
+    <p>
+        The slice contains a reducer called
+        <strong>resetKantra</strong>.
+    </p>
+
+    <pre><code>reducers: {
+resetKantra: (state) => {
+    state.history = [];
+},
+},</code></pre>
+
+    <p>
+        Its role is to completely clear the prediction
+        history.
+    </p>
+
+    <p>
+        When this action is called, the
+        <code>history</code> array becomes empty again.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 11 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>11. fetchPrediction.pending</h2>
+
+    <p>
+        When the user starts a prediction,
+        <code>createAsyncThunk</code> first triggers the
+        <code>pending</code> state.
+    </p>
+
+    <pre><code>.addCase(fetchPrediction.pending, (state) => {
+state.loading = true;
+state.error = null;
+})</code></pre>
+
+    <p>
+        <code>loading</code> becomes <code>true</code>.
+    </p>
+
+    <p>
+        The previous error is also cleared using:
+    </p>
+
+    <pre><code>state.error = null;</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 12 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>12. fetchPrediction.fulfilled</h2>
+
+    <p>
+        When the backend successfully returns a prediction,
+        Redux moves to the <code>fulfilled</code> state.
+    </p>
+
+    <pre><code>.addCase(fetchPrediction.fulfilled, (state, action) => {
+state.loading = false;
+
+state.history.unshift({
+    a: action.payload.a,
+    b: action.payload.b,
+    prediction: action.payload.prediction,
+    time: new Date().toLocaleTimeString(),
+});
+})</code></pre>
+
+    <p>
+        Loading is stopped:
+    </p>
+
+    <pre><code>state.loading = false;</code></pre>
+
+    <p>
+        Then, a new object is added to the beginning of
+        <code>history</code> using:
+    </p>
+
+    <pre><code>state.history.unshift(...)</code></pre>
+
+    <p>
+        Using <code>unshift()</code> therefore places
+        the new prediction in the first position.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 13 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>13. History Contents</h2>
+
+    <p>
+        Each history item contains four pieces of information:
+    </p>
+
+    <pre><code>{
+a: action.payload.a,
+b: action.payload.b,
+prediction: action.payload.prediction,
+time: new Date().toLocaleTimeString()
+}</code></pre>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Meaning</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>a</td>
+                <td>First input value.</td>
+            </tr>
+
+            <tr>
+                <td>b</td>
+                <td>Second input value.</td>
+            </tr>
+
+            <tr>
+                <td>prediction</td>
+                <td>Result produced by the model.</td>
+            </tr>
+
+            <tr>
+                <td>time</td>
+                <td>Time when the prediction was performed.</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 14 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>14. fetchPrediction.rejected</h2>
+
+    <p>
+        If the request fails, Redux moves to the
+        <code>rejected</code> state.
+    </p>
+
+    <pre><code>.addCase(fetchPrediction.rejected, (state, action) => {
+state.loading = false;
+state.error = action.payload;
+})</code></pre>
+
+    <p>
+        Loading is stopped and the error is stored in:
+    </p>
+
+    <pre><code>state.error</code></pre>
+
+    <p>
+        The React component can then retrieve this error
+        using <code>useSelector</code>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 15 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>15. Exporting the Reducer</h2>
+
+    <p>
+        At the end of the file, the reducer is exported:
+    </p>
+
+    <pre><code>export default kantraSlice.reducer;</code></pre>
+
+    <p>
+        It can then be integrated into the Redux store of
+        the application.
+    </p>
+
+    <p>
+        The <code>resetKantra</code> action is also exported:
+    </p>
+
+    <pre><code>export {
+resetKantra
+};</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 16 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>16. Imports in PredictionForm.jsx</h2>
+
+    <p>
+        The React component starts by importing React and
+        <code>useState</code>.
+    </p>
+
+    <pre><code>import React, {
+useState
+} from "react";</code></pre>
+
+    <p>
+        <code>useState</code> is used to manage locally the values
+        entered in fields A and B.
+    </p>
+
+    <p>
+        The component also imports:
+    </p>
+
+    <pre><code>import {
+useDispatch,
+useSelector
+} from "react-redux";</code></pre>
+
+    <p>
+        <code>useDispatch</code> allows a Redux action to be dispatched.
+    </p>
+
+    <p>
+        <code>useSelector</code> allows data to be retrieved from
+        the Redux store.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 17 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>17. Importing fetchPrediction</h2>
+
+    <p>
+        The component imports the asynchronous action created in
+        <strong>kantraSlice.js</strong>:
+    </p>
+
+    <pre><code>import {
+fetchPrediction
+} from "../redux/kantraSlice";</code></pre>
+
+    <p>
+        This creates the connection between the React component
+        and the Redux slice.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 18 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>18. Importing Recharts Components</h2>
+
+    <p>
+        The component uses several elements from Recharts:
+    </p>
+
+    <pre><code>ResponsiveContainer
+BarChart
+Bar
+XAxis
+YAxis
+Tooltip
+CartesianGrid</code></pre>
+
+    <p>
+        They are used to build the prediction history chart.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 19 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>19. Connection with kantra.css</h2>
+
+    <p>
+        The component imports its CSS file:
+    </p>
+
+    <pre><code>import "./kantra.css";</code></pre>
+
+    <p>
+        This instruction means that the styles defined in
+        <strong>kantra.css</strong> will be available to the
+        component.
+    </p>
+
+    <p>
+        The second part of the connection is done using
+        <code>className</code>.
+    </p>
+
+    <pre><code>className="kantra-container"
+className="kantra-title"
+className="kantra-iframe-wrapper"
+className="kantra-iframe"
+className="kantra-inputs"
+className="kantra-error"
+className="kantra-cards"
+className="kantra-card"
+className="highlight"
+className="kantra-box"</code></pre>
+
+    <p>
+        These names must correspond to the selectors defined in
+        <strong>kantra.css</strong>.
+    </p>
+
+    <div class="flow">
+PredictionForm.jsx
+↓
+import "./kantra.css"
+↓
+className="kantra-card"
+↓
+kantra.css
+↓
+.kantra-card
+↓
+Card style
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 20 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>20. Creating the PredictionForm Component</h2>
+
+    <p>
+        The main component is:
+    </p>
+
+    <pre><code>const PredictionForm = () => {
+...
+};</code></pre>
+
+    <p>
+        It contains all the user interface logic:
+        field management, prediction execution, result display,
+        and chart creation.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 21 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>21. Using useDispatch</h2>
+
+    <pre><code>const dispatch = useDispatch();</code></pre>
+
+    <p>
+        This instruction retrieves the
+        <code>dispatch</code> function from Redux.
+    </p>
+
+    <p>
+        It will be used when the user clicks the
+        <strong>Predict</strong> button.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 22 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>22. Retrieving Redux Data</h2>
+
+    <pre><code>const {
+history,
+loading,
+error
+} = useSelector((s) => s.kantra);</code></pre>
+
+    <p>
+        The component retrieves data from the
+        <code>kantra</code> slice.
+    </p>
+
+    <ul>
+        <li><code>history</code>: prediction history.</li>
+        <li><code>loading</code>: loading state.</li>
+        <li><code>error</code>: possible error.</li>
+    </ul>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 23 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>23. Managing Fields A and B</h2>
+
+    <p>
+        Two local states are created:
+    </p>
+
+    <pre><code>const [a, setA] = useState("");
+const [b, setB] = useState("");</code></pre>
+
+    <p>
+        <code>a</code> contains the value entered in the first
+        field.
+    </p>
+
+    <p>
+        <code>b</code> contains the value entered in the second
+        field.
+    </p>
+
+    <p>
+        The <code>setA</code> and <code>setB</code> functions
+        allow these values to be modified.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 24 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>24. handlePredict Function</h2>
+
+    <p>
+        The <strong>handlePredict</strong> function is executed
+        when the user clicks the <strong>Predict</strong> button.
+    </p>
+
+    <pre><code>const handlePredict = () => {
+if (!a || !b) return;
+
+dispatch(
+    fetchPrediction({
+        a: Number(a),
+        b: Number(b)
+    })
+);
+};</code></pre>
+
+    <p>
+        The first condition:
+    </p>
+
+    <pre><code>if (!a || !b) return;</code></pre>
+
+    <p>
+        prevents the request from being sent if one of the two
+        values is missing.
+    </p>
+
+    <p>
+        Then, <code>Number(a)</code> and <code>Number(b)</code>
+        convert the entered values into numbers.
+    </p>
+
+    <p>
+        The Redux action is then dispatched with:
+    </p>
+
+    <pre><code>dispatch(fetchPrediction({
+a: Number(a),
+b: Number(b)
+}));</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 25 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>25. Retrieving the Latest Prediction</h2>
+
+    <pre><code>const last = history[0];</code></pre>
+
+    <p>
+        Since <code>kantraSlice.js</code> uses
+        <code>unshift()</code>, the most recent prediction is
+        placed at the first position of the array.
+    </p>
+
+    <p>
+        <code>history[0]</code> therefore corresponds to the latest
+        prediction.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 26 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>26. Preparing Chart Data</h2>
+
+    <pre><code>const chartData = history
+.slice(0, 10)
+.map((h, i) => ({
+    name: `P${i + 1}`,
+    prediction: h.prediction,
+}));</code></pre>
+
+    <p>
+        The <code>slice(0, 10)</code> method limits the display to
+        the ten latest predictions.
+    </p>
+
+    <p>
+        The <code>map()</code> method then transforms each
+        history item into an object suitable for Recharts.
+    </p>
+
+    <p>
+        The name is created with:
+    </p>
+
+    <pre><code>name: `P${i + 1}`</code></pre>
+
+    <p>
+        The predictions will therefore be identified as
+        <code>P1</code>, <code>P2</code>, <code>P3</code>, etc.
+    </p>
+
+    <p>
+        The value used by the bar is:
+    </p>
+
+    <pre><code>prediction: h.prediction</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 27 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>27. Main Container</h2>
+
+    <p>
+        The interface starts with:
+    </p>
+
+    <pre><code>&lt;div className="kantra-container"&gt;</code></pre>
+
+    <p>
+        This class allows the <strong>kantra.css</strong> file
+        to control the general Dashboard container.
+    </p>
+
+    <p>
+        For example, the CSS can define the width, margins,
+        spacing, and minimum height of this area.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 28 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>28. Dashboard Title</h2>
+
+    <pre><code>&lt;h1 className="kantra-title"&gt;
+📊 ML Dashboard (Kantra)
+&lt;/h1&gt;</code></pre>
+
+    <p>
+        The text is provided by React.
+    </p>
+
+    <p>
+        The <code>kantra-title</code> class allows CSS to
+        control its appearance.
+    </p>
+
+    <pre><code>.kantra-title {
+...
+}</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 29 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>29. Power BI Integration</h2>
+
+    <p>
+        The Dashboard contains a Power BI report integrated into an
+        <code>iframe</code> element.
+    </p>
+
+    <pre><code>&lt;div className="kantra-iframe-wrapper"&gt;
+
+&lt;iframe
+    className="kantra-iframe"
+    title="9antra.tn"
+    src="..."
+    allowFullScreen
+/&gt;
+
+&lt;/div&gt;</code></pre>
+
+    <p>
+        The <code>kantra-iframe-wrapper</code> class controls the
+        iframe container.
+    </p>
+
+    <p>
+        The <code>kantra-iframe</code> class controls the appearance
+        and dimensions of the iframe.
+    </p>
+
+    <div class="flow">
+Power BI
+↓
+iframe
+↓
+kantra-iframe
+↓
+kantra.css
+↓
+Report presentation
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 30 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>30. Fields A and B</h2>
+
+    <p>
+        The input fields are placed inside:
+    </p>
+
+    <pre><code>&lt;div className="kantra-inputs"&gt;</code></pre>
+
+    <p>
+        The first field contains:
+    </p>
+
+    <pre><code>&lt;input
+placeholder="A"
+onChange={(e) =&gt; setA(e.target.value)}
+/&gt;</code></pre>
+
+    <p>
+        When the user enters a value, the
+        <code>onChange</code> event calls <code>setA</code>.
+    </p>
+
+    <p>
+        The second field works in the same way using
+        <code>setB</code>.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 31 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>31. The Predict Button</h2>
+
+    <pre><code>&lt;button onClick={handlePredict}&gt;
+{loading ? "Running..." : "Predict"}
+&lt;/button&gt;</code></pre>
+
+    <p>
+        When the user clicks the button,
+        <code>handlePredict</code> is executed.
+    </p>
+
+    <p>
+        The button text depends on <code>loading</code>.
+    </p>
+
+    <p>
+        If <code>loading</code> is <code>true</code>, the button
+        displays:
+    </p>
+
+    <pre><code>Running...</code></pre>
+
+    <p>
+        Otherwise, it displays:
+    </p>
+
+    <pre><code>Predict</code></pre>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 32 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>32. Displaying Errors</h2>
+
+    <pre><code>{error &amp;&amp; (
+&lt;p className="kantra-error"&gt;
+    {error}
+&lt;/p&gt;
+)}</code></pre>
+
+    <p>
+        If an error exists, the paragraph is displayed.
+    </p>
+
+    <p>
+        The <code>kantra-error</code> class allows CSS to control
+        its appearance.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 33 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>33. KPI Cards</h2>
+
+    <p>
+        When the history contains at least one prediction,
+        the component displays three cards.
+    </p>
+
+    <pre><code>{last &amp;&amp; (
+&lt;div className="kantra-cards"&gt;
+    ...
+&lt;/div&gt;
+)}</code></pre>
+
+    <p>
+        The <code>last &amp;&amp;</code> condition prevents
+        the cards from being displayed until a prediction exists.
+    </p>
+
+    <p>
+        The three cards display:
+    </p>
+
+    <ul>
+        <li>The A value.</li>
+        <li>The B value.</li>
+        <li>The prediction.</li>
+    </ul>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 34 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>34. A Card</h2>
+
+    <pre><code>&lt;div className="kantra-card"&gt;
+A &lt;br /&gt;
+&lt;b&gt;{last.a}&lt;/b&gt;
+&lt;/div&gt;</code></pre>
+
+    <p>
+        This card displays the first value used for the
+        prediction.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 35 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>35. B Card</h2>
+
+    <pre><code>&lt;div className="kantra-card"&gt;
+B &lt;br /&gt;
+&lt;b&gt;{last.b}&lt;/b&gt;
+&lt;/div&gt;</code></pre>
+
+    <p>
+        This card displays the second value used for the
+        prediction.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 36 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>36. Prediction Card</h2>
+
+    <pre><code>&lt;div className="kantra-card highlight"&gt;
+
+Prediction &lt;br /&gt;
+
+&lt;b&gt;
+    {Number(last.prediction).toFixed(2)}
+&lt;/b&gt;
+
+&lt;/div&gt;</code></pre>
+
+    <p>
+        This card highlights the result produced by the model.
+    </p>
+
+    <p>
+        The <code>highlight</code> class allows a specific style
+        to be applied to this card.
+    </p>
+
+    <p>
+        The <code>toFixed(2)</code> function limits the display
+        to two decimal places.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 37 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>37. Displaying the Chart</h2>
+
+    <p>
+        The chart is displayed only when the history contains
+        at least one prediction.
+    </p>
+
+    <pre><code>{history.length &gt; 0 &amp;&amp; (
+...
+)}</code></pre>
+
+    <p>
+        This condition prevents an empty chart from being displayed
+        when the user has not yet made any prediction.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 38 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>38. Chart Container</h2>
+
+    <pre><code>&lt;div className="kantra-box"&gt;
+
+&lt;h3&gt;📈 History&lt;/h3&gt;
+
+...
+
+&lt;/div&gt;</code></pre>
+
+    <p>
+        The <code>kantra-box</code> class allows CSS to control
+        the area containing the chart.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 39 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>39. ResponsiveContainer</h2>
+
+    <pre><code>&lt;ResponsiveContainer
+width="100%"
+height={300}
+&gt;</code></pre>
+
+    <p>
+        <code>ResponsiveContainer</code> allows the chart to
+        adapt to the available width.
+    </p>
+
+    <p>
+        <code>width="100%"</code> means that the chart uses
+        the entire available width.
+    </p>
+
+    <p>
+        <code>height={300}</code> defines a height of 300 pixels.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 40 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>40. BarChart</h2>
+
+    <pre><code>&lt;BarChart data={chartData}&gt;</code></pre>
+
+    <p>
+        The <code>BarChart</code> component receives the data
+        prepared in <code>chartData</code>.
+    </p>
+
+    <p>
+        Each item in <code>chartData</code> contains a name and
+        a prediction value.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 41 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>41. Chart Axes</h2>
+
+    <p>
+        The horizontal axis uses:
+    </p>
+
+    <pre><code>&lt;XAxis dataKey="name" /&gt;</code></pre>
+
+    <p>
+        It retrieves the values <code>P1</code>, <code>P2</code>,
+        etc.
+    </p>
+
+    <p>
+        The vertical axis uses:
+    </p>
+
+    <pre><code>&lt;YAxis /&gt;</code></pre>
+
+    <p>
+        It represents the numerical scale of the predictions.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 42 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>42. Tooltip and Grid</h2>
+
+    <p>
+        The component:
+    </p>
+
+    <pre><code>&lt;Tooltip /&gt;</code></pre>
+
+    <p>
+        allows information to be displayed when the user
+        hovers over a data point on the chart.
+    </p>
+
+    <p>
+        The component:
+    </p>
+
+    <pre><code>&lt;CartesianGrid strokeDasharray="3 3" /&gt;</code></pre>
+
+    <p>
+        adds a reference grid to the chart.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 43 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>43. Prediction Bar</h2>
+
+    <pre><code>&lt;Bar
+dataKey="prediction"
+fill="#7c3aed"
+/&gt;</code></pre>
+
+    <p>
+        The <code>Bar</code> component uses
+        <code>dataKey="prediction"</code>.
+    </p>
+
+    <p>
+        This means that the height of each bar corresponds to the
+        value of the <code>prediction</code> property.
+    </p>
+
+    <p>
+        The <code>fill</code> property defines the color of the bar
+        in the chart.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 44 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>44. Complete Connection with kantra.css</h2>
+
+    <p>
+        The <strong>kantra.css</strong> file does not perform the
+        prediction and does not communicate with the backend.
+    </p>
+
+    <p>
+        Its role is only to control the visual presentation
+        of the elements generated by React.
+    </p>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>In PredictionForm.jsx</th>
+                <th>In kantra.css</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>kantra-container</td>
+                <td>.kantra-container</td>
+            </tr>
+
+            <tr>
+                <td>kantra-title</td>
+                <td>.kantra-title</td>
+            </tr>
+
+            <tr>
+                <td>kantra-iframe-wrapper</td>
+                <td>.kantra-iframe-wrapper</td>
+            </tr>
+
+            <tr>
+                <td>kantra-iframe</td>
+                <td>.kantra-iframe</td>
+            </tr>
+
+            <tr>
+                <td>kantra-inputs</td>
+                <td>.kantra-inputs</td>
+            </tr>
+
+            <tr>
+                <td>kantra-error</td>
+                <td>.kantra-error</td>
+            </tr>
+
+            <tr>
+                <td>kantra-cards</td>
+                <td>.kantra-cards</td>
+            </tr>
+
+            <tr>
+                <td>kantra-card</td>
+                <td>.kantra-card</td>
+            </tr>
+
+            <tr>
+                <td>highlight</td>
+                <td>.highlight</td>
+            </tr>
+
+            <tr>
+                <td>kantra-box</td>
+                <td>.kantra-box</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 45 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>45. Relationship Between Redux and CSS</h2>
+
+    <p>
+        Redux does not communicate directly with CSS.
+    </p>
+
+    <p>
+        Redux manages data and state. React retrieves this
+        information and then decides which elements should be displayed.
+        Finally, CSS classes determine their appearance.
+    </p>
+
+    <div class="flow">
+Redux
+↓
+history / loading / error
+↓
+PredictionForm.jsx
+↓
+JSX + className
+↓
+kantra.css
+↓
+Visual interface
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 46 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>46. Complete Example: One Prediction</h2>
+
+    <p>
+        Suppose the user enters:
+    </p>
+
+    <pre><code>A = 100
+B = 200</code></pre>
+
+    <p>
+        The user then clicks <strong>Predict</strong>.
+    </p>
+
+    <p>
+        React executes:
+    </p>
+
+    <pre><code>handlePredict()</code></pre>
+
+    <p>
+        which triggers:
+    </p>
+
+    <pre><code>dispatch(
+fetchPrediction({
+    a: 100,
+    b: 200
+})
+);</code></pre>
+
+    <p>
+        Redux moves to <code>pending</code>, then Axios sends:
+    </p>
+
+    <pre><code>POST /kantra
+
+{
+a: 100,
+b: 200
+}</code></pre>
+
+    <p>
+        The backend performs the prediction and returns the result.
+    </p>
+
+    <p>
+        Redux then moves to <code>fulfilled</code> and adds
+        the result to the beginning of <code>history</code>.
+    </p>
+
+    <p>
+        React automatically retrieves the new value using
+        <code>useSelector</code>.
+    </p>
+
+    <p>
+        The KPI card is then updated and the chart is also
+        refreshed.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 47 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>47. Complete Global Flow</h2>
+
+    <div class="flow">
+User
+↓
+A and B input
+↓
+handlePredict()
+↓
+dispatch(fetchPrediction())
+↓
+Redux Toolkit
+↓
+fetchPrediction.pending
+↓
+loading = true
+↓
+Axios
+↓
+POST /kantra
+↓
+Backend
+↓
+Machine Learning Model
+↓
+Prediction
+↓
+fetchPrediction.fulfilled
+↓
+history.unshift(...)
+↓
+useSelector()
+↓
+React updates the Dashboard
+↓
+KPI Cards
+↓
+chartData
+↓
+Recharts
+↓
+Chart
+↓
+kantra.css
+↓
+Final presentation
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 48 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>48. Architecture of the Three Files</h2>
+
+    <div class="flow">
+             kantraSlice.js
+                   │
+             Data management
+                   │
+         ┌─────────┼─────────┐
+         ▼         ▼         ▼
+      history   loading    error
+         │         │         │
+         └─────────┼─────────┘
+                   ▼
+            PredictionForm.jsx
+                   │
+    ┌──────────────┼──────────────┐
+    ▼              ▼              ▼
+  Inputs          KPI           Chart
+    │              │              │
+    └──────────────┼──────────────┘
+                   ▼
+              kantra.css
+                   │
+                   ▼
+           Visual interface
+    </div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 49 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>49. Role of Each Technology</h2>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Technology</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>React</td>
+                <td>Builds the user interface.</td>
+            </tr>
+
+            <tr>
+                <td>useState</td>
+                <td>Manages locally entered values.</td>
+            </tr>
+
+            <tr>
+                <td>Redux Toolkit</td>
+                <td>Manages global state and the asynchronous request.</td>
+            </tr>
+
+            <tr>
+                <td>createAsyncThunk</td>
+                <td>Manages the asynchronous call to the backend.</td>
+            </tr>
+
+            <tr>
+                <td>Axios</td>
+                <td>Performs the HTTP POST request.</td>
+            </tr>
+
+            <tr>
+                <td>Backend</td>
+                <td>Receives A and B and produces the prediction.</td>
+            </tr>
+
+            <tr>
+                <td>Machine Learning</td>
+                <td>Calculates the predictive result.</td>
+            </tr>
+
+            <tr>
+                <td>Power BI</td>
+                <td>Displays the business intelligence report.</td>
+            </tr>
+
+            <tr>
+                <td>Recharts</td>
+                <td>Visualizes the prediction history.</td>
+            </tr>
+
+            <tr>
+                <td>kantra.css</td>
+                <td>Controls the visual presentation.</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 50 -->
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+    <h2>50. Final Summary to Remember</h2>
+
+    <div class="important">
+
+        <p>
+            <strong>
+                React builds the interface → Redux Toolkit manages
+                the state → Axios communicates with the backend →
+                Machine Learning produces the prediction →
+                Redux stores the history → Recharts visualizes
+                the results → Power BI displays the report →
+                CSS controls the presentation.
+            </strong>
+        </p>
+
+    </div>
+
+    <p>
+        The <strong>kantraSlice.js</strong> file is responsible
+        for Redux logic. It defines the asynchronous action
+        <code>fetchPrediction</code>, communicates with the backend
+        using Axios, and manages the <code>pending</code>,
+        <code>fulfilled</code>, and <code>rejected</code> states.
+    </p>
+
+    <p>
+        The <strong>PredictionForm.jsx</strong> component is the
+        user interface. It allows the user to enter A and B,
+        send a prediction request, display the latest result,
+        keep the history in Redux, and represent predictions
+        in a chart.
+    </p>
+
+    <p>
+        The <strong>kantra.css</strong> file is responsible for
+        the visual appearance. The connection with React is made
+        through:
+    </p>
+
+    <pre><code>import "./kantra.css";</code></pre>
+
+    <p>
+        and then through the different <code>className</code>
+        attributes used in the JSX.
+    </p>
+
+    <p>
+        Therefore, business logic, data management,
+        display, and visual presentation are separated into
+        specialized files and technologies.
+    </p>
+
+</section>
+
+
+<footer class="footer">
+
+    <p>
+        📊 Technical Documentation — Kantra ML Dashboard
+    </p>
+
+</footer>
+
+</main>
+
+</body>
+</html>
+```

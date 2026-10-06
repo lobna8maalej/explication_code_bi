@@ -1,0 +1,1476 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Documentação técnica para integração de Machine Learning com Python, Node.js, Express e MySQL."
+    >
+
+    <title>Documentação — Machine Learning, Node.js, Express e MySQL</title>
+
+    <!-- Link para o arquivo CSS -->
+    <link rel="stylesheet" href="Radio.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVEGAÇÃO
+    ========================== -->
+
+    <header class="navbar">
+        <div class="nav-container">
+
+            <div class="logo">
+                🤖 Integração de ML
+            </div>
+
+            <nav>
+                <a href="#presentation">Visão Geral</a>
+                <a href="#python">Python</a>
+                <a href="#node">Node.js</a>
+                <a href="#express">Express</a>
+                <a href="#mysql">MySQL</a>
+                <a href="#architecture">Arquitetura</a>
+                <a href="#vente">Apresentação Comercial</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="badge">
+                Documentação Técnica
+            </span>
+
+            <h1>
+                Integração de Machine Learning
+                <span>Python + Node.js + Express + MySQL</span>
+            </h1>
+
+            <p>
+                Documentação detalhada sobre o funcionamento do modelo de
+                Machine Learning <strong>diwan.pkl</strong> e sua integração
+                em uma API baseada em Node.js / Express, com os resultados
+                armazenados no MySQL.
+            </p>
+
+            <a href="#presentation" class="hero-button">
+                Iniciar Documentação
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTEÚDO PRINCIPAL
+    ========================== -->
+
+    <main class="container">
+
+
+        <!-- =========================
+             VISÃO GERAL
+        ========================== -->
+
+        <section id="presentation" class="documentation-section">
+
+            <div class="section-number">
+                01
+            </div>
+
+            <h2>Visão Geral</h2>
+
+            <p>
+                Este módulo apresenta a integração de um
+                <strong>modelo de Machine Learning desenvolvido em Python</strong>
+                em uma aplicação Web baseada em
+                <strong>Node.js e Express</strong>, utilizando um banco de dados
+                <strong>MySQL</strong> para armazenar os resultados.
+            </p>
+
+            <p>
+                O objetivo é criar uma arquitetura que permita que a
+                aplicação Web se comunique com um modelo preditivo em Python,
+                obtenha os resultados em formato JSON, valide esses resultados
+                e, em seguida, armazene-os em um banco de dados para que
+                possam ser utilizados em um dashboard.
+            </p>
+
+            <div class="flow">
+
+                <div class="flow-item">
+                    <span>01</span>
+                    Frontend
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="flow-item">
+                    <span>02</span>
+                    Node.js
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="flow-item">
+                    <span>03</span>
+                    Express
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="flow-item">
+                    <span>04</span>
+                    Python
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="flow-item">
+                    <span>05</span>
+                    Modelo ML
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="flow-item">
+                    <span>06</span>
+                    MySQL
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PYTHON
+        ========================== -->
+
+        <section id="python" class="documentation-section">
+
+            <div class="section-number">
+                02
+            </div>
+
+            <h2>Seção Python — Carregamento do Modelo de Machine Learning</h2>
+
+            <p>
+                O arquivo Python representa a parte de
+                <strong>Machine Learning</strong> do módulo.
+                Ele é responsável por carregar o modelo
+                <strong>diwan.pkl</strong> e preparar o resultado
+                que será enviado para o Node.js.
+            </p>
+
+            <h3>Código Python</h3>
+
+            <div class="code-header">
+                <span>📄 radio.py</span>
+                <button class="copy-button">Copiar</button>
+            </div>
+
+            <pre><code>import os
+import pickle
+import json
+
+# 📁 Caminho seguro para o modelo
+BASE_DIR = os.path.dirname(__file__)
+MODEL_PATH = os.path.join(BASE_DIR, "diwan.pkl")
+
+# 🤖 Carregar o modelo
+try:
+    with open(MODEL_PATH, "rb") as f:
+        model = pickle.load(f)
+
+except Exception as e:
+    print("Erro ao carregar o modelo:", str(e))
+    model = None
+
+# 📊 Resultado
+result = {
+    "status": "success" if model else "error",
+
+    "prediction": 123.4,
+
+    "rows": [
+        {
+            "reputation_ranking": 80,
+            "tuition_fee": 5000,
+            "Target": 1
+        }
+    ],
+
+    "columns": [
+        "reputation_ranking",
+        "tuition_fee",
+        "Target"
+    ],
+
+    "images": []
+}
+
+# 📤 Exibir JSON
+print(json.dumps(result))</code></pre>
+
+
+            <h3>Importação das Bibliotecas</h3>
+
+            <p>
+                O programa começa importando três bibliotecas:
+                <strong>os</strong>, <strong>pickle</strong> e
+                <strong>json</strong>.
+            </p>
+
+            <ul class="explanation-list">
+
+                <li>
+                    <strong>os:</strong>
+                    permite gerenciar caminhos e arquivos.
+                </li>
+
+                <li>
+                    <strong>pickle:</strong>
+                    permite carregar o modelo de Machine Learning salvo
+                    no arquivo <strong>.pkl</strong>.
+                </li>
+
+                <li>
+                    <strong>json:</strong>
+                    permite converter os resultados do Python para o formato
+                    JSON, para que o Node.js possa recuperá-los.
+                </li>
+
+            </ul>
+
+
+            <h3>Construção do Caminho do Modelo</h3>
+
+            <pre><code>BASE_DIR = os.path.dirname(__file__)
+
+MODEL_PATH = os.path.join(
+    BASE_DIR,
+    "diwan.pkl"
+)</code></pre>
+
+            <p>
+                <strong>BASE_DIR</strong> obtém o diretório onde o arquivo
+                Python está localizado.
+            </p>
+
+            <p>
+                Em seguida, <strong>os.path.join()</strong> constrói o caminho
+                para o arquivo <strong>diwan.pkl</strong>.
+            </p>
+
+            <p>
+                Esse método é mais seguro do que escrever manualmente um
+                caminho, pois permite localizar corretamente o modelo.
+            </p>
+
+
+            <h3>Carregamento do Modelo</h3>
+
+            <pre><code>with open(MODEL_PATH, "rb") as f:
+    model = pickle.load(f)</code></pre>
+
+            <p>
+                O arquivo <strong>diwan.pkl</strong> é aberto no modo
+                <strong>rb</strong>, que significa
+                <em>read binary</em>.
+            </p>
+
+            <p>
+                A função <strong>pickle.load()</strong> recupera o objeto
+                de Machine Learning armazenado no arquivo.
+            </p>
+
+            <p>
+                O modelo é armazenado na seguinte variável:
+            </p>
+
+            <div class="highlight">
+                model
+            </div>
+
+
+            <h3>Tratamento de Erros</h3>
+
+            <pre><code>except Exception as e:
+    print("Erro ao carregar o modelo:", str(e))
+    model = None</code></pre>
+
+            <p>
+                O bloco <strong>try / except</strong> é utilizado para
+                tratar os erros que podem ocorrer durante o carregamento
+                do modelo.
+            </p>
+
+            <p>
+                Por exemplo, se <strong>diwan.pkl</strong> não existir,
+                o programa não será interrompido inesperadamente.
+                O modelo receberá o valor <strong>None</strong>.
+            </p>
+
+
+            <h3>Status do Modelo</h3>
+
+            <pre><code>"status": "success" if model else "error"</code></pre>
+
+            <p>
+                Essa instrução verifica se o modelo foi carregado
+                corretamente.
+            </p>
+
+            <p>
+                Se o modelo existir, o status será:
+            </p>
+
+            <div class="success-box">
+                success
+            </div>
+
+            <p>
+                Caso contrário, o status será:
+            </p>
+
+            <div class="error-box">
+                error
+            </div>
+
+
+            <h3>Importante: a Previsão Atualmente é Simulada</h3>
+
+            <div class="warning-box">
+
+                <strong>Importante:</strong>
+
+                <p>
+                    No código fornecido, o valor:
+                </p>
+
+                <pre><code>"prediction": 123.4</code></pre>
+
+                <p>
+                    é um valor simulado.
+                </p>
+
+                <p>
+                    Ele ainda não é calculado diretamente utilizando
+                    <strong>model.predict()</strong>.
+                </p>
+
+            </div>
+
+            <p>
+                Em uma aplicação preditiva real, essa parte poderia ser
+                substituída por uma instrução como:
+            </p>
+
+            <pre><code>prediction = model.predict(X_test)</code></pre>
+
+            <p>
+                utilizando dados de entrada correspondentes às variáveis
+                utilizadas durante o treinamento do modelo.
+            </p>
+
+
+            <h3>Dados de `rows`</h3>
+
+            <pre><code>"rows": [
+    {
+        "reputation_ranking": 80,
+        "tuition_fee": 5000,
+        "Target": 1
+    }
+]</code></pre>
+
+            <p>
+                A propriedade <strong>rows</strong> contém os dados que
+                posteriormente serão recuperados pelo Node.js.
+            </p>
+
+            <p>
+                Cada objeto representa uma linha de dados.
+            </p>
+
+            <ul class="explanation-list">
+
+                <li>
+                    <strong>reputation_ranking:</strong>
+                    valor de ranking ou reputação.
+                </li>
+
+                <li>
+                    <strong>tuition_fee:</strong>
+                    valor numérico associado às mensalidades ou taxas
+                    de matrícula.
+                </li>
+
+                <li>
+                    <strong>Target:</strong>
+                    variável-alvo do modelo ou resultado associado
+                    aos dados.
+                </li>
+
+            </ul>
+
+
+            <h3>Conversão para JSON</h3>
+
+            <pre><code>print(json.dumps(result))</code></pre>
+
+            <p>
+                Essa instrução converte o objeto Python para JSON.
+            </p>
+
+            <p>
+                Essa etapa é essencial porque o Node.js irá recuperar
+                essa saída e utilizá-la dentro da aplicação.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             SERVIÇO NODE
+        ========================== -->
+
+        <section id="node" class="documentation-section">
+
+            <div class="section-number">
+                03
+            </div>
+
+            <h2>Serviço Node.js — Comunicação com Python</h2>
+
+            <p>
+                O arquivo <strong>radioservice.js</strong> funciona como
+                uma ponte entre Node.js e Python.
+            </p>
+
+            <p>
+                Sua função é executar o programa Python, recuperar sua
+                saída JSON, detectar erros e converter o JSON do Python
+                em um objeto JavaScript.
+            </p>
+
+            <h3>Código Node.js</h3>
+
+            <div class="code-header">
+                <span>📄 radioservice.js</span>
+                <button class="copy-button">Copiar</button>
+            </div>
+
+            <pre><code>const { spawn } = require("child_process");
+const path = require("path");
+
+function runPythonPlots() {
+
+    return new Promise((resolve, reject) => {
+
+        console.log("RADIOSERVICE LOADED");
+
+        const py = spawn("python", [
+            path.join(
+                __dirname,
+                "../../python/radio.py"
+            )
+        ]);
+
+        let output = "";
+        let error = "";
+
+        py.stdout.on("data", (data) => {
+            output += data.toString();
+        });
+
+        py.stderr.on("data", (data) => {
+            error += data.toString();
+        });
+
+        py.on("close", (code) => {
+
+            if (code !== 0) {
+                return reject(
+                    error || "Python error"
+                );
+            }
+
+            try {
+
+                const cleanOutput =
+                    output.toString().trim();
+
+                resolve(
+                    JSON.parse(cleanOutput)
+                );
+
+            } catch (e) {
+
+                console.log(
+                    "RAW OUTPUT:",
+                    output
+                );
+
+                reject(
+                    "Invalid JSON from Python"
+                );
+            }
+        });
+
+    });
+}
+
+module.exports = {
+    runPythonPlots
+};</code></pre>
+
+
+            <h3>Importando `child_process`</h3>
+
+            <pre><code>const { spawn } = require("child_process");</code></pre>
+
+            <p>
+                O módulo <strong>child_process</strong> é fornecido
+                pelo Node.js.
+            </p>
+
+            <p>
+                Ele permite que o Node.js execute programas externos.
+            </p>
+
+            <p>
+                Neste caso, ele é utilizado para executar:
+            </p>
+
+            <div class="highlight">
+                Python
+            </div>
+
+
+            <h3>Uso de `spawn()`</h3>
+
+            <pre><code>const py = spawn("python", [
+    path.join(
+        __dirname,
+        "../../python/radio.py"
+    )
+]);</code></pre>
+
+            <p>
+                Essa instrução solicita ao Node.js que execute o programa
+                Python e o arquivo <strong>radio.py</strong>.
+            </p>
+
+            <p>
+                Esse é o ponto principal da integração:
+            </p>
+
+            <div class="integration-box">
+
+                <div>Node.js</div>
+                <span>↓</span>
+                <div>spawn()</div>
+                <span>↓</span>
+                <div>Python</div>
+                <span>↓</span>
+                <div>Modelo de Machine Learning</div>
+
+            </div>
+
+
+            <h3>Recuperando a Saída do Python</h3>
+
+            <pre><code>py.stdout.on("data", (data) => {
+    output += data.toString();
+});</code></pre>
+
+            <p>
+                O Python exibe o resultado utilizando:
+            </p>
+
+            <pre><code>print(json.dumps(result))</code></pre>
+
+            <p>
+                O Node.js recupera esse resultado por meio de
+                <strong>py.stdout</strong>.
+            </p>
+
+
+            <h3>Recuperando Erros</h3>
+
+            <pre><code>py.stderr.on("data", (data) => {
+    error += data.toString();
+});</code></pre>
+
+            <p>
+                As mensagens de erro são armazenadas na variável
+                <strong>error</strong>.
+            </p>
+
+
+            <h3>Conversão de JSON</h3>
+
+            <pre><code>const cleanOutput =
+    output.toString().trim();
+
+resolve(
+    JSON.parse(cleanOutput)
+);</code></pre>
+
+            <p>
+                O Python produz texto no formato JSON.
+            </p>
+
+            <p>
+                O Node.js utiliza então:
+            </p>
+
+            <pre><code>JSON.parse()</code></pre>
+
+            <p>
+                para converter o JSON em um objeto JavaScript.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             EXPRESS
+        ========================== -->
+
+        <section id="express" class="documentation-section">
+
+            <div class="section-number">
+                04
+            </div>
+
+            <h2>Servidor Node.js com Express</h2>
+
+            <p>
+                O servidor Express é o ponto de entrada da API.
+            </p>
+
+            <div class="code-header">
+                <span>📄 server.js</span>
+                <button class="copy-button">Copiar</button>
+            </div>
+
+            <pre><code>const express = require("express");
+
+const app = express();
+
+app.use(express.json());
+
+console.log("PLOT API STARTED");
+
+const radioRoute =
+    require("./routes/radioRoute");
+
+app.use("/radio", radioRoute);
+
+const PORT = 3000;
+
+app.listen(PORT, () => {
+    console.log(
+        `Server running on port ${PORT}`
+    );
+});</code></pre>
+
+
+            <h3>Importando Express</h3>
+
+            <pre><code>const express = require("express");</code></pre>
+
+            <p>
+                Esta linha importa o framework Express.
+            </p>
+
+            <p>
+                O Express permite criar uma API Web utilizando Node.js.
+            </p>
+
+
+            <h3>Criando a Aplicação</h3>
+
+            <pre><code>const app = express();</code></pre>
+
+            <p>
+                Essa instrução cria a aplicação Express.
+            </p>
+
+
+            <h3>Lendo JSON</h3>
+
+            <pre><code>app.use(express.json());</code></pre>
+
+            <p>
+                Essa instrução permite que o Express interprete dados
+                enviados no formato JSON.
+            </p>
+
+
+            <h3>Conectando as Rotas</h3>
+
+            <pre><code>const radioRoute =
+    require("./routes/radioRoute");
+
+app.use("/radio", radioRoute);</code></pre>
+
+            <p>
+                Todas as rotas definidas em
+                <strong>radioRoute.js</strong> estarão disponíveis
+                utilizando o seguinte prefixo:
+            </p>
+
+            <div class="endpoint">
+                GET /radio
+            </div>
+
+
+            <h3>Iniciando o Servidor</h3>
+
+            <pre><code>const PORT = 3000;
+
+app.listen(PORT, () => {
+    console.log(
+        `Server running on port ${PORT}`
+    );
+});</code></pre>
+
+            <p>
+                O servidor ficará disponível em:
+            </p>
+
+            <div class="endpoint">
+                http://localhost:3000
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ROTA
+        ========================== -->
+
+        <section class="documentation-section">
+
+            <div class="section-number">
+                05
+            </div>
+
+            <h2>Rota Express `/radio`</h2>
+
+            <p>
+                A rota é responsável por coordenar todo o processo:
+                conexão com MySQL, execução do Python, validação dos dados,
+                inserção no MySQL e resposta final.
+            </p>
+
+            <div class="code-header">
+                <span>📄 radioRoute.js</span>
+                <button class="copy-button">Copiar</button>
+            </div>
+
+            <pre><code>const express = require("express");
+const router = express.Router();
+
+const {
+    runPythonPlots
+} = require("../service/radioservice");
+
+const {
+    getConnection
+} = require("../DBMysql/radiodb");
+
+router.get("/", async (req, res) => {
+
+    let connection;
+
+    try {
+
+        connection = await getConnection();
+
+        const result =
+            await runPythonPlots();
+
+        if (
+            !result ||
+            !result.rows ||
+            !Array.isArray(result.rows)
+        ) {
+
+            return res.status(400).json({
+                error: "Invalid Python output"
+            });
+        }
+
+        for (const row of result.rows) {
+
+            await connection.execute(
+                `INSERT INTO plot_data
+                (reputation_ranking,
+                tuition_fee,
+                Target)
+                VALUES (?, ?, ?)`,
+                [
+                    row.reputation_ranking ?? 0,
+                    row.tuition_fee ?? 0,
+                    row.Target ?? 0
+                ]
+            );
+        }
+
+        res.json({
+
+            message:
+                "Plots processed successfully",
+
+            count:
+                result.rows.length,
+
+            columns:
+                result.columns || [],
+
+            images:
+                result.images || []
+        });
+
+    } catch (err) {
+
+        console.error(
+            "ERROR:",
+            err
+        );
+
+        res.status(500).json({
+            error: err.toString()
+        });
+
+    } finally {
+
+        if (connection) {
+            await connection.end();
+        }
+    }
+});
+
+module.exports = router;</code></pre>
+
+
+            <h3>Criando o Router</h3>
+
+            <pre><code>const router = express.Router();</code></pre>
+
+            <p>
+                O router permite organizar as diferentes rotas da aplicação
+                em um arquivo separado.
+            </p>
+
+
+            <h3>Rota GET</h3>
+
+            <pre><code>router.get("/", async (req, res) => {</code></pre>
+
+            <p>
+                Essa rota corresponde a:
+            </p>
+
+            <div class="endpoint">
+                GET http://localhost:3000/radio
+            </div>
+
+
+            <h3>Conectando ao MySQL</h3>
+
+            <pre><code>connection = await getConnection();</code></pre>
+
+            <p>
+                A rota solicita uma conexão com o banco de dados antes
+                de processar os resultados.
+            </p>
+
+
+            <h3>Executando o Python</h3>
+
+            <pre><code>const result =
+    await runPythonPlots();</code></pre>
+
+            <p>
+                O Node.js chama o serviço Python.
+            </p>
+
+            <p>
+                Em seguida, aguarda a conclusão da execução do Python.
+            </p>
+
+
+            <h3>Validação dos Dados</h3>
+
+            <pre><code>if (
+    !result ||
+    !result.rows ||
+    !Array.isArray(result.rows)
+) {
+    return res.status(400).json({
+        error: "Invalid Python output"
+    });
+}</code></pre>
+
+            <p>
+                O backend verifica se o Python retornou um objeto contendo
+                uma propriedade <strong>rows</strong> e se essa propriedade
+                é realmente um array.
+            </p>
+
+
+            <h3>Inserção no MySQL</h3>
+
+            <pre><code>for (const row of result.rows) {
+
+    await connection.execute(
+        `INSERT INTO plot_data
+        (reputation_ranking,
+        tuition_fee,
+        Target)
+        VALUES (?, ?, ?)`,
+        [
+            row.reputation_ranking ?? 0,
+            row.tuition_fee ?? 0,
+            row.Target ?? 0
+        ]
+    );
+}</code></pre>
+
+            <p>
+                Cada linha recebida do Python é inserida na tabela
+                <strong>plot_data</strong>.
+            </p>
+
+            <p>
+                As três colunas utilizadas são:
+            </p>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Coluna</th>
+                        <th>Valor do Python</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>reputation_ranking</td>
+                        <td>row.reputation_ranking</td>
+                    </tr>
+
+                    <tr>
+                        <td>tuition_fee</td>
+                        <td>row.tuition_fee</td>
+                    </tr>
+
+                    <tr>
+                        <td>Target</td>
+                        <td>row.Target</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+
+            <h3>Operador `??`</h3>
+
+            <pre><code>row.Target ?? 0</code></pre>
+
+            <p>
+                Se o valor de <strong>Target</strong> for
+                <strong>null</strong> ou <strong>undefined</strong>,
+                o backend utilizará automaticamente o valor
+                <strong>0</strong>.
+            </p>
+
+
+            <h3>Resposta Final</h3>
+
+            <pre><code>res.json({
+    message:
+        "Plots processed successfully",
+
+    count:
+        result.rows.length,
+
+    columns:
+        result.columns || [],
+
+    images:
+        result.images || []
+});</code></pre>
+
+            <p>
+                Após a inserção, o Express retorna uma resposta
+                JSON para o frontend.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             MYSQL
+        ========================== -->
+
+        <section id="mysql" class="documentation-section">
+
+            <div class="section-number">
+                06
+            </div>
+
+            <h2>Conexão com MySQL</h2>
+
+            <p>
+                O arquivo <strong>radiodb.js</strong> é responsável pela
+                conexão entre Node.js e MySQL.
+            </p>
+
+            <div class="code-header">
+                <span>📄 radiodb.js</span>
+                <button class="copy-button">Copiar</button>
+            </div>
+
+            <pre><code>const mysql =
+    require("mysql2/promise");
+
+const dbConfig = {
+
+    host: "localhost",
+
+    user: "root",
+
+    password: "",
+
+    database:
+        "POWERBI_PREDICTION"
+};
+
+async function getConnection() {
+
+    return await mysql.createConnection(
+        dbConfig
+    );
+}
+
+module.exports = {
+    getConnection
+};</code></pre>
+
+
+            <h3>Configuração</h3>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Parâmetro</th>
+                        <th>Valor</th>
+                        <th>Função</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>host</td>
+                        <td>localhost</td>
+                        <td>Servidor MySQL local</td>
+                    </tr>
+
+                    <tr>
+                        <td>user</td>
+                        <td>root</td>
+                        <td>Usuário MySQL</td>
+                    </tr>
+
+                    <tr>
+                        <td>password</td>
+                        <td>vazio</td>
+                        <td>Senha no ambiente de desenvolvimento</td>
+                    </tr>
+
+                    <tr>
+                        <td>database</td>
+                        <td>POWERBI_PREDICTION</td>
+                        <td>Banco de dados do projeto</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+
+            <h3>Função `getConnection()`</h3>
+
+            <pre><code>async function getConnection() {
+
+    return await mysql.createConnection(
+        dbConfig
+    );
+}</code></pre>
+
+            <p>
+                Essa função cria uma conexão com o MySQL utilizando a
+                configuração definida anteriormente.
+            </p>
+
+            <p>
+                O uso de <strong>async / await</strong> permite que a
+                aplicação aguarde corretamente a criação da conexão.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             ARQUITETURA
+        ========================== -->
+
+        <section id="architecture" class="documentation-section">
+
+            <div class="section-number">
+                07
+            </div>
+
+            <h2>Arquitetura Completa</h2>
+
+            <p>
+                O funcionamento geral do módulo pode ser representado
+                pelo seguinte fluxo:
+            </p>
+
+            <div class="architecture">
+
+                <div class="architecture-box frontend">
+                    <strong>Frontend / Dashboard</strong>
+                    <small>Interface do usuário</small>
+                </div>
+
+                <div class="architecture-arrow">
+                    ↓ HTTP
+                </div>
+
+                <div class="architecture-box">
+                    <strong>Node.js + Express</strong>
+                    <small>API Backend</small>
+                </div>
+
+                <div class="architecture-arrow">
+                    ↓
+                </div>
+
+                <div class="architecture-box">
+                    <strong>/radio</strong>
+                    <small>Rota Express</small>
+                </div>
+
+                <div class="architecture-arrow">
+                    ↓
+                </div>
+
+                <div class="architecture-box">
+                    <strong>radioservice.js</strong>
+                    <small>Serviço Node.js</small>
+                </div>
+
+                <div class="architecture-arrow">
+                    ↓ spawn()
+                </div>
+
+                <div class="architecture-box python">
+                    <strong>radio.py</strong>
+                    <small>Python / Machine Learning</small>
+                </div>
+
+                <div class="architecture-arrow">
+                    ↓
+                </div>
+
+                <div class="architecture-box model">
+                    <strong>diwan.pkl</strong>
+                    <small>Modelo treinado</small>
+                </div>
+
+                <div class="architecture-arrow">
+                    ↓ JSON
+                </div>
+
+                <div class="architecture-box">
+                    <strong>Node.js</strong>
+                    <small>Validação de dados</small>
+                </div>
+
+                <div class="architecture-arrow">
+                    ↓ INSERT
+                </div>
+
+                <div class="architecture-box mysql">
+                    <strong>MySQL</strong>
+                    <small>Tabela plot_data</small>
+                </div>
+
+                <div class="architecture-arrow">
+                    ↓
+                </div>
+
+                <div class="architecture-box">
+                    <strong>Dashboard</strong>
+                    <small>Visualização</small>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             TABELA DE TECNOLOGIAS
+        ========================== -->
+
+        <section class="documentation-section">
+
+            <div class="section-number">
+                08
+            </div>
+
+            <h2>Função das Tecnologias</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Tecnologia</th>
+                        <th>Função</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Python</td>
+                        <td>Machine Learning e processamento preditivo</td>
+                    </tr>
+
+                    <tr>
+                        <td>pickle</td>
+                        <td>Carregamento do modelo .pkl</td>
+                    </tr>
+
+                    <tr>
+                        <td>JSON</td>
+                        <td>Comunicação entre Python e Node.js</td>
+                    </tr>
+
+                    <tr>
+                        <td>Node.js</td>
+                        <td>Backend da aplicação</td>
+                    </tr>
+
+                    <tr>
+                        <td>Express</td>
+                        <td>Criação da API</td>
+                    </tr>
+
+                    <tr>
+                        <td>child_process</td>
+                        <td>Execução do programa Python</td>
+                    </tr>
+
+                    <tr>
+                        <td>MySQL</td>
+                        <td>Armazenamento de dados</td>
+                    </tr>
+
+                    <tr>
+                        <td>diwan.pkl</td>
+                        <td>Modelo de Machine Learning salvo</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- =========================
+             APRESENTAÇÃO COMERCIAL
+        ========================== -->
+
+        <section id="vente" class="documentation-section commercial">
+
+            <div class="section-number">
+                09
+            </div>
+
+            <h2>Explicação para uma Apresentação Comercial</h2>
+
+            <p>
+                Durante uma apresentação comercial, não é necessário ler
+                cada linha de código. O principal objetivo é explicar o
+                funcionamento geral e o valor proporcionado por essa
+                arquitetura.
+            </p>
+
+            <div class="presentation-script">
+
+                <h3>🎤 Exemplo de Explicação</h3>
+
+                <p>
+                    “Nesta parte do projeto, integrei um modelo de
+                    Machine Learning desenvolvido em Python em uma
+                    aplicação Web baseada em Node.js e Express.
+                </p>
+
+                <p>
+                    O modelo está salvo em um arquivo
+                    <strong>diwan.pkl</strong>. Quando a aplicação
+                    solicita os resultados, o Express recebe a requisição
+                    e chama um serviço dedicado em Node.js.
+                </p>
+
+                <p>
+                    Esse serviço utiliza
+                    <strong>child_process.spawn()</strong> para executar
+                    o Python e iniciar o script de Machine Learning.
+                    Em seguida, o Python carrega o modelo utilizando
+                    <strong>pickle</strong>.
+                </p>
+
+                <p>
+                    O resultado produzido pelo Python é convertido para
+                    <strong>JSON</strong>. O Node.js recupera esse JSON,
+                    converte-o em um objeto JavaScript e verifica se os
+                    dados recebidos são válidos.
+                </p>
+
+                <p>
+                    Os dados validados são então armazenados no
+                    <strong>MySQL</strong>, na tabela
+                    <strong>plot_data</strong>.
+                </p>
+
+                <p>
+                    Finalmente, o Express retorna uma resposta JSON para
+                    o frontend. O dashboard pode então utilizar essas
+                    informações para exibir tabelas, indicadores ou gráficos.
+                </p>
+
+                <p>
+                    A vantagem dessa arquitetura é que cada tecnologia
+                    possui uma função específica: o Python cuida do
+                    Machine Learning, o Node.js e o Express cuidam da API
+                    e da comunicação, o MySQL fornece o armazenamento dos
+                    dados e o frontend cuida da visualização.
+                </p>
+
+                <p>
+                    Essa separação torna o sistema mais organizado,
+                    fácil de manter e escalável.”
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CONCLUSÃO
+        ========================== -->
+
+        <section class="documentation-section conclusion">
+
+            <div class="section-number">
+                10
+            </div>
+
+            <h2>Conclusão</h2>
+
+            <p>
+                Este módulo fornece uma integração completa entre
+                <strong>Machine Learning, backend, API e banco de dados</strong>.
+            </p>
+
+            <div class="final-flow">
+
+                <span>Dados</span>
+                <b>→</b>
+
+                <span>Node.js</span>
+                <b>→</b>
+
+                <span>Express</span>
+                <b>→</b>
+
+                <span>Python</span>
+                <b>→</b>
+
+                <span>Modelo ML</span>
+                <b>→</b>
+
+                <span>JSON</span>
+                <b>→</b>
+
+                <span>MySQL</span>
+                <b>→</b>
+
+                <span>Dashboard</span>
+
+            </div>
+
+            <p>
+                Em uma versão avançada, o valor atualmente simulado em
+                <strong>prediction</strong> pode ser substituído por uma
+                instrução real de <strong>model.predict()</strong>,
+                utilizando dados de entrada dinâmicos.
+            </p>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+        <p>
+            Documentação Técnica — Integração de Machine Learning
+        </p>
+
+        <p>
+            Python • Node.js • Express • MySQL • Dashboard
+        </p>
+
+    </footer>
+
+
+    <!-- Link para o arquivo JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+</html>
+```

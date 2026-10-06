@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+    name="description"
+    content="Technical documentation of the INFO2, INFO3 and GoMyCode prediction system using Python, Machine Learning, NumPy, Node.js and Express."
+>
+
+<title>
+    Documentation — INFO Prediction
+</title>
+
+<!-- =====================================================
+     CSS CONNECTION
+====================================================== -->
+
+<link
+    rel="stylesheet"
+    href="info-documentation.css"
+>
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     NAVIGATION
+====================================================== -->
+
+<header>
+
+<div class="nav-container">
+
+    <div class="logo">
+        🎓 INFO ML
+    </div>
+
+    <nav>
+
+        <a href="#presentation">
+            Overview
+        </a>
+
+        <a href="#python">
+            Python
+        </a>
+
+        <a href="#models">
+            Models
+        </a>
+
+        <a href="#input">
+            Data
+        </a>
+
+        <a href="#service">
+            Node.js
+        </a>
+
+        <a href="#route">
+            API
+        </a>
+
+        <a href="#server">
+            Server
+        </a>
+
+        <a href="#architecture">
+            Architecture
+        </a>
+
+        <a href="#oral">
+            Presentation
+        </a>
+
+        <a href="#conclusion">
+            Conclusion
+        </a>
+
+    </nav>
+
+</div>
+
+</header>
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+    <span class="badge">
+        Technical Documentation
+    </span>
+
+    <h1>
+
+        Prediction System
+
+        <span>
+            INFO
+        </span>
+
+    </h1>
+
+    <p>
+
+        Integration of multiple Python Machine Learning models
+        into a Node.js / Express Web application to generate
+        simultaneous predictions for INFO2, INFO3 and GoMyCode.
+
+    </p>
+
+    <a
+        href="#presentation"
+        class="hero-button"
+    >
+        Start Documentation
+    </a>
+
+</div>
+
+</section>
+
+<main>
+
+<!-- =====================================================
+     01 — OVERVIEW
+====================================================== -->
+
+<section
+    id="presentation"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    01
+</div>
+
+<h2>
+    General System Overview
+</h2>
+
+<p>
+
+    The INFO prediction system is a Web architecture that
+    integrates multiple Machine Learning models developed in
+    Python into a Node.js and Express application. The main
+    objective of this architecture is to receive a set of
+    numerical values from the Web application, transmit these
+    data to Python, and then use three different Machine
+    Learning models to simultaneously generate three
+    predictions corresponding to the <strong>INFO2</strong>,
+    <strong>INFO3</strong> and <strong>GoMyCode</strong>
+    models.
+
+    The models are previously trained and saved in
+    <strong>.pkl</strong> files. The
+    <strong>INFO2.pkl</strong> file corresponds to the first
+    model, <strong>INFO3.pkl</strong> to the second model and
+    <strong>gomycode.pkl</strong> to the third model.
+
+    The Python script <strong>info.py</strong> represents the
+    prediction engine. It first searches for the model files
+    in the same directory as the script using
+    <strong>os.path</strong>, and then loads each model using
+    the Python <strong>pickle</strong> library.
+
+    After loading the models, the script retrieves the data
+    transmitted by Node.js through <strong>sys.argv</strong>.
+    These data are sent as a JSON string. Python then uses
+    <strong>json.loads()</strong> to convert this string into
+    a Python structure, while <strong>NumPy</strong> transforms
+    the values into a two-dimensional numerical array.
+
+    This step is important because Scikit-learn models
+    generally expect a matrix containing observations and
+    features.
+
+    The program also checks that the data do not contain
+    <strong>NaN</strong> values in order to prevent errors
+    during prediction.
+
+    The three models are then used with the
+    <strong>predict()</strong> method. The result of each
+    model is converted into a floating-point number and
+    grouped into a JSON object containing
+    <strong>info2_pred</strong>,
+    <strong>info3_pred</strong> and
+    <strong>gomycode_pred</strong>.
+
+    The JSON result is sent to Node.js through
+    <strong>stdout</strong>.
+
+    On the JavaScript side, the
+    <strong>infoService.js</strong> file uses the
+    <strong>child_process</strong> module and its
+    <strong>spawn()</strong> function to launch the Python
+    script.
+
+    The values received from the frontend are converted into
+    JSON using <strong>JSON.stringify()</strong> and then
+    passed to the Python program as an argument.
+
+    Node.js then retrieves the Python standard output in the
+    <strong>output</strong> variable. This output is analyzed
+    using <strong>JSON.parse()</strong> to reconstruct the
+    JavaScript object containing the three predictions.
+
+    The <strong>infoRoute.js</strong> file then exposes an HTTP
+    <strong>POST /predict</strong> route.
+
+    This route retrieves the <strong>values</strong> property
+    from the request body, checks that it is an array, and
+    then calls <strong>runInfoPrediction()</strong>.
+
+    The result is finally returned to the frontend in a JSON
+    response containing a <strong>success</strong> property
+    and a <strong>data</strong> property.
+
+    Finally, the main server file initializes Express,
+    enables CORS, enables JSON processing with
+    <strong>express.json()</strong>, registers the router
+    with the <strong>/info</strong> prefix and starts the
+    server on port <strong>3000</strong>.
+
+    The complete architecture therefore allows the frontend
+    to send data to Node.js, Node.js to communicate with
+    Python, Python to execute several Machine Learning models,
+    and the results to be returned as JSON to the dashboard.
+
+</p>
+
+
+<div class="flow">
+
+    <div class="flow-item">
+        <span>01</span>
+        Frontend
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>02</span>
+        Express
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>03</span>
+        Node.js
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>04</span>
+        Python
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>05</span>
+        3 Models
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>06</span>
+        JSON
+    </div>
+
+    <div class="arrow">
+        →
+    </div>
+
+    <div class="flow-item">
+        <span>07</span>
+        Dashboard
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     02 — PYTHON
+====================================================== -->
+
+<section
+    id="python"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    02
+</div>
+
+<h2>
+    Python Prediction Script
+</h2>
+
+<p>
+
+    The <strong>info.py</strong> file represents the Machine
+    Learning engine of the system. Its role is to load the
+    three saved models, retrieve the data sent by Node.js,
+    prepare these data in numerical form and perform the
+    three predictions.
+
+    The script starts by importing the required libraries.
+    <strong>os</strong> is used to manage file paths,
+    <strong>pickle</strong> is used to load saved Machine
+    Learning models, <strong>json</strong> is used to exchange
+    structured data between JavaScript and Python,
+    <strong>sys</strong> is used to retrieve command-line
+    arguments sent by Node.js, and <strong>NumPy</strong> is
+    used to build the numerical array passed to the models.
+
+    The program then determines the script directory using
+    <strong>os.path.dirname(os.path.abspath(__file__))</strong>.
+
+    This method provides a reliable absolute path regardless
+    of the directory from which Python is executed.
+
+    The <strong>files</strong> dictionary then associates each
+    logical identifier with its model file.
+
+    The <strong>for</strong> loop iterates through these files,
+    builds their complete path using
+    <strong>os.path.join()</strong>, checks their existence
+    using <strong>os.path.exists()</strong>, and opens them
+    using <strong>pickle.load()</strong>.
+
+    The loaded models are stored in the
+    <strong>models</strong> dictionary.
+
+    This organization makes it possible to manage multiple
+    models within a single structure and facilitates their use
+    during the prediction phase.
+
+</p>
+
+
+<h3>
+    Library Imports
+</h3>
+
+<pre><code>import os
+import pickle
+import json
+import sys
+import numpy as np</code></pre>
+
+
+<p>
+
+    These libraries perform the different operations required
+    by the script.
+
+    <strong>os</strong> manages paths and files,
+    <strong>pickle</strong> reloads saved Machine Learning
+    models, <strong>json</strong> provides structured
+    communication with Node.js, <strong>sys</strong> retrieves
+    command-line arguments, and <strong>NumPy</strong> prepares
+    numerical data as a matrix.
+
+</p>
+
+
+<h3>
+    Determining the Directory
+</h3>
+
+<pre><code>BASE_DIR = os.path.dirname(
+    os.path.abspath(__file__)
+)</code></pre>
+
+
+<p>
+
+    This instruction retrieves the absolute path of the
+    directory containing <strong>info.py</strong>.
+
+    This ensures that the model files can be located correctly
+    even if Node.js launches Python from another directory.
+
+</p>
+
+</section>
+
+
+<!-- =====================================================
+     03 — MODELS
+====================================================== -->
+
+<section
+    id="models"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    03
+</div>
+
+<h2>
+    Loading the Three Machine Learning Models
+</h2>
+
+<p>
+
+    The system uses three different Machine Learning models.
+
+    The <strong>files</strong> dictionary contains the mapping
+    between the names used in the code and the physical model
+    files located in the Python directory.
+
+    The <strong>INFO2.pkl</strong> model is associated with the
+    <strong>info2</strong> identifier.
+
+    The <strong>INFO3.pkl</strong> model is associated with
+    the <strong>info3</strong> identifier.
+
+    The <strong>gomycode.pkl</strong> model is associated with
+    the <strong>gomycode</strong> identifier.
+
+    The loop iterates through each element of the dictionary.
+
+    For each model, the program builds its complete path and
+    first checks whether the file exists.
+
+    If the file is missing, the program raises an exception
+    indicating the exact missing path.
+
+    If the file exists, it is opened in binary mode using
+    <strong>open(..., "rb")</strong>, and
+    <strong>pickle.load()</strong> reloads the Machine
+    Learning object.
+
+    The loaded model is then stored in
+    <strong>models[key]</strong>.
+
+    At the end of this loop, all three models are available
+    in memory and can be used independently to generate
+    predictions.
+
+</p>
+
+
+<pre><code>models = {}
+
+files = {
+    "info2": "INFO2.pkl",
+    "info3": "INFO3.pkl",
+    "gomycode": "gomycode.pkl"
+}</code></pre>
+
+
+<h3>
+    Loading the Models
+</h3>
+
+<pre><code>for key, file in files.items():
+
+    path = os.path.join(
+        BASE_DIR,
+        file
+    )
+
+    if not os.path.exists(path):
+        raise Exception(
+            f"Missing model file: {path}"
+        )
+
+    with open(path, "rb") as f:
+        models[key] = pickle.load(f)</code></pre>
+
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>
+                Identifier
+            </th>
+
+            <th>
+                File
+            </th>
+
+            <th>
+                Role
+            </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+
+            <td>
+                info2
+            </td>
+
+            <td>
+                INFO2.pkl
+            </td>
+
+            <td>
+                INFO2 prediction model
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                info3
+            </td>
+
+            <td>
+                INFO3.pkl
+            </td>
+
+            <td>
+                INFO3 prediction model
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                gomycode
+            </td>
+
+            <td>
+                gomycode.pkl
+            </td>
+
+            <td>
+                GoMyCode prediction model
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+</section>
+
+
+<!-- =====================================================
+     04 — INPUT
+====================================================== -->
+
+<section
+    id="input"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    04
+</div>
+
+<h2>
+    Data Reception and Preparation
+</h2>
+
+<p>
+
+    After loading the models, the script checks whether data
+    have been transmitted by Node.js.
+
+    The condition <strong>if len(sys.argv) &lt; 2</strong>
+    checks whether an additional argument is available.
+
+    If no argument is available, the program stops its
+    execution and indicates that the data coming from Node.js
+    are missing.
+
+    When data are available, they are retrieved using
+    <strong>sys.argv[1]</strong>.
+
+    Node.js sends a JavaScript array transformed into a JSON
+    string.
+
+    Python therefore uses <strong>json.loads()</strong> to
+    convert this JSON string into a Python structure.
+
+    Then, <strong>np.array([...], dtype=float)</strong>
+    converts the values into floating-point numbers and adds
+    an additional dimension in order to obtain a two-dimensional
+    matrix.
+
+    This step is particularly important for Scikit-learn,
+    because Machine Learning models generally expect an input
+    in the form of a matrix
+    <strong>[number_of_observations, number_of_features]</strong>.
+
+    The program then performs a validation using
+    <strong>np.isnan(input_data).any()</strong>.
+
+    This instruction detects invalid or missing numerical
+    values.
+
+    If a <strong>NaN</strong> value is detected, an exception
+    is raised to prevent the model from making a prediction
+    using incorrect data.
+
+</p>
+
+
+<pre><code>if len(sys.argv) &lt; 2:
+    raise Exception(
+        "Missing input data from Node.js"
+    )
+
+input_data = np.array(
+    [json.loads(sys.argv[1])],
+    dtype=float
+)
+
+if np.isnan(input_data).any():
+    raise Exception(
+        f"Invalid input received: {input_data}"
+    )</code></pre>
+
+
+<div class="highlight">
+
+    <strong>
+        Preparation:
+    </strong>
+
+    JSON → Python → NumPy → 2D Array → ML Models
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     05 — PREDICTIONS
+====================================================== -->
+
+<section
+    class="documentation-section"
+>
+
+<div class="section-number">
+    05
+</div>
+
+<h2>
+    Execution of the Three Predictions
+</h2>
+
+<p>
+
+    Once the data have been prepared, the program executes the
+    three Machine Learning models.
+
+    The <strong>result</strong> dictionary contains three
+    properties.
+
+    The first property, <strong>info2_pred</strong>, calls the
+    model stored in <strong>models["info2"]</strong> using the
+    <strong>predict(input_data)</strong> method.
+
+    The second property uses
+    <strong>models["info3"]</strong> and produces
+    <strong>info3_pred</strong>.
+
+    Finally, the third property uses
+    <strong>models["gomycode"]</strong> and produces
+    <strong>gomycode_pred</strong>.
+
+    The notation <strong>[0]</strong> retrieves the first
+    prediction returned by the model, since a Scikit-learn
+    prediction is generally returned as an array.
+
+    The <strong>float()</strong> function then converts the
+    result into a standard Python number to facilitate JSON
+    serialization.
+
+    The program is therefore capable of producing three
+    different results from the same set of input variables.
+
+    This allows the dashboard to compare predictions from the
+    different models and display them simultaneously to the
+    user.
+
+</p>
+
+
+<pre><code>result = {
+
+    "info2_pred":
+        float(
+            models["info2"]
+            .predict(input_data)[0]
+        ),
+
+    "info3_pred":
+        float(
+            models["info3"]
+            .predict(input_data)[0]
+        ),
+
+    "gomycode_pred":
+        float(
+            models["gomycode"]
+            .predict(input_data)[0]
+        )
+}</code></pre>
+
+</section>
+
+
+<!-- =====================================================
+     06 — JSON
+====================================================== -->
+
+<section
+    class="documentation-section"
+>
+
+<div class="section-number">
+    06
+</div>
+
+<h2>
+    JSON Result and Error Handling
+</h2>
+
+<p>
+
+    After executing the models, the program also displays
+    monitoring information in <strong>stderr</strong>.
+
+    This separation is important because debug messages are
+    not sent to the standard output used for the JSON response.
+
+    The program first writes a title indicating the beginning
+    of the results, then iterates through the
+    <strong>result</strong> dictionary and displays each
+    prediction with four decimal places.
+
+    The response intended for Node.js is then generated using
+    <strong>json.dumps(result)</strong> and displayed using
+    <strong>print()</strong>.
+
+    Node.js can therefore directly retrieve the JSON string.
+
+    The prediction process is placed inside a
+    <strong>try</strong> block.
+
+    If an error occurs while executing a model, the program
+    enters the <strong>except</strong> block.
+
+    It then creates a JSON object containing an
+    <strong>error</strong> property with the exception message.
+
+    Finally, <strong>sys.exit(1)</strong> indicates to the
+    Node.js process that the Python program terminated with
+    an error.
+
+</p>
+
+
+<pre><code>print(json.dumps(result))</code></pre>
+
+
+<div class="success-box">
+
+    ✔ Three models loaded
+
+    <br>
+
+    ✔ Data validated
+
+    <br>
+
+    ✔ NumPy array created
+
+    <br>
+
+    ✔ Three predictions executed
+
+    <br>
+
+    ✔ Results converted to JSON
+
+    <br>
+
+    ✔ Errors handled
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     07 — NODE SERVICE
+====================================================== -->
+
+<section
+    id="service"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    07
+</div>
+
+<h2>
+    Node.js Service and Communication with Python
+</h2>
+
+<p>
+
+    The <strong>infoService.js</strong> file acts as the
+    intermediary between the Node.js application and the
+    Python script.
+
+    Its role is to receive the values coming from the Express
+    route, launch the Python program and retrieve the prediction
+    results.
+
+    The <strong>child_process</strong> module provides the
+    <strong>spawn()</strong> function, which allows Node.js to
+    create an external process.
+
+    The <strong>path</strong> module is used to build the path
+    to <strong>info.py</strong>.
+
+    The <strong>runInfoPrediction(values)</strong> function
+    returns a Promise, allowing the Express route to use
+    <strong>await</strong> and wait until the Python process
+    has completed.
+
+    The received values are converted into a JSON string using
+    <strong>JSON.stringify(values)</strong>.
+
+    This step makes it possible to transmit a complete
+    JavaScript array to Python as a single argument.
+
+    The <strong>spawn()</strong> function then launches Python
+    with the script path and the JSON string.
+
+    Node.js listens to <strong>stdout</strong> to retrieve the
+    response generated by Python.
+
+    The received data are progressively added to the
+    <strong>output</strong> variable.
+
+    At the same time, <strong>stderr</strong> retrieves
+    possible error messages or debug information.
+
+    When the Python process finishes, the
+    <strong>close</strong> event provides the exit code.
+
+    If this code is different from zero, the service considers
+    that Python encountered an error and rejects the Promise.
+
+    If the execution is successful, Node.js uses
+    <strong>JSON.parse(output)</strong> to transform the Python
+    JSON result into a JavaScript object.
+
+    The resulting object is then passed to the Express route
+    using <strong>resolve(result)</strong>.
+
+</p>
+
+
+<h3>
+    Converting Data to JSON
+</h3>
+
+<pre><code>const inputJson =
+    JSON.stringify(values);</code></pre>
+
+
+<p>
+
+    <strong>JSON.stringify()</strong> transforms the JavaScript
+    array into a JSON string.
+
+    This string can then be passed as an argument to the
+    Python program.
+
+</p>
+
+
+<h3>
+    Launching Python
+</h3>
+
+<pre><code>const py = spawn("python", [
+    pyPath,
+    inputJson
+]);</code></pre>
+
+
+<p>
+
+    This instruction launches the Python program and sends it
+    the input data.
+
+    Node.js therefore acts as a bridge between the Web API
+    and the Machine Learning engine.
+
+</p>
+
+
+<h3>
+    Retrieving stdout
+</h3>
+
+<pre><code>py.stdout.on("data", (data) => {
+    output += data.toString();
+});</code></pre>
+
+
+<p>
+
+    The standard output of the Python program is retrieved
+    progressively and stored in <strong>output</strong>.
+
+    This variable ultimately contains the JSON generated by
+    <strong>info.py</strong>.
+
+</p>
+
+
+<h3>
+    Parsing the JSON
+</h3>
+
+<pre><code>const result = JSON.parse(output);
+
+resolve(result);</code></pre>
+
+
+<p>
+
+    <strong>JSON.parse()</strong> transforms the string
+    produced by Python into a JavaScript object.
+
+    Node.js can then pass this object to Express.
+
+</p>
+
+</section>
+
+
+<!-- =====================================================
+     08 — ROUTE
+====================================================== -->
+
+<section
+    id="route"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    08
+</div>
+
+<h2>
+    Express Prediction Route
+</h2>
+
+<p>
+
+    The <strong>infoRoute.js</strong> file defines the endpoint
+    used by the frontend to request a prediction.
+
+    Express is imported and a router is created using
+    <strong>express.Router()</strong>.
+
+    The <strong>runInfoPrediction()</strong> service is then
+    imported so that the route can execute the Python model.
+
+    The route uses the HTTP <strong>POST</strong> method with
+    the <strong>/predict</strong> path.
+
+    When a request arrives, the program retrieves
+    <strong>values</strong> from <strong>req.body</strong>.
+
+    An initial validation checks that this variable exists
+    and is an array using
+    <strong>Array.isArray(values)</strong>.
+
+    If the data are invalid, the API immediately returns a
+    <strong>400</strong> status with the message
+    <strong>Invalid input</strong>.
+
+    When the data are valid, the route calls
+    <strong>await runInfoPrediction(values)</strong>.
+
+    The server then waits for the Python process to finish
+    and retrieves the three predictions.
+
+    Express then returns a JSON response containing
+    <strong>success: true</strong> and
+    <strong>data: result</strong>.
+
+    If an error occurs at any stage, the
+    <strong>catch</strong> block handles the error and returns
+    an HTTP <strong>500</strong> response.
+
+    This route therefore represents the communication point
+    between the frontend and the Machine Learning system.
+
+</p>
+
+
+<h3>
+    Endpoint
+</h3>
+
+<div class="endpoint">
+    POST /info/predict
+</div>
+
+
+<h3>
+    Data Validation
+</h3>
+
+<pre><code>const { values } = req.body;
+
+if (!values || !Array.isArray(values)) {
+
+    return res.status(400).json({
+        error: "Invalid input"
+    });
+
+}</code></pre>
+
+
+<h3>
+    Calling the Python Service
+</h3>
+
+<pre><code>const result =
+    await runInfoPrediction(values);</code></pre>
+
+
+<h3>
+    Response Sent to the Frontend
+</h3>
+
+<pre><code>res.json({
+    success: true,
+    data: result
+});</code></pre>
+
+
+<p>
+
+    The frontend therefore receives a JSON structure
+    containing the results of the three models.
+
+    It can then use this information to display KPI cards,
+    charts, comparison tables or other visualizations in
+    the dashboard.
+
+</p>
+
+</section>
+
+
+<!-- =====================================================
+     09 — SERVER
+====================================================== -->
+
+<section
+    id="server"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    09
+</div>
+
+<h2>
+    Main Express Server
+</h2>
+
+<p>
+
+    The main file initializes the Node.js Web application.
+
+    The <strong>Express</strong> framework is imported and
+    an application instance is created using
+    <strong>express()</strong>.
+
+    The <strong>cors()</strong> middleware is enabled to
+    allow communication between the frontend and backend
+    when they are running on different origins.
+
+    The <strong>express.json()</strong> middleware allows the
+    server to process requests containing JSON data in their
+    body.
+
+    The server uses port <strong>3000</strong>.
+
+    The <strong>infoRoute</strong> router is then registered
+    using <strong>app.use("/info", ...)</strong>.
+
+    This means that all routes defined in the router will
+    be accessible using the <strong>/info</strong> prefix.
+
+    Since the router contains a
+    <strong>POST /predict</strong> route, the final endpoint
+    becomes <strong>POST /info/predict</strong>.
+
+    Finally, <strong>app.listen()</strong> starts the server
+    and displays a message in the console.
+
+    The backend is therefore accessible to the frontend and
+    can receive the data required for the predictions.
+
+</p>
+
+
+<pre><code>const express = require("express");
+const cors = require("cors");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+const PORT = 3000;
+
+app.use(
+    "/info",
+    require("./Routes/infoRoute")
+);
+
+app.listen(PORT, () => {
+
+    console.log(
+        `Server running on http://localhost:${PORT}`
+    );
+
+});</code></pre>
+
+</section>
+
+
+<!-- =====================================================
+     10 — ARCHITECTURE
+====================================================== -->
+
+<section
+    id="architecture"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    10
+</div>
+
+<h2>
+    Complete Architecture
+</h2>
+
+<p>
+
+    The complete architecture of the system operates through
+    a clearly separated communication chain.
+
+    Everything begins with the frontend or dashboard, which
+    prepares the required variables and sends them to the
+    Express API using an HTTP POST request.
+
+    Express receives this request at
+    <strong>/info/predict</strong> and retrieves the
+    <strong>values</strong> array from
+    <strong>req.body</strong>.
+
+    After validation, Express calls the
+    <strong>runInfoPrediction()</strong> service.
+
+    The Node.js service transforms the values into JSON using
+    <strong>JSON.stringify()</strong> and then uses
+    <strong>spawn()</strong> to launch the
+    <strong>info.py</strong> program.
+
+    Python receives the values through
+    <strong>sys.argv</strong>.
+
+    The script checks that the data are present, converts them
+    from JSON using <strong>json.loads()</strong>, and creates
+    a two-dimensional NumPy matrix.
+
+    The three models
+    <strong>INFO2.pkl</strong>,
+    <strong>INFO3.pkl</strong> and
+    <strong>gomycode.pkl</strong>
+    are loaded when the script starts using
+    <strong>pickle.load()</strong>.
+
+    Each model then receives the same input matrix and uses
+    <strong>predict()</strong> to calculate its own prediction.
+
+    The three results are grouped into a JSON object.
+
+    Python writes this result to <strong>stdout</strong>.
+
+    Node.js retrieves the output, uses
+    <strong>JSON.parse()</strong> to convert the JSON into a
+    JavaScript object, and then returns this object to the
+    Express router.
+
+    Express finally builds the HTTP response containing
+    <strong>success: true</strong> and
+    <strong>data</strong>.
+
+    The frontend can then use the three predictions in its
+    interface.
+
+    This architecture has the advantage of clearly separating
+    responsibilities:
+
+    the frontend handles presentation,
+    Express manages the API,
+    Node.js orchestrates communication,
+    Python executes Machine Learning,
+    NumPy prepares the data,
+    and PKL files contain the trained models.
+
+</p>
+
+
+<div class="architecture">
+
+    <div class="architecture-box frontend">
+
+        <strong>
+            Frontend
+        </strong>
+
+        <small>
+            Dashboard
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ POST
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            Express
+        </strong>
+
+        <small>
+            REST API
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            /info/predict
+        </strong>
+
+        <small>
+            API Route
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            runInfoPrediction()
+        </strong>
+
+        <small>
+            Node.js Service
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ spawn()
+    </div>
+
+    <div class="architecture-box python">
+
+        <strong>
+            info.py
+        </strong>
+
+        <small>
+            Python ML
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            NumPy
+        </strong>
+
+        <small>
+            2D Array
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            INFO2.pkl
+        </strong>
+
+        <small>
+            ML Model
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            INFO3.pkl
+        </strong>
+
+        <small>
+            ML Model
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            gomycode.pkl
+        </strong>
+
+        <small>
+            ML Model
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ predict()
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            JSON
+        </strong>
+
+        <small>
+            3 Predictions
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓ stdout
+    </div>
+
+    <div class="architecture-box">
+
+        <strong>
+            JSON.parse()
+        </strong>
+
+        <small>
+            JS Object
+        </small>
+
+    </div>
+
+    <div class="architecture-arrow">
+        ↓
+    </div>
+
+    <div class="architecture-box frontend">
+
+        <strong>
+            Dashboard
+        </strong>
+
+        <small>
+            Visualization
+        </small>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     11 — TECHNOLOGIES
+====================================================== -->
+
+<section class="documentation-section">
+
+<div class="section-number">
+    11
+</div>
+
+<h2>
+    Role of the Technologies
+</h2>
+
+<p>
+
+    Each technology used in this architecture has a specific
+    role.
+
+    Python provides the execution environment for Machine
+    Learning.
+
+    <strong>Pickle</strong> is used to save and reload trained
+    models from PKL files.
+
+    <strong>NumPy</strong> prepares numerical data in a
+    structure compatible with Scikit-learn.
+
+    <strong>JSON</strong> provides the data exchange format
+    between Node.js and Python.
+
+    The <strong>sys</strong> module allows parameters to be
+    passed to the Python script.
+
+    <strong>Node.js</strong> provides the JavaScript backend
+    and orchestrates the system.
+
+    <strong>child_process</strong> provides
+    <strong>spawn()</strong>, which allows Python to be
+    launched.
+
+    <strong>Express</strong> is used to create the REST API
+    and manage HTTP routes.
+
+    <strong>CORS</strong> allows communication between the
+    frontend and backend.
+
+    Finally, the files <strong>INFO2.pkl</strong>,
+    <strong>INFO3.pkl</strong> and
+    <strong>gomycode.pkl</strong> contain the already-trained
+    Machine Learning models.
+
+    The combination of these technologies makes it possible
+    to transform a Data Science model into a service that can
+    be used by a Web application.
+
+</p>
+
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>
+                Technology
+            </th>
+
+            <th>
+                Role
+            </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>Python</td>
+            <td>Machine Learning execution</td>
+        </tr>
+
+        <tr>
+            <td>Pickle</td>
+            <td>Loading PKL models</td>
+        </tr>
+
+        <tr>
+            <td>NumPy</td>
+            <td>Data preparation</td>
+        </tr>
+
+        <tr>
+            <td>JSON</td>
+            <td>Python / Node.js data exchange</td>
+        </tr>
+
+        <tr>
+            <td>Node.js</td>
+            <td>JavaScript backend</td>
+        </tr>
+
+        <tr>
+            <td>child_process</td>
+            <td>Communication with Python</td>
+        </tr>
+
+        <tr>
+            <td>spawn()</td>
+            <td>Launching the Python script</td>
+        </tr>
+
+        <tr>
+            <td>Express</td>
+            <td>REST API creation</td>
+        </tr>
+
+        <tr>
+            <td>CORS</td>
+            <td>Frontend / backend communication</td>
+        </tr>
+
+        <tr>
+            <td>INFO2.pkl</td>
+            <td>INFO2 prediction model</td>
+        </tr>
+
+        <tr>
+            <td>INFO3.pkl</td>
+            <td>INFO3 prediction model</td>
+        </tr>
+
+        <tr>
+            <td>gomycode.pkl</td>
+            <td>GoMyCode prediction model</td>
+        </tr>
+
+    </tbody>
+
+</table>
+
+</section>
+
+
+<!-- =====================================================
+     12 — API EXAMPLE
+====================================================== -->
+
+<section class="documentation-section">
+
+<div class="section-number">
+    12
+</div>
+
+<h2>
+    API Communication Example
+</h2>
+
+<p>
+
+    To use the system, the frontend must send a POST request
+    to <strong>/info/predict</strong>.
+
+    The request body must contain a
+    <strong>values</strong> property containing a numerical
+    array.
+
+    For example, a request can send several variables as an
+    array.
+
+    Express retrieves this array through
+    <strong>req.body</strong>, validates it, and then passes
+    it to the Node.js service.
+
+    The service then converts the array into JSON and sends
+    it to the Python program.
+
+    Python converts the JSON into a NumPy array and passes
+    this array to the three models.
+
+    The three results are finally grouped into a JSON response.
+
+</p>
+
+
+<div class="endpoint">
+    POST /info/predict
+</div>
+
+
+<h3>
+    Example of Sent Data
+</h3>
+
+<pre><code>{
+    "values": [
+        10,
+        20
+    ]
+}</code></pre>
+
+
+<h3>
+    Example Response
+</h3>
+
+<pre><code>{
+    "success": true,
+    "data": {
+        "info2_pred": 85.42,
+        "info3_pred": 88.17,
+        "gomycode_pred": 91.35
+    }
+}</code></pre>
+
+
+<p>
+
+    The numerical values shown in this example are for
+    illustration purposes only.
+
+    Actual results depend on the models contained in the PKL
+    files and the values transmitted to the system.
+
+</p>
+
+</section>
+
+
+<!-- =====================================================
+     13 — ORAL PRESENTATION
+====================================================== -->
+
+<section
+    id="oral"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    13
+</div>
+
+<h2>
+    Explanation for the Presentation
+</h2>
+
+
+<div class="presentation-script">
+
+    <h3>
+        🎤 Example of an Oral Explanation
+    </h3>
+
+
+    <p>
+
+        "In this part of my project, I integrated several
+        Machine Learning models developed in Python into a
+        Web application using Node.js and Express."
+
+    </p>
+
+
+    <p>
+
+        "I have three different models: the
+        <strong>INFO2</strong> model, the
+        <strong>INFO3</strong> model and the
+        <strong>GoMyCode</strong> model.
+
+        These models are saved in
+        <strong>.pkl</strong> files so that they can be
+        directly reloaded during execution."
+
+    </p>
+
+
+    <p>
+
+        "The <strong>info.py</strong> file is the prediction
+        engine.
+
+        It loads the three models using the
+        <strong>pickle</strong> library, retrieves the data
+        sent by Node.js and transforms them into a
+        two-dimensional NumPy array."
+
+    </p>
+
+
+    <p>
+
+        "Then, each model uses the
+        <strong>predict()</strong> method to generate its
+        own prediction.
+
+        The three results are grouped into a JSON object
+        containing <strong>info2_pred</strong>,
+        <strong>info3_pred</strong> and
+        <strong>gomycode_pred</strong>."
+
+    </p>
+
+
+    <p>
+
+        "To communicate between Node.js and Python, I use the
+        <strong>child_process</strong> module.
+
+        The <strong>spawn()</strong> function allows me to
+        launch the Python script from my Node.js backend."
+
+    </p>
+
+
+    <p>
+
+        "The data are converted into JSON using
+        <strong>JSON.stringify()</strong> before being sent
+        to Python.
+
+        Python then retrieves these data using
+        <strong>sys.argv</strong> and reconstructs them using
+        <strong>json.loads()</strong>."
+
+    </p>
+
+
+    <p>
+
+        "The result produced by Python is retrieved by
+        Node.js through <strong>stdout</strong>.
+
+        Node.js then uses <strong>JSON.parse()</strong> to
+        transform the Python response into a JavaScript
+        object."
+
+    </p>
+
+
+    <p>
+
+        "Express then exposes a REST API through the
+        <strong>POST /info/predict</strong> route.
+
+        The frontend can send the variables to this route
+        and retrieve the three predictions."
+
+    </p>
+
+
+    <p>
+
+        "The main advantage of this architecture is the
+        separation of responsibilities.
+
+        Python is used for Machine Learning, NumPy for data
+        preparation, Pickle for the models, Node.js for
+        orchestration, Express for the API, and the frontend
+        for displaying the results."
+
+    </p>
+
+
+    <p>
+
+        "This architecture also makes it possible to easily
+        evolve the system by adding other models, additional
+        variables or new features to the dashboard."
+
+    </p>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     14 — CONCLUSION
+====================================================== -->
+
+<section
+    id="conclusion"
+    class="documentation-section"
+>
+
+<div class="section-number">
+    14
+</div>
+
+<h2>
+    Conclusion
+</h2>
+
+<p>
+
+    The INFO system represents a complete integration between
+    Machine Learning and Web development.
+
+    Three trained models are saved in the
+    <strong>INFO2.pkl</strong>,
+    <strong>INFO3.pkl</strong> and
+    <strong>gomycode.pkl</strong> files.
+
+    The Python script <strong>info.py</strong> loads these
+    models using Pickle, retrieves the data sent by Node.js,
+    transforms them into a NumPy array and executes the three
+    predictions using the <strong>predict()</strong> method.
+
+    The results are then grouped into a JSON object and
+    transmitted to Node.js through <strong>stdout</strong>.
+
+    The <strong>infoService.js</strong> service uses
+    <strong>child_process</strong> and <strong>spawn()</strong>
+    to launch Python and retrieve the results.
+
+    Express then provides the REST API through the
+    <strong>POST /info/predict</strong> endpoint.
+
+    The frontend can therefore communicate only with the API
+    without needing to execute Python directly.
+
+    This architecture makes it possible to clearly separate
+    the different responsibilities while maintaining simple
+    communication based on JSON.
+
+    The overall operation can be summarized by the following
+    chain:
+
+    <strong>
+        Data → Express → Node.js → spawn() → Python →
+        NumPy → INFO2/INFO3/GoMyCode → predict() →
+        JSON → Node.js → Express → Dashboard
+    </strong>.
+
+    This organization makes the system modular, understandable
+    and scalable, and allows multiple Data Science models to
+    be integrated into a Web application designed for analysis
+    and decision-making.
+
+</p>
+
+
+<div class="final-flow">
+
+    <span>
+        Data
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Express
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Node.js
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        spawn()
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Python
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        3 Models
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Predict
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        JSON
+    </span>
+
+    <b>
+        →
+    </b>
+
+    <span>
+        Dashboard
+    </span>
+
+</div>
+
+
+<div class="success-box">
+
+    ✔ INFO2.pkl loaded
+
+    <br>
+
+    ✔ INFO3.pkl loaded
+
+    <br>
+
+    ✔ gomycode.pkl loaded
+
+    <br>
+
+    ✔ Data validated
+
+    <br>
+
+    ✔ 2D NumPy array
+
+    <br>
+
+    ✔ Three predictions executed
+
+    <br>
+
+    ✔ Node.js → Python communication
+
+    <br>
+
+    ✔ Python execution with spawn()
+
+    <br>
+
+    ✔ JSON result
+
+    <br>
+
+    ✔ Express REST API
+
+    <br>
+
+    ✔ POST /info/predict endpoint
+
+    <br>
+
+    ✔ Dashboard integration
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+<p>
+    Technical Documentation — INFO Prediction
+</p>
+
+<p>
+    Python • Machine Learning • Pickle • NumPy •
+    Node.js • Express • JSON
+</p>
+
+</footer>
+
+</body>
+
+</html>

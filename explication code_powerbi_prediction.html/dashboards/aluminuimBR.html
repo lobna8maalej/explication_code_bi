@@ -1,0 +1,2311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Documentação técnica do sistema de previsão de Machine Learning utilizando XGBoost, Python, NumPy, Node.js e Express."
+    >
+
+    <title>
+        Documentação — Previsão XGBoost
+    </title>
+
+    <!-- =====================================================
+         CSS LINK
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="aluminuim.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVEGAÇÃO
+====================================================== -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <div class="logo">
+            🤖 XGBoost ML
+        </div>
+
+        <nav>
+
+            <a href="#presentation">
+                Visão geral
+            </a>
+
+            <a href="#imports">
+                Bibliotecas
+            </a>
+
+            <a href="#model">
+                Modelo
+            </a>
+
+            <a href="#training">
+                Treinamento
+            </a>
+
+            <a href="#prediction">
+                Previsão
+            </a>
+
+            <a href="#service">
+                Node.js
+            </a>
+
+            <a href="#route">
+                API
+            </a>
+
+            <a href="#server">
+                Servidor
+            </a>
+
+            <a href="#architecture">
+                Arquitetura
+            </a>
+
+            <a href="#oral">
+                Apresentação
+            </a>
+
+            <a href="#conclusion">
+                Conclusão
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="badge">
+            Documentação técnica
+        </span>
+
+        <h1>
+
+            Sistema de previsão
+
+            <span>
+                XGBoost
+            </span>
+
+        </h1>
+
+        <p>
+
+            Integração de um modelo de Machine Learning
+            XGBoost em uma aplicação Web utilizando
+            Python, NumPy, Node.js e Express.
+
+        </p>
+
+        <a
+            href="#presentation"
+            class="hero-button"
+        >
+
+            Começar a documentação
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     01 — VISÃO GERAL
+====================================================== -->
+
+<section
+    class="documentation-section"
+    id="presentation"
+>
+
+    <div class="section-number">
+        01
+    </div>
+
+    <h2>
+        Visão geral do sistema
+    </h2>
+
+    <p>
+
+        O sistema apresentado nesta documentação fornece
+        uma arquitetura completa para integrar um modelo de
+        Machine Learning desenvolvido com Python e XGBoost
+        em uma aplicação Web baseada em Node.js e Express.
+        O principal objetivo é receber um conjunto de
+        características numéricas do frontend, transmitir
+        esses dados para o programa Python, prepará-los
+        corretamente e, posteriormente, utilizar um modelo
+        XGBoost para calcular uma previsão, bem como um nível
+        de confiança associado. O sistema utiliza um arquivo
+        <strong>model.pkl</strong> para armazenar o modelo de
+        Machine Learning. Quando esse arquivo ainda não existe,
+        o programa Python cria automaticamente um conjunto de
+        dados sintéticos utilizando a função
+        <strong>make_classification()</strong>, divide os dados
+        em dados de treinamento e teste utilizando
+        <strong>train_test_split()</strong>, cria um modelo
+        <strong>XGBClassifier</strong>, treina o modelo por meio
+        de <strong>fit()</strong> e posteriormente salva o
+        modelo no arquivo <strong>model.pkl</strong> utilizando
+        <strong>pickle</strong>. Quando o arquivo já existe,
+        o programa não treina novamente o modelo e passa
+        diretamente para a etapa de previsão. Em seguida,
+        carrega novamente o modelo utilizando
+        <strong>pickle.load()</strong>, lê os dados JSON
+        transmitidos pelo Node.js por meio de
+        <strong>stdin</strong>, verifica a presença do campo
+        <strong>features</strong>, verifica se ele é uma lista
+        e confirma que essa lista contém exatamente
+        <strong>20 features</strong>. Os valores são então
+        convertidos em números de ponto flutuante e colocados
+        em um array NumPy bidimensional. O modelo XGBoost utiliza
+        então <strong>predict_proba()</strong> para calcular as
+        probabilidades associadas às três classes. A função
+        <strong>np.argmax()</strong> seleciona a classe com a
+        maior probabilidade, enquanto <strong>np.max()</strong>
+        obtém a probabilidade máxima para calcular a confiança
+        do modelo. O Python retorna então um objeto JSON que
+        contém a previsão, a confiança e a porcentagem de
+        confiança. No lado do Node.js, o módulo
+        <strong>child_process</strong> e a função
+        <strong>spawn()</strong> são utilizados para iniciar
+        o script Python como um processo externo. O Node.js
+        escreve os dados JSON no <strong>stdin</strong> do
+        processo Python e recupera o resultado por meio de
+        <strong>stdout</strong>. O serviço JavaScript converte
+        posteriormente a resposta JSON em um objeto JavaScript
+        utilizando <strong>JSON.parse()</strong>. Finalmente,
+        o Express disponibiliza uma rota HTTP
+        <strong>POST /predict</strong> que recebe as features
+        do frontend, chama o serviço de previsão e retorna
+        diretamente o resultado ao cliente. O servidor Express
+        também habilita CORS para permitir solicitações
+        provenientes do frontend executado em
+        <strong>http://localhost:5173</strong> e utiliza
+        <strong>express.json()</strong> para analisar
+        automaticamente as solicitações JSON. Essa arquitetura
+        completa separa claramente o frontend, a API Express,
+        o serviço Node.js e o mecanismo de Machine Learning
+        baseado em Python.
+
+    </p>
+
+
+    <div class="flow">
+
+        <div class="flow-item">
+            <span>01</span>
+            Frontend
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>02</span>
+            Express
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>03</span>
+            Serviço Node.js
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>04</span>
+            stdin
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>05</span>
+            Python
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>06</span>
+            XGBoost
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>07</span>
+            JSON
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="flow-item">
+            <span>08</span>
+            Dashboard
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     02 — BIBLIOTECAS
+====================================================== -->
+
+<section
+    class="documentation-section"
+    id="imports"
+>
+
+    <div class="section-number">
+        02
+    </div>
+
+    <h2>
+        Importação das bibliotecas Python
+    </h2>
+
+    <p>
+
+        O script Python começa importando várias
+        bibliotecas necessárias para o funcionamento do
+        sistema. <strong>sys</strong> fornece acesso aos
+        fluxos de entrada e saída do processo Python,
+        incluindo <strong>stdin</strong> e
+        <strong>stderr</strong>. <strong>json</strong> é
+        utilizado para ler os dados JSON recebidos do
+        Node.js e gerar respostas JSON.
+        <strong>pickle</strong> é utilizado para salvar e
+        carregar novamente o modelo de Machine Learning.
+        <strong>NumPy</strong> converte os valores
+        recebidos em um array numérico compatível com o
+        modelo. <strong>os</strong> é utilizado para
+        gerenciar os caminhos dos arquivos e verificar se
+        <strong>model.pkl</strong> existe.
+        <strong>traceback</strong> é utilizado para obter
+        informações detalhadas quando ocorre uma exceção.
+        <strong>xgboost</strong> fornece o
+        <strong>XGBClassifier</strong>, o modelo de
+        classificação utilizado nesta aplicação.
+        Finalmente, <strong>train_test_split</strong> é
+        utilizado para dividir os dados de treinamento e
+        teste, enquanto <strong>make_classification</strong>
+        é utilizado para gerar um conjunto de dados sintético
+        para o treinamento inicial do modelo.
+
+    </p>
+
+
+<pre><code>import sys
+import json
+import pickle
+import numpy as np
+import os
+import traceback
+
+import xgboost as xgb
+
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_classification</code></pre>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Biblioteca
+                </th>
+
+                <th>
+                    Função
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>sys</td>
+                <td>Gerenciamento da entrada e saída do processo Python</td>
+            </tr>
+
+            <tr>
+                <td>json</td>
+                <td>Comunicação de dados no formato JSON</td>
+            </tr>
+
+            <tr>
+                <td>pickle</td>
+                <td>Salvamento e carregamento do modelo</td>
+            </tr>
+
+            <tr>
+                <td>NumPy</td>
+                <td>Preparação de dados numéricos</td>
+            </tr>
+
+            <tr>
+                <td>os</td>
+                <td>Gerenciamento de caminhos e arquivos</td>
+            </tr>
+
+            <tr>
+                <td>traceback</td>
+                <td>Visualização detalhada de erros</td>
+            </tr>
+
+            <tr>
+                <td>XGBoost</td>
+                <td>Algoritmo de classificação de Machine Learning</td>
+            </tr>
+
+            <tr>
+                <td>Scikit-learn</td>
+                <td>Preparação e divisão dos dados</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- =====================================================
+     03 — CAMINHO DO MODELO
+====================================================== -->
+
+<section
+    class="documentation-section"
+    id="model"
+>
+
+    <div class="section-number">
+        03
+    </div>
+
+    <h2>
+        Determinação do caminho do modelo
+    </h2>
+
+    <p>
+
+        O programa determina primeiro o diretório onde o
+        script Python está localizado. A variável
+        <strong>BASE_DIR</strong> utiliza
+        <strong>os.path.abspath(__file__)</strong> para obter
+        o caminho absoluto do arquivo atual e, posteriormente,
+        <strong>os.path.dirname()</strong> obtém seu diretório.
+        O caminho completo do modelo é construído utilizando
+        <strong>os.path.join()</strong>. Esse método é importante
+        porque evita depender do diretório de trabalho atual
+        a partir do qual o Node.js inicia o processo Python.
+        Portanto, o programa pode localizar corretamente
+        <strong>model.pkl</strong> mesmo que o servidor Node.js
+        seja executado a partir de outra pasta.
+
+    </p>
+
+
+<pre><code>BASE_DIR = os.path.dirname(
+    os.path.abspath(__file__)
+)
+
+MODEL_PATH = os.path.join(
+    BASE_DIR,
+    "model.pkl"
+)</code></pre>
+
+
+    <div class="highlight">
+
+        <strong>
+            BASE_DIR
+        </strong>
+
+        → Diretório do script Python
+
+        <br><br>
+
+        <strong>
+            MODEL_PATH
+        </strong>
+
+        → Caminho completo para model.pkl
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     04 — CRIAÇÃO DO MODELO
+====================================================== -->
+
+<section
+    class="documentation-section"
+    id="training"
+>
+
+    <div class="section-number">
+        04
+    </div>
+
+    <h2>
+        Criação automática do modelo
+    </h2>
+
+    <p>
+
+        Uma característica importante deste sistema é sua
+        capacidade de criar automaticamente o modelo quando
+        ele ainda não existe. A condição
+        <strong>if not os.path.exists(MODEL_PATH)</strong>
+        verifica se o arquivo <strong>model.pkl</strong> está
+        ausente. Se o arquivo não existir, o programa entra em
+        uma etapa de treinamento. Essa lógica evita depender
+        de um modelo que já exista durante a primeira execução.
+        O programa primeiro exibe uma mensagem de progresso em
+        <strong>stderr</strong> para indicar que o modelo está
+        sendo criado. A função
+        <strong>make_classification()</strong> gera então
+        um conjunto de dados sintético contendo
+        <strong>200 observações</strong> e
+        <strong>20 features</strong>. Entre essas features,
+        10 são informativas e nenhuma feature redundante é
+        gerada. O sistema utiliza três classes diferentes e
+        <strong>random_state=42</strong> garante uma geração
+        reproduzível. Os dados são posteriormente divididos
+        em duas partes utilizando
+        <strong>train_test_split()</strong>. 80 % dos dados
+        são utilizados para treinamento e 20 % para testes
+        por meio de <strong>test_size=0.2</strong>. Em seguida,
+        o modelo <strong>XGBClassifier</strong> é criado com
+        uma configuração adaptada à classificação multiclasse.
+        A opção <strong>objective="multi:softprob"</strong>
+        indica que o modelo deve produzir probabilidades para
+        as diferentes classes. O parâmetro
+        <strong>num_class=3</strong> indica que o problema
+        contém três classes. O parâmetro
+        <strong>eval_metric="mlogloss"</strong> define a métrica
+        utilizada para avaliar a perda da classificação
+        multiclasse. O modelo é posteriormente treinado
+        utilizando <strong>model.fit(X_train, y_train)</strong>.
+        Após o treinamento, o modelo completo é salvo em
+        <strong>model.pkl</strong> utilizando
+        <strong>pickle.dump()</strong>. Em seguida, uma
+        resposta JSON é enviada indicando que o modelo foi
+        treinado e salvo. Finalmente,
+        <strong>sys.exit(0)</strong> encerra corretamente o
+        programa porque a execução inicial tinha como único
+        objetivo criar o modelo.
+
+    </p>
+
+
+<pre><code>if not os.path.exists(MODEL_PATH):
+
+    X, y = make_classification(
+        n_samples=200,
+        n_features=20,
+        n_informative=10,
+        n_redundant=0,
+        n_classes=3,
+        random_state=42
+    )</code></pre>
+
+
+    <div class="training-card">
+
+        <div>
+            <strong>
+                200
+            </strong>
+
+            <span>
+                observações
+            </span>
+        </div>
+
+        <div>
+            <strong>
+                20
+            </strong>
+
+            <span>
+                features
+            </span>
+        </div>
+
+        <div>
+            <strong>
+                10
+            </strong>
+
+            <span>
+                features informativas
+            </span>
+        </div>
+
+        <div>
+            <strong>
+                3
+            </strong>
+
+            <span>
+                classes
+            </span>
+        </div>
+
+    </div>
+
+
+<pre><code>X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)</code></pre>
+
+
+    <p>
+
+        A divisão permite utilizar uma parte dos dados
+        para aprender as relações entre as features e as
+        classes, enquanto outra parte é mantida para testar
+        o comportamento do modelo. Neste script, as variáveis
+        <strong>X_test</strong> e <strong>y_test</strong>
+        estão preparadas, mas nenhuma métrica de teste é
+        calculada explicitamente. O principal objetivo do
+        código aqui é criar e salvar o modelo para que
+        posteriormente ele possa ser utilizado pelo sistema
+        de previsão.
+
+    </p>
+
+
+<pre><code>model = xgb.XGBClassifier(
+    objective="multi:softprob",
+    num_class=3,
+    eval_metric="mlogloss"
+)
+
+model.fit(X_train, y_train)</code></pre>
+
+
+    <h3>
+        Salvamento do modelo
+    </h3>
+
+
+<pre><code>with open(MODEL_PATH, "wb") as f:
+    pickle.dump(model, f)</code></pre>
+
+
+    <div class="success-box">
+
+        ✔ Conjunto de dados gerado
+
+        <br>
+
+        ✔ Dados divididos
+
+        <br>
+
+        ✔ Modelo XGBoost criado
+
+        <br>
+
+        ✔ Modelo treinado
+
+        <br>
+
+        ✔ Modelo salvo em model.pkl
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     05 — CARREGAMENTO DO MODELO
+====================================================== -->
+
+<section class="documentation-section">
+
+    <div class="section-number">
+        05
+    </div>
+
+    <h2>
+        Carregamento do modelo existente
+    </h2>
+
+    <p>
+
+        Quando o arquivo <strong>model.pkl</strong> já existe,
+        a etapa de criação do modelo não é executada. O programa
+        passa diretamente para a etapa de previsão. Ele abre o
+        arquivo em modo binário utilizando
+        <strong>open(MODEL_PATH, "rb")</strong> e posteriormente
+        carrega novamente o objeto de Machine Learning utilizando
+        <strong>pickle.load()</strong>. Essa abordagem permite
+        reutilizar o modelo já treinado sem precisar treiná-lo
+        novamente para cada solicitação. Isso representa uma
+        separação importante entre a etapa de treinamento e a
+        etapa de utilização do modelo.
+
+    </p>
+
+
+<pre><code>with open(MODEL_PATH, "rb") as f:
+    model = pickle.load(f)</code></pre>
+
+
+    <div class="highlight">
+
+        <strong>
+            Primeira execução:
+        </strong>
+
+        criação → treinamento → salvamento
+
+        <br><br>
+
+        <strong>
+            Execuções posteriores:
+        </strong>
+
+        carregamento → previsão
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     06 — RECEBIMENTO DOS DADOS
+====================================================== -->
+
+<section
+    class="documentation-section"
+    id="prediction"
+>
+
+    <div class="section-number">
+        06
+    </div>
+
+    <h2>
+        Recebimento e validação dos dados
+    </h2>
+
+    <p>
+
+        Durante a etapa de previsão, o programa Python utiliza
+        <strong>sys.stdin.read()</strong> para ler os dados
+        enviados pelo Node.js. Diferentemente da comunicação
+        por meio de <strong>sys.argv</strong>, os dados são
+        transmitidos diretamente através do fluxo de entrada
+        padrão do processo Python. O método
+        <strong>strip()</strong> remove espaços e quebras de
+        linha desnecessários. O programa verifica então se
+        os dados realmente foram recebidos. Se a string estiver
+        vazia, uma exceção <strong>No JSON data received</strong>
+        é gerada. Quando existem dados,
+        <strong>json.loads()</strong> converte a string JSON
+        em um objeto Python. O programa verifica então se o
+        objeto contém uma propriedade
+        <strong>features</strong>. Essa propriedade representa
+        o array de features utilizadas para a previsão. Uma
+        segunda validação verifica se <strong>features</strong>
+        é realmente uma lista. Finalmente, o programa verifica
+        se a lista contém exatamente 20 valores. Essa validação
+        é essencial porque o modelo foi treinado com 20 features.
+        Uma diferença entre o número de variáveis de entrada e
+        o número esperado pelo modelo provocaria um erro durante
+        a previsão.
+
+    </p>
+
+
+<pre><code>raw = sys.stdin.read().strip()
+
+if not raw:
+    raise ValueError(
+        "No JSON data received"
+    )
+
+data = json.loads(raw)
+
+if "features" not in data:
+    raise ValueError(
+        "features field missing"
+    )
+
+features = data["features"]
+
+if not isinstance(features, list):
+    raise ValueError(
+        "features must be a list"
+    )
+
+if len(features) != 20:
+    raise ValueError(
+        f"Expected 20 features but received {len(features)}"
+    )</code></pre>
+
+
+    <div class="warning-box">
+
+        ⚠️ O modelo espera exatamente
+
+        <strong>
+            20 features
+        </strong>
+
+        para realizar uma previsão.
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     07 — NUMPY
+====================================================== -->
+
+<section class="documentation-section">
+
+    <div class="section-number">
+        07
+    </div>
+
+    <h2>
+        Conversão das features com NumPy
+    </h2>
+
+    <p>
+
+        Após a validação, as features são convertidas em
+        valores numéricos utilizando NumPy. Cada valor é
+        convertido em um <strong>float</strong> e o conjunto
+        completo é colocado dentro de uma lista aninhada para
+        criar uma matriz contendo uma observação e 20 features.
+        O tipo <strong>np.float32</strong> é utilizado para
+        obter um array numérico compatível com o modelo XGBoost.
+        Essa etapa permite transformar uma lista JSON recebida
+        pela API em uma estrutura matricial que pode ser
+        processada diretamente pelo algoritmo de Machine Learning.
+
+    </p>
+
+
+<pre><code>features = np.array(
+    [[float(x) for x in features]],
+    dtype=np.float32
+)</code></pre>
+
+
+    <div class="highlight">
+
+        JSON
+
+        →
+
+        Lista Python
+
+        →
+
+        float
+
+        →
+
+        NumPy
+
+        →
+
+        Matriz 1 × 20
+
+        →
+
+        XGBoost
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     08 — PREVISÃO
+====================================================== -->
+
+<section class="documentation-section">
+
+    <div class="section-number">
+        08
+    </div>
+
+    <h2>
+        Cálculo da previsão e da confiança
+    </h2>
+
+    <p>
+
+        Depois que os dados são convertidos em uma matriz
+        NumPy, o modelo XGBoost está pronto para realizar a
+        previsão. O programa utiliza
+        <strong>model.predict_proba(features)</strong> em vez
+        de utilizar simplesmente <strong>model.predict()</strong>.
+        Esse método é especialmente útil porque retorna as
+        probabilidades associadas às diferentes classes. Neste
+        sistema são definidas três classes. A expressão
+        <strong>[0]</strong> obtém o array de probabilidades
+        correspondente à única observação enviada ao modelo.
+        A função <strong>np.argmax(probabilities)</strong>
+        procura então o índice da maior probabilidade. Esse
+        índice representa a classe prevista pelo modelo.
+        A função <strong>np.max(probabilities)</strong> obtém
+        o valor máximo de probabilidade. Esse valor representa
+        o nível de confiança associado à classe selecionada.
+        O programa converte esse valor em um número Python
+        padrão utilizando <strong>float()</strong> e também
+        calcula uma porcentagem multiplicando a confiança por
+        100. A função <strong>round()</strong> limita o número
+        de dígitos exibidos. Portanto, o resultado final contém
+        três elementos principais de informação: a classe
+        prevista, a confiança em formato decimal e a confiança
+        expressa como porcentagem.
+
+    </p>
+
+
+<pre><code>probabilities = model.predict_proba(
+    features
+)[0]
+
+prediction = int(
+    np.argmax(probabilities)
+)
+
+confidence = float(
+    np.max(probabilities)
+)</code></pre>
+
+
+    <h3>
+        Construção da resposta
+    </h3>
+
+
+<pre><code>print(json.dumps({
+    "success": True,
+    "prediction": prediction,
+    "confidence": round(confidence, 4),
+    "percentage": round(
+        confidence * 100,
+        2
+    )
+}))</code></pre>
+
+
+    <div class="prediction-card">
+
+        <div>
+            <strong>
+                prediction
+            </strong>
+
+            <span>
+                Classe selecionada
+            </span>
+        </div>
+
+        <div>
+            <strong>
+                confidence
+            </strong>
+
+            <span>
+                Nível de confiança
+            </span>
+        </div>
+
+        <div>
+            <strong>
+                percentage
+            </strong>
+
+            <span>
+                Confiança em %
+            </span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     09 — TRATAMENTO DE ERROS
+====================================================== -->
+
+<section class="documentation-section">
+
+    <div class="section-number">
+        09
+    </div>
+
+    <h2>
+        Tratamento de erros do Python
+    </h2>
+
+    <p>
+
+        Toda a etapa de previsão está dentro de um bloco
+        <strong>try</strong>. Essa organização permite capturar
+        os erros que podem ocorrer ao carregar o modelo, ler os
+        dados, realizar a conversão numérica ou executar a
+        previsão. Quando ocorre uma exceção, o bloco
+        <strong>except</strong> constrói uma resposta JSON
+        contendo <strong>success: false</strong>, a mensagem
+        de erro e o resultado de
+        <strong>traceback.format_exc()</strong>. O traceback
+        fornece informações detalhadas sobre onde ocorreu o
+        erro, facilitando o desenvolvimento e a depuração.
+        O programa então encerra o processo com
+        <strong>sys.exit(1)</strong>. Um código de saída
+        diferente de zero indica ao Node.js que ocorreu um erro.
+
+    </p>
+
+
+<pre><code>except Exception as e:
+
+    print(json.dumps({
+        "success": False,
+        "error": str(e),
+        "traceback": traceback.format_exc()
+    }))
+
+    sys.exit(1)</code></pre>
+
+
+    <div class="error-box">
+
+        <strong>
+            success: false
+        </strong>
+
+        <br>
+
+        Mensagem de erro
+
+        <br>
+
+        Traceback detalhado
+
+        <br>
+
+        Código de saída = 1
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     10 — SERVIÇO NODE.JS
+====================================================== -->
+
+<section
+    class="documentation-section"
+    id="service"
+>
+
+    <div class="section-number">
+        10
+    </div>
+
+    <h2>
+        Serviço Node.js e comunicação com Python
+    </h2>
+
+    <p>
+
+        O arquivo <strong>predictService.js</strong> atua
+        como uma camada intermediária entre Express e o
+        programa Python. Ele utiliza o módulo nativo do
+        Node.js <strong>child_process</strong> juntamente com
+        <strong>spawn()</strong> para criar um processo Python
+        independente. A função <strong>predict(features)</strong>
+        retorna uma Promise, permitindo que a rota Express
+        aguarde corretamente o resultado utilizando
+        <strong>await</strong>. O caminho do script Python é
+        construído utilizando <strong>path.resolve()</strong>.
+        Esse método obtém um caminho absoluto para
+        <strong>model_service.py</strong>. O processo Python
+        é então iniciado com
+        <strong>spawn("python", [pythonPath])</strong>.
+        O Node.js cria duas variáveis, <strong>result</strong>
+        e <strong>error</strong>, destinadas respectivamente
+        a receber a saída padrão e as mensagens de erro.
+        O evento <strong>python.stdout.on("data")</strong>
+        recupera os dados enviados pelo Python por meio de
+        stdout e os adiciona progressivamente à variável result.
+        Ao mesmo tempo,
+        <strong>python.stderr.on("data")</strong> recupera
+        as mensagens de diagnóstico enviadas pelo Python.
+        Essa separação mantém o resultado JSON limpo no stdout,
+        enquanto exibe as informações de depuração no stderr.
+        O evento <strong>python.on("error")</strong> detecta
+        um erro ao iniciar o processo Python. Finalmente,
+        quando o Python termina sua execução, o evento
+        <strong>close</strong> é acionado. O serviço verifica
+        então se a saída não está vazia e utiliza
+        <strong>JSON.parse(result)</strong> para converter o
+        JSON do Python em um objeto JavaScript. Se a análise
+        estiver correta, a Promise é resolvida por meio de
+        <strong>resolve(parsedResult)</strong>. Se ocorrer um
+        erro ao analisar o JSON, a Promise é rejeitada com
+        uma mensagem detalhada.
+
+    </p>
+
+
+<pre><code>const { spawn } = require("child_process");
+const path = require("path");
+
+const predict = (features) => {
+
+    return new Promise((resolve, reject) => {
+
+        const pythonPath = path.resolve(
+            __dirname,
+            "../../python/model_service.py"
+        );
+
+        const python = spawn(
+            "python",
+            [pythonPath]
+        );
+
+    });
+
+};</code></pre>
+
+
+    <h3>
+        Envio de dados para o Python
+    </h3>
+
+
+<pre><code>python.stdin.write(
+    JSON.stringify({
+        features: features
+    })
+);
+
+python.stdin.end();</code></pre>
+
+
+    <p>
+
+        Aqui, o Node.js converte as features em JSON utilizando
+        <strong>JSON.stringify()</strong> e posteriormente
+        escreve essa string no fluxo de entrada padrão do
+        processo Python por meio de <strong>stdin.write()</strong>.
+        A função <strong>stdin.end()</strong> indica que o
+        Node.js terminou de enviar os dados. O Python pode
+        então ler todo o conteúdo utilizando
+        <strong>sys.stdin.read()</strong>.
+
+    </p>
+
+
+    <h3>
+        Recuperação do resultado do Python
+    </h3>
+
+
+<pre><code>python.stdout.on("data", (data) => {
+    result += data.toString();
+});</code></pre>
+
+
+    <p>
+
+        O Python escreve seu resultado JSON no stdout. O
+        Node.js recupera progressivamente esse resultado e
+        o armazena na variável <strong>result</strong>.
+
+    </p>
+
+
+    <h3>
+        Conversão JSON
+    </h3>
+
+
+<pre><code>const parsedResult = JSON.parse(result);
+
+resolve(parsedResult);</code></pre>
+
+
+    <p>
+
+        <strong>JSON.parse()</strong> transforma a string JSON
+        recebida do Python em um objeto JavaScript que pode
+        ser utilizado pelo Express.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     11 — ROTA EXPRESS
+====================================================== -->
+
+<section
+    class="documentation-section"
+    id="route"
+>
+
+    <div class="section-number">
+        11
+    </div>
+
+    <h2>
+        Rota Express de previsão
+    </h2>
+
+    <p>
+
+        O arquivo <strong>predictRoutes.js</strong> define
+        o endpoint HTTP que permite ao frontend acessar o
+        sistema de previsão. O Express cria um router utilizando
+        <strong>express.Router()</strong> e o serviço
+        <strong>predict</strong> é importado de
+        <strong>predictService</strong>. A rota utiliza o
+        método HTTP <strong>POST</strong> com o caminho
+        <strong>/</strong>. Como esse router é posteriormente
+        montado no servidor principal utilizando o prefixo
+        <strong>/predict</strong>, o endpoint final acessível
+        pelo frontend se torna <strong>POST /predict</strong>.
+        Quando uma solicitação chega, o servidor exibe o body
+        recebido no console utilizando
+        <strong>console.log</strong>. Posteriormente, o array
+        <strong>features</strong> é obtido de
+        <strong>req.body.features</strong> e passado para a
+        função <strong>predict()</strong>. Como essa função
+        retorna uma Promise, a rota utiliza
+        <strong>await</strong> para aguardar o resultado do
+        Python. Quando o resultado está disponível, o Express
+        o envia diretamente para o frontend utilizando
+        <strong>res.json()</strong>. Se ocorrer um erro durante
+        a comunicação com o Python ou durante o processamento,
+        o bloco <strong>catch</strong> gerencia o erro e retorna
+        um status HTTP <strong>500</strong> juntamente com um
+        objeto JSON indicando que a operação falhou.
+
+    </p>
+
+
+    <div class="endpoint">
+
+        POST /predict
+
+    </div>
+
+
+<pre><code>router.post("/", async (req, res) => {
+
+    console.log("BODY:", req.body);
+
+    try {
+
+        const result =
+            await predict(req.body.features);
+
+        res.json(result);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: error.toString()
+        });
+
+    }
+
+});</code></pre>
+
+</section>
+
+
+<!-- =====================================================
+     12 — SERVIDOR EXPRESS
+====================================================== -->
+
+<section
+    class="documentation-section"
+    id="server"
+>
+
+    <div class="section-number">
+        12
+    </div>
+
+    <h2>
+        Servidor Express principal
+    </h2>
+
+    <p>
+
+        O arquivo principal do backend inicializa o servidor
+        Express. A biblioteca <strong>express</strong> é
+        importada para criar a aplicação, enquanto a biblioteca
+        <strong>cors</strong> é utilizada para permitir a
+        comunicação com o frontend. O middleware
+        <strong>cors()</strong> é configurado com a origem
+        <strong>http://localhost:5173</strong>, que corresponde
+        ao endereço do frontend durante o desenvolvimento.
+        Posteriormente, o middleware
+        <strong>express.json()</strong> é habilitado para que
+        o Express possa analisar automaticamente as solicitações
+        que contêm dados JSON. A porta é definida utilizando
+        <strong>process.env.PORT || 3000</strong>. Isso significa
+        que, se existir uma variável de ambiente
+        <strong>PORT</strong>, ela será utilizada; caso contrário,
+        o servidor utilizará a porta 3000. Em seguida, o router
+        <strong>predictRoutes</strong> é importado e registrado
+        com o prefixo <strong>/predict</strong>. Finalmente,
+        <strong>app.listen()</strong> inicia o servidor e exibe
+        no console a porta utilizada.
+
+    </p>
+
+
+<pre><code>const express = require("express");
+const cors = require("cors");
+
+const app = express();
+
+app.use(
+    cors({
+        origin: "http://localhost:5173"
+    })
+);
+
+app.use(express.json());
+
+console.log("ML API STARTED");
+
+const PORT =
+    process.env.PORT || 3000;
+
+const predictRoutes =
+    require("./Routes/predictRoutes");
+
+app.use(
+    "/predict",
+    predictRoutes
+);
+
+app.listen(PORT, () => {
+
+    console.log(
+        `Server running on port ${PORT}`
+    );
+
+});</code></pre>
+
+
+    <div class="server-card">
+
+        <div>
+            <strong>
+                Frontend
+            </strong>
+
+            <span>
+                localhost:5173
+            </span>
+        </div>
+
+        <div>
+            <strong>
+                Backend
+            </strong>
+
+            <span>
+                localhost:3000
+            </span>
+        </div>
+
+        <div>
+            <strong>
+                Endpoint
+            </strong>
+
+            <span>
+                POST /predict
+            </span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     13 — EXEMPLO DE API
+====================================================== -->
+
+<section class="documentation-section">
+
+    <div class="section-number">
+        13
+    </div>
+
+    <h2>
+        Exemplo de comunicação com a API
+    </h2>
+
+    <p>
+
+        Para utilizar a API, o frontend deve enviar uma
+        solicitação HTTP POST para <strong>/predict</strong>.
+        O corpo da solicitação deve estar no formato JSON e
+        conter uma propriedade <strong>features</strong>. Essa
+        propriedade deve ser uma lista contendo exatamente
+        20 valores numéricos. O Express analisa automaticamente
+        o JSON utilizando o middleware
+        <strong>express.json()</strong>. A rota recupera
+        posteriormente <strong>req.body.features</strong> e
+        passa os dados para o serviço Node.js. O serviço
+        converte os dados em JSON e os escreve no fluxo
+        <strong>stdin</strong> do processo Python. O Python
+        recupera então os dados, valida-os, converte-os em um
+        array NumPy e os passa para o modelo XGBoost. O modelo
+        calcula as probabilidades, seleciona a classe mais
+        provável e finalmente retorna o resultado no formato
+        JSON.
+
+    </p>
+
+
+    <div class="endpoint">
+
+        POST http://localhost:3000/predict
+
+    </div>
+
+
+    <h3>
+        Exemplo de solicitação
+    </h3>
+
+
+<pre><code>{
+    "features": [
+        0.12,
+        1.45,
+        2.31,
+        0.55,
+        3.20,
+        1.10,
+        2.45,
+        0.87,
+        1.32,
+        2.21,
+        0.98,
+        1.76,
+        2.90,
+        0.44,
+        1.88,
+        2.10,
+        0.75,
+        1.25,
+        2.60,
+        0.91
+    ]
+}</code></pre>
+
+
+    <h3>
+        Exemplo de resposta
+    </h3>
+
+
+<pre><code>{
+    "success": true,
+    "prediction": 1,
+    "confidence": 0.8745,
+    "percentage": 87.45
+}</code></pre>
+
+
+    <p>
+
+        Os valores deste exemplo são apenas ilustrativos.
+        A classe e o nível de confiança reais dependem do
+        modelo <strong>model.pkl</strong> e das features
+        que forem realmente enviadas ao sistema.
+
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     14 — ARQUITETURA
+====================================================== -->
+
+<section
+    class="documentation-section"
+    id="architecture"
+>
+
+    <div class="section-number">
+        14
+    </div>
+
+    <h2>
+        Arquitetura completa do sistema
+    </h2>
+
+    <p>
+
+        A arquitetura completa baseia-se em uma separação clara
+        entre a interface do usuário, a API Web, o serviço
+        Node.js e o mecanismo de Machine Learning. Tudo começa
+        com o frontend, que coleta ou gera as 20 features
+        necessárias para a previsão. O frontend envia
+        posteriormente uma solicitação POST para
+        <strong>/predict</strong>. O Express recebe essa
+        solicitação por meio do router
+        <strong>predictRoutes</strong>. A rota recupera
+        <strong>req.body.features</strong> e posteriormente
+        chama o serviço <strong>predict()</strong>. Esse serviço
+        utiliza <strong>child_process.spawn()</strong> para
+        iniciar o script Python. O Node.js envia as features
+        para o processo Python utilizando <strong>stdin</strong>.
+        O Python lê esses dados por meio de
+        <strong>sys.stdin.read()</strong>, converte-os a partir
+        do JSON e verifica se contêm exatamente 20 features.
+        Os valores são transformados em uma matriz NumPy e
+        posteriormente passados para o modelo XGBoost carregado
+        de <strong>model.pkl</strong>. O modelo utiliza
+        <strong>predict_proba()</strong> para calcular as
+        probabilidades das três classes. O Python identifica
+        a classe com a maior probabilidade utilizando
+        <strong>np.argmax()</strong> e calcula a confiança
+        correspondente utilizando <strong>np.max()</strong>.
+        O resultado é serializado em JSON e escrito em
+        <strong>stdout</strong>. O Node.js recupera essa saída,
+        converte-a utilizando <strong>JSON.parse()</strong> e
+        posteriormente passa o objeto resultante para o Express.
+        Finalmente, o Express retorna a resposta JSON ao frontend.
+        O dashboard pode então exibir a classe prevista, o nível
+        de confiança e a porcentagem associada. Essa organização
+        permite que o frontend se comunique apenas com uma API
+        Web sem precisar executar diretamente Python ou XGBoost.
+
+    </p>
+
+
+    <div class="architecture">
+
+        <div class="architecture-box frontend">
+
+            <strong>
+                Frontend
+            </strong>
+
+            <small>
+                Dashboard
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ POST
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Express
+            </strong>
+
+            <small>
+                REST API
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                /predict
+            </strong>
+
+            <small>
+                Rota API
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                predict()
+            </strong>
+
+            <small>
+                Serviço Node.js
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ spawn()
+        </div>
+
+
+        <div class="architecture-box python">
+
+            <strong>
+                Python
+            </strong>
+
+            <small>
+                model_service.py
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ stdin
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                JSON
+            </strong>
+
+            <small>
+                features
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                NumPy
+            </strong>
+
+            <small>
+                Matriz 1 × 20
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                model.pkl
+            </strong>
+
+            <small>
+                Modelo XGBoost
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ predict_proba()
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                3 probabilidades
+            </strong>
+
+            <small>
+                Classes
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                Previsão
+            </strong>
+
+            <small>
+                Classe + Confiança
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓ stdout
+        </div>
+
+
+        <div class="architecture-box">
+
+            <strong>
+                JSON.parse()
+            </strong>
+
+            <small>
+                Objeto JavaScript
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            ↓
+        </div>
+
+
+        <div class="architecture-box frontend">
+
+            <strong>
+                Dashboard
+            </strong>
+
+            <small>
+                Visualização
+            </small>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     15 — TECNOLOGIAS
+====================================================== -->
+
+<section class="documentation-section">
+
+    <div class="section-number">
+        15
+    </div>
+
+    <h2>
+        Função das tecnologias
+    </h2>
+
+    <p>
+
+        Cada tecnologia utilizada nesta arquitetura possui uma
+        responsabilidade específica. Python é o mecanismo de
+        execução de Machine Learning. XGBoost fornece o
+        algoritmo de classificação. Scikit-learn é utilizado
+        aqui para gerar e dividir os dados de treinamento.
+        NumPy é responsável por preparar as features como uma
+        matriz numérica. Pickle permite salvar e carregar o
+        modelo treinado. JSON representa o formato de comunicação
+        entre Node.js e Python. Node.js é a camada backend que
+        coordena a execução do processo Python.
+        <strong>child_process</strong> permite que o Node.js
+        inicie o Python utilizando <strong>spawn()</strong>.
+        Os fluxos <strong>stdin</strong> e <strong>stdout</strong>
+        são utilizados respectivamente para enviar dados ao
+        Python e recuperar o resultado. Express fornece a API
+        REST e o gerenciamento das rotas HTTP. CORS permite
+        solicitações provenientes do frontend executado a partir
+        de uma origem diferente. Finalmente,
+        <strong>model.pkl</strong> contém o modelo XGBoost já
+        treinado e está pronto para ser utilizado nas previsões.
+
+    </p>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Tecnologia
+                </th>
+
+                <th>
+                    Função
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>Python</td>
+                <td>Mecanismo de Machine Learning</td>
+            </tr>
+
+            <tr>
+                <td>XGBoost</td>
+                <td>Classificação de Machine Learning</td>
+            </tr>
+
+            <tr>
+                <td>Scikit-learn</td>
+                <td>Geração e divisão dos dados</td>
+            </tr>
+
+            <tr>
+                <td>NumPy</td>
+                <td>Preparação de dados numéricos</td>
+            </tr>
+
+            <tr>
+                <td>Pickle</td>
+                <td>Salvamento do modelo</td>
+            </tr>
+
+            <tr>
+                <td>JSON</td>
+                <td>Formato de comunicação</td>
+            </tr>
+
+            <tr>
+                <td>Node.js</td>
+                <td>Backend JavaScript</td>
+            </tr>
+
+            <tr>
+                <td>child_process</td>
+                <td>Comunicação com Python</td>
+            </tr>
+
+            <tr>
+                <td>spawn()</td>
+                <td>Inicialização do processo Python</td>
+            </tr>
+
+            <tr>
+                <td>stdin</td>
+                <td>Envio de dados para Python</td>
+            </tr>
+
+            <tr>
+                <td>stdout</td>
+                <td>Recuperação do resultado do Python</td>
+            </tr>
+
+            <tr>
+                <td>Express</td>
+                <td>Criação da API REST</td>
+            </tr>
+
+            <tr>
+                <td>CORS</td>
+                <td>Autorização frontend / backend</td>
+            </tr>
+
+            <tr>
+                <td>model.pkl</td>
+                <td>Modelo XGBoost salvo</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+
+<!-- =====================================================
+     16 — EXPLICAÇÃO ORAL
+====================================================== -->
+
+<section
+    class="documentation-section"
+    id="oral"
+>
+
+    <div class="section-number">
+        16
+    </div>
+
+    <h2>
+        Explicação para apresentar durante a apresentação
+    </h2>
+
+
+    <div class="presentation-script">
+
+        <h3>
+            🎤 Exemplo de explicação oral
+        </h3>
+
+
+        <p>
+
+            "Nesta parte do meu projeto, integrei um modelo
+            de Machine Learning XGBoost em uma aplicação Web
+            desenvolvida com Node.js e Express.
+
+        </p>
+
+
+        <p>
+
+            O modelo é utilizado para realizar uma classificação
+            em três classes. Ele trabalha com 20 features de
+            entrada. O modelo é salvo em um arquivo
+            <strong>model.pkl</strong> para que possa ser
+            reutilizado sem precisar ser treinado novamente
+            para cada previsão.
+
+        </p>
+
+
+        <p>
+
+            Durante a primeira execução, se o arquivo
+            <strong>model.pkl</strong> não existir, meu script
+            Python gera automaticamente dados sintéticos
+            utilizando <strong>make_classification()</strong>.
+            Os dados são posteriormente divididos utilizando
+            <strong>train_test_split()</strong> e um modelo
+            <strong>XGBClassifier</strong> é treinado utilizando
+            <strong>fit()</strong>.
+
+        </p>
+
+
+        <p>
+
+            Após a conclusão do treinamento, o modelo é salvo
+            utilizando <strong>pickle.dump()</strong>.
+            Durante as execuções posteriores, o modelo é
+            simplesmente carregado utilizando
+            <strong>pickle.load()</strong>.
+
+        </p>
+
+
+        <p>
+
+            Para realizar uma previsão, o frontend envia as
+            20 features para minha API Express por meio de uma
+            solicitação POST para <strong>/predict</strong>.
+
+        </p>
+
+
+        <p>
+
+            O Node.js recebe os dados e utiliza o módulo
+            <strong>child_process</strong> com a função
+            <strong>spawn()</strong> para iniciar o script
+            Python.
+
+        </p>
+
+
+        <p>
+
+            Os dados são enviados para o Python por meio de
+            <strong>stdin</strong> no formato JSON. O Python
+            lê esses dados utilizando
+            <strong>sys.stdin.read()</strong>, verifica se
+            existem exatamente 20 features e as converte
+            em um array NumPy.
+
+        </p>
+
+
+        <p>
+
+            Em seguida, o modelo XGBoost utiliza
+            <strong>predict_proba()</strong> para calcular
+            as probabilidades das três classes. Obtenho a
+            classe com a maior probabilidade utilizando
+            <strong>np.argmax()</strong> e obtenho o nível
+            de confiança utilizando <strong>np.max()</strong>.
+
+        </p>
+
+
+        <p>
+
+            O Python retorna então um resultado JSON que
+            contém a previsão, a confiança e a porcentagem
+            de confiança.
+
+        </p>
+
+
+        <p>
+
+            O Node.js recupera essa resposta por meio de
+            <strong>stdout</strong> e posteriormente utiliza
+            <strong>JSON.parse()</strong> para transformar
+            a resposta do Python em um objeto JavaScript.
+
+        </p>
+
+
+        <p>
+
+            Finalmente, o Express retorna esse resultado ao
+            frontend para que o dashboard possa exibir a
+            classe prevista e o nível de confiança.
+
+        </p>
+
+
+        <p>
+
+            A vantagem dessa arquitetura é que ela separa
+            claramente as responsabilidades: o frontend
+            gerencia a interface, o Express gerencia a API,
+            o Node.js gerencia a orquestração, Python e XGBoost
+            gerenciam o Machine Learning, NumPy gerencia a
+            preparação dos dados e Pickle gerencia o
+            armazenamento do modelo.
+
+        </p>
+
+
+        <p>
+
+            Portanto, essa arquitetura permite integrar um
+            modelo de Machine Learning desenvolvido em
+            Python em uma aplicação Web JavaScript, mantendo
+            uma comunicação clara entre as diferentes camadas
+            do sistema."
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     17 — CONCLUSÃO
+====================================================== -->
+
+<section
+    class="documentation-section"
+    id="conclusion"
+>
+
+    <div class="section-number">
+        17
+    </div>
+
+    <h2>
+        Conclusão
+    </h2>
+
+    <p>
+
+        O sistema apresentado fornece uma integração completa
+        entre Machine Learning e desenvolvimento Web. O modelo
+        XGBoost é treinado durante a primeira execução quando
+        o arquivo <strong>model.pkl</strong> está ausente e
+        posteriormente é salvo utilizando Pickle para que possa
+        ser reutilizado nas previsões posteriores. O programa
+        Python valida os dados recebidos, verifica a presença
+        de <strong>20 features</strong>, converte os valores
+        em uma matriz NumPy e utiliza
+        <strong>predict_proba()</strong> para obter as
+        probabilidades das três classes. A classe com a maior
+        probabilidade é selecionada como previsão, e essa
+        probabilidade é utilizada como nível de confiança.
+        O Node.js gerencia posteriormente a comunicação com
+        o Python utilizando o módulo
+        <strong>child_process</strong> e a função
+        <strong>spawn()</strong>. Os dados são enviados por
+        meio de <strong>stdin</strong> e os resultados são
+        recuperados por meio de <strong>stdout</strong>.
+        O Express disponibiliza uma API REST com o endpoint
+        <strong>POST /predict</strong>, permitindo que o
+        frontend utilize o modelo sem se comunicar diretamente
+        com o Python. Todo o sistema pode ser resumido pela
+        seguinte sequência:
+        <strong>Frontend → Express → predictService →
+        spawn() → stdin → Python → NumPy → XGBoost →
+        predict_proba() → JSON → stdout → Node.js →
+        Express → Dashboard</strong>. Essa arquitetura
+        permite transformar um modelo de Machine Learning
+        desenvolvido em Python em um serviço acessível a
+        partir de uma aplicação Web moderna.
+
+    </p>
+
+
+    <div class="final-flow">
+
+        <span>
+            Frontend
+        </span>
+
+        <b>
+            →
+        </b>
+
+        <span>
+            Express
+        </span>
+
+        <b>
+            →
+        </b>
+
+        <span>
+            Node.js
+        </span>
+
+        <b>
+            →
+        </b>
+
+        <span>
+            spawn()
+        </span>
+
+        <b>
+            →
+        </b>
+
+        <span>
+            Python
+        </span>
+
+        <b>
+            →
+        </b>
+
+        <span>
+            XGBoost
+        </span>
+
+        <b>
+            →
+        </b>
+
+        <span>
+            Previsão
+        </span>
+
+        <b>
+            →
+        </b>
+
+        <span>
+            JSON
+        </span>
+
+        <b>
+            →
+        </b>
+
+        <span>
+            Dashboard
+        </span>
+
+    </div>
+
+
+    <div class="success-box">
+
+        ✔ Modelo XGBoost
+
+        <br>
+
+        ✔ 20 features
+
+        <br>
+
+        ✔ 3 classes
+
+        <br>
+
+        ✔ Treinamento automático quando necessário
+
+        <br>
+
+        ✔ Salvamento de model.pkl
+
+        <br>
+
+        ✔ Carregamento do modelo
+
+        <br>
+
+        ✔ Validação dos dados
+
+        <br>
+
+        ✔ NumPy
+
+        <br>
+
+        ✔ predict_proba()
+
+        <br>
+
+        ✔ Cálculo da confiança
+
+        <br>
+
+        ✔ Comunicação stdin / stdout
+
+        <br>
+
+        ✔ Node.js
+
+        <br>
+
+        ✔ Express
+
+        <br>
+
+        ✔ API POST /predict
+
+        <br>
+
+        ✔ Integração com o Dashboard
+
+    </div>
+
+</section>
+
+
+<footer class="footer">
+
+    <p>
+        Documentação técnica — Previsão XGBoost
+    </p>
+
+    <p>
+        Python • XGBoost • NumPy • Pickle • Node.js •
+        Express • JSON
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

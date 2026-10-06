@@ -1,0 +1,2792 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+ 
+<head> 
+    <meta charset="UTF-8"> 
+ 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 
+    <title> 
+        Transactions Project | Business Intelligence & Machine Learning 
+    </title> 
+ 
+    <meta 
+        name="description" 
+        content="Technical documentation of the Transactions project: data cleaning, MySQL, Power BI, Machine Learning, Python and Node.js." 
+    > 
+ 
+    <link rel="stylesheet" href="transaction.css"> 
+</head> 
+ 
+<body> 
+ 
+<!-- ========================================================= 
+     HEADER 
+========================================================= --> 
+ 
+<header class="hero"> 
+ 
+    <div class="hero-overlay"></div> 
+ 
+    <div class="hero-content"> 
+ 
+        <span class="badge"> 
+            BUSINESS INTELLIGENCE & MACHINE LEARNING 
+        </span> 
+ 
+        <h1> 
+            Transactions Project 
+        </h1> 
+ 
+        <p class="hero-subtitle"> 
+            From transaction data preparation 
+            to Power BI visualization and prediction 
+            using Machine Learning. 
+        </p> 
+ 
+        <div class="hero-buttons"> 
+ 
+            <a href="#presentation" class="btn primary"> 
+                Discover the project 
+            </a> 
+ 
+            <a href="#prediction" class="btn secondary"> 
+                View the prediction 
+            </a> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</header> 
+ 
+ 
+<!-- ========================================================= 
+     NAVBAR 
+========================================================= --> 
+ 
+<nav class="navbar"> 
+ 
+    <div class="nav-container"> 
+ 
+        <a href="#" class="logo"> 
+            Transactions<span>.</span> 
+        </a> 
+ 
+        <button 
+            class="menu-toggle" 
+            id="menuToggle" 
+            aria-label="Open menu" 
+        > 
+            ☰ 
+        </button> 
+ 
+        <ul class="nav-links" id="navLinks"> 
+ 
+            <li> 
+                <a href="#presentation">Overview</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#origine">Data</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#nettoyage">Cleaning</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#stockage">Storage</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#powerbi">Power BI</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#prediction">Prediction</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#python">Python</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#nodejs">Node.js</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#api">API</a> 
+            </li> 
+ 
+            <li> 
+                <a href="#architecture">Architecture</a> 
+            </li> 
+ 
+        </ul> 
+ 
+    </div> 
+ 
+</nav> 
+ 
+ 
+<main> 
+ 
+ 
+<!-- ========================================================= 
+     01 - PRESENTATION 
+========================================================= --> 
+ 
+<section id="presentation" class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                01 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    CONTEXT 
+                </p> 
+ 
+                <h2> 
+                    Project Overview 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                The <strong>Transactions</strong> project was developed 
+                as part of my training in 
+                <strong>Business Intelligence</strong>. 
+            </p> 
+ 
+            <p> 
+                The objective is to exploit transaction-related data 
+                in order to build a complete data processing 
+                and analysis pipeline. 
+            </p> 
+ 
+            <p> 
+                The project also adds a predictive dimension 
+                through Machine Learning. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="pipeline"> 
+ 
+            <div class="pipeline-item"> 
+                <span>01</span> 
+                <strong>Files</strong> 
+                <small>Provided data</small> 
+            </div> 
+ 
+            <div class="arrow">→</div> 
+ 
+            <div class="pipeline-item"> 
+                <span>02</span> 
+                <strong>Cleaning</strong> 
+                <small>Data Cleaning</small> 
+            </div> 
+ 
+            <div class="arrow">→</div> 
+ 
+            <div class="pipeline-item"> 
+                <span>03</span> 
+                <strong>Storage</strong> 
+                <small>MySQL</small> 
+            </div> 
+ 
+            <div class="arrow">→</div> 
+ 
+            <div class="pipeline-item"> 
+                <span>04</span> 
+                <strong>Power BI</strong> 
+                <small>Dashboard</small> 
+            </div> 
+ 
+            <div class="arrow">→</div> 
+ 
+            <div class="pipeline-item"> 
+                <span>05</span> 
+                <strong>Machine Learning</strong> 
+                <small>Prediction</small> 
+            </div> 
+ 
+            <div class="arrow">→</div> 
+ 
+            <div class="pipeline-item"> 
+                <span>06</span> 
+                <strong>API</strong> 
+                <small>Node.js</small> 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     02 - ORIGINE DES DONNEES 
+========================================================= --> 
+ 
+<section id="origine" class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                02 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    DATA SOURCE 
+                </p> 
+ 
+                <h2> 
+                    Data Source 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="two-columns"> 
+ 
+            <div class="content-card"> 
+ 
+                <div class="card-icon"> 
+                    📁 
+                </div> 
+ 
+                <h3> 
+                    Data provided as part of the training 
+                </h3> 
+ 
+                <p> 
+                    The files used in this project were 
+                    obtained from the training center 
+                    as part of the Business Intelligence training. 
+                </p> 
+ 
+                <p> 
+                    The data contains information related to 
+                    <strong>transactions</strong>, 
+                    <strong>invoice numbers</strong> and 
+                    <strong>general account numbers (NCG)</strong>. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="content-card highlight"> 
+ 
+                <div class="card-icon"> 
+                    👩‍💻 
+                </div> 
+ 
+                <h3> 
+                    My Work 
+                </h3> 
+ 
+                <p> 
+                    My work started with the files 
+                    provided during the training. 
+                </p> 
+ 
+                <p> 
+                    I worked on data preparation, 
+                    data storage, Power BI exploitation, 
+                    as well as the implementation of 
+                    predictive models. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     03 - OBJECTIF 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                03 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    OBJECTIVE 
+                </p> 
+ 
+                <h2> 
+                    Project Objectives 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="feature-grid"> 
+ 
+            <div class="feature-card"> 
+ 
+                <div class="icon"> 
+                    🧹 
+                </div> 
+ 
+                <h3> 
+                    Clean 
+                </h3> 
+ 
+                <p> 
+                    Prepare the data and correct any 
+                    potential inconsistencies. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="feature-card"> 
+ 
+                <div class="icon"> 
+                    🗄️ 
+                </div> 
+ 
+                <h3> 
+                    Store 
+                </h3> 
+ 
+                <p> 
+                    Organize the data in an exploitable 
+                    database. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="feature-card"> 
+ 
+                <div class="icon"> 
+                    📊 
+                </div> 
+ 
+                <h3> 
+                    Analyze 
+                </h3> 
+ 
+                <p> 
+                    Build a dashboard for 
+                    analyzing transactions. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="feature-card"> 
+ 
+                <div class="icon"> 
+                    🤖 
+                </div> 
+ 
+                <h3> 
+                    Predict 
+                </h3> 
+ 
+                <p> 
+                    Use Machine Learning to estimate 
+                    new values. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     04 - NETTOYAGE 
+========================================================= --> 
+ 
+<section id="nettoyage" class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                04 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    DATA PREPARATION 
+                </p> 
+ 
+                <h2> 
+                    Data Cleaning 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                Before using the data for storage, 
+                visualization and prediction, 
+                it is necessary to check its quality. 
+            </p> 
+ 
+            <p> 
+                Cleaning prepares the files in order 
+                to obtain consistent and exploitable data. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="check-grid"> 
+ 
+            <div> 
+                ✓ Check for missing values 
+            </div> 
+ 
+            <div> 
+                ✓ Detect duplicates 
+            </div> 
+ 
+            <div> 
+                ✓ Check data types 
+            </div> 
+ 
+            <div> 
+                ✓ Correct formats 
+            </div> 
+ 
+            <div> 
+                ✓ Standardize columns 
+            </div> 
+ 
+            <div> 
+                ✓ Check invoice numbers 
+            </div> 
+ 
+            <div> 
+                ✓ Check account numbers 
+            </div> 
+ 
+            <div> 
+                ✓ Prepare variables for analysis 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="flow-box"> 
+ 
+            <span> 
+                Raw files 
+            </span> 
+ 
+            <b>→</b> 
+ 
+            <span> 
+                Validation 
+            </span> 
+ 
+            <b>→</b> 
+ 
+            <span> 
+                Cleaning 
+            </span> 
+ 
+            <b>→</b> 
+ 
+            <span> 
+                Clean data 
+            </span> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     05 - STOCKAGE MYSQL 
+========================================================= --> 
+ 
+<section id="stockage" class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                05 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    DATABASE 
+                </p> 
+ 
+                <h2> 
+                    Transaction Storage with MySQL 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                After data preparation, part of the project 
+                uses <strong>MySQL</strong> to 
+                store prediction results. 
+            </p> 
+ 
+            <p> 
+                The connection to MySQL is established using 
+                the <strong>mysql2/promise</strong> module in Node.js. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+ 
+                <span> 
+                    transactionDb.js 
+                </span> 
+ 
+                <button 
+                    class="copy-btn" 
+                    data-copy="mysqlCode" 
+                > 
+                    Copy 
+                </button> 
+ 
+            </div> 
+ 
+ 
+            <pre id="mysqlCode"><code>const mysql = require("mysql2/promise"); 
+ 
+const dbConfig = { 
+ 
+    host: "localhost", 
+ 
+    user: "root", 
+ 
+    password: "", 
+ 
+    database: "POWERBI_PREDICTION" 
+ 
+}; 
+ 
+async function getConnection() { 
+ 
+    return await mysql.createConnection(dbConfig); 
+ 
+} 
+ 
+module.exports = { getConnection };</code></pre> 
+ 
+        </div> 
+ 
+ 
+        <div class="explanation-grid"> 
+ 
+            <div class="explanation-card"> 
+ 
+                <h3> 
+                    mysql2/promise 
+                </h3> 
+ 
+                <p> 
+                    This library allows Node.js to 
+                    communicate with MySQL using 
+                    asynchronous functions. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="explanation-card"> 
+ 
+                <h3> 
+                    dbConfig 
+                </h3> 
+ 
+                <p> 
+                    This object contains the information 
+                    required to establish a connection 
+                    to the database. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="explanation-card"> 
+ 
+                <h3> 
+                    getConnection() 
+                </h3> 
+ 
+                <p> 
+                    This function opens a connection 
+                    to the database. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="explanation-card"> 
+ 
+                <h3> 
+                    module.exports 
+                </h3> 
+ 
+                <p> 
+                    Allows the function to be exported 
+                    so that it can be used in 
+                    other Node.js files. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     06 - POWER BI 
+========================================================= --> 
+ 
+<section id="powerbi" class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                06 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    BUSINESS INTELLIGENCE 
+                </p> 
+ 
+                <h2> 
+                    Transactions Dashboard with Power BI 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                The prepared and structured data is then 
+                analyzed using <strong>Power BI</strong>. 
+            </p> 
+ 
+            <p> 
+                The dashboard transforms transaction data 
+                into visual indicators that facilitate analysis. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="feature-grid"> 
+ 
+            <div class="feature-card"> 
+ 
+                <div class="icon"> 
+                    🧾 
+                </div> 
+ 
+                <h3> 
+                    Invoice Numbers 
+                </h3> 
+ 
+                <p> 
+                    Analysis of information related to 
+                    invoices available in the data. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="feature-card"> 
+ 
+                <div class="icon"> 
+                    🏦 
+                </div> 
+ 
+                <h3> 
+                    NCG 
+                </h3> 
+ 
+                <p> 
+                    Analysis of information related 
+                    to general account numbers. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="feature-card"> 
+ 
+                <div class="icon"> 
+                    💳 
+                </div> 
+ 
+                <h3> 
+                    Transactions 
+                </h3> 
+ 
+                <p> 
+                    Analysis of transaction volume 
+                    and available transaction information. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="feature-card"> 
+ 
+                <div class="icon"> 
+                    📈 
+                </div> 
+ 
+                <h3> 
+                    Trends 
+                </h3> 
+ 
+                <p> 
+                    Visualization of trends through 
+                    charts and indicators. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     07 - PASSAGE VERS MACHINE LEARNING 
+========================================================= --> 
+ 
+<section id="prediction" class="section prediction-section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                07 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    MACHINE LEARNING 
+                </p> 
+ 
+                <h2> 
+                    From Analysis to Prediction 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card prediction-intro"> 
+ 
+            <h3> 
+                Descriptive Analysis → Predictive Analysis 
+            </h3> 
+ 
+            <p> 
+                Power BI makes it possible to analyze 
+                historical data and understand trends. 
+            </p> 
+ 
+            <p> 
+                The Machine Learning component goes further 
+                by using the available data to estimate 
+                a new value. 
+            </p> 
+ 
+            <div class="prediction-transition"> 
+ 
+                <span> 
+                    Historical Data 
+                </span> 
+ 
+                <strong>→</strong> 
+ 
+                <span> 
+                    ML Model 
+                </span> 
+ 
+                <strong>→</strong> 
+ 
+                <span> 
+                    Prediction 
+                </span> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="model-grid"> 
+ 
+            <div class="model-card"> 
+ 
+                <span class="model-icon"> 
+                    🏦 
+                </span> 
+ 
+                <span class="technology"> 
+                    NCG MODEL 
+                </span> 
+ 
+                <h3> 
+                    NCG_model.pkl 
+                </h3> 
+ 
+                <p> 
+                    This model is used when the mode 
+                    received by the application is 
+                    <strong>ncg</strong>. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="model-card"> 
+ 
+                <span class="model-icon"> 
+                    🧾 
+                </span> 
+ 
+                <span class="technology"> 
+                    INVOICE MODEL 
+                </span> 
+ 
+                <h3> 
+                    FACTURE.pkl 
+                </h3> 
+ 
+                <p> 
+                    This model is used when the mode 
+                    received by the application is 
+                    <strong>facture</strong>. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     08 - APP.PY 
+========================================================= --> 
+ 
+<section id="python" class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                08 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    PYTHON 
+                </p> 
+ 
+                <h2> 
+                    Prediction Execution 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                The <strong>app.py</strong> file is the Python 
+                program responsible for selecting the appropriate 
+                model and performing the prediction. 
+            </p> 
+ 
+            <p> 
+                The program receives two parameters from Node.js: 
+                <strong>mode</strong> and <strong>value</strong>. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+ 
+                <span> 
+                    app.py 
+                </span> 
+ 
+                <button 
+                    class="copy-btn" 
+                    data-copy="pythonCode" 
+                > 
+                    Copy 
+                </button> 
+ 
+            </div> 
+ 
+ 
+            <pre id="pythonCode"><code>import sys 
+import pickle 
+import json 
+import os 
+ 
+BASE_DIR = os.path.dirname(__file__) 
+ 
+mode = sys.argv[1] 
+value = float(sys.argv[2])</code></pre> 
+ 
+        </div> 
+ 
+ 
+        <div class="two-columns"> 
+ 
+            <div class="content-card"> 
+ 
+                <h3> 
+                    sys 
+                </h3> 
+ 
+                <p> 
+                    The <strong>sys</strong> module provides 
+                    access to the arguments passed to the Python 
+                    program from Node.js. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="content-card"> 
+ 
+                <h3> 
+                    os 
+                </h3> 
+ 
+                <p> 
+                    The <strong>os</strong> module allows the 
+                    application to build the path to the 
+                    model files. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     09 - MODE NCG 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                09 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    NCG MODEL 
+                </p> 
+ 
+                <h2> 
+                    General Account Number Prediction 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                When the <strong>mode</strong> parameter is 
+                <strong>ncg</strong>, the program loads the model 
+                <strong>NCG_model.pkl</strong>. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+ 
+                <span> 
+                    Python 
+                </span> 
+ 
+                <button 
+                    class="copy-btn" 
+                    data-copy="ncgCode" 
+                > 
+                    Copy 
+                </button> 
+ 
+            </div> 
+ 
+ 
+            <pre id="ncgCode"><code>if mode == "ncg": 
+ 
+    model_path = os.path.join( 
+        BASE_DIR, 
+        "NCG_model.pkl" 
+    ) 
+ 
+    with open(model_path, "rb") as f: 
+        model = pickle.load(f) 
+ 
+    prediction = model.predict([[value]]) 
+ 
+    result = { 
+        "model": "ncg", 
+        "input": value, 
+        "prediction": float(prediction[0]) 
+    }</code></pre> 
+ 
+        </div> 
+ 
+ 
+        <div class="explanation-grid"> 
+ 
+            <div class="explanation-card"> 
+ 
+                <h3> 
+                    1. Mode Verification 
+                </h3> 
+ 
+                <p> 
+                    The program checks whether the received mode 
+                    corresponds to <strong>ncg</strong>. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="explanation-card"> 
+ 
+                <h3> 
+                    2. Model Path 
+                </h3> 
+ 
+                <p> 
+                    The path to 
+                    <strong>NCG_model.pkl</strong> is built 
+                    using <strong>os.path.join()</strong>. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="explanation-card"> 
+ 
+                <h3> 
+                    3. Loading 
+                </h3> 
+ 
+                <p> 
+                    Pickle retrieves the already trained 
+                    Machine Learning model. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="explanation-card"> 
+ 
+                <h3> 
+                    4. Prediction 
+                </h3> 
+ 
+                <p> 
+                    The <strong>model.predict()</strong> 
+                    method produces the predicted value. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     10 - MODE FACTURE 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                10 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    INVOICE MODEL 
+                </p> 
+ 
+                <h2> 
+                    Invoice Number Prediction 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                When the received mode is 
+                <strong>facture</strong>, the program loads 
+                the <strong>FACTURE.pkl</strong> model. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+ 
+                <span> 
+                    Python 
+                </span> 
+ 
+                <button 
+                    class="copy-btn" 
+                    data-copy="factureCode" 
+                > 
+                    Copy 
+                </button> 
+ 
+            </div> 
+ 
+ 
+            <pre id="factureCode"><code>elif mode == "facture": 
+ 
+    model_path = os.path.join( 
+        BASE_DIR, 
+        "FACTURE.pkl" 
+    ) 
+ 
+    with open(model_path, "rb") as f: 
+        model = pickle.load(f) 
+ 
+    prediction = model.predict([[value]]) 
+ 
+    result = { 
+        "model": "facture", 
+        "input": value, 
+        "prediction": float(prediction[0]) 
+    }</code></pre> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <h3> 
+                How It Works 
+            </h3> 
+ 
+            <p> 
+                The principle is similar to the NCG model: 
+                the program selects the model corresponding 
+                to the requested mode, loads the 
+                <strong>FACTURE.pkl</strong> file, and then 
+                applies the model to the received value. 
+            </p> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     11 - GESTION DES ERREURS 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                11 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    ROBUSTNESS 
+                </p> 
+ 
+                <h2> 
+                    Error Handling 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="code-container"> 
+ 
+            <pre><code>else: 
+    result = { 
+        "error": "mode must be ncg or facture" 
+    } 
+ 
+except Exception as e: 
+ 
+    result = { 
+        "error": str(e) 
+    } 
+ 
+print(json.dumps(result))</code></pre> 
+ 
+        </div> 
+ 
+ 
+        <div class="two-columns"> 
+ 
+            <div class="content-card"> 
+ 
+                <h3> 
+                    Invalid Mode 
+                </h3> 
+ 
+                <p> 
+                    If the mode is neither 
+                    <strong>ncg</strong> nor 
+                    <strong>facture</strong>, 
+                    the program returns an error message. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="content-card"> 
+ 
+                <h3> 
+                    try / except 
+                </h3> 
+ 
+                <p> 
+                    The <strong>try/except</strong> block allows 
+                    the program to capture errors that may occur 
+                    while loading the model or 
+                    performing the prediction. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     12 - NODE.JS SERVICE 
+========================================================= --> 
+ 
+<section id="nodejs" class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                12 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    BACKEND 
+                </p> 
+ 
+                <h2> 
+                    Communication Between Node.js and Python 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                Node.js acts as an intermediary between the application 
+                and the Python program. 
+            </p> 
+ 
+            <p> 
+                The <strong>transaction.js</strong> service 
+                uses the <strong>child_process</strong> module 
+                to launch the Python program. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+ 
+                <span> 
+                    transaction.js 
+                </span> 
+ 
+                <button 
+                    class="copy-btn" 
+                    data-copy="nodeServiceCode" 
+                > 
+                    Copy 
+                </button> 
+ 
+            </div> 
+ 
+ 
+            <pre id="nodeServiceCode"><code>const { spawn } = require("child_process"); 
+const path = require("path"); 
+ 
+function runPython(mode, value) { 
+ 
+    return new Promise((resolve, reject) => { 
+ 
+        const scriptPath = path.join( 
+            __dirname, 
+            "../../python/app.py" 
+        ); 
+ 
+        const py = spawn("python", [ 
+            scriptPath, 
+            mode, 
+            value.toString() 
+        ]); 
+ 
+        let output = ""; 
+ 
+        py.stdout.on( 
+            "data", 
+            data => output += data.toString() 
+        ); 
+ 
+        py.stderr.on( 
+            "data", 
+            err => console.error( 
+                "PY ERROR:", 
+                err.toString() 
+            ) 
+        ); 
+ 
+        py.on("close", (code) => { 
+ 
+            if (code !== 0) 
+                return reject("Python error"); 
+ 
+            resolve(output.trim()); 
+ 
+        }); 
+ 
+    }); 
+ 
+} 
+ 
+module.exports = runPython;</code></pre> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     13 - EXPLICATION SPAWN 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                13 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    CHILD PROCESS 
+                </p> 
+ 
+                <h2> 
+                    Launching the Python Program 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <h3> 
+                child_process 
+            </h3> 
+ 
+            <p> 
+                Node.js uses the 
+                <strong>child_process</strong> module to execute 
+                an external program. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="code-container"> 
+ 
+            <pre><code>const { spawn } = require("child_process"); 
+ 
+const py = spawn("python", [ 
+    scriptPath, 
+    mode, 
+    value.toString() 
+]);</code></pre> 
+ 
+        </div> 
+ 
+ 
+        <div class="explanation-grid"> 
+ 
+            <div class="explanation-card"> 
+ 
+                <h3> 
+                    scriptPath 
+                </h3> 
+ 
+                <p> 
+                    Contains the path to the 
+                    <strong>app.py</strong> file. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="explanation-card"> 
+ 
+                <h3> 
+                    mode 
+                </h3> 
+ 
+                <p> 
+                    Tells Python which model to use: 
+                    <strong>ncg</strong> or 
+                    <strong>facture</strong>. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="explanation-card"> 
+ 
+                <h3> 
+                    value 
+                </h3> 
+ 
+                <p> 
+                    Represents the numerical value sent 
+                    to the model to perform the prediction. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     14 - RECUPERATION PYTHON 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                14 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    COMMUNICATION 
+                </p> 
+ 
+                <h2> 
+                    Retrieving the Python Result 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                Node.js retrieves the standard output generated 
+                by the Python program through 
+                <strong>py.stdout</strong>. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="code-container"> 
+ 
+            <pre><code>let output = ""; 
+ 
+py.stdout.on( 
+    "data", 
+    data => output += data.toString() 
+);</code></pre> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <h3> 
+                Python Error Handling 
+            </h3> 
+ 
+            <pre><code>py.stderr.on( 
+    "data", 
+    err => console.error( 
+        "PY ERROR:", 
+        err.toString() 
+    ) 
+);</code></pre> 
+ 
+            <p> 
+                <strong>stderr</strong> allows the application 
+                to retrieve any error messages generated 
+                by Python. 
+            </p> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     15 - BASE DE DONNEES + ROUTE 
+========================================================= --> 
+ 
+<section id="api" class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                15 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    REST API 
+                </p> 
+ 
+                <h2> 
+                    Express Prediction Route 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="endpoint"> 
+ 
+            <span> 
+                POST 
+            </span> 
+ 
+            <strong> 
+                /transactions 
+            </strong> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                The Express route receives the information 
+                required for the prediction. 
+            </p> 
+ 
+            <p> 
+                It then calls the Python service, 
+                retrieves the prediction and saves 
+                the result in MySQL. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="code-container"> 
+ 
+            <div class="code-header"> 
+ 
+                <span> 
+                    transactionRoute.js 
+                </span> 
+ 
+                <button 
+                    class="copy-btn" 
+                    data-copy="routeCode" 
+                > 
+                    Copy 
+                </button> 
+ 
+            </div> 
+ 
+ 
+            <pre id="routeCode"><code>router.post("/", async (req, res) => { 
+ 
+    let connection; 
+ 
+    try { 
+ 
+        const { mode, value } = req.body; 
+ 
+        if (!mode || value === undefined) { 
+ 
+            return res.status(400).json({ 
+                error: "mode and value are required" 
+            }); 
+ 
+        } 
+ 
+        connection = await getConnection(); 
+ 
+        const result = 
+            await runPython(mode, value); 
+ 
+        console.log( 
+            "PYTHON RESULT:", 
+            result 
+        ); 
+ 
+        const data = 
+            typeof result === "string" 
+                ? JSON.parse(result) 
+                : result; 
+ 
+        const prediction = 
+            data?.prediction ?? null; 
+ 
+        if (prediction === null) { 
+ 
+            return res.status(400).json({ 
+                error: "Invalid prediction from Python", 
+                debug: data 
+            }); 
+ 
+        } 
+ 
+        await connection.execute( 
+            `INSERT INTO transactions 
+             (mode, value, prediction) 
+             VALUES (?, ?, ?)`, 
+            [ 
+                mode, 
+                value, 
+                prediction 
+            ] 
+        ); 
+ 
+        return res.json({ 
+ 
+            message: "Prediction saved", 
+ 
+            mode, 
+ 
+            value, 
+ 
+            prediction 
+ 
+        }); 
+ 
+    } catch (err) { 
+ 
+        console.error(err); 
+ 
+        return res.status(500).json({ 
+            error: err.toString() 
+        }); 
+ 
+    } finally { 
+ 
+        if (connection) 
+            await connection.end(); 
+ 
+    } 
+ 
+});</code></pre> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     16 - EXPLICATION ROUTE 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                16 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    PROCESSING 
+                </p> 
+ 
+                <h2> 
+                    How the Route Works Step by Step 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="steps-grid"> 
+ 
+            <div class="step-card"> 
+ 
+                <span>01</span> 
+ 
+                <h3> 
+                    Reception 
+                </h3> 
+ 
+                <p> 
+                    The route retrieves 
+                    <strong>mode</strong> and 
+                    <strong>value</strong> from 
+                    req.body. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="step-card"> 
+ 
+                <span>02</span> 
+ 
+                <h3> 
+                    Validation 
+                </h3> 
+ 
+                <p> 
+                    The server checks that the required 
+                    parameters are present. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="step-card"> 
+ 
+                <span>03</span> 
+ 
+                <h3> 
+                    MySQL Connection 
+                </h3> 
+ 
+                <p> 
+                    A connection to the 
+                    POWERBI_PREDICTION database is opened. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="step-card"> 
+ 
+                <span>04</span> 
+ 
+                <h3> 
+                    Python Call 
+                </h3> 
+ 
+                <p> 
+                    Node.js launches the Python model 
+                    corresponding to the mode. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="step-card"> 
+ 
+                <span>05</span> 
+ 
+                <h3> 
+                    Prediction 
+                </h3> 
+ 
+                <p> 
+                    Python applies the Machine Learning 
+                    model to the received value. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="step-card"> 
+ 
+                <span>06</span> 
+ 
+                <h3> 
+                    Storage 
+                </h3> 
+ 
+                <p> 
+                    The prediction is stored 
+                    in the transactions table. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="step-card"> 
+ 
+                <span>07</span> 
+ 
+                <h3> 
+                    Response 
+                </h3> 
+ 
+                <p> 
+                    Node.js returns the result 
+                    to the client. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="step-card"> 
+ 
+                <span>08</span> 
+ 
+                <h3> 
+                    Closing 
+                </h3> 
+ 
+                <p> 
+                    The MySQL connection is closed 
+                    in the finally block. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     17 - INSERT MYSQL 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                17 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    PERSISTENCE 
+                </p> 
+ 
+                <h2> 
+                    Saving the Prediction 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="code-container"> 
+ 
+            <pre><code>await connection.execute( 
+    `INSERT INTO transactions 
+     (mode, value, prediction) 
+     VALUES (?, ?, ?)`, 
+    [ 
+        mode, 
+        value, 
+        prediction 
+    ] 
+);</code></pre> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                This SQL statement saves the prediction 
+                result in the <strong>transactions</strong> table. 
+            </p> 
+ 
+            <p> 
+                Three pieces of information are stored: 
+            </p> 
+ 
+            <ul class="clean-list"> 
+ 
+                <li> 
+                    <strong>mode</strong>: 
+                    type of model used. 
+                </li> 
+ 
+                <li> 
+                    <strong>value</strong>: 
+                    value sent to the model. 
+                </li> 
+ 
+                <li> 
+                    <strong>prediction</strong>: 
+                    result calculated by the model. 
+                </li> 
+ 
+            </ul> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     18 - REPONSE API 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                18 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    JSON 
+                </p> 
+ 
+                <h2> 
+                    API Response 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                When the prediction is successfully completed 
+                and saved, the API returns a JSON response. 
+            </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="json-example"> 
+ 
+<pre>{ 
+    "message": "Prediction saved", 
+    "mode": "ncg", 
+    "value": 100, 
+    "prediction": 105 
+}</pre> 
+ 
+        </div> 
+ 
+ 
+        <div class="content-card"> 
+ 
+            <p> 
+                This response allows the frontend to know 
+                which model was used, the value sent, and 
+                the prediction result. 
+            </p> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     19 - ARCHITECTURE 
+========================================================= --> 
+ 
+<section id="architecture" class="section architecture-section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                19 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    ARCHITECTURE 
+                </p> 
+ 
+                <h2> 
+                    Complete Project Architecture 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="full-architecture"> 
+ 
+            <div class="arch-row"> 
+ 
+                <span>📁</span> 
+ 
+                <strong> 
+                    Provided Files 
+                </strong> 
+ 
+                <small> 
+                    Training data 
+                </small> 
+ 
+            </div> 
+ 
+ 
+            <div class="arch-arrow"> 
+                ↓ 
+            </div> 
+ 
+ 
+            <div class="arch-row"> 
+ 
+                <span>🧹</span> 
+ 
+                <strong> 
+                    Cleaning 
+                </strong> 
+ 
+                <small> 
+                    Data preparation 
+                </small> 
+ 
+            </div> 
+ 
+ 
+            <div class="arch-arrow"> 
+                ↓ 
+            </div> 
+ 
+ 
+            <div class="arch-row"> 
+ 
+                <span>🗄️</span> 
+ 
+                <strong> 
+                    Storage 
+                </strong> 
+ 
+                <small> 
+                    MySQL / Data Warehouse 
+                </small> 
+ 
+            </div> 
+ 
+ 
+            <div class="arch-arrow"> 
+                ↓ 
+            </div> 
+ 
+ 
+            <div class="arch-row powerbi"> 
+ 
+                <span>📊</span> 
+ 
+                <strong> 
+                    Power BI 
+                </strong> 
+ 
+                <small> 
+                    Dashboard & analysis 
+                </small> 
+ 
+            </div> 
+ 
+ 
+            <div class="arch-arrow"> 
+                ↓ 
+            </div> 
+ 
+ 
+            <div class="arch-row ml"> 
+ 
+                <span>🤖</span> 
+ 
+                <strong> 
+                    Machine Learning 
+                </strong> 
+ 
+                <small> 
+                    NCG and Invoice Models 
+                </small> 
+ 
+            </div> 
+ 
+ 
+            <div class="arch-arrow"> 
+                ↓ 
+            </div> 
+ 
+ 
+            <div class="arch-row"> 
+ 
+                <span>💾</span> 
+ 
+                <strong> 
+                    .pkl Files 
+                </strong> 
+ 
+                <small> 
+                    NCG_model.pkl / FACTURE.pkl 
+                </small> 
+ 
+            </div> 
+ 
+ 
+            <div class="arch-arrow"> 
+                ↓ 
+            </div> 
+ 
+ 
+            <div class="arch-row python"> 
+ 
+                <span>🐍</span> 
+ 
+                <strong> 
+                    Python 
+                </strong> 
+ 
+                <small> 
+                    Model execution 
+                </small> 
+ 
+            </div> 
+ 
+ 
+            <div class="arch-arrow"> 
+                ↓ 
+            </div> 
+ 
+ 
+            <div class="arch-row node"> 
+ 
+                <span>🟢</span> 
+ 
+                <strong> 
+                    Node.js / Express 
+                </strong> 
+ 
+                <small> 
+                    API and communication 
+                </small> 
+ 
+            </div> 
+ 
+ 
+            <div class="arch-arrow"> 
+                ↓ 
+            </div> 
+ 
+ 
+            <div class="arch-row result"> 
+ 
+                <span>🎯</span> 
+ 
+                <strong> 
+                    Prediction 
+                </strong> 
+ 
+                <small> 
+                    Returned and saved result 
+                </small> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     20 - TECHNOLOGIES 
+========================================================= --> 
+ 
+<section class="section"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                20 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    TECHNICAL STACK 
+                </p> 
+ 
+                <h2> 
+                    Technologies Used 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="technology-grid"> 
+ 
+            <div class="technology-card"> 
+ 
+                <span> 
+                    🧹 
+                </span> 
+ 
+                <h3> 
+                    Data Cleaning 
+                </h3> 
+ 
+                <p> 
+                    File preparation and cleaning. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="technology-card"> 
+ 
+                <span> 
+                    🗄️ 
+                </span> 
+ 
+                <h3> 
+                    MySQL 
+                </h3> 
+ 
+                <p> 
+                    Storage of transactions and predictions. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="technology-card"> 
+ 
+                <span> 
+                    📊 
+                </span> 
+ 
+                <h3> 
+                    Power BI 
+                </h3> 
+ 
+                <p> 
+                    Visualization and business analysis. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="technology-card"> 
+ 
+                <span> 
+                    🐍 
+                </span> 
+ 
+                <h3> 
+                    Python 
+                </h3> 
+ 
+                <p> 
+                    Execution of Machine Learning models. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="technology-card"> 
+ 
+                <span> 
+                    💾 
+                </span> 
+ 
+                <h3> 
+                    Pickle 
+                </h3> 
+ 
+                <p> 
+                    Loading of saved models. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="technology-card"> 
+ 
+                <span> 
+                    🟢 
+                </span> 
+ 
+                <h3> 
+                    Node.js 
+                </h3> 
+ 
+                <p> 
+                    Backend and communication with Python. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="technology-card"> 
+ 
+                <span> 
+                    ⚡ 
+                </span> 
+ 
+                <h3> 
+                    Express.js 
+                </h3> 
+ 
+                <p> 
+                    REST API development. 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div class="technology-card"> 
+ 
+                <span> 
+                    🤖 
+                </span> 
+ 
+                <h3> 
+                    Machine Learning 
+                </h3> 
+ 
+                <p> 
+                    Prediction of values based on 
+                    historical data. 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     21 - COMPETENCES 
+========================================================= --> 
+ 
+<section class="section alternate"> 
+ 
+    <div class="container"> 
+ 
+        <div class="section-header"> 
+ 
+            <span class="section-number"> 
+                21 
+            </span> 
+ 
+            <div> 
+ 
+                <p class="section-label"> 
+                    SKILLS 
+                </p> 
+ 
+                <h2> 
+                    Skills Applied 
+                </h2> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="skills"> 
+ 
+            <span> 
+                Data Cleaning 
+            </span> 
+ 
+            <span> 
+                Data Preparation 
+            </span> 
+ 
+            <span> 
+                MySQL 
+            </span> 
+ 
+            <span> 
+                Data Warehouse 
+            </span> 
+ 
+            <span> 
+                Business Intelligence 
+            </span> 
+ 
+            <span> 
+                Power BI 
+            </span> 
+ 
+            <span> 
+                Data Visualization 
+            </span> 
+ 
+            <span> 
+                KPI 
+            </span> 
+ 
+            <span> 
+                Data Analysis 
+            </span> 
+ 
+            <span> 
+                Machine Learning 
+            </span> 
+ 
+            <span> 
+                Python 
+            </span> 
+ 
+            <span> 
+                Pickle 
+            </span> 
+ 
+            <span> 
+                Node.js 
+            </span> 
+ 
+            <span> 
+                Express.js 
+            </span> 
+ 
+            <span> 
+                REST API 
+            </span> 
+ 
+            <span> 
+                JSON 
+            </span> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+ 
+<!-- ========================================================= 
+     22 - CONCLUSION 
+========================================================= --> 
+ 
+<section class="section conclusion"> 
+ 
+    <div class="container"> 
+ 
+        <div class="conclusion-card"> 
+ 
+            <span class="section-label"> 
+                CONCLUSION 
+            </span> 
+ 
+            <h2> 
+                A Complete Data → BI → Machine Learning Pipeline 
+            </h2> 
+ 
+            <p> 
+                The Transactions project allowed me to work 
+                on several stages of a Data project, from 
+                file preparation to their exploitation 
+                in Power BI and their use in predictive models. 
+            </p> 
+ 
+            <p> 
+                The data used was obtained as part of 
+                my training. My work focused on data preparation 
+                and exploitation, as well as the integration 
+                of a Machine Learning solution. 
+            </p> 
+ 
+            <p> 
+                Using Python with Node.js then makes it possible 
+                to make predictive models accessible 
+                through an API. 
+            </p> 
+ 
+ 
+            <div class="final-message"> 
+ 
+                <strong> 
+                    Data → Cleaning → Storage → 
+                    Power BI → Machine Learning → 
+                    Python → Node.js → API 
+                </strong> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</section> 
+ 
+</main> 
+ 
+ 
+<!-- ========================================================= 
+     FOOTER 
+========================================================= --> 
+ 
+<footer class="footer"> 
+ 
+    <div class="container"> 
+ 
+        <div class="footer-content"> 
+ 
+            <div> 
+ 
+                <strong> 
+                    Transactions Project 
+                </strong> 
+ 
+                <p> 
+                    Business Intelligence & Machine Learning 
+                </p> 
+ 
+            </div> 
+ 
+ 
+            <div> 
+ 
+                <p> 
+                    Technical Documentation 
+                </p> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="footer-bottom"> 
+ 
+            © 2026 – Transactions Project 
+ 
+        </div> 
+ 
+    </div> 
+ 
+</footer> 
+ 
+ 
+<!-- ========================================================= 
+     BACK TO TOP 
+========================================================= --> 
+ 
+<button 
+    id="backToTop" 
+    class="back-to-top" 
+    aria-label="Back to top" 
+> 
+    ↑ 
+</button> 
+ 
+ 
+<script src="transaction.js"></script> 
+ 
+</body> 
+</html>

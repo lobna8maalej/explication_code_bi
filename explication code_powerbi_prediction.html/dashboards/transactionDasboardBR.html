@@ -1,0 +1,2263 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Detailed documentation of the TransactionDashboard.jsx component, its connection with transactionSlice.js, TransactionDashboard.css, React, Redux Toolkit, Recharts, Power BI and the Machine Learning prediction system."
+    >
+
+    <title>
+        Transaction ML Dashboard — Technical Documentation
+    </title>
+
+    <!-- ===================================================== -->
+    <!-- CSS FILE CONNECTION -->
+    <!-- ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="TransactionDashboard.css"
+    >
+</head>
+
+<body>
+
+<main class="documentation">
+
+    <header class="documentation-header">
+
+        <h1>
+            💳 Transaction ML Dashboard — Technical Documentation
+        </h1>
+
+        <p>
+            This documentation explains in detail how the
+            <strong>TransactionDashboard.jsx</strong> component works,
+            its connection with <strong>transactionSlice.js</strong>,
+            its <strong>TransactionDashboard.css</strong> file, as well as
+            the use of <strong>React</strong>, <strong>Redux Toolkit</strong>,
+            <strong>Recharts</strong>, <strong>Power BI</strong> and the
+            Machine Learning prediction system.
+        </p>
+
+    </header>
+
+
+    <section class="chapter">
+
+        <p>
+            The Dashboard allows a Machine Learning prediction to be triggered
+            for a transaction of type <strong>invoice</strong>.
+            A value of <strong>18175</strong> TND is sent to Redux through
+            the <code>createTransaction()</code> action.
+        </p>
+
+        <p>
+            The prediction result is then retrieved from Redux and
+            displayed in a KPI card. The Dashboard also compares the
+            predicted value with a fixed value corresponding to the
+            <strong>Global Account (NCG)</strong>.
+        </p>
+
+        <p>
+            At the same time, a <strong>Power BI</strong> report is integrated
+            into the interface using an <code>iframe</code> element.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- GLOBAL FLOW -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <div class="flow">
+
+<pre>
+Component loading
+        ↓
+useEffect()
+        ↓
+dispatch(createTransaction())
+        ↓
+transactionSlice.js
+        ↓
+Transaction processing
+        ↓
+Machine Learning
+        ↓
+Redux Store
+        ↓
+items / loading / error
+        ↓
+TransactionDashboard.jsx
+        ↓
+Prediction display
+        ↓
+KPI + Recharts Chart
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 1 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            1. General overview of the project
+        </h2>
+
+        <p>
+            The <strong>TransactionDashboard.jsx</strong> component represents
+            the React interface of a Dashboard dedicated to the analysis and
+            prediction of transaction data.
+        </p>
+
+        <p>
+            It uses <strong>React</strong> to build the user interface.
+        </p>
+
+        <p>
+            It also uses <strong>Redux Toolkit</strong> to trigger
+            the creation of a transaction and retrieve the prediction data.
+        </p>
+
+        <p>
+            The component also uses the
+            <strong>Recharts</strong> library to graphically represent
+            the predicted value and the Global Account (NCG) value.
+        </p>
+
+        <p>
+            Finally, a <strong>Power BI</strong> report is integrated directly
+            into the page using an <code>iframe</code> element.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 2 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            2. Files and technologies used
+        </h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>File / technology</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>TransactionDashboard.jsx</td>
+                    <td>
+                        Builds the Transaction Dashboard interface.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>transactionSlice.js</td>
+                    <td>
+                        Provides the <code>createTransaction()</code> action
+                        and manages the Redux state associated with transactions.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>TransactionDashboard.css</td>
+                    <td>
+                        Controls the visual presentation of the Dashboard.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>React</td>
+                    <td>
+                        Builds the user interface.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>useEffect</td>
+                    <td>
+                        Automatically triggers the creation of a transaction
+                        when the component is loaded.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>useDispatch</td>
+                    <td>
+                        Allows the <code>createTransaction()</code> action
+                        to be dispatched to Redux.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>useSelector</td>
+                    <td>
+                        Allows data to be retrieved from Redux.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Redux Toolkit</td>
+                    <td>
+                        Manages the global transaction state.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Recharts</td>
+                    <td>
+                        Builds the bar chart.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Power BI</td>
+                    <td>
+                        Displays the integrated analytical report.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Machine Learning</td>
+                    <td>
+                        Produces a predicted value from the data
+                        sent to the system.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 3 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            3. Importing React and useEffect
+        </h2>
+
+        <pre><code>import React, { useEffect } from "react";</code></pre>
+
+        <p>
+            <strong>React</strong> is used to build the
+            functional component.
+        </p>
+
+        <p>
+            The <code>useEffect</code> Hook allows an operation
+            to be executed automatically after the component is rendered.
+        </p>
+
+        <p>
+            In this Dashboard, <code>useEffect</code> is used to
+            automatically trigger a transaction when the component
+            is loaded.
+        </p>
+
+        <div class="flow">
+
+<pre>
+TransactionDashboard loaded
+        ↓
+useEffect()
+        ↓
+dispatch(createTransaction())
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 4 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            4. Importing Redux
+        </h2>
+
+        <pre><code>import {
+  useDispatch,
+  useSelector
+} from "react-redux";</code></pre>
+
+        <p>
+            These two Hooks allow the React component to communicate
+            with the Redux Store.
+        </p>
+
+        <h3>useDispatch</h3>
+
+        <p>
+            <code>useDispatch</code> provides access to the
+            <code>dispatch</code> function.
+        </p>
+
+        <p>
+            This function is used here to dispatch the action:
+        </p>
+
+        <pre><code>createTransaction()</code></pre>
+
+        <h3>useSelector</h3>
+
+        <p>
+            <code>useSelector</code> allows a part of the
+            global Redux state to be retrieved.
+        </p>
+
+        <p>
+            In this component, the Dashboard retrieves:
+        </p>
+
+        <pre><code>state.transaction</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 5 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            5. Importing createTransaction
+        </h2>
+
+        <pre><code>import {
+  createTransaction
+} from "../redux/transactionSlice";</code></pre>
+
+        <p>
+            This instruction creates the connection between
+            <strong>TransactionDashboard.jsx</strong> and
+            <strong>transactionSlice.js</strong>.
+        </p>
+
+        <p>
+            The component can therefore ask Redux to create or process
+            a transaction using:
+        </p>
+
+        <pre><code>createTransaction()</code></pre>
+
+        <p>
+            This action is sent with the following data:
+        </p>
+
+        <pre><code>{
+    mode: "facture",
+    value: 18175
+}</code></pre>
+
+        <div class="flow">
+
+<pre>
+TransactionDashboard.jsx
+        ↓
+createTransaction()
+        ↓
+transactionSlice.js
+        ↓
+Transaction processing
+        ↓
+Redux Store
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 6 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            6. Importing Recharts components
+        </h2>
+
+        <pre><code>import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  Legend,
+} from "recharts";</code></pre>
+
+        <p>
+            These components come from the
+            <strong>Recharts</strong> library.
+        </p>
+
+        <p>
+            They are used to build the bar chart displayed
+            in the Dashboard.
+        </p>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>ResponsiveContainer</td>
+                    <td>
+                        Automatically adapts the chart to the available width.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>BarChart</td>
+                    <td>
+                        Defines the bar chart.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Bar</td>
+                    <td>
+                        Represents values as bars.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>XAxis</td>
+                    <td>
+                        Defines the horizontal axis.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>YAxis</td>
+                    <td>
+                        Defines the vertical value axis.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Tooltip</td>
+                    <td>
+                        Displays information when the user hovers
+                        over a bar.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>CartesianGrid</td>
+                    <td>
+                        Adds a grid to the chart.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Legend</td>
+                    <td>
+                        Displays the chart legend.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 7 CSS -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            7. Connection with TransactionDashboard.css
+        </h2>
+
+        <pre><code>import "./TransactionDashboard.css";</code></pre>
+
+        <p>
+            This instruction loads the CSS file associated with
+            the React component.
+        </p>
+
+        <p>
+            The CSS file separates the functional logic
+            from the visual presentation.
+        </p>
+
+        <p>
+            In the JSX component, several elements use the
+            <code>className</code> property:
+        </p>
+
+        <pre><code>transaction-container
+transaction-title
+transaction-iframe-wrapper
+transaction-iframe
+transaction-loading
+transaction-error
+transaction-card
+transaction-value
+transaction-chart</code></pre>
+
+        <div class="flow">
+
+<pre>
+TransactionDashboard.jsx
+        ↓
+className="transaction-container"
+        ↓
+TransactionDashboard.css
+        ↓
+.transaction-container
+        ↓
+Visual style
+</pre>
+
+        </div>
+
+        <div class="important">
+
+            <h3>Important principle</h3>
+
+            <p>
+                React and Redux manage the data and behavior of the
+                Dashboard, while
+                <strong>TransactionDashboard.css</strong> mainly controls
+                its visual presentation.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 8 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            8. Creating the TransactionDashboard component
+        </h2>
+
+        <pre><code>function TransactionDashboard() {
+    ...
+}</code></pre>
+
+        <p>
+            This function defines the main React component of the
+            Transaction Dashboard.
+        </p>
+
+        <p>
+            It contains the logic used to:
+        </p>
+
+        <ul>
+            <li>communicate with Redux;</li>
+            <li>trigger a transaction;</li>
+            <li>retrieve transactions;</li>
+            <li>manage the loading state;</li>
+            <li>manage errors;</li>
+            <li>retrieve the latest transaction;</li>
+            <li>prepare the chart data;</li>
+            <li>display Power BI;</li>
+            <li>display the prediction;</li>
+            <li>display the Recharts chart.</li>
+        </ul>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 9 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            9. Using useDispatch
+        </h2>
+
+        <pre><code>const dispatch = useDispatch();</code></pre>
+
+        <p>
+            This instruction retrieves the
+            <code>dispatch</code> function provided by Redux.
+        </p>
+
+        <p>
+            The component can therefore send actions to the Redux Store.
+        </p>
+
+        <p>
+            In this project, the main action is:
+        </p>
+
+        <pre><code>createTransaction()</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 10 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            10. Retrieving the Redux state
+        </h2>
+
+        <pre><code>const { items, loading, error } = useSelector(
+  (state) =&gt; state.transaction
+);</code></pre>
+
+        <p>
+            This instruction retrieves the
+            <code>transaction</code> part of the Redux Store.
+        </p>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>items</td>
+                    <td>
+                        Contains the transactions or results returned
+                        by the Slice.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>loading</td>
+                    <td>
+                        Indicates whether the transaction processing
+                        is in progress.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>error</td>
+                    <td>
+                        Contains a possible error that occurred during
+                        processing.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <div class="important">
+
+            <p>
+                The exact behavior of <code>items</code>, including the
+                structure of each element and how
+                <code>prediction</code> is calculated, depends on
+                <strong>transactionSlice.js</strong>.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 11 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            11. Using useEffect
+        </h2>
+
+        <pre><code>useEffect(() =&gt; {
+  dispatch(
+    createTransaction({
+      mode: "facture",
+      value: 18175,
+    })
+  );
+}, [dispatch]);</code></pre>
+
+        <p>
+            This block is executed when the component is mounted.
+        </p>
+
+        <p>
+            Its role is to automatically trigger a transaction
+            without requiring the user to click a button.
+        </p>
+
+        <div class="flow">
+
+<pre>
+TransactionDashboard loaded
+        ↓
+useEffect()
+        ↓
+dispatch()
+        ↓
+createTransaction()
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 12 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            12. Data sent to createTransaction
+        </h2>
+
+        <pre><code>createTransaction({
+  mode: "facture",
+  value: 18175,
+})</code></pre>
+
+        <p>
+            Two pieces of information are sent to Redux.
+        </p>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Value</th>
+                    <th>Meaning</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>mode</td>
+                    <td>facture</td>
+                    <td>
+                        Indicates the type of transaction being processed.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>value</td>
+                    <td>18175</td>
+                    <td>
+                        Numeric value sent to the system.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 13 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            13. Transaction creation flow
+        </h2>
+
+        <div class="flow">
+
+<pre>
+TransactionDashboard
+        ↓
+useEffect()
+        ↓
+dispatch()
+        ↓
+createTransaction({
+    mode: "facture",
+    value: 18175
+})
+        ↓
+transactionSlice.js
+        ↓
+Processing
+        ↓
+Machine Learning
+        ↓
+Result
+        ↓
+Redux Store
+        ↓
+items
+        ↓
+TransactionDashboard
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 14 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            14. Finding the latest transaction
+        </h2>
+
+        <pre><code>const lastTransaction =
+  items.length &gt; 0 ? items[items.length - 1] : null;</code></pre>
+
+        <p>
+            This instruction retrieves the last element of the
+            <code>items</code> array.
+        </p>
+
+        <p>
+            The condition <code>items.length &gt; 0</code> first checks
+            whether the array contains at least one transaction.
+        </p>
+
+        <p>
+            If the array contains data, the component retrieves:
+        </p>
+
+        <pre><code>items[items.length - 1]</code></pre>
+
+        <p>
+            If the array is empty, the variable receives:
+        </p>
+
+        <pre><code>null</code></pre>
+
+        <div class="flow">
+
+<pre>
+items
+  ↓
+items.length > 0 ?
+  ↓
+Yes
+  ↓
+items[items.length - 1]
+  ↓
+lastTransaction
+
+Otherwise
+  ↓
+null
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 15 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            15. Why retrieve the latest transaction?
+        </h2>
+
+        <p>
+            The component mainly wants to display the result
+            of the most recent transaction.
+        </p>
+
+        <p>
+            The <code>lastTransaction</code> variable therefore provides
+            direct access to the latest available transaction.
+        </p>
+
+        <p>
+            It is then used to display:
+        </p>
+
+        <ul>
+            <li>the transaction value;</li>
+            <li>the prediction;</li>
+            <li>the chart data.</li>
+        </ul>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 16 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            16. Creating the chart data
+        </h2>
+
+        <pre><code>const chartData = lastTransaction
+  ? [
+      {
+        name: "Numéro Facture",
+        Valeur: Number(lastTransaction.prediction),
+      },
+      {
+        name: "Compte Global (NCG)",
+        Valeur: 611002,
+      },
+    ]
+  : [];</code></pre>
+
+        <p>
+            This section prepares the data required for the
+            Recharts chart.
+        </p>
+
+        <p>
+            If <code>lastTransaction</code> exists, two elements are created.
+            Otherwise, the array remains empty.
+        </p>
+
+        <pre><code>[]</code></pre>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 17 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            17. First chart value: Invoice Number
+        </h2>
+
+        <pre><code>{
+  name: "Numéro Facture",
+  Valeur: Number(lastTransaction.prediction),
+}</code></pre>
+
+        <p>
+            The first element represents the value predicted by the system.
+        </p>
+
+        <p>
+            <code>lastTransaction.prediction</code> retrieves the prediction
+            of the latest transaction.
+        </p>
+
+        <p>
+            The <code>Number()</code> function converts this value into a number
+            before it is used in the chart.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 18 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            18. Second chart value: Global Account NCG
+        </h2>
+
+        <pre><code>{
+  name: "Compte Global (NCG)",
+  Valeur: 611002,
+}</code></pre>
+
+        <p>
+            The second element represents a fixed value:
+        </p>
+
+        <pre><code>611002</code></pre>
+
+        <p>
+            This value is used as a reference for the
+            <strong>Global Account (NCG)</strong>.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 19 -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            19. Condition for creating the chart data
+        </h2>
+
+        <pre><code>const chartData = lastTransaction
+  ? [...]
+  : [];</code></pre>
+
+        <p>
+            The chart only receives data when a latest
+            transaction is available.
+        </p>
+
+        <div class="flow">
+
+<pre>
+Does lastTransaction exist?
+        ↓
+Yes
+        ↓
+Creation of chartData
+        ↓
+Chart displayed
+
+No
+        ↓
+chartData = []
+        ↓
+No chart
+</pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- 20 - 24 POWER BI -->
+    <!-- ===================================================== -->
+
+    <section class="chapter">
+
+        <h2>
+            20. Main container
+        </h2>
+
+        <pre><code>&lt;div className="transaction-container"&gt;</code></pre>
+
+        <p>
+            This element represents the main interface container.
+            The class is styled by <strong>TransactionDashboard.css</strong>.
+        </p>
+
+
+        <h2>
+            21. Dashboard title
+        </h2>
+
+        <pre><code>&lt;h1 className="transaction-title"&gt;
+  Transaction ML Dashboard
+&lt;/h1&gt;</code></pre>
+
+        <p>
+            The title clearly identifies the main purpose of the page.
+        </p>
+
+
+        <h2>
+            22. Power BI integration
+        </h2>
+
+        <pre><code>&lt;div className="transaction-iframe-wrapper"&gt;
+  &lt;iframe
+    className="transaction-iframe"
+    title="lobna@powerbi"
+    src="https://app.powerbi.com/view?r=..." 
+    allowFullScreen 
+  /&gt; 
+&lt;/div&gt;</code></pre> 
+ 
+        <p> 
+            This section allows a Power BI report to be integrated directly 
+            into the React Dashboard. 
+        </p> 
+ 
+ 
+        <h2> 
+            23. Role of the iframe 
+        </h2> 
+ 
+        <p> 
+            An <code>iframe</code> allows an external resource to be displayed 
+            inside an HTML page. 
+        </p> 
+ 
+        <p> 
+            In this project, the external resource is the 
+            <strong>Power BI</strong> report. 
+        </p> 
+ 
+ 
+        <h2> 
+            24. Power BI flow 
+        </h2> 
+ 
+        <div class="flow"> 
+ 
+<pre> 
+Power BI Report 
+        ↓ 
+Power BI URL 
+        ↓ 
+iframe 
+        ↓ 
+transaction-iframe-wrapper 
+        ↓ 
+transaction-iframe 
+        ↓ 
+TransactionDashboard.css 
+        ↓ 
+Displayed in React 
+</pre> 
+ 
+        </div> 
+ 
+    </section> 
+ 
+ 
+    <!-- ===================================================== --> 
+    <!-- 25 - 27 --> 
+    <!-- ===================================================== --> 
+ 
+    <section class="chapter"> 
+ 
+        <h2> 
+            25. Loading state management 
+        </h2> 
+ 
+        <pre><code>{loading &amp;&amp; ( 
+  &lt;p className="transaction-loading"&gt; 
+    Loading prediction... 
+  &lt;/p&gt; 
+)}</code></pre> 
+ 
+        <p> 
+            If <code>loading</code> is <code>true</code>, the message 
+            <strong>Loading prediction...</strong> is displayed. 
+        </p> 
+ 
+ 
+        <h2> 
+            26. Error management 
+        </h2> 
+ 
+        <pre><code>{error &amp;&amp; ( 
+  &lt;p className="transaction-error"&gt; 
+    {error} 
+  &lt;/p&gt; 
+)}</code></pre> 
+ 
+        <p> 
+            If an error exists, it is displayed using the 
+            <code>transaction-error</code> class. 
+        </p> 
+ 
+ 
+        <h2> 
+            27. KPI card display condition 
+        </h2> 
+ 
+        <pre><code>{lastTransaction &amp;&amp; ( 
+  &lt;div className="transaction-card"&gt; 
+    ... 
+  &lt;/div&gt; 
+)}</code></pre> 
+ 
+        <p> 
+            The prediction card is displayed only when a 
+            <strong>lastTransaction</strong> exists. 
+        </p> 
+ 
+    </section> 
+ 
+ 
+    <!-- ===================================================== --> 
+    <!-- 28 - 33 KPI --> 
+    <!-- ===================================================== --> 
+ 
+    <section class="chapter"> 
+ 
+        <h2> 
+            28. Prediction card 
+        </h2> 
+ 
+        <pre><code>&lt;div className="transaction-card"&gt;</code></pre> 
+ 
+        <p> 
+            This card represents the KPI section of the Dashboard. 
+        </p> 
+ 
+ 
+        <h2> 
+            29. Prediction title 
+        </h2> 
+ 
+        <pre><code>&lt;h3&gt;Transaction Prediction&lt;/h3&gt;</code></pre> 
+ 
+        <p> 
+            This title indicates that the card displays the result of the 
+            prediction associated with the transaction. 
+        </p> 
+ 
+ 
+        <h2> 
+            30. Displaying the transaction type 
+        </h2> 
+ 
+        <pre><code>&lt;p&gt; 
+  &lt;b&gt;Type:&lt;/b&gt; Invoice 
+&lt;/p&gt;</code></pre> 
+ 
+        <p> 
+            This line indicates that the processed transaction corresponds 
+            to the <code>facture</code> mode. 
+        </p> 
+ 
+ 
+        <h2> 
+            31. Displaying the transaction value 
+        </h2> 
+ 
+        <pre><code>{Number(lastTransaction.value).toLocaleString()} TND</code></pre> 
+ 
+        <p> 
+            <code>Number()</code> converts the value into a number and 
+            <code>toLocaleString()</code> formats it for display. 
+        </p> 
+ 
+ 
+        <h2> 
+            32. Displaying the prediction 
+        </h2> 
+ 
+        <pre><code>{Number(lastTransaction.prediction).toFixed(2)} TND</code></pre> 
+ 
+        <p> 
+            <code>toFixed(2)</code> keeps two digits after the decimal point. 
+        </p> 
+ 
+ 
+        <h2> 
+            33. Meaning of the prediction 
+        </h2> 
+ 
+        <p> 
+            The value <code>lastTransaction.prediction</code> represents 
+            the revenue predicted by the system. 
+        </p> 
+ 
+        <div class="flow"> 
+ 
+<pre> 
+Transaction value 
+        ↓ 
+Machine Learning processing 
+        ↓ 
+Prediction 
+        ↓ 
+lastTransaction.prediction 
+        ↓ 
+Predicted revenue 
+</pre> 
+ 
+        </div> 
+ 
+    </section> 
+ 
+ 
+    <!-- ===================================================== --> 
+    <!-- 34 - 45 RECHARTS --> 
+    <!-- ===================================================== --> 
+ 
+    <section class="chapter"> 
+ 
+        <h2> 
+            34. Chart display condition 
+        </h2> 
+ 
+        <pre><code>{chartData.length &gt; 0 &amp;&amp; ( 
+  &lt;div className="transaction-chart"&gt; 
+    ... 
+  &lt;/div&gt; 
+)}</code></pre> 
+ 
+        <p> 
+            The chart is displayed only when 
+            <code>chartData</code> contains data. 
+        </p> 
+ 
+ 
+        <h2> 
+            35. Chart title 
+        </h2> 
+ 
+        <pre><code>&lt;h2&gt;📊 Invoice Number vs NCG&lt;/h2&gt;</code></pre> 
+ 
+        <p> 
+            The title indicates that the chart compares the predicted value 
+            with the Global Account (NCG). 
+        </p> 
+ 
+ 
+        <h2> 
+            36. ResponsiveContainer 
+        </h2> 
+ 
+        <pre><code>&lt;ResponsiveContainer width="100%" height={400}&gt;</code></pre> 
+ 
+        <p> 
+            The chart automatically adapts to the available width. 
+            Its height is 400 pixels. 
+        </p> 
+ 
+ 
+        <h2> 
+            37. BarChart 
+        </h2> 
+ 
+        <pre><code>&lt;BarChart data={chartData}&gt;</code></pre> 
+ 
+        <p> 
+            <code>BarChart</code> builds the bar chart from the 
+            <code>chartData</code> array. 
+        </p> 
+ 
+ 
+        <h2> 
+            38. CartesianGrid 
+        </h2> 
+ 
+        <pre><code>&lt;CartesianGrid strokeDasharray="3 3" /&gt;</code></pre> 
+ 
+        <p> 
+            <code>CartesianGrid</code> adds a grid to the chart. 
+        </p> 
+ 
+ 
+        <h2> 
+            39. XAxis 
+        </h2> 
+ 
+        <pre><code>&lt;XAxis dataKey="name" /&gt;</code></pre> 
+ 
+        <p> 
+            The horizontal axis uses the <code>name</code> property. 
+        </p> 
+ 
+ 
+        <h2> 
+            40. YAxis 
+        </h2> 
+ 
+        <pre><code>&lt;YAxis /&gt;</code></pre> 
+ 
+        <p> 
+            The vertical axis represents the numerical scale of the values. 
+        </p> 
+ 
+ 
+        <h2> 
+            41. Tooltip 
+        </h2> 
+ 
+        <pre><code>&lt;Tooltip /&gt;</code></pre> 
+ 
+        <p> 
+            The Tooltip displays additional information when hovering 
+            over a bar. 
+        </p> 
+ 
+ 
+        <h2> 
+            42. Legend 
+        </h2> 
+ 
+        <pre><code>&lt;Legend /&gt;</code></pre> 
+ 
+        <p> 
+            The legend identifies the data represented in the chart. 
+        </p> 
+ 
+ 
+        <h2> 
+            43. Bar component 
+        </h2> 
+ 
+        <pre><code>&lt;Bar dataKey="Valeur" fill="#4f46e5" /&gt;</code></pre> 
+ 
+        <p> 
+            <code>Bar</code> represents the data as bars. 
+            The <code>dataKey="Valeur"</code> property indicates the 
+            numerical data used. 
+        </p> 
+ 
+ 
+        <h2> 
+            44. Complete chart operation 
+        </h2> 
+ 
+        <div class="flow"> 
+ 
+<pre> 
+lastTransaction 
+        ↓ 
+lastTransaction.prediction 
+        ↓ 
+Number() 
+        ↓ 
+chartData 
+        ↓ 
+BarChart 
+        ↓ 
+Bar 
+        ↓ 
+Chart 
+</pre> 
+ 
+        </div> 
+ 
+ 
+        <h2> 
+            45. Comparison between prediction and NCG 
+        </h2> 
+ 
+        <table> 
+ 
+            <thead> 
+                <tr> 
+                    <th>Element</th> 
+                    <th>Source</th> 
+                </tr> 
+            </thead> 
+ 
+            <tbody> 
+ 
+                <tr> 
+                    <td>Invoice Number</td> 
+                    <td> 
+                        <code>lastTransaction.prediction</code> 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>Global Account (NCG)</td> 
+                    <td> 
+                        Fixed value <code>611002</code> 
+                    </td> 
+                </tr> 
+ 
+            </tbody> 
+ 
+        </table> 
+ 
+    </section> 
+ 
+ 
+    <!-- ===================================================== --> 
+    <!-- 46 - 55 --> 
+    <!-- ===================================================== --> 
+ 
+    <section class="chapter"> 
+ 
+        <h2> 
+            46. Complete connection between React and Redux 
+        </h2> 
+ 
+        <div class="flow"> 
+ 
+<pre> 
+Redux Store 
+│ 
+└── state.transaction 
+    │ 
+    ├── items 
+    ├── loading 
+    └── error 
+    │ 
+    ▼ 
+useSelector() 
+    │ 
+    ▼ 
+TransactionDashboard.jsx 
+    │ 
+    ├── items 
+    ├── loading 
+    └── error 
+    │ 
+    ▼ 
+React Interface 
+</pre> 
+ 
+        </div> 
+ 
+ 
+        <h2> 
+            47. Connection between TransactionDashboard.jsx and transactionSlice.js 
+        </h2> 
+ 
+        <p> 
+            The component uses the 
+            <code>createTransaction()</code> action from 
+            <code>transactionSlice.js</code>. 
+        </p> 
+ 
+        <pre><code>dispatch( 
+  createTransaction({ 
+    mode: "facture", 
+    value: 18175, 
+  }) 
+);</code></pre> 
+ 
+ 
+        <h2> 
+            48. Loading → result cycle 
+        </h2> 
+ 
+        <div class="flow"> 
+ 
+<pre> 
+TransactionDashboard loaded 
+        ↓ 
+useEffect() 
+        ↓ 
+dispatch(createTransaction()) 
+        ↓ 
+loading = true 
+        ↓ 
+"Loading prediction..." 
+        ↓ 
+Machine Learning processing 
+        ↓ 
+Response received 
+        ↓ 
+loading = false 
+        ↓ 
+items updated 
+        ↓ 
+lastTransaction calculated 
+        ↓ 
+KPI card displayed 
+        ↓ 
+Chart displayed 
+</pre> 
+ 
+        </div> 
+ 
+ 
+        <h2> 
+            49. Error cycle 
+        </h2> 
+ 
+        <div class="flow"> 
+ 
+<pre> 
+TransactionDashboard loaded 
+        ↓ 
+dispatch() 
+        ↓ 
+createTransaction() 
+        ↓ 
+Error during processing 
+        ↓ 
+Redux updates error 
+        ↓ 
+TransactionDashboard.jsx 
+        ↓ 
+error && (...) 
+        ↓ 
+Error message displayed 
+</pre> 
+ 
+        </div> 
+ 
+ 
+        <h2> 
+            50. React re-render 
+        </h2> 
+ 
+        <p> 
+            When the Redux data changes, especially 
+            <code>items</code>, <code>loading</code> or <code>error</code>, 
+            React performs a new render of the component. 
+        </p> 
+ 
+        <div class="flow"> 
+ 
+<pre> 
+Redux State change 
+        ↓ 
+useSelector receives new data 
+        ↓ 
+TransactionDashboard re-renders 
+        ↓ 
+lastTransaction recalculated 
+        ↓ 
+chartData recalculated 
+        ↓ 
+New display 
+</pre> 
+ 
+        </div> 
+ 
+ 
+        <h2> 
+            51. Relationship between Redux and calculated data 
+        </h2> 
+ 
+        <table> 
+ 
+            <thead> 
+                <tr> 
+                    <th>Type</th> 
+                    <th>Variable</th> 
+                    <th>Responsibility</th> 
+                </tr> 
+            </thead> 
+ 
+            <tbody> 
+ 
+                <tr> 
+                    <td>Redux State</td> 
+                    <td>items</td> 
+                    <td> 
+                        Contains transaction data. 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>Redux State</td> 
+                    <td>loading</td> 
+                    <td> 
+                        Indicates whether processing is in progress. 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>Redux State</td> 
+                    <td>error</td> 
+                    <td> 
+                        Contains a possible error. 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>Calculated variable</td> 
+                    <td>lastTransaction</td> 
+                    <td> 
+                        Contains the latest available transaction. 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>Calculated variable</td> 
+                    <td>chartData</td> 
+                    <td> 
+                        Contains the data prepared for Recharts. 
+                    </td> 
+                </tr> 
+ 
+            </tbody> 
+ 
+        </table> 
+ 
+ 
+        <h2> 
+            52. Role of lastTransaction 
+        </h2> 
+ 
+        <pre><code>const lastTransaction = 
+  items.length &gt; 0 ? items[items.length - 1] : null;</code></pre> 
+ 
+        <p> 
+            <code>lastTransaction</code> is a calculated variable directly 
+            derived from the Redux data. 
+        </p> 
+ 
+ 
+        <h2> 
+            53. Role of chartData 
+        </h2> 
+ 
+        <p> 
+            <code>chartData</code> transforms the transaction data 
+            into a structure compatible with Recharts. 
+        </p> 
+ 
+        <div class="flow"> 
+ 
+<pre> 
+items 
+ ↓ 
+lastTransaction 
+ ↓ 
+lastTransaction.prediction 
+ ↓ 
+chartData 
+ ↓ 
+Recharts 
+ ↓ 
+BarChart 
+</pre> 
+ 
+        </div> 
+ 
+ 
+        <h2> 
+            54. CSS class mapping 
+        </h2> 
+ 
+        <table> 
+ 
+            <thead> 
+                <tr> 
+                    <th>In TransactionDashboard.jsx</th> 
+                    <th>Corresponding CSS class</th> 
+                </tr> 
+            </thead> 
+ 
+            <tbody> 
+ 
+                <tr> 
+                    <td>transaction-container</td> 
+                    <td>.transaction-container</td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>transaction-title</td> 
+                    <td>.transaction-title</td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>transaction-iframe-wrapper</td> 
+                    <td>.transaction-iframe-wrapper</td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>transaction-iframe</td> 
+                    <td>.transaction-iframe</td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>transaction-loading</td> 
+                    <td>.transaction-loading</td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>transaction-error</td> 
+                    <td>.transaction-error</td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>transaction-card</td> 
+                    <td>.transaction-card</td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>transaction-value</td> 
+                    <td>.transaction-value</td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>transaction-chart</td> 
+                    <td>.transaction-chart</td> 
+                </tr> 
+ 
+            </tbody> 
+ 
+        </table> 
+ 
+ 
+        <h2> 
+            55. Role of TransactionDashboard.css 
+        </h2> 
+ 
+        <p> 
+            The <strong>TransactionDashboard.css</strong> file is 
+            responsible for the visual presentation of the Dashboard. 
+        </p> 
+ 
+        <ul> 
+            <li>Dashboard width;</li> 
+            <li>margins and spacing;</li> 
+            <li>title;</li> 
+            <li>Power BI iframe;</li> 
+            <li>KPI card;</li> 
+            <li>predicted value;</li> 
+            <li>loading message;</li> 
+            <li>error message;</li> 
+            <li>chart container.</li> 
+        </ul> 
+ 
+        <div class="flow"> 
+ 
+<pre> 
+Redux 
+        ↓ 
+Data 
+        ↓ 
+TransactionDashboard.jsx 
+        ↓ 
+JSX + className 
+        ↓ 
+TransactionDashboard.css 
+        ↓ 
+Visual presentation 
+</pre> 
+ 
+        </div> 
+ 
+    </section> 
+ 
+ 
+    <!-- ===================================================== --> 
+    <!-- 56 - 60 --> 
+    <!-- ===================================================== --> 
+ 
+    <section class="chapter"> 
+ 
+        <h2> 
+            56. Overall system architecture 
+        </h2> 
+ 
+        <div class="flow"> 
+ 
+<pre> 
+                  TransactionDashboard.jsx 
+                           │ 
+             ┌─────────────┼─────────────┐ 
+             ▼             ▼             ▼ 
+         useEffect     useSelector    useDispatch 
+             │             │             │ 
+             ▼             ▼             ▼ 
+       createTransaction  Redux Store  dispatch() 
+                           │ 
+                 ┌─────────┼─────────┐ 
+                 ▼         ▼         ▼ 
+               items     loading    error 
+                 │ 
+                 ▼ 
+          lastTransaction 
+                 │ 
+                 ▼ 
+             chartData 
+                 │ 
+          ┌──────┴──────┐ 
+          ▼             ▼ 
+       KPI Card       Recharts 
+          │             │ 
+          └──────┬──────┘ 
+                 ▼ 
+              Interface 
+                 │ 
+          ┌──────┴──────┐ 
+          ▼             ▼ 
+       Power BI     CSS Styling 
+</pre> 
+ 
+        </div> 
+ 
+ 
+        <h2> 
+            57. Separation of responsibilities 
+        </h2> 
+ 
+        <table> 
+ 
+            <thead> 
+                <tr> 
+                    <th>Element</th> 
+                    <th>Responsibility</th> 
+                </tr> 
+            </thead> 
+ 
+            <tbody> 
+ 
+                <tr> 
+                    <td>TransactionDashboard.jsx</td> 
+                    <td> 
+                        User interface and orchestration. 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>useEffect</td> 
+                    <td> 
+                        Automatically triggers the transaction when loaded. 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>useDispatch</td> 
+                    <td> 
+                        Sends the action to Redux. 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>useSelector</td> 
+                    <td> 
+                        Retrieves items, loading and error. 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>transactionSlice.js</td> 
+                    <td> 
+                        Manages Redux logic associated with transactions. 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>Machine Learning</td> 
+                    <td> 
+                        Produces the predicted value. 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>Recharts</td> 
+                    <td> 
+                        Represents the data graphically. 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>Power BI</td> 
+                    <td> 
+                        Provides integrated analytical visualizations. 
+                    </td> 
+                </tr> 
+ 
+                <tr> 
+                    <td>TransactionDashboard.css</td> 
+                    <td> 
+                        Controls the visual presentation. 
+                    </td> 
+                </tr> 
+ 
+            </tbody> 
+ 
+        </table> 
+ 
+ 
+        <h2> 
+            58. Complete transaction flow 
+        </h2> 
+ 
+        <div class="flow"> 
+ 
+<pre> 
+1. The user opens TransactionDashboard 
+        ↓ 
+2. React mounts the component 
+        ↓ 
+3. useEffect() is executed 
+        ↓ 
+4. dispatch() is called 
+        ↓ 
+5. createTransaction() is executed 
+        ↓ 
+6. mode = "facture" 
+        ↓ 
+7. value = 18175 
+        ↓ 
+8. transactionSlice.js processes the request 
+        ↓ 
+9. The Machine Learning system produces a prediction 
+        ↓ 
+10. Redux receives the result 
+        ↓ 
+11. items is updated 
+        ↓ 
+12. React detects the change 
+        ↓ 
+13. lastTransaction retrieves the latest transaction 
+        ↓ 
+14. chartData is built 
+        ↓ 
+15. The KPI card appears 
+        ↓ 
+16. The predicted value is displayed 
+        ↓ 
+17. Recharts builds the chart 
+        ↓ 
+18. Power BI remains displayed in the iframe 
+</pre> 
+ 
+        </div> 
+ 
+ 
+        <h2> 
+            59. Concrete example of how it works 
+        </h2> 
+ 
+        <p> 
+            When the component is loaded, it automatically sends: 
+        </p> 
+ 
+        <pre><code>{ 
+    mode: "facture", 
+    value: 18175 
+}</code></pre> 
+ 
+        <p> 
+            The request is sent to Redux using: 
+        </p> 
+ 
+        <pre><code>dispatch( 
+  createTransaction({ 
+    mode: "facture", 
+    value: 18175, 
+  }) 
+);</code></pre> 
+ 
+        <p> 
+            The system then processes this data and returns a prediction. 
+        </p> 
+ 
+        <p> 
+            Suppose the system returns, for example: 
+        </p> 
+ 
+        <pre><code>prediction = 25000</code></pre> 
+ 
+        <p> 
+            The component retrieves this value using: 
+        </p> 
+ 
+        <pre><code>lastTransaction.prediction</code></pre> 
+ 
+        <p> 
+            and then displays it in the card: 
+        </p> 
+ 
+        <pre><code>25000.00 TND</code></pre> 
+ 
+        <p> 
+            and also uses it in the chart. 
+        </p> 
+ 
+ 
+        <h2> 
+            60. Final summary to remember 
+        </h2> 
+ 
+        <div class="important"> 
+ 
+            <p> 
+                <strong> 
+                    React builds the interface → useEffect automatically triggers 
+                    createTransaction() when the component loads → 
+                    useDispatch sends the action to Redux → 
+                    transactionSlice.js processes the transaction → 
+                    the Machine Learning system produces a prediction → 
+                    Redux updates items, loading and error → 
+                    useSelector retrieves this information → 
+                    lastTransaction retrieves the latest transaction → 
+                    chartData prepares the chart data → 
+                    the KPI card displays the value and prediction → 
+                    Recharts represents the prediction and the Global Account 
+                    NCG as a bar chart → 
+                    Power BI displays the analytical report → 
+                    TransactionDashboard.css handles the visual presentation. 
+                </strong> 
+            </p> 
+ 
+        </div> 
+ 
+    </section> 
+ 
+ 
+    <!-- ===================================================== --> 
+    <!-- CONCLUSION --> 
+    <!-- ===================================================== --> 
+ 
+    <section class="chapter conclusion"> 
+ 
+        <p> 
+            The <strong>TransactionDashboard.jsx</strong> component therefore 
+            constitutes the user interface of the transaction prediction 
+            system. 
+        </p> 
+ 
+        <p> 
+            Unlike a Dashboard that requires the user to manually enter 
+            several variables, this component automatically triggers 
+            a transaction when it is loaded using the 
+            <code>useEffect</code> Hook. 
+        </p> 
+ 
+        <p> 
+            The transaction sent to Redux contains the mode 
+            <code>"facture"</code> and a value of <code>18175</code>. 
+        </p> 
+ 
+        <p> 
+            The <code>dispatch()</code> function sends this request to 
+            <strong>createTransaction()</strong>, provided by 
+            <strong>transactionSlice.js</strong>. 
+        </p> 
+ 
+        <p> 
+            Redux then manages the state of the operation through 
+            <code>items</code>, <code>loading</code> and <code>error</code>. 
+        </p> 
+ 
+        <p> 
+            When the data is available, the component retrieves 
+            the latest transaction using: 
+        </p> 
+ 
+        <pre><code>items[items.length - 1]</code></pre> 
+ 
+        <p> 
+            This latest transaction provides the predicted value 
+            through: 
+        </p> 
+ 
+        <pre><code>lastTransaction.prediction</code></pre> 
+ 
+        <p> 
+            The prediction is displayed in a KPI card and formatted 
+            with two decimal places using 
+            <code>toFixed(2)</code>. 
+        </p> 
+ 
+        <p> 
+            The data is then prepared in 
+            <code>chartData</code> so that it can be used by 
+            <strong>Recharts</strong>. 
+        </p> 
+ 
+        <p> 
+            At the same time, the <strong>Power BI</strong> report is integrated 
+            using an <code>iframe</code>. 
+        </p> 
+ 
+        <p> 
+            Finally, 
+            <strong>TransactionDashboard.css</strong> controls 
+            the visual appearance of the Dashboard. 
+        </p> 
+ 
+        <div class="flow"> 
+ 
+<pre> 
+React 
+  ↓ 
+useEffect 
+  ↓ 
+dispatch() 
+  ↓ 
+createTransaction() 
+  ↓ 
+transactionSlice.js 
+  ↓ 
+Machine Learning 
+  ↓ 
+Prediction 
+  ↓ 
+Redux 
+  ↓ 
+items 
+  ↓ 
+lastTransaction 
+  ↓ 
+KPI + Recharts 
+  ↓ 
+Power BI 
+  ↓ 
+TransactionDashboard.css 
+  ↓ 
+Final Dashboard 
+</pre> 
+ 
+        </div> 
+ 
+        <p class="footer-note"> 
+            💳 Technical Documentation — Transaction ML Dashboard 
+        </p> 
+ 
+    </section> 
+ 
+</main> 
+ 
+</body> 
+</html>
+```

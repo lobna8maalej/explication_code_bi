@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>
+    Parapharma Dashboard Explanation - Redux Toolkit, React, Axios, Recharts and Power BI
+</title>
+
+<link rel="stylesheet" href="ParapharmaExplanation.css">
+```
+
+</head>
+
+<body>
+
+<main class="documentation">
+
+<header class="documentation-header">
+
+```
+<h1>
+    💊 Parapharma Dashboard — Code Explanation
+</h1>
+
+<p>
+    Technical documentation explaining how Redux Toolkit,
+    React, Axios, Recharts and Power BI work together for the retrieval,
+    prediction and visualization of parapharmacy data.
+</p>
+```
+
+</header>
+
+<!-- ===================================================== -->
+
+<!-- 74 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 74 — Managing Parapharma Data with Redux Toolkit and React</h2>
+
+<p>
+    In this part of the project, a system for retrieving and visualizing
+    parapharmacy data has been developed using several complementary
+    frontend technologies, including
+    <strong>React, Redux Toolkit, Axios, Recharts and Power BI</strong>.
+    The main objective of this functionality is to allow the
+    user to access a dashboard dedicated to parapharmacy data.
+    The dashboard combines an integrated Power BI report,
+    the display of real data, prediction values and a
+    chart that visually compares real and predicted values.
+    Unlike the Real Estate dashboard presented previously, this
+    functionality does not contain a button allowing the user
+    to manually enter data. The data is automatically retrieved
+    from the backend when the React component is loaded.
+    Redux Toolkit is used to centralize the state of the
+    Parapharma data, while React is responsible for displaying it
+    in the interface. Axios handles HTTP communication with
+    the Node.js/Express backend. The Recharts library then
+    transforms the received data into a chart. The Power BI
+    report is directly integrated into the page using an iframe.
+    The architecture therefore makes it possible to combine
+    data retrieval, prediction, graphical visualization and
+    Business Intelligence in a single interface.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 75 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 75 — Importing Redux Toolkit and Axios</h2>
+
+<p>
+    The Redux file begins by importing
+    <code>createSlice</code> and <code>createAsyncThunk</code> from
+    <code>@reduxjs/toolkit</code>. These two features play different
+    roles in state management. The
+    <code>createSlice()</code> function makes it possible to create
+    a section of the Redux store dedicated to parapharmacy data.
+    It allows the developer to define the slice name, its initial
+    state and the processing associated with the different stages
+    of the asynchronous operation. The
+    <code>createAsyncThunk()</code> function is used to create an
+    asynchronous action intended to perform an operation such as
+    an HTTP request to a server. The file also imports
+    <code>axios</code> using the instruction
+    <code>import axios from "axios"</code>. Axios is used here to
+    communicate with the backend API. The combination of Redux Toolkit
+    and Axios therefore makes it possible to separate state management
+    from server communication logic.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 76 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 76 — Creating the fetchParapharma Asynchronous Action</h2>
+
+<p>
+    The main action in the Redux file is
+    <code>fetchParapharma</code>. It is created using
+    <code>createAsyncThunk()</code>. The first parameter
+    <code>"parapharma/fetchParapharma"</code> corresponds to the
+    Redux action type. It identifies this operation within
+    the application. The second parameter is an asynchronous
+    function that receives two parameters: <code>_</code> and
+    <code>thunkAPI</code>. The first parameter is represented by
+    <code>_</code> because no specific data is required
+    to trigger this action. The thunk is therefore launched
+    without an argument. The second parameter,
+    <code>thunkAPI</code>, provides several Redux Toolkit
+    features, including <code>rejectWithValue()</code>, which is
+    used here to properly transmit an error to the Redux reducer.
+    The function then contains a <code>try/catch</code> block.
+    The <code>try</code> block contains the communication with
+    the backend, while the <code>catch</code> block handles
+    possible errors.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 77 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 77 — GET Request to the Parapharma Backend</h2>
+
+<p>
+    Inside the <code>try</code> block, Axios performs an HTTP GET
+    request using the instruction
+    <code>axios.get("http://localhost:3000/parapharma")</code>.
+    This request allows the frontend to request parapharmacy data
+    from the backend. The address
+    <code>http://localhost:3000/parapharma</code> represents
+    the API endpoint used to retrieve the information.
+    The <strong>GET</strong> method means that the frontend requests
+    data from the server without sending a new dataset to be stored.
+    When the backend responds, the complete response is stored
+    in the constant <code>response</code>. The code then uses
+    <code>return response.data</code>. This instruction returns
+    the data contained in the HTTP response. Redux Toolkit then
+    uses this value as the payload of the
+    <code>fulfilled</code> action if the request succeeds.
+    The frontend can therefore retrieve the data returned by the
+    API and store it in the Redux store.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 78 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 78 — Error Handling with rejectWithValue</h2>
+
+<p>
+    The <code>catch</code> block handles errors that may occur
+    during communication with the backend. The code uses
+    <code>thunkAPI.rejectWithValue()</code> to transmit
+    customized error information to the Redux reducer.
+    The expression
+    <code>error.response?.data?.error || error.message</code>
+    first attempts to retrieve an error message sent directly
+    by the backend. The <code>?.</code> operator, called
+    optional chaining, allows a property to be accessed without
+    causing another error if one of the previous properties
+    does not exist. If the backend does not provide an error
+    message in <code>error.response.data.error</code>, the code
+    then uses <code>error.message</code>, which corresponds to
+    the message provided by Axios or JavaScript. This value is
+    then transmitted to Redux through <code>rejectWithValue()</code>.
+    The <code>rejected</code> reducer can then retrieve this
+    information using <code>action.payload</code> and store it
+    in the state.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 79 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 79 — Creating the Parapharma Slice</h2>
+
+<p>
+    The code then creates the Redux slice using
+    <code>createSlice()</code>. The slice is identified by
+    <code>name: "parapharma"</code>. This property indicates
+    that this part of the Redux store is dedicated to the
+    Parapharma functionality. The slice also contains an
+    <code>initialState</code> property that defines the initial
+    state values. This initial state contains five main pieces
+    of information: <code>loading</code>, <code>error</code>,
+    <code>message</code>, <code>rowsInserted</code> and
+    <code>items</code>. The <code>loading</code> property indicates
+    whether data retrieval is currently in progress. It is
+    initialized to <code>false</code> because no request is
+    executed when the store starts. The <code>error</code>
+    property is initialized to <code>null</code> so that a
+    possible error can be stored. <code>message</code> initially
+    contains an empty string. <code>rowsInserted</code> is
+    initialized to zero and will receive the number of rows
+    returned by the backend. Finally, <code>items</code> is
+    initialized with an empty array intended to receive the
+    Parapharma data returned by the API.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 80 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 80 — Managing the Pending State</h2>
+
+<p>
+    When the <code>fetchParapharma()</code> action is triggered,
+    Redux Toolkit automatically starts the
+    <code>pending</code> state. The code uses
+    <code>.addCase(fetchParapharma.pending, ...)</code> to define
+    the changes that must be performed during this phase.
+    The first instruction is <code>state.loading = true</code>.
+    This value tells the React application that a data retrieval
+    request is currently in progress. The code also sets
+    <code>state.error = null</code>. This instruction clears
+    any previous error before starting a new retrieval.
+    In the React component, the <code>loading</code> property
+    is then used to display the message
+    <strong>"Loading prediction..."</strong>. The
+    <code>pending</code> state is therefore the first step of
+    the asynchronous cycle: Redux tells the component that the
+    data is not yet available and that the frontend must wait
+    until the backend responds.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 81 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 81 — Managing the Fulfilled State</h2>
+
+<p>
+    When the GET request to the backend succeeds, Redux Toolkit
+    automatically triggers the <code>fulfilled</code> state.
+    The associated reducer then receives the information returned
+    by the thunk in <code>action.payload</code>. The first
+    instruction is <code>state.loading = false</code>, indicating
+    that data retrieval is complete. The code then retrieves
+    the backend message using
+    <code>state.message = action.payload.message</code>.
+    The number of rows is stored using
+    <code>state.rowsInserted = action.payload.rowsInserted</code>.
+    Finally, the main data is stored using
+    <code>state.items = action.payload.data</code>. This last
+    property is particularly important because it contains the
+    data array that will later be used by the React component.
+    The information returned by the backend therefore follows
+    a clear path: it is received by Axios, returned by the thunk,
+    becomes the payload of <code>fulfilled</code>, and is then
+    stored in the Redux store. React can then retrieve these
+    values using <code>useSelector()</code>.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 82 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 82 — Managing the Rejected State</h2>
+
+<p>
+    When the Axios request fails, Redux Toolkit triggers the
+    <code>rejected</code> state. This situation can occur when
+    the backend is stopped, when the <code>/parapharma</code>
+    endpoint is incorrect, when a server error occurs, or when
+    a network problem prevents communication. The reducer then
+    uses <code>.addCase(fetchParapharma.rejected, ...)</code>.
+    The first instruction sets <code>state.loading</code> back
+    to <code>false</code>, because the request has finished even
+    though it failed. The code then stores the error using
+    <code>state.error = action.payload</code>. The
+    <code>action.payload</code> value corresponds to the
+    information previously transmitted by
+    <code>rejectWithValue()</code>. The React component then
+    retrieves this value and can display the error message
+    using the condition <code>{error &amp;&amp; ...}</code>.
+    The Redux Toolkit cycle is therefore fully managed through
+    the three states <strong>pending</strong>,
+    <strong>fulfilled</strong> and <strong>rejected</strong>.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 83 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 83 — Exporting the Parapharma Reducer</h2>
+
+<p>
+    At the end of the Redux file, the instruction
+    <code>export default parapharmaSlice.reducer</code> exports
+    the reducer created by <code>createSlice()</code>. This
+    reducer must then be registered in the application's main
+    Redux store. Once registered, the <code>parapharma</code>
+    state becomes accessible within React components. The
+    <code>ParapharmaDashboard</code> component can then use
+    <code>useSelector()</code> to retrieve information from the
+    state and <code>useDispatch()</code> to trigger the
+    <code>fetchParapharma()</code> action. This organization
+    makes it possible to centralize all Parapharma data retrieval
+    and management logic in a dedicated Redux file.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 84 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 84 — Importing React and Redux Features</h2>
+
+<p>
+    The <code>ParapharmaDashboard</code> component begins by
+    importing React and the <code>useEffect</code> hook using
+    <code>import React, { useEffect } from "react"</code>.
+    <code>useEffect</code> makes it possible to execute an
+    operation after the component has rendered. In this
+    functionality, it is used to automatically start retrieving
+    Parapharma data. The component also imports
+    <code>useDispatch</code> and <code>useSelector</code> from
+    <code>react-redux</code>. <code>useDispatch</code> allows
+    an action to be sent to Redux, while <code>useSelector</code>
+    allows part of the Redux state to be retrieved. The
+    <code>fetchParapharma</code> action is then imported from
+    <code>../redux/parapharmaSlice</code>. Finally, the
+    <code>ParapharmaDashboard.css</code> file is imported in
+    order to separate the visual presentation of the dashboard
+    from the JavaScript logic.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 85 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 85 — Importing Recharts</h2>
+
+<p>
+    The component also uses the <strong>Recharts</strong> library
+    to build the comparison chart between real values and predicted
+    values. Several components are imported from <code>recharts</code>.
+    <code>ResponsiveContainer</code> automatically adapts the
+    chart width to its container. <code>BarChart</code> represents
+    the chart as a bar chart. <code>Bar</code> represents the bars
+    corresponding to the different data series. <code>XAxis</code>
+    defines the horizontal axis, while <code>YAxis</code> defines
+    the vertical axis. <code>CartesianGrid</code> adds a grid
+    that makes the chart easier to read. <code>Tooltip</code>
+    displays additional information when the user hovers over
+    the data. Finally, <code>Legend</code> displays the legend
+    used to identify the different series, particularly the
+    <strong>Real</strong> and <strong>Prediction</strong> values.
+    Using Recharts therefore makes it easy to transform data
+    received from the backend into an interactive visualization.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 86 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 86 — Creating the ParapharmaDashboard Component</h2>
+
+<p>
+    The <code>ParapharmaDashboard()</code> function represents
+    the main page of the Parapharma dashboard. It brings several
+    functionalities together in a single interface. The component
+    first retrieves data automatically from the backend. It then
+    displays an integrated Power BI report using an iframe.
+    The information returned by the API is also displayed as a
+    list and used to build a chart comparing real and predicted
+    values. The component therefore acts as the presentation
+    layer between the data stored in Redux and the end user.
+    It does not directly perform the Axios request: this
+    responsibility is centralized in the
+    <code>parapharmaSlice.js</code> file. This separation creates
+    a clearer architecture in which Redux manages the data and
+    React is mainly responsible for displaying it.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 87 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 87 — Using useDispatch</h2>
+
+<p>
+    The code uses the instruction
+    <code>const dispatch = useDispatch()</code> to obtain the
+    function used to send actions to Redux. In this component,
+    <code>dispatch</code> is used inside <code>useEffect()</code>
+    with the instruction <code>dispatch(fetchParapharma())</code>.
+    This means that the component asks Redux to execute the
+    asynchronous <code>fetchParapharma</code> action. Redux then
+    automatically triggers the <code>pending</code> cycle, after
+    which the thunk uses Axios to contact the backend. The React
+    component therefore does not communicate directly with the API.
+    It goes through Redux, which makes it possible to centralize
+    the data retrieval logic. This approach makes the code more
+    organized and facilitates application maintenance.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 88 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 88 — Retrieving State with useSelector</h2>
+
+<p>
+    The component then retrieves information from the Parapharma
+    slice using <code>useSelector()</code>. The instruction
+    <code>useSelector((state) =&gt; state.parapharma)</code>
+    provides access to the entire state associated with this
+    functionality. The code then extracts five properties:
+    <code>loading</code>, <code>error</code>, <code>message</code>,
+    <code>rowsInserted</code> and <code>items</code>.
+    <code>loading</code> indicates whether data retrieval is
+    in progress. <code>error</code> contains a possible error.
+    <code>message</code> contains the message returned by the
+    backend. <code>rowsInserted</code> represents the number
+    of rows returned or processed. Finally, <code>items</code>
+    contains the main Parapharma data array. Through
+    <code>useSelector()</code>, React remains synchronized with
+    Redux. When Redux changes one of these values, the component
+    automatically re-renders and the interface is updated.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 89 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 89 — Automatically Retrieving Data with useEffect</h2>
+
+<p>
+    The code then uses the <code>useEffect()</code> hook to
+    automatically trigger data retrieval when the component
+    is loaded. The instruction
+    <code>useEffect(() =&gt; { dispatch(fetchParapharma()); }, [dispatch])</code>
+    indicates that the <code>fetchParapharma()</code> action
+    must be executed after the component renders. With this logic,
+    the user does not need to click a button to request the data.
+    As soon as the Parapharma page is displayed, React triggers
+    the dispatch to Redux. Redux then launches the thunk, which
+    uses Axios to send the GET request to <code>/parapharma</code>.
+    The dependency array contains <code>dispatch</code>. This
+    organization allows React to properly manage the effect and
+    avoid unnecessary execution during subsequent renders.
+    Data loading is therefore automated as soon as the dashboard
+    is opened.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 90 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 90 — Transforming Data for Recharts</h2>
+
+<p>
+    The component then creates a constant called
+    <code>chartData</code>. This constant transforms the data
+    contained in <code>items</code> to adapt it to the format
+    expected by Recharts. The code uses
+    <code>items.map((item, index) =&gt; (...))</code> to iterate
+    through each element of the array. For each element, a new
+    object is created with three properties. The <code>name</code>
+    property receives a value such as <strong>Data 1</strong>,
+    <strong>Data 2</strong>, <strong>Data 3</strong>, etc.
+    This value is used as a category on the horizontal axis of
+    the chart. The <code>Reel</code> property receives the value
+    <code>item.real</code>, corresponding to the actual value
+    provided by the data. The <code>Prediction</code> property
+    receives <code>item.prediction</code>, corresponding to the
+    predicted value. This transformation is important because
+    it prepares the data received from the backend in a structure
+    directly usable by the <code>BarChart</code> component.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 91 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 91 — Integrating the Power BI Report</h2>
+
+<p>
+    The dashboard also contains a Power BI report integrated
+    into the interface using an <code>iframe</code> tag.
+    The <code>src</code> property contains the address of the
+    published Power BI report. Through this integration, the
+    decision-making report can be displayed directly on the
+    React page without requiring the user to open another
+    application. The <code>para-iframe</code> class controls
+    the appearance and dimensions of the iframe in the CSS file.
+    The <code>title="PARAPHARMACIE"</code> property provides
+    a descriptive title for the embedded content. The
+    <code>allowFullScreen</code> property allows full-screen
+    display when this feature is available. This part shows
+    how Power BI can be used as a Business Intelligence layer
+    within a React application. The dashboard therefore combines
+    the analytical capabilities of Power BI with interactive
+    components developed directly in React.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 92 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 92 — Displaying the Loading State</h2>
+
+<p>
+    The component uses the <code>loading</code> property retrieved
+    from Redux to determine whether the data is still being retrieved.
+    The code uses the condition
+    <code>{loading &amp;&amp; &lt;p className="loading"&gt;Loading prediction...&lt;/p&gt;}</code>.
+    If <code>loading</code> is <code>true</code>, the paragraph
+    containing the message <strong>"Loading prediction..."</strong>
+    is displayed. This information allows the user to understand
+    that the system is currently retrieving the data and predictions.
+    When the thunk finishes executing, Redux changes
+    <code>loading</code> and the component is automatically updated.
+    The loading message then disappears when
+    <code>loading</code> becomes <code>false</code>.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 93 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 93 — Displaying Errors</h2>
+
+<p>
+    The component also provides an error display mechanism using
+    the condition <code>{error &amp;&amp; ...}</code>. If the
+    <code>error</code> property contains a value, a paragraph
+    with the CSS class <code>error</code> is displayed. The
+    content of the paragraph corresponds to the value of
+    <code>error</code>. This value comes from the
+    <code>rejected</code> reducer of the Redux slice. When an
+    error occurs in Axios, the <code>catch</code> block uses
+    <code>rejectWithValue()</code> to transmit the message to
+    the reducer. The reducer then stores the value in
+    <code>state.error</code>. React retrieves this information
+    through <code>useSelector()</code> and displays it in the
+    interface. The user is therefore directly informed whenever
+    a problem prevents the retrieval of Parapharma data.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 94 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 94 — Displaying the Message and Number of Rows</h2>
+
+<p>
+    When loading is complete and there is no error, the component
+    displays the information returned by the backend using the
+    condition <code>{!loading &amp;&amp; !error &amp;&amp; (...)}</code>.
+    In this section, an information card with the class
+    <code>info-card</code> is displayed. The title
+    <code>&lt;h2&gt;{message}&lt;/h2&gt;</code> presents the
+    message received from the backend. The paragraph
+    <code>Rows inserted: {rowsInserted}</code> then displays
+    the number of rows returned by the API. These values are
+    therefore not hard-coded in the component. They come from
+    the backend, are transmitted through Axios, stored in Redux,
+    and then retrieved by React. This chain makes it possible
+    to dynamically display the result of the Parapharma data
+    processing.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 95 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 95 — Displaying the Prediction List</h2>
+
+<p>
+    The component then uses <code>items.map()</code> to iterate
+    through the data retrieved from Redux. For each element
+    <code>t</code>, an <code>li</code> element is created.
+    The <code>key={i}</code> property allows React to identify
+    each list element when updating the virtual DOM. The displayed
+    content consists of two pieces of information:
+    <code>Real: {t.real}</code> and
+    <code>Prediction: {t.prediction}</code>.
+    The user can therefore directly view the real values and
+    predicted values returned by the backend. The
+    <code>list-box</code> class controls the appearance of this
+    list through the CSS file. This section provides a textual
+    representation of the data before its graphical representation.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 96 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 96 — Conditional Display of the Chart</h2>
+
+<p>
+    The chart is displayed only when at least one data item is
+    available. The code uses the condition
+    <code>{chartData.length &gt; 0 &amp;&amp; (...)}</code>.
+    This means that the graphical section is rendered only if
+    the <code>chartData</code> array contains elements.
+    This condition prevents an empty chart from being displayed
+    when the data has not yet been retrieved or when the backend
+    returns an empty array. Before the chart, the component also
+    displays the title <strong>"📈 Real vs Prediction"</strong>.
+    A div with the class <code>chart-box</code> then contains
+    the chart. This organization makes it possible to clearly
+    present the comparison between real and predicted values.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 97 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 97 — Using ResponsiveContainer</h2>
+
+<p>
+    The chart is placed inside the
+    <code>ResponsiveContainer</code> component. It receives
+    <code>width="100%"</code> and <code>height={350}</code>.
+    A width of 100% means that the chart occupies the available
+    width of its container. This approach allows the chart to
+    automatically adapt to different screen sizes. The height
+    is fixed at 350 pixels in order to maintain a sufficient
+    dimension for comfortable reading. Using
+    <code>ResponsiveContainer</code> therefore improves the
+    dashboard's responsiveness and allows the chart to integrate
+    correctly into the layout defined by the CSS file.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 98 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 98 — Creating the BarChart</h2>
+
+<p>
+    The <code>BarChart</code> component receives the data through
+    <code>data={chartData}</code>. Recharts then iterates through
+    the previously prepared array and uses the properties of each
+    object to build the chart. The element
+    <code>&lt;XAxis dataKey="name" /&gt;</code> indicates that
+    the <code>name</code> property must be used to build the
+    categories of the horizontal axis. The element
+    <code>&lt;YAxis /&gt;</code> represents the vertical numerical
+    axis. <code>CartesianGrid</code> adds a reference grid to
+    make values easier to read. <code>Tooltip</code> provides
+    additional information when hovering over a bar, while
+    <code>Legend</code> displays the legend for the different
+    series. The <code>BarChart</code> component therefore
+    represents the main structure of the graphical visualization.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 99 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 99 — Comparing Real and Prediction Values</h2>
+
+<p>
+    Two <code>Bar</code> components are used in the chart.
+    The first has <code>dataKey="Reel"</code> and represents
+    the real values contained in <code>item.real</code>.
+    The second has <code>dataKey="Prediction"</code> and represents
+    the predicted values contained in <code>item.prediction</code>.
+    The two series are therefore displayed side by side for each
+    element in the array. The code also uses the properties
+    <code>fill="#22c55e"</code> for the Real series and
+    <code>fill="#ef4444"</code> for the Prediction series.
+    These colors make it possible to visually distinguish the
+    two types of values. The chart therefore provides a direct
+    comparison between the observed reality and the prediction
+    produced by the system. This visualization makes it easier
+    to analyze the differences between the two values.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 100 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 100 — General Interface Organization</h2>
+
+<p>
+    The entire dashboard is placed inside a main div with the
+    class <code>para-container</code>. The title
+    <code>💊 Parapharma Dashboard</code> is displayed first using
+    the <code>para-title</code> class. Next, an
+    <code>iframe-wrapper</code> section contains the Power BI report.
+    The iframe uses the <code>para-iframe</code> class so that
+    the CSS file can control its display. After the Power BI report,
+    the component manages the different data retrieval states:
+    loading, error, or available content. When the data is available,
+    the dashboard displays a card containing the message and number
+    of rows, a list of real and predicted values, and finally a
+    comparison chart. This organization makes it possible to present
+    several levels of information: Business Intelligence with Power BI,
+    detailed data in list form, and graphical analysis with Recharts.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 101 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 101 — Complete Communication Between React, Redux, Axios and the Backend</h2>
+
+<p>
+    The complete process begins when the user opens the
+    <strong>Parapharma Dashboard</strong>. React loads the
+    <code>ParapharmaDashboard</code> component. After rendering,
+    the <code>useEffect()</code> hook automatically triggers
+    <code>dispatch(fetchParapharma())</code>. Redux Toolkit then
+    triggers the <code>pending</code> state and sets
+    <code>loading</code> to <code>true</code>. The
+    <code>fetchParapharma</code> thunk then uses Axios to send
+    an HTTP GET request to
+    <code>http://localhost:3000/parapharma</code>. The backend
+    receives the request, retrieves or processes the Parapharma
+    data, and returns a JSON response. If communication succeeds,
+    the thunk returns <code>response.data</code>. Redux then
+    triggers the <code>fulfilled</code> state and stores the
+    message, number of rows and data in the store. If the request
+    fails, the <code>catch</code> block uses
+    <code>rejectWithValue()</code> and Redux triggers
+    <code>rejected</code>. The component then retrieves the
+    information using <code>useSelector()</code>. The
+    <code>items</code> data is transformed into
+    <code>chartData</code> and then used by Recharts to build
+    the "Real vs Prediction" chart. React automatically updates
+    the interface when the Redux state changes. The Power BI
+    report remains integrated into the page in parallel through
+    the iframe.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 102 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 102 — Global Workflow Diagram</h2>
+
+<div class="flow">
+
+    <div class="flow-box">👤 User</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">⚛️ React</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">useEffect()</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">dispatch(fetchParapharma())</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">Redux Toolkit</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">createAsyncThunk</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">Axios GET</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">🖥️ Node.js / Express Backend</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">📦 JSON Response</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">fulfilled / rejected</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">Redux Store</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">useSelector()</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">items</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">chartData</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">📊 Recharts</div>
+    <div class="arrow">↓</div>
+
+    <div class="flow-box">📈 Real vs Prediction</div>
+
+</div>
+
+<p>
+    This diagram represents the data flow within the application.
+    The user opens the dashboard and React loads the component.
+    The <code>useEffect()</code> hook then triggers the Redux action.
+    Redux Toolkit executes the asynchronous
+    <code>fetchParapharma</code> thunk, which uses Axios to
+    communicate with the backend. The server returns a JSON response.
+    Redux then processes this response in the <code>fulfilled</code>
+    state or handles the error in the <code>rejected</code> state.
+    The data is stored in the Redux store. React then retrieves it
+    using <code>useSelector()</code>. The elements contained in
+    <code>items</code> are transformed into <code>chartData</code>
+    and then passed to Recharts to build the chart. This architecture
+    clearly separates data retrieval, data storage and presentation.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 103 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 103 — Role of Each Technology</h2>
+
+<p>
+    Each technology used in this functionality has a specific role.
+    <strong>React</strong> is responsible for creating the user
+    interface and displaying the dashboard.
+    <strong>Redux Toolkit</strong> centralizes the Parapharma data
+    state and manages the asynchronous request cycle.
+    <strong>createAsyncThunk</strong> facilitates the creation of
+    the asynchronous <code>fetchParapharma</code> action.
+    <strong>Axios</strong> handles HTTP communication with the
+    backend through a GET request.
+    <strong>Node.js/Express</strong> represents the backend responsible
+    for processing and returning the data.
+    <strong>Recharts</strong> transforms real and predicted data
+    into an interactive chart.
+    <strong>Power BI</strong> provides the Business Intelligence
+    layer and makes it possible to integrate a decision-making
+    report into the application.
+    Finally, the CSS file controls the visual appearance of the
+    dashboard without mixing presentation with JavaScript logic.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 104 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 104 — Complete Frontend Architecture</h2>
+
+<p>
+    The frontend architecture of this functionality is based on
+    a clear separation of responsibilities. The React component
+    <code>ParapharmaDashboard</code> handles the display and
+    triggers data retrieval. Redux Toolkit centralizes the state
+    in the <code>parapharma</code> slice. The asynchronous action
+    <code>fetchParapharma</code> handles communication with the
+    server. Axios performs the HTTP GET request to the backend API.
+    The backend then returns a response containing the message,
+    number of rows and Parapharma data. Redux stores this information
+    in <code>message</code>, <code>rowsInserted</code> and
+    <code>items</code>. React retrieves these values using
+    <code>useSelector()</code>. The data contained in
+    <code>items</code> is transformed into <code>chartData</code>
+    and used by Recharts. At the same time, Power BI is integrated
+    through an iframe. This architecture therefore combines data
+    retrieval, prediction, graphical visualization and Business
+    Intelligence in a single frontend application.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 105 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 105 — Complete Retrieval and Prediction Cycle</h2>
+
+<p>
+    The cycle begins when the user accesses the
+    <strong>Parapharma Dashboard</strong> page. React displays
+    the component and executes the <code>useEffect()</code> hook.
+    It triggers <code>dispatch(fetchParapharma())</code>.
+    Redux Toolkit then starts the <code>pending</code> state and
+    sets <code>loading</code> to <code>true</code>. The thunk
+    uses Axios to send a GET request to <code>/parapharma</code>.
+    The backend processes the request and returns the required
+    information. If the response is correct, Redux triggers
+    <code>fulfilled</code>. The message is stored in
+    <code>message</code>, the number of rows in
+    <code>rowsInserted</code>, and the data in <code>items</code>.
+    React retrieves this information using
+    <code>useSelector()</code>. Each element contains, in particular,
+    a real value and a prediction value. The component then
+    transforms this information into <code>chartData</code>.
+    Recharts uses this data to build a chart comparing
+    <strong>Real</strong> and <strong>Prediction</strong>.
+    If an error occurs during the request, Redux instead triggers
+    <code>rejected</code> and the error is displayed in the interface.
+    The system therefore automatically follows the data flow from
+    the backend to its final representation.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 106 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 106 — Difference Between Real and Prediction Data</h2>
+
+<p>
+    An essential part of this dashboard is the comparison between
+    two types of values: <strong>real</strong> values and
+    <strong>prediction</strong> values. In the data received
+    from the backend, the <code>real</code> property represents
+    the observed or actual value. The <code>prediction</code>
+    property represents the value produced by the prediction model.
+    The component transforms these two properties into
+    <code>chartData</code> using the names <code>Reel</code> and
+    <code>Prediction</code>. Recharts can then display both
+    series in the same chart. This comparison makes it possible
+    to visualize the difference between reality and prediction.
+    It can therefore be used as an analysis tool to visually
+    evaluate the quality of the predictions produced by the system.
+    More generally, this architecture makes it possible to integrate
+    a Machine Learning component into a Business Intelligence dashboard.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 107 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 107 — Conditional Content Management</h2>
+
+<p>
+    The component uses several React conditions to display only
+    the information corresponding to the current state of the
+    application. The condition <code>loading &amp;&amp; ...</code>
+    displays the loading message while the request is in progress.
+    The condition <code>error &amp;&amp; ...</code> displays the
+    error message when a problem has occurred. Finally, the condition
+    <code>!loading &amp;&amp; !error &amp;&amp; ...</code> displays
+    the main content only when loading is complete and no error
+    is present. Inside this last section, another condition
+    <code>chartData.length &gt; 0</code> checks that data actually
+    exists before displaying the chart. This use of conditional
+    rendering helps prevent inconsistencies in the interface and
+    improves the user experience.
+</p>
+```
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- 108 -->
+
+<!-- ===================================================== -->
+
+<section class="chapter">
+
+```
+<h2># 108 — Conclusion</h2>
+
+<p>
+    The Parapharma Dashboard is a complete frontend functionality
+    that combines data retrieval, prediction, visualization and
+    Business Intelligence. Redux Toolkit centralizes data management
+    through the <code>parapharma</code> slice and the asynchronous
+    <code>fetchParapharma</code> action. Axios handles communication
+    with the backend through an HTTP GET request. The
+    <code>pending</code>, <code>fulfilled</code> and
+    <code>rejected</code> states respectively manage loading,
+    success and errors. React uses <code>useDispatch()</code>
+    to trigger data retrieval and <code>useSelector()</code>
+    to retrieve the results from Redux. The <code>useEffect()</code>
+    hook automatically starts data retrieval when the dashboard
+    is loaded. The <code>real</code> and <code>prediction</code>
+    data are then transformed into <code>chartData</code> and
+    graphically represented using Recharts. Finally, Power BI
+    provides an additional Business Intelligence layer through
+    its integration in an iframe. The result is a modern
+    architecture in which each technology has a specific
+    responsibility:
+    <strong>React for the interface, Redux Toolkit for state
+    management, Axios for communication with the backend,
+    Recharts for prediction visualization, and Power BI for
+    decision-making analysis.</strong>
+</p>
+```
+
+</section>
+
+</main>
+
+</body>
+
+</html>

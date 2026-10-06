@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Explicação detalhada do código frontend de CA utilizando React, Redux Toolkit, Axios, Power BI e Recharts."
+    >
+
+    <title>Explicação do Dashboard de CA - React e Redux</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+            line-height: 1.8;
+        }
+
+        header {
+            background: #1f2937;
+            color: white;
+            padding: 40px 10%;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 17px;
+        }
+
+        main {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        section {
+            background: white;
+            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            color: #1f2937;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #374151;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 3px 7px;
+            border-radius: 5px;
+            font-family: Consolas, monospace;
+        }
+
+        pre {
+            background: #111827;
+            color: #f9fafb;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+
+        .important {
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+
+        .flow {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #1f2937;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>📊 Explicação detalhada do Dashboard de CA</h1>
+    <p>React • Redux Toolkit • Axios • API • Power BI • Recharts</p>
+</header>
+
+<main>
+
+    <section>
+        <h2>1. Visão geral do sistema frontend</h2>
+
+        <p>
+            Nesta parte do projeto, desenvolvemos uma interface frontend dedicada à previsão de receita, denominada <strong>CA Dashboard</strong>. Essa interface é construída com <strong>React</strong> e utiliza várias tecnologias complementares para se comunicar com o backend, gerenciar os dados de forma centralizada, exibir os resultados da previsão e representar os dados graficamente. O funcionamento geral é baseado na comunicação entre o componente React, Redux Toolkit, Axios e a API do backend. O componente React não gerencia diretamente toda a lógica de comunicação com o servidor. Ele utiliza Redux para disparar uma ação assíncrona que envia os dados ao backend. Axios é utilizado para realizar a requisição HTTP para a URL <code>http://localhost:3000/CA</code>. O backend recebe os dados de receita em TND e EUR, assim como o modo de previsão. Ele realiza o processamento necessário e retorna um resultado que contém, principalmente, a previsão. O Redux recebe essa resposta e a armazena no estado global. O componente React utiliza então <code>useSelector</code> para recuperar os dados do Redux e exibir o resultado na tela. O componente também utiliza <code>useEffect</code> para iniciar automaticamente a previsão quando a página é carregada. Finalmente, a biblioteca <strong>Recharts</strong> transforma os dados recebidos em um gráfico para comparar a receita real com o valor previsto. Ao mesmo tempo, um relatório do <strong>Power BI</strong> é integrado à página por meio de um elemento <code>iframe</code>. Dessa forma, obtemos uma arquitetura frontend completa que combina visualização de BI, previsão por Machine Learning, gerenciamento de estado com Redux, comunicação com o backend e representação gráfica dos resultados.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>2. Importação do Redux Toolkit</h2>
+
+        <pre><code>import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";</code></pre>
+
+        <p>
+            Esta instrução importa duas funções importantes do <strong>Redux Toolkit</strong>. A função <code>createAsyncThunk</code> é utilizada para criar uma operação assíncrona, especialmente para realizar uma requisição HTTP ao backend. No nosso projeto, essa função é utilizada para enviar os dados de receita para a API e obter o resultado da previsão. A função <code>createSlice</code> é utilizada para criar uma parte do store do Redux dedicada à receita. Essa parte é chamada de <strong>slice</strong>. O slice contém o nome dessa parte do estado, seu estado inicial e a lógica utilizada para modificar esse estado quando a requisição está pendente, é concluída com sucesso ou falha. Portanto, o uso do Redux Toolkit simplifica consideravelmente o gerenciamento do estado global da aplicação.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>3. Importação do Axios</h2>
+
+        <pre><code>import axios from "axios";</code></pre>
+
+        <p>
+            Axios é uma biblioteca JavaScript utilizada para realizar requisições HTTP. Em nossa aplicação, Axios atua como intermediário entre o frontend React e o backend Node.js. Quando queremos iniciar uma previsão, o frontend precisa enviar os dados para o servidor. Axios nos permite realizar essa operação por meio do método <code>axios.post()</code>. O servidor recebe os dados enviados pelo React, realiza o processamento da previsão e retorna uma resposta JSON. Axios recupera essa resposta para que posteriormente ela possa ser armazenada no Redux e exibida no componente React. Portanto, o uso do Axios facilita a comunicação entre as diferentes partes da aplicação.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>4. Criação da operação assíncrona com createAsyncThunk</h2>
+
+        <pre><code>export const createPrediction = createAsyncThunk(
+  "ca/create",
+  async (data, { rejectWithValue }) =&gt; {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/CA",
+        data
+      );
+
+      return res.data;
+
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || "Server error"
+      );
+    }
+  }
+);</code></pre>
+
+        <p>
+            Esta parte representa a principal ligação entre o Redux e o backend. Criamos uma função chamada <code>createPrediction</code> utilizando <code>createAsyncThunk</code>. O primeiro parâmetro, <code>"ca/create"</code>, representa o tipo da ação do Redux. O segundo parâmetro é uma função assíncrona que recebe os dados na variável <code>data</code>. Essa função utiliza Axios para enviar uma requisição HTTP POST para <code>http://localhost:3000/CA</code>. O método POST é utilizado porque estamos enviando informações ao servidor para que ele possa realizar uma previsão. A variável <code>data</code> contém os parâmetros necessários para a previsão. No nosso caso, contém principalmente <code>mode</code>, <code>ca_tnd</code> e <code>ca_eur</code>. A palavra-chave <code>await</code> aguarda a resposta do servidor antes de continuar a execução. Quando o servidor responde corretamente, a resposta é armazenada em <code>res</code> e <code>res.data</code> contém os dados JSON retornados pelo backend. A instrução <code>return res.data</code> então envia esses dados para o Redux. Se ocorrer um erro durante a requisição, a execução entra no bloco <code>catch</code>. A função <code>rejectWithValue()</code> permite então enviar uma mensagem de erro para o Redux. A expressão <code>err.response?.data</code> recupera a mensagem retornada pelo servidor quando ela existe. Se não houver uma resposta utilizável, a mensagem <code>"Server error"</code> será utilizada. Essa estrutura permite gerenciar corretamente as duas situações possíveis: uma previsão bem-sucedida ou um erro durante a comunicação com o backend.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>5. Criação do caSlice</h2>
+
+        <pre><code>const caSlice = createSlice({
+  name: "ca",
+
+  initialState: {
+    predictionData: null,
+    loading: false,
+    error: null,
+  },
+
+  reducers: {},
+
+  extraReducers: (builder) =&gt; {
+    ...
+  },
+});</code></pre>
+
+        <p>
+            Esta parte cria o slice do Redux dedicado à receita. A propriedade <code>name: "ca"</code> identifica essa parte do store do Redux. Portanto, a aplicação possui um espaço de estado específico dedicado aos dados de CA. A propriedade <code>initialState</code> define o estado inicial do sistema. <code>predictionData</code> é inicializado como <code>null</code> porque nenhuma previsão foi recebida ainda. <code>loading</code> é inicializado como <code>false</code> porque não existe nenhuma requisição sendo executada no início. Finalmente, <code>error</code> é inicializado como <code>null</code> porque inicialmente não existe nenhum erro. A propriedade <code>reducers</code> está vazia no nosso caso porque não precisamos criar ações síncronas tradicionais. O gerenciamento da nossa ação assíncrona <code>createPrediction</code> é realizado em <code>extraReducers</code>. Isso permite que o Redux reaja automaticamente aos diferentes estados da requisição assíncrona.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>6. Estado pending: requisição em andamento</h2>
+
+        <pre><code>.addCase(createPrediction.pending, (state) =&gt; {
+  state.loading = true;
+  state.error = null;
+})</code></pre>
+
+        <p>
+            Quando a requisição de previsão começa, o Redux ativa automaticamente o estado <code>pending</code>. Isso significa que a requisição está sendo executada naquele momento. Nessa situação, definimos <code>state.loading = true</code>. Essa informação permite que o componente React saiba que deve exibir uma mensagem indicando que a previsão está sendo carregada. Também redefinimos <code>state.error = null</code> para remover um possível erro de uma requisição anterior. Dessa forma, o sistema consegue manter informações claras sobre o estado atual da comunicação com o backend.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>7. Estado fulfilled: previsão bem-sucedida</h2>
+
+        <pre><code>.addCase(createPrediction.fulfilled, (state, action) =&gt; {
+  state.loading = false;
+  state.predictionData = action.payload;
+})</code></pre>
+
+        <p>
+            Quando o backend responde corretamente, o Redux ativa o estado <code>fulfilled</code>. Isso significa que a requisição assíncrona foi concluída com sucesso. Então definimos <code>state.loading = false</code> porque o carregamento terminou. Em seguida, armazenamos o resultado retornado pelo servidor em <code>state.predictionData</code>. A propriedade <code>action.payload</code> contém os dados retornados por <code>return res.data</code> no thunk. O Redux armazena assim o resultado da previsão em seu estado global. O componente React pode então recuperar essas informações por meio de <code>useSelector</code>.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>8. Estado rejected: erro na previsão</h2>
+
+        <pre><code>.addCase(createPrediction.rejected, (state, action) =&gt; {
+  state.loading = false;
+  state.error = action.payload;
+})</code></pre>
+
+        <p>
+            Se a requisição falhar, o Redux ativa automaticamente o estado <code>rejected</code>. Nessa situação, <code>state.loading</code> passa a ser <code>false</code> porque a requisição terminou, mesmo que tenha terminado com um erro. A mensagem de erro enviada por meio de <code>rejectWithValue()</code> é então armazenada em <code>state.error</code>. O componente React pode recuperar esse erro e exibi-lo ao usuário. O gerenciamento dos três estados <code>pending</code>, <code>fulfilled</code> e <code>rejected</code> permite construir uma interface dinâmica que indica claramente se a previsão está em andamento, foi concluída ou encontrou um erro.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>9. Exportação do reducer do Redux</h2>
+
+        <pre><code>export default caSlice.reducer;</code></pre>
+
+        <p>
+            Esta instrução exporta o reducer criado pelo <code>caSlice</code>. O reducer representa a lógica que permite ao Redux modificar o estado de CA de acordo com as diferentes ações recebidas. Posteriormente, ele pode ser integrado ao store do Redux da aplicação. Graças a essa exportação, o componente React pode acessar indiretamente os dados armazenados na parte <code>ca</code> do store.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>10. Importação do React e useEffect</h2>
+
+        <pre><code>import React, { useEffect } from "react";</code></pre>
+
+        <p>
+            Esta instrução importa o React, assim como o hook <code>useEffect</code>. O React é utilizado para construir o componente da interface do usuário. <code>useEffect</code> é utilizado para executar uma operação quando um componente é carregado ou quando determinados valores são alterados. Em nossa aplicação, ele é utilizado para iniciar automaticamente a previsão quando a página do CA Dashboard é exibida.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>11. useDispatch e useSelector</h2>
+
+        <pre><code>import {
+  useDispatch,
+  useSelector
+} from "react-redux";</code></pre>
+
+        <p>
+            Esses dois hooks permitem que o componente React se conecte ao Redux. <code>useDispatch()</code> permite enviar uma ação para o Redux. No nosso caso, ele é utilizado para ativar <code>createPrediction()</code>. <code>useSelector()</code> é utilizado para recuperar informações armazenadas no store do Redux. Graças a ele, o componente pode recuperar o resultado da previsão, o estado de carregamento e qualquer possível erro. Portanto, podemos considerar <code>dispatch</code> como o mecanismo que permite ao componente enviar uma instrução para o Redux, enquanto <code>useSelector</code> permite ao componente ler os dados armazenados pelo Redux.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>12. Importação do slice de CA</h2>
+
+        <pre><code>import { createPrediction }
+from "../redux/caSlice";</code></pre>
+
+        <p>
+            Esta instrução importa a ação assíncrona criada anteriormente no arquivo <code>caSlice</code>. O componente CA pode utilizar essa função para iniciar uma previsão. A lógica de comunicação com o backend permanece separada do componente de interface, proporcionando uma melhor organização do projeto. O componente é responsável principalmente pela visualização, enquanto o Redux gerencia o estado e a comunicação assíncrona.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>13. Importação do Recharts</h2>
+
+        <pre><code>import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";</code></pre>
+
+        <p>
+            A biblioteca <strong>Recharts</strong> é utilizada para criar o gráfico de comparação entre a receita real e a previsão. <code>BarChart</code> representa o gráfico principal. <code>Bar</code> representa cada série de dados por meio de barras. <code>XAxis</code> representa o eixo horizontal e <code>YAxis</code> representa o eixo vertical. <code>Tooltip</code> exibe os valores quando o usuário passa o mouse sobre uma barra. <code>CartesianGrid</code> adiciona uma grade para facilitar a leitura do gráfico. <code>ResponsiveContainer</code> permite que o gráfico se adapte automaticamente à largura disponível. Finalmente, <code>Legend</code> exibe a legenda que indica o significado das diferentes barras.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>14. Criação do componente CA</h2>
+
+        <pre><code>function CA() {
+  const dispatch = useDispatch();
+
+  ...
+}</code></pre>
+
+        <p>
+            A função <code>CA()</code> representa o principal componente React desta página. Dentro desse componente reunimos o Dashboard do Power BI, a previsão, as mensagens de carregamento e erro, assim como o gráfico do Recharts. Assim que o React renderiza esse componente, os diferentes hooks conectam a página ao store do Redux e iniciam automaticamente a previsão.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>15. Obtenção do dispatch</h2>
+
+        <pre><code>const dispatch = useDispatch();</code></pre>
+
+        <p>
+            <code>useDispatch()</code> fornece a função <code>dispatch</code>. Essa função é utilizada para enviar uma ação ao Redux. Em nossa aplicação, ela é utilizada para iniciar a função <code>createPrediction</code>. Portanto, o componente React não executa diretamente toda a lógica do Redux: ele simplesmente utiliza <code>dispatch()</code> para solicitar ao Redux que inicie a previsão.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>16. Recuperação dos dados com useSelector</h2>
+
+        <pre><code>const predictionData =
+  useSelector((state) =&gt; state.ca?.predictionData);
+
+const loading =
+  useSelector((state) =&gt; state.ca?.loading);
+
+const error =
+  useSelector((state) =&gt; state.ca?.error);</code></pre>
+
+        <p>
+            Essas três instruções permitem que o componente React recupere as informações armazenadas no Redux. A primeira recupera <code>predictionData</code>, que é o resultado da previsão retornado pelo backend. A segunda recupera <code>loading</code>, que indica se a requisição está atualmente em andamento. A terceira recupera <code>error</code>, que pode conter um erro. A notação <code>state.ca</code> significa que estamos acessando a parte do store correspondente ao slice de CA. O operador <code>?.</code> é o operador de encadeamento opcional, que ajuda a evitar determinados erros quando um valor intermediário não existe.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>17. Início automático da previsão com useEffect</h2>
+
+        <pre><code>useEffect(() =&gt; {
+  dispatch(
+    createPrediction({
+      mode: "export",
+      ca_tnd: 50000,
+      ca_eur: 10000,
+    })
+  );
+}, [dispatch]);</code></pre>
+
+        <p>
+            Esta parte é essencial para o funcionamento automático do Dashboard. O hook <code>useEffect</code> permite executar uma operação depois que o componente foi renderizado. Quando a página de CA é carregada, o componente chama <code>dispatch()</code> e ativa <code>createPrediction()</code>. Em seguida, enviamos três dados para o backend: <code>mode: "export"</code>, <code>ca_tnd: 50000</code> e <code>ca_eur: 10000</code>. Esses dados representam os valores utilizados pelo modelo de previsão. O Redux passa essas informações para o thunk, o thunk utiliza Axios para enviar uma requisição POST ao backend e o backend realiza a previsão. O array <code>[dispatch]</code> indica as dependências do <code>useEffect</code>. Nesse caso, o efeito é executado quando o componente é montado e caso a referência de <code>dispatch</code> seja alterada.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>18. Dados enviados ao backend</h2>
+
+        <pre><code>{
+  mode: "export",
+  ca_tnd: 50000,
+  ca_eur: 10000
+}</code></pre>
+
+        <p>
+            O objeto enviado ao backend contém os parâmetros necessários para a previsão. <code>mode</code> indica o tipo de processamento solicitado, neste caso o modo <code>export</code>. <code>ca_tnd</code> representa a receita em dinares tunisianos e <code>ca_eur</code> representa a receita em euros. Esses valores são enviados como dados JSON na requisição POST. O backend pode então recuperar esses parâmetros, enviá-los para o modelo de Machine Learning e retornar um valor previsto.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>19. Preparação dos dados do gráfico</h2>
+
+        <pre><code>const chartData = predictionData
+  ? [
+      {
+        name: "CA",
+        Reel: predictionData.ca_tnd || 0,
+        Prediction:
+          predictionData.prediction || 0,
+      },
+    ]
+  : [];</code></pre>
+
+        <p>
+            Esta parte prepara os dados necessários para o Recharts. O código verifica primeiro se <code>predictionData</code> existe. Se o resultado da previsão estiver disponível, é criado um array contendo um objeto. A propriedade <code>name</code> recebe o valor <code>"CA"</code>. A propriedade <code>Reel</code> recupera o valor da receita real a partir de <code>predictionData.ca_tnd</code>. A propriedade <code>Prediction</code> recupera o valor previsto a partir de <code>predictionData.prediction</code>. O operador <code>|| 0</code> permite utilizar zero quando um valor não está disponível. Se ainda não existir nenhuma previsão, <code>chartData</code> simplesmente recebe um array vazio. Essa preparação é necessária porque o Recharts espera um array de dados para construir o gráfico.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>20. Container principal do Dashboard</h2>
+
+        <pre><code>&lt;div className="ca-container"&gt;</code></pre>
+
+        <p>
+            O <code>div</code> principal contém todo o CA Dashboard. A classe CSS <code>ca-container</code> permite aplicar os estilos definidos no arquivo <code>CA.css</code>. Essa organização separa a lógica JavaScript da apresentação visual. O componente React controla os dados e as condições de exibição, enquanto o arquivo CSS controla a aparência do Dashboard.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>21. Título do Dashboard</h2>
+
+        <pre><code>&lt;h2 className="ca-title"&gt;
+  📊 Power BI Dashboard
+&lt;/h2&gt;</code></pre>
+
+        <p>
+            Esta parte exibe o título principal da página. A classe <code>ca-title</code> permite personalizar sua aparência por meio do CSS. O título indica que esta página é um Dashboard que integra o Power BI, além de funcionalidades de previsão.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>22. Integração do Power BI</h2>
+
+        <pre><code>&lt;div className="ca-iframe-wrapper"&gt;
+  &lt;iframe
+    className="ca-iframe"
+    title="Power BI"
+    src="https://app.powerbi.com/view?r=..."
+    frameBorder="0"
+    allowFullScreen
+  /&gt;
+&lt;/div&gt;</code></pre>
+
+        <p>
+            O Dashboard do Power BI é integrado diretamente à aplicação React utilizando o elemento HTML <code>iframe</code>. Essa técnica permite exibir um relatório do Power BI publicado em uma página externa dentro da nossa aplicação Web. A propriedade <code>src</code> contém o endereço do relatório do Power BI. <code>title</code> fornece um título descritivo para o iframe. <code>frameBorder="0"</code> remove a borda tradicional do iframe e <code>allowFullScreen</code> permite exibi-lo em tela cheia quando essa funcionalidade estiver disponível. Dessa forma, o componente React pode apresentar tanto as visualizações de BI do Power BI quanto os resultados da previsão do backend de Machine Learning dentro da mesma interface.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>23. Exibição do estado Loading</h2>
+
+        <pre><code>{loading && (
+  &lt;p className="ca-loading"&gt;
+    Loading prediction...
+  &lt;/p&gt;
+)}</code></pre>
+
+        <p>
+            Essa condição utiliza o operador lógico <code>&amp;&amp;</code>. Se <code>loading</code> for <code>true</code>, o React exibirá o parágrafo que contém a mensagem <strong>Loading prediction...</strong>. Isso informa ao usuário que a requisição está atualmente em andamento. Assim que o Redux recebe a resposta do backend, <code>loading</code> passa a ser <code>false</code> e a mensagem desaparece automaticamente.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>24. Exibição de erros</h2>
+
+        <pre><code>{error && (
+  &lt;p className="ca-error"&gt;
+    {error}
+  &lt;/p&gt;
+)}</code></pre>
+
+        <p>
+            Essa condição exibe uma mensagem de erro somente quando existe um erro no Redux. Se <code>error</code> contiver um valor, o React exibirá a mensagem para o usuário. Se <code>error</code> for <code>null</code>, nenhuma mensagem de erro será exibida. Essa parte está diretamente conectada ao estado <code>rejected</code> do slice do Redux.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>25. Mensagem de espera</h2>
+
+        <pre><code>{!loading &&
+ !error &&
+ !predictionData && (
+  &lt;p className="ca-waiting"&gt;
+    ⏳ Waiting for prediction result...
+  &lt;/p&gt;
+)}</code></pre>
+
+        <p>
+            Essa condição exibe uma mensagem de espera quando ainda não há nenhuma previsão disponível. As três condições devem ser atendidas: <code>loading</code> deve ser falso, <code>error</code> não deve existir e <code>predictionData</code> deve estar ausente. Essa lógica evita que várias mensagens sejam exibidas ao mesmo tempo e permite representar corretamente o estado atual da aplicação.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>26. Exibição do resultado da previsão</h2>
+
+        <pre><code>{predictionData && (
+  &lt;&gt;
+    ...
+  &lt;/&gt;
+)}</code></pre>
+
+        <p>
+            Quando existe <code>predictionData</code>, significa que o backend retornou um resultado válido. O React pode então exibir a seção que contém o cartão de resultados e o gráfico. O símbolo <code>&lt;&gt;</code> representa um fragmento do React que permite agrupar vários elementos sem adicionar um elemento HTML adicional ao DOM.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>27. Cartão de resultado</h2>
+
+        <pre><code>&lt;div className="ca-card"&gt;
+
+  &lt;h2 className="ca-subtitle"&gt;
+    📌 Result
+  &lt;/h2&gt;
+
+  &lt;div className="ca-value"&gt;
+    {predictionData.prediction?.toFixed(2)}
+  &lt;/div&gt;
+
+&lt;/div&gt;</code></pre>
+
+        <p>
+            Esta parte representa o cartão que contém o resultado da previsão. O resultado é recuperado por meio de <code>predictionData.prediction</code>. O método <code>toFixed(2)</code> limita a exibição a duas casas decimais. Por exemplo, um valor como <code>12543.6789</code> será exibido como <code>12543.68</code>. O operador <code>?.</code> verifica se a propriedade <code>prediction</code> existe antes de chamar <code>toFixed()</code>. Isso evita determinados erros quando os dados ainda não estão disponíveis.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>28. Criação do gráfico</h2>
+
+        <pre><code>&lt;ResponsiveContainer
+  width="100%"
+  height={350}
+&gt;
+  &lt;BarChart data={chartData}&gt;
+
+    &lt;CartesianGrid
+      strokeDasharray="3 3"
+    /&gt;
+
+    &lt;XAxis dataKey="name" /&gt;
+
+    &lt;YAxis /&gt;
+
+    &lt;Tooltip /&gt;
+
+    &lt;Legend /&gt;
+
+    &lt;Bar
+      dataKey="Reel"
+      fill="#22c55e"
+      name="Actual"
+    /&gt;
+
+    &lt;Bar
+      dataKey="Prediction"
+      fill="#ef4444"
+      name="Prediction"
+    /&gt;
+
+  &lt;/BarChart&gt;
+&lt;/ResponsiveContainer&gt;</code></pre>
+
+        <p>
+            O gráfico é construído utilizando a biblioteca Recharts. <code>ResponsiveContainer</code> permite que o gráfico utilize 100% da largura disponível mantendo uma altura de 350 pixels. Dentro dele, <code>BarChart</code> recebe os dados preparados em <code>chartData</code>. O componente <code>CartesianGrid</code> adiciona uma grade para facilitar a leitura. <code>XAxis</code> utiliza a propriedade <code>name</code> dos nossos dados para definir o eixo horizontal. <code>YAxis</code> representa o eixo vertical com valores numéricos. <code>Tooltip</code> exibe informações quando o usuário passa o mouse sobre uma barra. <code>Legend</code> exibe a legenda. Finalmente, temos dois componentes <code>Bar</code>. O primeiro utiliza <code>dataKey="Reel"</code> para exibir a receita real. O segundo utiliza <code>dataKey="Prediction"</code> para exibir o valor previsto. Portanto, o gráfico fornece uma comparação visual entre o valor real utilizado nos dados e o resultado fornecido pelo modelo de previsão.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>29. Fluxo completo entre React, Redux e o backend</h2>
+
+        <div class="flow">
+
+            React CA
+            <br>
+            ↓
+            <br>
+            useEffect()
+            <br>
+            ↓
+            <br>
+            dispatch(createPrediction())
+            <br>
+            ↓
+            <br>
+            Redux Toolkit / createAsyncThunk
+            <br>
+            ↓
+            <br>
+            Axios POST
+            <br>
+            ↓
+            <br>
+            Node.js Backend
+            <br>
+            ↓
+            <br>
+            Prediction Model
+            <br>
+            ↓
+            <br>
+            JSON Result
+            <br>
+            ↓
+            <br>
+            Redux fulfilled
+            <br>
+            ↓
+            <br>
+            predictionData
+            <br>
+            ↓
+            <br>
+            React
+            <br>
+            ↓
+            <br>
+            Result + Recharts
+
+        </div>
+
+        <p>
+            O processo completo começa quando o usuário abre o CA Dashboard. O React carrega o componente <code>CA</code> e o hook <code>useEffect</code> inicia automaticamente a ação <code>createPrediction</code>. Essa ação é enviada ao Redux por meio de <code>dispatch</code>. O Redux Toolkit executa então <code>createAsyncThunk</code>, que utiliza Axios para enviar os dados ao endpoint do backend <code>/CA</code>. O backend recebe os valores <code>mode</code>, <code>ca_tnd</code> e <code>ca_eur</code>, realiza o processamento da previsão e retorna uma resposta JSON. Se a requisição for bem-sucedida, o Redux ativa <code>fulfilled</code> e armazena a resposta em <code>predictionData</code>. O componente React detecta o novo valor por meio de <code>useSelector</code> e é renderizado novamente automaticamente. Em seguida, exibe o resultado numérico e constrói o gráfico com Recharts. Se a requisição falhar, o Redux ativa <code>rejected</code> e armazena o erro em <code>error</code>, permitindo que o React exiba a mensagem correspondente.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>30. Gerenciamento dos três estados da requisição</h2>
+
+        <p>
+            Uma das vantagens importantes do Redux Toolkit neste projeto é o gerenciamento automático dos diferentes estados da operação assíncrona. Quando a requisição começa, o estado <code>pending</code> é ativado e <code>loading</code> passa a ser <code>true</code>. O frontend exibe então a mensagem de carregamento. Quando o backend retorna corretamente a previsão, o estado <code>fulfilled</code> é ativado, <code>loading</code> passa a ser <code>false</code> e o resultado é armazenado em <code>predictionData</code>. O React pode então exibir o cartão de resultado e o gráfico. Se ocorrer um erro durante a requisição, o estado <code>rejected</code> é ativado, <code>loading</code> passa a ser <code>false</code> e a mensagem de erro é armazenada em <code>error</code>. O componente React exibe então esse erro. Dessa forma, obtemos um gerenciamento claro de todo o ciclo de vida da requisição.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>31. Arquitetura frontend utilizada</h2>
+
+        <p>
+            A arquitetura utilizada nessa funcionalidade separa claramente as responsabilidades. O componente React <code>CA.jsx</code> é responsável pela interface e pela visualização. O arquivo <code>caSlice.js</code> é responsável pelo gerenciamento do estado do Redux e pela comunicação assíncrona com a API. Axios é responsável por enviar a requisição HTTP. O backend Node.js é responsável por processar a requisição e gerar a previsão. Recharts é responsável pela visualização gráfica do resultado e o Power BI fornece uma visualização adicional para apoiar a tomada de decisões. Essa separação torna o projeto mais organizado e facilita a manutenção e a evolução da aplicação.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>32. Diferença entre Redux e React neste código</h2>
+
+        <p>
+            Nessa arquitetura, React e Redux possuem responsabilidades diferentes, mas complementares. <strong>React</strong> é utilizado principalmente para construir a interface do usuário: exibe o título, o relatório do Power BI, a mensagem de carregamento, o resultado e o gráfico. <strong>Redux</strong> é utilizado para gerenciar o estado da previsão: armazena os dados recebidos do backend, indica se uma requisição está em andamento e armazena possíveis erros. <code>useDispatch</code> permite que o React solicite ao Redux que inicie uma operação e <code>useSelector</code> permite que o React recupere os dados armazenados pelo Redux. Essa separação evita que toda a lógica de comunicação com o servidor seja misturada diretamente com a interface.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>33. Relação entre Power BI e a previsão por Machine Learning</h2>
+
+        <p>
+            O CA Dashboard reúne dois tipos de funcionalidades complementares. Por um lado, o Power BI fornece indicadores e visualizações para apoiar a tomada de decisões com base nos dados do projeto. Por outro lado, a parte React e Redux permite que a aplicação chame o backend para obter uma previsão por meio de Machine Learning. O resultado dessa previsão é posteriormente apresentado de forma numérica e gráfica utilizando Recharts. A vantagem dessa arquitetura é, portanto, combinar Business Intelligence e análise preditiva dentro da mesma interface. O Power BI permite compreender os dados históricos e os indicadores, enquanto o modelo de previsão permite obter uma estimativa baseada nos dados enviados ao backend.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>34. Resumo do funcionamento</h2>
+
+        <p>
+            Em resumo, quando o usuário abre o CA Dashboard, o React carrega o componente <code>CA</code>. O hook <code>useEffect</code> inicia automaticamente uma ação do Redux chamada <code>createPrediction</code>. Essa ação é criada com <code>createAsyncThunk</code> e utiliza Axios para enviar uma requisição POST ao backend em <code>http://localhost:3000/CA</code>. Os dados enviados são o modo <code>export</code>, a receita em TND de <code>50000</code> e a receita em EUR de <code>10000</code>. Durante a execução, o Redux entra no estado <code>pending</code> e o React exibe a mensagem de carregamento. Quando o servidor retorna o resultado, o Redux entra no estado <code>fulfilled</code> e armazena a resposta em <code>predictionData</code>. O React recupera essas informações por meio de <code>useSelector</code>, exibe o valor previsto com duas casas decimais e prepara os dados necessários para o gráfico. O Recharts então exibe duas barras que permitem comparar a receita real com a previsão. Ao mesmo tempo, o Power BI é exibido dentro de um iframe para fornecer uma visualização adicional de apoio à tomada de decisões. Se ocorrer um erro, o Redux entra no estado <code>rejected</code> e o React exibe a mensagem de erro. Portanto, o sistema forma uma cadeia completa entre a interface React, Redux Toolkit, Axios, o backend Node.js, o modelo de previsão, Recharts e Power BI.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>35. Explicação oral para uma apresentação perante a banca</h2>
+
+        <p>
+            Nesta parte do meu projeto, desenvolvi um Dashboard dedicado à previsão de receitas utilizando React e Redux Toolkit. Utilizo Redux para gerenciar o estado dos dados de previsão e evitar colocar toda a lógica diretamente dentro do componente React. Criei um slice chamado <code>caSlice</code> que contém três elementos principais de informação: <code>predictionData</code> para armazenar o resultado, <code>loading</code> para determinar se a requisição está em andamento e <code>error</code> para gerenciar os erros. Também utilizo <code>createAsyncThunk</code> para realizar uma operação assíncrona. Essa operação utiliza Axios para enviar uma requisição POST ao meu backend em <code>/CA</code>. Quando a página de CA é carregada, <code>useEffect</code> ativa automaticamente essa ação com os dados de receita em TND e EUR, assim como o modo de processamento. O Redux Toolkit gerencia automaticamente três estados: <code>pending</code> quando a requisição está em andamento, <code>fulfilled</code> quando a previsão é recebida corretamente e <code>rejected</code> quando ocorre um erro. No componente React, utilizo <code>useSelector</code> para recuperar os dados armazenados no Redux e <code>useDispatch</code> para enviar a ação de previsão. Quando a previsão está disponível, eu a exibo em um cartão com duas casas decimais. Também utilizo Recharts para criar um gráfico de barras que compara a receita real com o valor previsto. Finalmente, integro um relatório do Power BI na mesma página utilizando um iframe. Portanto, essa arquitetura combina React para a interface, Redux Toolkit para o gerenciamento do estado, Axios para a comunicação com o backend, Machine Learning para a previsão, Recharts para a visualização e Power BI para a análise e apoio à tomada de decisões. O objetivo é fornecer uma única interface que permita aos usuários consultar dados de BI e resultados preditivos de maneira clara e interativa.
+        </p>
+    </section>
+
+
+    <section>
+        <h2>36. Conclusão</h2>
+
+        <p>
+            Este código frontend implementa, portanto, uma arquitetura completa para utilizar um modelo de previsão a partir de uma aplicação React. O Redux Toolkit atua como gerenciador de estado e controla o ciclo de vida da requisição por meio dos estados <code>pending</code>, <code>fulfilled</code> e <code>rejected</code>. Axios gerencia a comunicação com o backend Node.js. O React utiliza <code>useEffect</code> para ativar automaticamente a previsão, <code>useDispatch</code> para enviar a ação do Redux e <code>useSelector</code> para recuperar os resultados. O Recharts posteriormente transforma os dados em uma representação gráfica que permite comparar os valores reais e as previsões. Finalmente, o Power BI complementa o Dashboard com visualizações de apoio à tomada de decisões. Essa organização separa claramente a interface, o gerenciamento do estado, a comunicação com o servidor, a previsão e a visualização dos dados. Portanto, fornece uma arquitetura frontend estruturada e adequada para uma aplicação de Business Intelligence que integra Machine Learning.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    <p>📊 CA Dashboard — React • Redux Toolkit • Axios • Power BI • Recharts</p>
+</footer>
+
+</body>
+</html>

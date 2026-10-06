@@ -1,0 +1,3093 @@
+```html
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+name="description"
+content="Documentación detallada del componente CasaDashboard.jsx, su conexión con sanitaireSlice.js, CasaDashboard.css, Redux Toolkit, Axios, Recharts y Power BI."
+>
+
+<title>Documentación — SANITAIRE Analytics Dashboard</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.8;
+        background: #f4f6f8;
+        color: #222;
+    }
+
+    .documentation {
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
+        padding: 50px 0;
+    }
+
+    .documentation-header {
+        background: white;
+        padding: 35px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .chapter {
+        background: white;
+        padding: 30px;
+        margin-bottom: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+        margin-top: 0;
+        color: #1f2937;
+        font-size: 2rem;
+    }
+
+    h2 {
+        margin-top: 0;
+        color: #2563eb;
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        color: #374151;
+        margin-top: 25px;
+    }
+
+    p {
+        text-align: justify;
+    }
+
+    ul {
+        line-height: 2;
+    }
+
+    code {
+        background: #eef2ff;
+        color: #4338ca;
+        padding: 3px 6px;
+        border-radius: 5px;
+        font-family: Consolas, monospace;
+    }
+
+    pre {
+        background: #111827;
+        color: #f9fafb;
+        padding: 20px;
+        border-radius: 10px;
+        overflow-x: auto;
+        line-height: 1.6;
+        font-family: Consolas, monospace;
+    }
+
+    pre code {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+    }
+
+    .flow {
+        background: #f8fafc;
+        border-left: 5px solid #2563eb;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+        font-family: Consolas, monospace;
+        white-space: pre-line;
+        overflow-x: auto;
+    }
+
+    .important {
+        background: #eff6ff;
+        border-left: 5px solid #2563eb;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+    }
+
+    .warning {
+        background: #fff7ed;
+        border-left: 5px solid #f97316;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    th,
+    td {
+        border: 1px solid #d1d5db;
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background: #2563eb;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background: #f9fafb;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 40px;
+        color: #6b7280;
+    }
+
+    @media (max-width: 768px) {
+
+        .documentation {
+            width: 95%;
+            padding: 25px 0;
+        }
+
+        .documentation-header,
+        .chapter {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+        }
+
+        table {
+            display: block;
+            overflow-x: auto;
+        }
+
+        pre {
+            font-size: 0.85rem;
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<main class="documentation">
+
+<header class="documentation-header">
+
+<h1>
+    🏥 SANITAIRE Analytics Dashboard — Documentación Técnica
+</h1>
+
+<p>
+    Esta documentación explica en detalle cómo funciona el
+    componente <strong>CasaDashboard.jsx</strong>, su conexión con
+    <strong>sanitaireSlice.js</strong>, su archivo
+    <strong>CasaDashboard.css</strong>, así como el uso de
+    <strong>Redux Toolkit</strong>, <strong>Axios</strong>,
+    <strong>Recharts</strong> y <strong>Power BI</strong>.
+</p>
+
+<p>
+    El componente proporciona una interfaz de análisis que muestra
+    un informe de Power BI, recupera datos sanitarios desde el
+    almacén Redux y representa los valores y la predicción mediante
+    un gráfico de barras.
+</p>
+
+</header>
+
+<section class="chapter">
+
+<h2>1. Descripción general del proyecto</h2>
+
+<p>
+    El componente <strong>CasaDashboard.jsx</strong> representa
+    la interfaz principal del Dashboard dedicada a los datos de
+    <strong>SANITAIRE</strong>.
+</p>
+
+<p>
+    Utiliza <strong>React</strong> para construir la interfaz,
+    <strong>Redux Toolkit</strong> para recuperar y gestionar los
+    datos globales, <strong>Axios</strong> para comunicarse con el
+    backend y <strong>Recharts</strong> para crear un
+    <strong>BarChart</strong>.
+</p>
+
+<p>
+    El Dashboard también contiene un informe de
+    <strong>Power BI</strong> integrado directamente en la página
+    mediante un elemento <code>iframe</code>.
+</p>
+
+<div class="flow">
+CasaDashboard.jsx
+↓
+useEffect()
+↓
+dispatch(fetchSanitaireData())
+↓
+sanitaireSlice.js
+↓
+Axios
+↓
+GET /sanitaire
+↓
+Backend
+↓
+Redux Store
+↓
+data / loading / error
+↓
+CasaDashboard.jsx
+↓
+Información + BarChart
+↓
+CasaDashboard.css
+↓
+Interfaz final
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>2. Archivos y tecnologías utilizadas</h2>
+
+<table>
+
+<thead>
+    <tr>
+        <th>Archivo / Tecnología</th>
+        <th>Función</th>
+    </tr>
+</thead>
+
+<tbody>
+
+    <tr>
+        <td>CasaDashboard.jsx</td>
+        <td>
+            Construye la interfaz React del Dashboard SANITAIRE.
+        </td>
+    </tr>
+
+    <tr>
+        <td>sanitaireSlice.js</td>
+        <td>
+            Proporciona la acción
+            <code>fetchSanitaireData()</code> y gestiona
+            el estado Redux utilizado por el componente.
+        </td>
+    </tr>
+
+    <tr>
+        <td>CasaDashboard.css</td>
+        <td>
+            Controla la presentación visual del Dashboard.
+        </td>
+    </tr>
+
+    <tr>
+        <td>React</td>
+        <td>
+            Se utiliza para construir el componente y su interfaz.
+        </td>
+    </tr>
+
+    <tr>
+        <td>useEffect</td>
+        <td>
+            Se utiliza para activar la recuperación de datos
+            cuando se carga el componente.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Redux Toolkit</td>
+        <td>
+            Gestiona el estado global utilizado por el Dashboard.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Axios</td>
+        <td>
+            Envía una solicitud HTTP GET al backend.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Recharts</td>
+        <td>
+            Genera el gráfico de comparación mediante barras.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Power BI</td>
+        <td>
+            Muestra el informe de análisis integrado.
+        </td>
+    </tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<section class="chapter">
+
+<h2>3. Importación de fetchSanitaireData</h2>
+
+<p>
+    El componente comienza importando la acción
+    <strong>fetchSanitaireData</strong> desde
+    <strong>sanitaireSlice.js</strong>.
+</p>
+
+<pre><code>import { fetchSanitaireData } from "../redux/sanitaireSlice";</code></pre>
+
+<p>
+    Esta instrucción crea la conexión entre el componente React
+    y el slice Redux dedicado a los datos de SANITAIRE.
+</p>
+
+<p>
+    El componente puede utilizar entonces:
+</p>
+
+<pre><code>dispatch(fetchSanitaireData());</code></pre>
+
+<p>
+    para solicitar la recuperación de datos desde el backend.
+</p>
+
+<div class="flow">
+CasaDashboard.jsx
+↓
+fetchSanitaireData()
+↓
+sanitaireSlice.js
+↓
+Axios
+↓
+Backend
+↓
+Redux Store
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>4. Importación de React y useEffect</h2>
+
+<pre><code>import React, { useEffect } from "react";</code></pre>
+
+<p>
+    <strong>React</strong> se utiliza para construir el componente funcional.
+</p>
+
+<p>
+    <code>useEffect</code> es un Hook de React que permite ejecutar
+    una operación después de que el componente se haya renderizado.
+</p>
+
+<p>
+    En este Dashboard, <code>useEffect</code> se utiliza para iniciar
+    automáticamente <code>fetchSanitaireData()</code> cuando se carga
+    el componente.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>5. Importación de useDispatch y useSelector</h2>
+
+<pre><code>import {
+useDispatch,
+useSelector
+} from "react-redux";</code></pre>
+
+<p>
+    Estos dos Hooks permiten la comunicación entre React y Redux.
+</p>
+
+<h3>useDispatch</h3>
+
+<p>
+    <code>useDispatch</code> proporciona la función
+    <code>dispatch</code>.
+</p>
+
+<p>
+    Esta función permite enviar una acción Redux, en este caso:
+</p>
+
+<pre><code>dispatch(fetchSanitaireData());</code></pre>
+
+<h3>useSelector</h3>
+
+<p>
+    <code>useSelector</code> permite al componente leer una parte
+    del estado global de Redux.
+</p>
+
+<p>
+    En este componente, recupera:
+</p>
+
+<pre><code>state.sanitaire</code></pre>
+
+</section>
+
+<section class="chapter">
+
+<h2>6. Importación de los componentes de Recharts</h2>
+
+<p>
+    El componente utiliza varios elementos de
+    <strong>Recharts</strong>.
+</p>
+
+<pre><code>import {
+BarChart,
+Bar,
+XAxis,
+YAxis,
+Tooltip,
+CartesianGrid,
+Legend,
+ResponsiveContainer
+} from "recharts";</code></pre>
+
+<table>
+
+<thead>
+    <tr>
+        <th>Componente</th>
+        <th>Función</th>
+    </tr>
+</thead>
+
+<tbody>
+
+    <tr>
+        <td>ResponsiveContainer</td>
+        <td>
+            Adapta el gráfico al ancho disponible.
+        </td>
+    </tr>
+
+    <tr>
+        <td>BarChart</td>
+        <td>
+            Define el gráfico de barras.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Bar</td>
+        <td>
+            Representa las barras del gráfico.
+        </td>
+    </tr>
+
+    <tr>
+        <td>XAxis</td>
+        <td>
+            Define el eje horizontal.
+        </td>
+    </tr>
+
+    <tr>
+        <td>YAxis</td>
+        <td>
+            Define el eje vertical.
+        </td>
+    </tr>
+
+    <tr>
+        <td>CartesianGrid</td>
+        <td>
+            Añade una cuadrícula al gráfico.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Tooltip</td>
+        <td>
+            Muestra información cuando el usuario pasa el cursor
+            sobre una barra.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Legend</td>
+        <td>
+            Muestra la leyenda del gráfico.
+        </td>
+    </tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<section class="chapter">
+
+<h2>7. Conexión con CasaDashboard.css</h2>
+
+<p>
+    El componente importa su archivo CSS mediante:
+</p>
+
+<pre><code>import "./CasaDashboard.css";</code></pre>
+
+<p>
+    Esta instrucción hace que los estilos definidos en
+    <strong>CasaDashboard.css</strong> estén disponibles para
+    el componente.
+</p>
+
+<p>
+    El JSX utiliza varias clases CSS, entre ellas:
+</p>
+
+<pre><code>sanitaire-container
+sanitaire-title
+iframe-wrapper
+magic-iframe
+loading
+error
+prediction-card
+prediction-value
+chart-title
+chart-box</code></pre>
+
+<p>
+    Estas clases permiten separar la lógica funcional de la
+    presentación visual.
+</p>
+
+<div class="flow">
+CasaDashboard.jsx
+↓
+className="sanitaire-container"
+↓
+CasaDashboard.css
+↓
+.sanitaire-container
+↓
+Estilo visual
+</div>
+
+<div class="important">
+
+<strong>Principio importante:</strong>
+
+<p>
+    El archivo CSS no recupera datos y no realiza la predicción.
+    Solamente controla la apariencia de los elementos generados
+    por React.
+</p>
+
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>8. Creación del componente CasaDashboard</h2>
+
+<pre><code>export default function CasaDashboard() {
+...
+}</code></pre>
+
+<p>
+    Esta función define el componente React principal del
+    Dashboard SANITAIRE.
+</p>
+
+<p>
+    Contiene toda la lógica necesaria para:
+</p>
+
+<ul>
+    <li>recuperar datos de Redux;</li>
+    <li>activar <code>fetchSanitaireData()</code>;</li>
+    <li>gestionar el estado de carga;</li>
+    <li>mostrar errores;</li>
+    <li>mostrar el modelo;</li>
+    <li>mostrar la predicción;</li>
+    <li>preparar los datos del gráfico;</li>
+    <li>mostrar Power BI;</li>
+    <li>mostrar el BarChart.</li>
+</ul>
+
+</section>
+
+<section class="chapter">
+
+<h2>9. Uso de useDispatch</h2>
+
+<pre><code>const dispatch = useDispatch();</code></pre>
+
+<p>
+    Esta instrucción recupera la función <code>dispatch</code>
+    proporcionada por Redux.
+</p>
+
+<p>
+    Por lo tanto, el componente puede enviar acciones al
+    almacén Redux.
+</p>
+
+<p>
+    En este caso, la acción enviada es:
+</p>
+
+<pre><code>fetchSanitaireData()</code></pre>
+
+</section>
+
+<section class="chapter">
+
+<h2>10. Recuperación del estado Redux</h2>
+
+<pre><code>const { data, loading, error } = useSelector(
+(state) => state.sanitaire
+);</code></pre>
+
+<p>
+    Esta instrucción recupera la parte
+    <code>sanitaire</code> del almacén Redux.
+</p>
+
+<p>
+    Se utilizan tres propiedades:
+</p>
+
+<table>
+
+<thead>
+    <tr>
+        <th>Propiedad</th>
+        <th>Función</th>
+    </tr>
+</thead>
+
+<tbody>
+
+    <tr>
+        <td>data</td>
+        <td>
+            Contiene los datos sanitarios recuperados.
+        </td>
+    </tr>
+
+    <tr>
+        <td>loading</td>
+        <td>
+            Indica si los datos se están cargando actualmente.
+        </td>
+    </tr>
+
+    <tr>
+        <td>error</td>
+        <td>
+            Contiene un posible error.
+        </td>
+    </tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<section class="chapter">
+
+<h2>11. Función de data</h2>
+
+<p>
+    La variable <code>data</code> representa la información
+    devuelta por el backend y almacenada en Redux.
+</p>
+
+<p>
+    Según el código del componente, el objeto <code>data</code>
+    contiene principalmente:
+</p>
+
+<pre><code>data.model
+data.values
+data.prediction</code></pre>
+
+<p>
+    El componente también comprueba si <code>data</code> existe
+    antes de mostrar la tarjeta de predicción.
+</p>
+
+<pre><code>{data &amp;&amp; (
+...
+)}</code></pre>
+
+<p>
+    Esta condición significa que el bloque JSX se muestra
+    únicamente cuando <code>data</code> tiene un valor.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>12. Función de loading</h2>
+
+<p>
+    La variable <code>loading</code> representa el estado de
+    carga de los datos.
+</p>
+
+<pre><code>{loading &amp;&amp; (
+&lt;p className="loading"&gt;
+    Loading...
+&lt;/p&gt;
+)}</code></pre>
+
+<p>
+    Si <code>loading</code> es <code>true</code>, se muestra el
+    mensaje <strong>Loading...</strong>.
+</p>
+
+<p>
+    Si <code>loading</code> es <code>false</code>, el mensaje
+    no se muestra.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>13. Gestión de error</h2>
+
+<pre><code>{error &amp;&amp; (
+&lt;p className="error"&gt;
+    {error}
+&lt;/p&gt;
+)}</code></pre>
+
+<p>
+    Si existe un error, el componente muestra su contenido.
+</p>
+
+<p>
+    La clase <code>error</code> permite que
+    <strong>CasaDashboard.css</strong> controle la apariencia
+    del mensaje.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>14. useEffect y recuperación automática de datos</h2>
+
+<pre><code>useEffect(() => {
+dispatch(fetchSanitaireData());
+}, [dispatch]);</code></pre>
+
+<p>
+    Este bloque se ejecuta después de que el componente se renderiza.
+</p>
+
+<p>
+    Dentro de él, el componente llama a:
+</p>
+
+<pre><code>dispatch(fetchSanitaireData());</code></pre>
+
+<p>
+    Esto activa automáticamente la recuperación de los datos
+    SANITAIRE cuando se carga el Dashboard.
+</p>
+
+<h3>El array de dependencias [dispatch]</h3>
+
+<pre><code>[dispatch]</code></pre>
+
+<p>
+    indica la dependencia del Hook <code>useEffect</code>.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>15. Conexión con sanitaireSlice.js</h2>
+
+<p>
+    El componente utiliza una acción de
+    <strong>sanitaireSlice.js</strong>:
+</p>
+
+<pre><code>fetchSanitaireData()</code></pre>
+
+<p>
+    Esta acción se crea utilizando
+    <code>createAsyncThunk</code>.
+</p>
+
+<p>
+    Permite al componente solicitar los datos SANITAIRE
+    desde el backend.
+</p>
+
+<div class="flow">
+CasaDashboard.jsx
+↓
+dispatch(fetchSanitaireData())
+↓
+sanitaireSlice.js
+↓
+Axios
+↓
+GET /sanitaire
+↓
+Backend
+↓
+response.data.data
+↓
+Redux
+↓
+state.sanitaire
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>16. Creación de fetchSanitaireData con createAsyncThunk</h2>
+
+<p>
+    En <strong>sanitaireSlice.js</strong>, la acción se crea mediante:
+</p>
+
+<pre><code>export const fetchSanitaireData = createAsyncThunk(
+"sanitaire/fetchSanitaireData",
+async (_, thunkAPI) => {
+    ...
+}
+);</code></pre>
+
+<p>
+    <code>createAsyncThunk</code> se utiliza para gestionar una
+    operación asíncrona, en este caso la solicitud HTTP al backend.
+</p>
+
+<p>
+    El nombre:
+</p>
+
+<pre><code>"sanitaire/fetchSanitaireData"</code></pre>
+
+<p>
+    identifica la acción en Redux.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>17. Función asíncrona del Thunk</h2>
+
+<pre><code>async (_, thunkAPI) => {
+...
+}</code></pre>
+
+<p>
+    La función se declara con <code>async</code> porque debe
+    esperar la respuesta del servidor.
+</p>
+
+<p>
+    El primer parámetro está representado por <code>_</code>.
+    Esto significa que no se envían datos específicos como
+    argumento de esta acción.
+</p>
+
+<p>
+    <code>thunkAPI</code> proporciona varias funcionalidades
+    internas de Redux Toolkit, incluyendo
+    <code>rejectWithValue</code>, que se utiliza para gestionar errores.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>18. Uso de try / catch</h2>
+
+<pre><code>try {
+...
+} catch (err) {
+...
+}</code></pre>
+
+<p>
+    El bloque <code>try</code> contiene la operación normal
+    de recuperación de datos.
+</p>
+
+<p>
+    Si se produce un error durante la solicitud, el programa
+    entra en el bloque <code>catch</code>.
+</p>
+
+<p>
+    Esta estructura evita que el error detenga bruscamente
+    el Dashboard.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>19. Solicitud Axios al backend</h2>
+
+<pre><code>const response = await axios.get(
+"http://localhost:3000/sanitaire"
+);</code></pre>
+
+<p>
+    Axios envía una solicitud HTTP de tipo <strong>GET</strong>.
+</p>
+
+<p>
+    La dirección solicitada es:
+</p>
+
+<pre><code>http://localhost:3000/sanitaire</code></pre>
+
+<p>
+    Por lo tanto, el backend debe proporcionar una ruta correspondiente a:
+</p>
+
+<pre><code>GET /sanitaire</code></pre>
+
+<div class="flow">
+CasaDashboard.jsx
+↓
+dispatch()
+↓
+fetchSanitaireData()
+↓
+Axios
+↓
+GET http://localhost:3000/sanitaire
+↓
+Backend
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>20. Función de await</h2>
+
+<pre><code>await axios.get(
+"http://localhost:3000/sanitaire"
+);</code></pre>
+
+<p>
+    <code>await</code> espera la respuesta del servidor antes
+    de continuar la ejecución de la función.
+</p>
+
+<p>
+    El flujo se convierte entonces en:
+</p>
+
+<div class="flow">
+Axios
+↓
+Solicitud GET
+↓
+Servidor
+↓
+Respuesta JSON
+↓
+response
+↓
+Procesamiento posterior
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>21. Retorno de datos desde la API</h2>
+
+<pre><code>return response.data.data;</code></pre>
+
+<p>
+    Esta instrucción recupera la propiedad <code>data</code>
+    contenida en la respuesta de la API.
+</p>
+
+<p>
+    Por ejemplo, si el backend devuelve:
+</p>
+
+<pre><code>{
+"success": true,
+"data": {
+    "model": "Linear Regression",
+    "values": [100, 150],
+    "prediction": 180
+}
+}</code></pre>
+
+<p>
+    Entonces:
+</p>
+
+<pre><code>response.data</code></pre>
+
+<p>
+    corresponde al objeto completo de la respuesta.
+</p>
+
+<p>
+    Y:
+</p>
+
+<pre><code>response.data.data</code></pre>
+
+<p>
+    corresponde a los datos útiles para el Dashboard.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>22. Gestión de errores de Axios</h2>
+
+<pre><code>catch (err) {
+
+return thunkAPI.rejectWithValue(
+    err.response?.data?.error || err.message
+);
+
+}</code></pre>
+
+<p>
+    Cuando se produce un error, el código busca primero un
+    mensaje de error devuelto por el backend.
+</p>
+
+<pre><code>err.response?.data?.error</code></pre>
+
+<p>
+    Si esta información no está disponible, utiliza:
+</p>
+
+<pre><code>err.message</code></pre>
+
+<p>
+    El error se transmite entonces a Redux mediante:
+</p>
+
+<pre><code>thunkAPI.rejectWithValue(...)</code></pre>
+
+</section>
+
+<section class="chapter">
+
+<h2>23. Creación de sanitaireSlice</h2>
+
+<pre><code>const sanitaireSlice = createSlice({
+...
+});</code></pre>
+
+<p>
+    <code>createSlice</code> crea el slice Redux dedicado
+    a los datos SANITAIRE.
+</p>
+
+<p>
+    Este slice contiene principalmente:
+</p>
+
+<ul>
+    <li>el nombre del slice;</li>
+    <li>el estado inicial;</li>
+    <li>reducers;</li>
+    <li>extraReducers.</li>
+</ul>
+
+</section>
+
+<section class="chapter">
+
+<h2>24. Nombre del Slice</h2>
+
+<pre><code>name: "sanitaire",</code></pre>
+
+<p>
+    El slice se denomina:
+</p>
+
+<pre><code>sanitaire</code></pre>
+
+<p>
+    Este nombre permite al componente acceder a:
+</p>
+
+<pre><code>state.sanitaire</code></pre>
+
+</section>
+
+<section class="chapter">
+
+<h2>25. Estado inicial</h2>
+
+<pre><code>initialState: {
+
+data: null,
+
+loading: false,
+
+error: null
+
+},</code></pre>
+
+<p>
+    Al inicio del Dashboard, Redux contiene tres elementos de información.
+</p>
+
+<table>
+
+<thead>
+    <tr>
+        <th>Propiedad</th>
+        <th>Valor inicial</th>
+        <th>Significado</th>
+    </tr>
+</thead>
+
+<tbody>
+
+    <tr>
+        <td>data</td>
+        <td>null</td>
+        <td>
+            Todavía no se han recuperado datos.
+        </td>
+    </tr>
+
+    <tr>
+        <td>loading</td>
+        <td>false</td>
+        <td>
+            No hay ninguna solicitud en ejecución.
+        </td>
+    </tr>
+
+    <tr>
+        <td>error</td>
+        <td>null</td>
+        <td>
+            No existe ningún error.
+        </td>
+    </tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<section class="chapter">
+
+<h2>26. reducers</h2>
+
+<pre><code>reducers: {},</code></pre>
+
+<p>
+    No se define ningún reducer estándar adicional en este slice.
+</p>
+
+<p>
+    La operación asíncrona
+    <code>fetchSanitaireData()</code> se gestiona mediante
+    <code>extraReducers</code>.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>27. Uso de extraReducers</h2>
+
+<pre><code>extraReducers: (builder) => {
+
+builder
+    ...
+}</code></pre>
+
+<p>
+    <code>extraReducers</code> gestiona las diferentes etapas de
+    la acción asíncrona creada con <code>createAsyncThunk</code>.
+</p>
+
+<p>
+    Se gestionan tres estados principales:
+</p>
+
+<div class="flow">
+fetchSanitaireData.pending
+↓
+Solicitud en progreso
+
+fetchSanitaireData.fulfilled
+↓
+Solicitud exitosa
+
+fetchSanitaireData.rejected
+↓
+Solicitud fallida
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>28. Estado pending</h2>
+
+<pre><code>.addCase(fetchSanitaireData.pending, (state) => {
+
+state.loading = true;
+
+state.error = null;
+
+})</code></pre>
+
+<p>
+    <code>pending</code> significa que la solicitud está actualmente
+    en progreso.
+</p>
+
+<p>
+    Redux establece entonces:
+</p>
+
+<pre><code>state.loading = true;</code></pre>
+
+<p>
+    y reinicia el error:
+</p>
+
+<pre><code>state.error = null;</code></pre>
+
+<p>
+    En React, esto permite mostrar el siguiente mensaje:
+</p>
+
+<pre><code>Loading...</code></pre>
+
+</section>
+
+<section class="chapter">
+
+<h2>29. Estado fulfilled</h2>
+
+<pre><code>.addCase(fetchSanitaireData.fulfilled, (state, action) => {
+
+state.loading = false;
+
+state.data = action.payload;
+
+})</code></pre>
+
+<p>
+    <code>fulfilled</code> significa que la solicitud se realizó correctamente.
+</p>
+
+<p>
+    La carga finaliza:
+</p>
+
+<pre><code>state.loading = false;</code></pre>
+
+<p>
+    Los datos recibidos se almacenan entonces en:
+</p>
+
+<pre><code>state.data = action.payload;</code></pre>
+
+<p>
+    <code>action.payload</code> corresponde al valor devuelto por:
+</p>
+
+<pre><code>return response.data.data;</code></pre>
+
+</section>
+
+<section class="chapter">
+
+<h2>30. Estado rejected</h2>
+
+<pre><code>.addCase(fetchSanitaireData.rejected, (state, action) => {
+
+state.loading = false;
+
+state.error = action.payload;
+
+})</code></pre>
+
+<p>
+    <code>rejected</code> se activa cuando falla la recuperación de datos.
+</p>
+
+<p>
+    La carga se detiene:
+</p>
+
+<pre><code>state.loading = false;</code></pre>
+
+<p>
+    El error se almacena entonces en:
+</p>
+
+<pre><code>state.error = action.payload;</code></pre>
+
+<p>
+    El componente React puede mostrar posteriormente este error.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>31. Exportación del Reducer</h2>
+
+<pre><code>export default sanitaireSlice.reducer;</code></pre>
+
+<p>
+    Esta instrucción exporta el reducer del slice.
+</p>
+
+<p>
+    Puede añadirse posteriormente al Redux Store para hacer
+    disponible el siguiente estado:
+</p>
+
+<pre><code>state.sanitaire</code></pre>
+
+</section>
+
+<section class="chapter">
+
+<h2>32. Creación de chartData</h2>
+
+<p>
+    Una vez recuperados los datos, el componente prepara la
+    información destinada al gráfico.
+</p>
+
+<pre><code>const chartData = data
+? [
+    { name: "Value 1", value: data.values?.[0] || 0 },
+    { name: "Value 2", value: data.values?.[1] || 0 },
+    { name: "Prediction", value: data.prediction || 0 }
+  ]
+: [];</code></pre>
+
+<p>
+    Esta variable transforma los datos del backend en una estructura
+    adecuada para Recharts.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>33. Condición data en chartData</h2>
+
+<pre><code>const chartData = data
+? [...]
+: [];</code></pre>
+
+<p>
+    Se trata de una expresión condicional.
+</p>
+
+<p>
+    Si <code>data</code> existe, se crea el array.
+</p>
+
+<p>
+    Si <code>data</code> no existe, el array se convierte en:
+</p>
+
+<pre><code>[]</code></pre>
+
+<p>
+    Esto evita crear un gráfico con datos inexistentes.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>34. Primer valor del gráfico</h2>
+
+<pre><code>{
+name: "Value 1",
+value: data.values?.[0] || 0
+}</code></pre>
+
+<p>
+    El primer elemento del gráfico recupera el primer valor del array:
+</p>
+
+<pre><code>data.values?.[0]</code></pre>
+
+<p>
+    Si este valor no existe, el código utiliza:
+</p>
+
+<pre><code>0</code></pre>
+
+<p>
+    De esta manera, el gráfico siempre dispone de un valor numérico utilizable.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>35. Segundo valor del gráfico</h2>
+
+<pre><code>{
+name: "Value 2",
+value: data.values?.[1] || 0
+}</code></pre>
+
+<p>
+    El segundo elemento recupera el segundo valor del array:
+</p>
+
+<pre><code>data.values?.[1]</code></pre>
+
+<p>
+    Si este valor no está disponible, el código también utiliza <code>0</code>.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>36. Valor de la predicción</h2>
+
+<pre><code>{
+name: "Prediction",
+value: data.prediction || 0
+}</code></pre>
+
+<p>
+    El tercer elemento corresponde directamente a la predicción:
+</p>
+
+<pre><code>data.prediction</code></pre>
+
+<p>
+    Este valor se compara con los demás valores del gráfico.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>37. Estructura final de chartData</h2>
+
+<p>
+    Por ejemplo, si el backend devuelve:
+</p>
+
+<pre><code>{
+"values": [100, 150],
+"prediction": 180
+}</code></pre>
+
+<p>
+    el componente construye:
+</p>
+
+<pre><code>[
+{
+    name: "Value 1",
+    value: 100
+},
+{
+    name: "Value 2",
+    value: 150
+},
+{
+    name: "Prediction",
+    value: 180
+}
+]</code></pre>
+
+<p>
+    Esta estructura es directamente compatible con
+    <strong>BarChart</strong>.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>38. Contenedor principal</h2>
+
+<pre><code>&lt;div className="sanitaire-container"&gt;</code></pre>
+
+<p>
+    Este elemento representa el contenedor principal de la
+    interfaz SANITAIRE.
+</p>
+
+<p>
+    La clase <code>sanitaire-container</code> está destinada a
+    ser estilizada en <strong>CasaDashboard.css</strong>.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>39. Título del Dashboard</h2>
+
+<pre><code>&lt;h1 className="sanitaire-title"&gt;
+🏥 SANITAIRE Dashboard
+&lt;/h1&gt;</code></pre>
+
+<p>
+    Este elemento muestra el título principal del Dashboard.
+</p>
+
+<p>
+    El texto:
+</p>
+
+<pre><code>🏥 SANITAIRE Dashboard</code></pre>
+
+<p>
+    identifica claramente el dominio del Dashboard.
+</p>
+
+<p>
+    La clase <code>sanitaire-title</code> permite controlar
+    la apariencia del título mediante CSS.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>40. Contenedor del iframe de Power BI</h2>
+
+<pre><code>&lt;div className="iframe-wrapper"&gt;
+
+...
+
+&lt;/div&gt;</code></pre>
+
+<p>
+    Este elemento contiene el informe de Power BI.
+</p>
+
+<p>
+    Utiliza la clase:
+</p>
+
+<pre><code>iframe-wrapper</code></pre>
+
+<p>
+    que permite al archivo CSS controlar la presentación de esta área.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>41. Integración del informe Power BI</h2>
+
+<pre><code>&lt;iframe
+className="magic-iframe"
+title="SANITAIRE"
+src="https://app.powerbi.com/view?r=..."
+frameBorder="0"
+allowFullScreen
+/&gt;</code></pre>
+
+<p>
+    El elemento <code>iframe</code> permite integrar contenido externo
+    directamente en la página React.
+</p>
+
+<p>
+    Aquí, el contenido externo corresponde al informe
+    <strong>Power BI SANITAIRE</strong>.
+</p>
+
+<h3>className</h3>
+
+<pre><code>className="magic-iframe"</code></pre>
+
+<p>
+    Esta clase controla la apariencia del iframe mediante el archivo CSS.
+</p>
+
+<h3>title</h3>
+
+<pre><code>title="SANITAIRE"</code></pre>
+
+<p>
+    Esta propiedad identifica el contenido del iframe.
+</p>
+
+<h3>src</h3>
+
+<p>
+    La propiedad <code>src</code> contiene la URL del informe
+    Power BI publicado.
+</p>
+
+<h3>allowFullScreen</h3>
+
+<pre><code>allowFullScreen</code></pre>
+
+<p>
+    Esta propiedad permite mostrar el informe en modo de pantalla
+    completa cuando esta funcionalidad está disponible.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>42. Flujo de Power BI</h2>
+
+<div class="flow">
+Power BI Report
+↓
+Report URL
+↓
+iframe
+↓
+iframe-wrapper
+↓
+magic-iframe
+↓
+CasaDashboard.css
+↓
+Visualización en el Dashboard
+</div>
+
+<p>
+    El informe Power BI es una parte independiente de la interfaz React.
+</p>
+
+<p>
+    React simplemente proporciona la ubicación del informe mediante
+    el elemento <code>iframe</code>.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>43. Visualización del estado de carga</h2>
+
+<pre><code>{loading &amp;&amp; (
+&lt;p className="loading"&gt;
+    Loading...
+&lt;/p&gt;
+)}</code></pre>
+
+<p>
+    Esta condición utiliza el operador lógico
+    <code>&amp;&amp;</code>.
+</p>
+
+<p>
+    Cuando <code>loading</code> es <code>true</code>, React muestra
+    el párrafo.
+</p>
+
+<p>
+    Cuando <code>loading</code> es <code>false</code>, el párrafo
+    no se muestra.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>44. Visualización del error</h2>
+
+<pre><code>{error &amp;&amp; (
+&lt;p className="error"&gt;
+    {error}
+&lt;/p&gt;
+)}</code></pre>
+
+<p>
+    El mensaje de error se muestra únicamente si
+    <code>error</code> contiene un valor.
+</p>
+
+<p>
+    El texto se inserta directamente mediante:
+</p>
+
+<pre><code>{error}</code></pre>
+
+</section>
+
+<section class="chapter">
+
+<h2>45. Visualización de la tarjeta de predicción</h2>
+
+<pre><code>{data &amp;&amp; (
+&lt;div className="prediction-card"&gt;
+    ...
+&lt;/div&gt;
+)}</code></pre>
+
+<p>
+    La tarjeta se muestra únicamente cuando
+    <code>data</code> existe.
+</p>
+
+<p>
+    Esta tarjeta presenta la información principal sobre el modelo de predicción.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>46. Visualización del modelo</h2>
+
+<pre><code>&lt;p&gt;
+&lt;strong&gt;Model:&lt;/strong&gt;
+{data.model}
+&lt;/p&gt;</code></pre>
+
+<p>
+    El componente recupera la propiedad:
+</p>
+
+<pre><code>data.model</code></pre>
+
+<p>
+    Este valor representa el modelo utilizado para producir la predicción.
+</p>
+
+<p>
+    La interfaz puede mostrar, por ejemplo:
+</p>
+
+<pre><code>Model: Linear Regression</code></pre>
+
+<p>
+    dependiendo del valor realmente devuelto por el backend.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>47. Visualización de la predicción</h2>
+
+<pre><code>&lt;p&gt;
+
+&lt;strong&gt;Prediction:&lt;/strong&gt;
+
+&lt;span className="prediction-value"&gt;
+    {data.prediction}
+&lt;/span&gt;
+
+&lt;/p&gt;</code></pre>
+
+<p>
+    El componente muestra el valor devuelto en:
+</p>
+
+<pre><code>data.prediction</code></pre>
+
+<p>
+    La clase <code>prediction-value</code> permite destacar
+    visualmente este valor mediante CSS.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>48. Título del gráfico</h2>
+
+<pre><code>&lt;h2 className="chart-title"&gt;
+📊 Comparison
+&lt;/h2&gt;</code></pre>
+
+<p>
+    Este título indica que el gráfico compara varios valores.
+</p>
+
+<p>
+    La comparación incluye:
+</p>
+
+<ul>
+    <li>Value 1;</li>
+    <li>Value 2;</li>
+    <li>Prediction.</li>
+</ul>
+
+</section>
+
+<section class="chapter">
+
+<h2>49. Contenedor del gráfico</h2>
+
+<pre><code>&lt;div className="chart-box"&gt;
+
+...
+
+&lt;/div&gt;</code></pre>
+
+<p>
+    Esta área contiene el gráfico de Recharts.
+</p>
+
+<p>
+    La clase <code>chart-box</code> permite a
+    <strong>CasaDashboard.css</strong> controlar la apariencia
+    de esta parte del Dashboard.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>50. ResponsiveContainer</h2>
+
+<pre><code>&lt;ResponsiveContainer
+width="100%"
+height={350}
+&gt;</code></pre>
+
+<p>
+    <code>ResponsiveContainer</code> permite que el gráfico se adapte
+    al ancho disponible.
+</p>
+
+<p>
+    La propiedad:
+</p>
+
+<pre><code>width="100%"</code></pre>
+
+<p>
+    significa que el gráfico utiliza todo el ancho disponible
+    de su contenedor.
+</p>
+
+<p>
+    La propiedad:
+</p>
+
+<pre><code>height={350}</code></pre>
+
+<p>
+    define una altura de 350 píxeles.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>51. BarChart</h2>
+
+<pre><code>&lt;BarChart data={chartData}&gt;
+
+...
+
+&lt;/BarChart&gt;</code></pre>
+
+<p>
+    <code>BarChart</code> es el componente principal del gráfico.
+</p>
+
+<p>
+    Recibe los datos preparados en:
+</p>
+
+<pre><code>chartData</code></pre>
+
+<p>
+    Por lo tanto, el gráfico se construye a partir de los valores
+    recuperados desde Redux.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>52. CartesianGrid</h2>
+
+<pre><code>&lt;CartesianGrid strokeDasharray="3 3" /&gt;</code></pre>
+
+<p>
+    <code>CartesianGrid</code> añade una cuadrícula de referencia
+    detrás del gráfico.
+</p>
+
+<p>
+    La propiedad:
+</p>
+
+<pre><code>strokeDasharray="3 3"</code></pre>
+
+<p>
+    crea una cuadrícula discontinua.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>53. Eje X</h2>
+
+<pre><code>&lt;XAxis dataKey="name" /&gt;</code></pre>
+
+<p>
+    El eje horizontal utiliza la propiedad:
+</p>
+
+<pre><code>name</code></pre>
+
+<p>
+    que está presente en cada objeto de <code>chartData</code>.
+</p>
+
+<p>
+    Por lo tanto, las categorías mostradas en el eje X son:
+</p>
+
+<pre><code>Value 1
+Value 2
+Prediction</code></pre>
+
+</section>
+
+<section class="chapter">
+
+<h2>54. Eje Y</h2>
+
+<pre><code>&lt;YAxis /&gt;</code></pre>
+
+<p>
+    El eje vertical representa los valores numéricos contenidos
+    en la propiedad:
+</p>
+
+<pre><code>value</code></pre>
+
+<p>
+    Cuanto mayor sea el valor, mayor será la barra.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>55. Tooltip</h2>
+
+<pre><code>&lt;Tooltip /&gt;</code></pre>
+
+<p>
+    El componente <code>Tooltip</code> muestra información adicional
+    cuando el usuario pasa el cursor sobre una barra.
+</p>
+
+<p>
+    Esto facilita la lectura de los valores exactos del gráfico.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>56. Legend</h2>
+
+<pre><code>&lt;Legend /&gt;</code></pre>
+
+<p>
+    El componente <code>Legend</code> muestra la leyenda del gráfico.
+</p>
+
+<p>
+    Ayuda al usuario a comprender el significado de las series
+    de datos utilizadas.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>57. Componente Bar</h2>
+
+<pre><code>&lt;Bar
+dataKey="value"
+fill="#4f46e5"
+/&gt;</code></pre>
+
+<p>
+    El componente <code>Bar</code> representa las barras del gráfico.
+</p>
+
+<p>
+    La propiedad:
+</p>
+
+<pre><code>dataKey="value"</code></pre>
+
+<p>
+    indica a Recharts que debe utilizar la propiedad
+    <code>value</code> de cada objeto de <code>chartData</code>.
+</p>
+
+<p>
+    La propiedad:
+</p>
+
+<pre><code>fill="#4f46e5"</code></pre>
+
+<p>
+    define el color de las barras.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>58. Cómo funciona el BarChart</h2>
+
+<p>
+    El gráfico transforma los siguientes datos:
+</p>
+
+<pre><code>[
+{ name: "Value 1", value: 100 },
+{ name: "Value 2", value: 150 },
+{ name: "Prediction", value: 180 }
+]</code></pre>
+
+<p>
+    en tres barras.
+</p>
+
+<div class="flow">
+Value 1
+↓
+value = 100
+↓
+Bar 1
+
+Value 2
+↓
+value = 150
+↓
+Bar 2
+
+Prediction
+↓
+value = 180
+↓
+Bar 3
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>59. Relación data → chartData → BarChart</h2>
+
+<div class="flow">
+data
+↓
+data.values[0]
+↓
+Value 1
+
+data.values[1]
+↓
+Value 2
+
+data.prediction
+↓
+Prediction
+
+↓
+
+chartData
+
+↓
+
+BarChart
+
+↓
+
+Bar
+
+↓
+
+Gráfico final
+</div>
+
+<p>
+    Esta cadena transforma los datos recibidos del backend
+    en una representación visual comprensible.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>60. Relación completa entre React y Redux</h2>
+
+<div class="flow">
+Redux Store
+│
+└── state.sanitaire
+│
+├── data
+├── loading
+└── error
+│
+▼
+useSelector()
+│
+▼
+CasaDashboard.jsx
+│
+┌──────┼──────┐
+▼      ▼      ▼
+data  loading error
+│
+▼
+chartData
+│
+▼
+BarChart
+</div>
+
+<p>
+    Redux proporciona por lo tanto la información necesaria para
+    el componente.
+</p>
+
+<p>
+    React utiliza posteriormente esta información para decidir
+    qué debe mostrar.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>61. Relación entre Redux y CSS</h2>
+
+<p>
+    Redux no se comunica directamente con el archivo CSS.
+</p>
+
+<p>
+    Redux gestiona los datos y el estado.
+</p>
+
+<p>
+    React recupera esta información mediante
+    <code>useSelector</code> y después crea los elementos JSX.
+</p>
+
+<p>
+    Los atributos <code>className</code> permiten entonces que
+    CSS controle su apariencia.
+</p>
+
+<div class="flow">
+Redux
+↓
+data / loading / error
+↓
+CasaDashboard.jsx
+↓
+JSX
+↓
+className
+↓
+CasaDashboard.css
+↓
+Interfaz visual
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>62. Conexión con CasaDashboard.css</h2>
+
+<table>
+
+<thead>
+
+    <tr>
+        <th>En CasaDashboard.jsx</th>
+        <th>Clase CSS correspondiente</th>
+    </tr>
+
+</thead>
+
+<tbody>
+
+    <tr>
+        <td>sanitaire-container</td>
+        <td>.sanitaire-container</td>
+    </tr>
+
+    <tr>
+        <td>sanitaire-title</td>
+        <td>.sanitaire-title</td>
+    </tr>
+
+    <tr>
+        <td>iframe-wrapper</td>
+        <td>.iframe-wrapper</td>
+    </tr>
+
+    <tr>
+        <td>magic-iframe</td>
+        <td>.magic-iframe</td>
+    </tr>
+
+    <tr>
+        <td>loading</td>
+        <td>.loading</td>
+    </tr>
+
+    <tr>
+        <td>error</td>
+        <td>.error</td>
+    </tr>
+
+    <tr>
+        <td>prediction-card</td>
+        <td>.prediction-card</td>
+    </tr>
+
+    <tr>
+        <td>prediction-value</td>
+        <td>.prediction-value</td>
+    </tr>
+
+    <tr>
+        <td>chart-title</td>
+        <td>.chart-title</td>
+    </tr>
+
+    <tr>
+        <td>chart-box</td>
+        <td>.chart-box</td>
+    </tr>
+
+</tbody>
+
+</table>
+
+<p>
+    Esta correspondencia permite separar la lógica React de
+    la presentación visual.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>63. Ejemplo del proceso completo de carga del Dashboard</h2>
+
+<p>
+    Cuando el usuario abre la página del Dashboard SANITAIRE,
+    React crea el componente <strong>CasaDashboard</strong>.
+</p>
+
+<p>
+    A continuación se ejecuta el Hook <code>useEffect</code>:
+</p>
+
+<pre><code>useEffect(() => {
+dispatch(fetchSanitaireData());
+}, [dispatch]);</code></pre>
+
+<p>
+    La acción <code>fetchSanitaireData()</code> se envía a Redux.
+</p>
+
+<p>
+    Redux inicia entonces la solicitud Axios hacia:
+</p>
+
+<pre><code>http://localhost:3000/sanitaire</code></pre>
+
+<p>
+    Durante la solicitud, el estado <code>loading</code> pasa a
+    <code>true</code>.
+</p>
+
+<p>
+    Cuando llega la respuesta, Redux almacena los datos en:
+</p>
+
+<pre><code>state.sanitaire.data</code></pre>
+
+<p>
+    El componente React recibe automáticamente los nuevos datos
+    mediante <code>useSelector</code>.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>64. Ejemplo de funcionamiento del gráfico</h2>
+
+<p>
+    Supongamos que la API devuelve:
+</p>
+
+<pre><code>{
+"model": "Linear Regression",
+"values": [100, 150],
+"prediction": 180
+}</code></pre>
+
+<p>
+    El componente construye:
+</p>
+
+<pre><code>const chartData = [
+{
+    name: "Value 1",
+    value: 100
+},
+{
+    name: "Value 2",
+    value: 150
+},
+{
+    name: "Prediction",
+    value: 180
+}
+];</code></pre>
+
+<p>
+    Estos datos se pasan posteriormente a:
+</p>
+
+<pre><code>&lt;BarChart data={chartData}&gt;</code></pre>
+
+<p>
+    Recharts utiliza entonces <code>name</code> para el eje X y
+    <code>value</code> para determinar la altura de las barras.
+</p>
+
+<div class="flow">
+chartData
+↓
+BarChart
+↓
+XAxis → name
+↓
+YAxis → value
+↓
+Bar → value
+↓
+Tooltip
+↓
+Legend
+↓
+Gráfico final
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>65. Flujo global completo del Dashboard SANITAIRE</h2>
+
+<div class="flow">
+Usuario
+↓
+Abre el Dashboard SANITAIRE
+↓
+React crea CasaDashboard
+↓
+useEffect()
+↓
+dispatch(fetchSanitaireData())
+↓
+sanitaireSlice.js
+↓
+createAsyncThunk
+↓
+Axios
+↓
+GET /sanitaire
+↓
+Backend
+↓
+Respuesta JSON
+↓
+response.data.data
+↓
+Redux Store
+↓
+state.sanitaire
+↓
+data / loading / error
+↓
+useSelector()
+↓
+CasaDashboard.jsx
+↓
+Mostrar estado de carga o error
+↓
+Mostrar modelo
+↓
+Mostrar predicción
+↓
+Crear chartData
+↓
+ResponsiveContainer
+↓
+BarChart
+↓
+XAxis + YAxis
+↓
+Bar
+↓
+Tooltip + Legend
+↓
+Gráfico final
+↓
+Power BI iframe
+↓
+CasaDashboard.css
+↓
+Interfaz final
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>66. Arquitectura global de archivos</h2>
+
+<div class="flow">
+
+sanitaireSlice.js
+│
+fetchSanitaireData()
+│
+▼
+Axios
+│
+GET /sanitaire
+│
+▼
+Backend
+│
+▼
+Redux Store
+│
+┌────────┼────────┐
+▼        ▼        ▼
+data    loading  error
+│        │        │
+└────────┼────────┘
+│
+▼
+CasaDashboard.jsx
+│
+┌────────────────┼────────────────┐
+▼                ▼                ▼
+Power BI       Prediction        chartData
+│                │                │
+│                │                ▼
+│                │             BarChart
+│                │                │
+│                │        ┌───────┼────────┐
+│                │        ▼       ▼        ▼
+│                │      XAxis   YAxis    Bar
+│                │                         │
+│                │                  Tooltip + Legend
+│                │                         │
+└────────────────┴─────────────────────────┘
+│
+▼
+CasaDashboard.css
+│
+▼
+Interfaz final
+
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>67. Función de cada tecnología</h2>
+
+<table>
+
+<thead>
+
+    <tr>
+        <th>Tecnología</th>
+        <th>Función en el Dashboard</th>
+    </tr>
+
+</thead>
+
+<tbody>
+
+    <tr>
+        <td>React</td>
+        <td>
+            Construye la interfaz de usuario.
+        </td>
+    </tr>
+
+    <tr>
+        <td>useEffect</td>
+        <td>
+            Activa la recuperación de datos cuando se carga el componente.
+        </td>
+    </tr>
+
+    <tr>
+        <td>useDispatch</td>
+        <td>
+            Envía la acción fetchSanitaireData a Redux.
+        </td>
+    </tr>
+
+    <tr>
+        <td>useSelector</td>
+        <td>
+            Recupera data, loading y error desde Redux.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Redux Toolkit</td>
+        <td>
+            Gestiona el estado global del Dashboard.
+        </td>
+    </tr>
+
+    <tr>
+        <td>sanitaireSlice.js</td>
+        <td>
+            Proporciona fetchSanitaireData y gestiona el
+            estado sanitaire.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Axios</td>
+        <td>
+            Realiza la solicitud GET al backend.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Recharts</td>
+        <td>
+            Genera el gráfico de comparación.
+        </td>
+    </tr>
+
+    <tr>
+        <td>ResponsiveContainer</td>
+        <td>
+            Hace que el gráfico se adapte al ancho disponible.
+        </td>
+    </tr>
+
+    <tr>
+        <td>BarChart</td>
+        <td>
+            Define el gráfico de barras.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Power BI</td>
+        <td>
+            Muestra el informe de análisis integrado.
+        </td>
+    </tr>
+
+    <tr>
+        <td>CasaDashboard.css</td>
+        <td>
+            Controla la presentación visual del componente.
+        </td>
+    </tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<section class="chapter">
+
+<h2>68. Separación de responsabilidades</h2>
+
+<p>
+    La arquitectura del Dashboard sigue una separación de
+    responsabilidades entre los diferentes componentes.
+</p>
+
+<table>
+
+<thead>
+
+    <tr>
+        <th>Elemento</th>
+        <th>Responsabilidad</th>
+    </tr>
+
+</thead>
+
+<tbody>
+
+    <tr>
+        <td>sanitaireSlice.js</td>
+        <td>
+            Gestiona la recuperación de datos y el estado Redux.
+        </td>
+    </tr>
+
+    <tr>
+        <td>CasaDashboard.jsx</td>
+        <td>
+            Gestiona la interfaz y la visualización.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Axios</td>
+        <td>
+            Gestiona la comunicación HTTP con el backend.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Recharts</td>
+        <td>
+            Visualiza los datos en forma de gráfico.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Power BI</td>
+        <td>
+            Proporciona análisis de Business Intelligence
+            y visualización.
+        </td>
+    </tr>
+
+    <tr>
+        <td>CasaDashboard.css</td>
+        <td>
+            Gestiona la presentación visual.
+        </td>
+    </tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<section class="chapter">
+
+<h2>69. Qué hace realmente CasaDashboard.jsx</h2>
+
+<p>
+    El componente <strong>CasaDashboard.jsx</strong> actúa
+    principalmente como una capa de presentación y orquestación.
+</p>
+
+<p>
+    No contiene directamente la lógica interna de la solicitud HTTP.
+</p>
+
+<p>
+    Solicita la recuperación de datos mediante:
+</p>
+
+<pre><code>dispatch(fetchSanitaireData());</code></pre>
+
+<p>
+    El slice Redux se comunica posteriormente con el backend mediante Axios.
+</p>
+
+<p>
+    El componente recupera entonces el resultado mediante:
+</p>
+
+<pre><code>useSelector((state) => state.sanitaire)</code></pre>
+
+<p>
+    Finalmente, utiliza los datos para mostrar el modelo,
+    la predicción, el gráfico y el informe Power BI.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>70. Resumen de la operación de Redux</h2>
+
+<div class="flow">
+fetchSanitaireData()
+↓
+Acción Redux
+↓
+createAsyncThunk
+↓
+Axios
+↓
+Backend
+↓
+Respuesta
+↓
+extraReducers
+↓
+pending / fulfilled / rejected
+↓
+Actualización de state.sanitaire
+↓
+data / loading / error
+↓
+useSelector()
+↓
+CasaDashboard.jsx
+↓
+React re-render
+↓
+Nueva visualización
+</div>
+
+<p>
+    Cuando cambia el estado Redux, el componente que utiliza
+    <code>useSelector</code> se actualiza automáticamente con
+    los nuevos datos.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>71. Resumen de la operación de Axios</h2>
+
+<div class="flow">
+CasaDashboard.jsx
+↓
+dispatch(fetchSanitaireData())
+↓
+sanitaireSlice.js
+↓
+axios.get()
+↓
+http://localhost:3000/sanitaire
+↓
+Backend
+↓
+JSON
+↓
+response.data.data
+↓
+Redux
+</div>
+
+<p>
+    Axios actúa por lo tanto como mecanismo de comunicación entre
+    el frontend React/Redux y la API del backend.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>72. Resumen de la operación de Recharts</h2>
+
+<div class="flow">
+data
+↓
+chartData
+↓
+ResponsiveContainer
+↓
+BarChart
+↓
+XAxis
+↓
+YAxis
+↓
+Bar
+↓
+Tooltip
+↓
+Legend
+↓
+Gráfico SANITAIRE
+</div>
+
+<p>
+    Recharts transforma los datos numéricos en una representación
+    gráfica que permite comparar los valores y las predicciones.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>73. Resumen de la operación de Power BI</h2>
+
+<div class="flow">
+Power BI Report
+↓
+Public Report URL
+↓
+iframe
+↓
+CasaDashboard.jsx
+↓
+SANITAIRE Dashboard
+↓
+Business Intelligence Analysis
+</div>
+
+<p>
+    Power BI proporciona la visualización analítica integrada,
+    mientras que React organiza esta visualización dentro de
+    la interfaz general del Dashboard.
+</p>
+
+</section>
+
+<section class="chapter">
+
+<h2>74. Flujo completo de datos SANITAIRE</h2>
+
+<div class="flow">
+Backend
+│
+│ GET /sanitaire
+▼
+Axios
+│
+▼
+sanitaireSlice.js
+│
+▼
+createAsyncThunk
+│
+▼
+Redux Store
+│
+├── data
+├── loading
+└── error
+│
+▼
+useSelector()
+│
+▼
+CasaDashboard.jsx
+│
+├── data.model
+├── data.values
+└── data.prediction
+│
+▼
+chartData
+│
+▼
+Recharts
+│
+▼
+BarChart
+│
+▼
+Visualización
+│
+└── Power BI iframe
+│
+▼
+Dashboard SANITAIRE final
+</div>
+
+</section>
+
+<section class="chapter">
+
+<h2>75. Resumen final para recordar</h2>
+
+<div class="important">
+
+<p>
+    <strong>
+        React construye la interfaz →
+        useEffect activa fetchSanitaireData() →
+        Redux Toolkit gestiona el estado →
+        createAsyncThunk inicia la operación asíncrona →
+        Axios se comunica con el backend →
+        /sanitaire devuelve los datos →
+        Redux almacena data, loading y error →
+        useSelector recupera esta información →
+        React muestra el modelo y la predicción →
+        chartData prepara los datos →
+        Recharts construye el BarChart →
+        Power BI muestra el informe de análisis →
+        CasaDashboard.css controla la presentación.
+    </strong>
+</p>
+
+</div>
+
+<p>
+    El componente <strong>CasaDashboard.jsx</strong> constituye
+    por lo tanto la interfaz principal del Dashboard SANITAIRE.
+</p>
+
+<p>
+    Activa la recuperación de datos mediante
+    <code>dispatch(fetchSanitaireData())</code> y recupera
+    el estado Redux mediante:
+</p>
+
+<pre><code>useSelector((state) => state.sanitaire)</code></pre>
+
+<p>
+    El archivo <strong>sanitaireSlice.js</strong> es responsable
+    de la lógica de recuperación de datos. Utiliza
+    <strong>createAsyncThunk</strong> y <strong>Axios</strong>
+    para enviar una solicitud GET a:
+</p>
+
+<pre><code>http://localhost:3000/sanitaire</code></pre>
+
+<p>
+    El slice gestiona posteriormente los tres estados de la solicitud:
+    <strong>pending</strong>, <strong>fulfilled</strong> y
+    <strong>rejected</strong>.
+</p>
+
+<p>
+    Cuando los datos están disponibles, se almacenan en
+    <code>state.sanitaire.data</code>. El componente recupera
+    entonces el modelo, los valores y la predicción.
+</p>
+
+<p>
+    Los valores se transforman posteriormente en
+    <code>chartData</code> para construir un
+    <strong>BarChart</strong> utilizando Recharts.
+</p>
+
+<p>
+    El gráfico compara tres elementos:
+    <strong>Value 1</strong>, <strong>Value 2</strong> y
+    <strong>Prediction</strong>.
+</p>
+
+<p>
+    Al mismo tiempo, el informe <strong>Power BI</strong> se
+    integra mediante un <code>iframe</code>, permitiendo que
+    el informe de Business Intelligence se muestre directamente
+    dentro de la aplicación React.
+</p>
+
+<p>
+    Finalmente, <strong>CasaDashboard.css</strong> se encarga
+    de la presentación visual del Dashboard, mientras que
+    <strong>sanitaireSlice.js</strong> gestiona los datos y
+    el estado Redux.
+</p>
+
+</section>
+
+<footer class="footer">
+
+<p>
+    🏥 Documentación Técnica — SANITAIRE Analytics Dashboard
+</p>
+
+</footer>
+
+</main>
+
+</body>
+
+</html>
+```

@@ -1,0 +1,1172 @@
+<!DOCTYPE html> 
+
+<html lang="es"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+<title>Documentación | Predicción de Machine Learning y Node.js</title> 
+
+<style> 
+    * { 
+        margin: 0; 
+        padding: 0; 
+        box-sizing: border-box; 
+    } 
+ 
+    html { 
+        scroll-behavior: smooth; 
+    } 
+ 
+    body { 
+        font-family: Arial, Helvetica, sans-serif; 
+        background: #f4f7fb; 
+        color: #263238; 
+        line-height: 1.7; 
+    } 
+ 
+    /* ========================= 
+       SIDEBAR 
+    ========================= */ 
+ 
+    .sidebar { 
+        position: fixed; 
+        left: 0; 
+        top: 0; 
+        width: 270px; 
+        height: 100vh; 
+        background: #111827; 
+        color: white; 
+        padding: 25px 18px; 
+        overflow-y: auto; 
+        z-index: 1000; 
+    } 
+ 
+    .sidebar h2 { 
+        font-size: 20px; 
+        margin-bottom: 8px; 
+    } 
+ 
+    .sidebar .subtitle { 
+        color: #9ca3af; 
+        font-size: 13px; 
+        margin-bottom: 25px; 
+    } 
+ 
+    .sidebar a { 
+        display: block; 
+        color: #d1d5db; 
+        text-decoration: none; 
+        padding: 10px 12px; 
+        border-radius: 8px; 
+        margin-bottom: 5px; 
+        font-size: 14px; 
+        transition: 0.25s; 
+    } 
+ 
+    .sidebar a:hover { 
+        background: #1f2937; 
+        color: white; 
+        transform: translateX(3px); 
+    } 
+ 
+    /* ========================= 
+       MAIN 
+    ========================= */ 
+ 
+    .main { 
+        margin-left: 270px; 
+        padding: 40px; 
+        max-width: 1400px; 
+    } 
+ 
+    .hero { 
+        background: linear-gradient(135deg, #111827, #2563eb); 
+        color: white; 
+        padding: 45px; 
+        border-radius: 18px; 
+        margin-bottom: 30px; 
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12); 
+    } 
+ 
+    .hero h1 { 
+        font-size: 38px; 
+        margin-bottom: 12px; 
+    } 
+ 
+    .hero p { 
+        max-width: 900px; 
+        color: #e5e7eb; 
+    } 
+ 
+    .section { 
+        background: white; 
+        padding: 32px; 
+        margin-bottom: 28px; 
+        border-radius: 15px; 
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06); 
+    } 
+ 
+    h2 { 
+        color: #111827; 
+        font-size: 28px; 
+        margin-bottom: 20px; 
+        border-left: 5px solid #2563eb; 
+        padding-left: 14px; 
+    } 
+ 
+    h3 { 
+        color: #1d4ed8; 
+        margin-top: 25px; 
+        margin-bottom: 10px; 
+    } 
+ 
+    p { 
+        margin-bottom: 15px; 
+    } 
+ 
+    ul, 
+    ol { 
+        margin-left: 25px; 
+        margin-bottom: 18px; 
+    } 
+ 
+    li { 
+        margin-bottom: 7px; 
+    } 
+ 
+    /* ========================= 
+       CODE 
+    ========================= */ 
+ 
+    .code-title { 
+        background: #1f2937; 
+        color: #dbeafe; 
+        padding: 10px 15px; 
+        border-radius: 8px 8px 0 0; 
+        font-size: 14px; 
+        font-weight: bold; 
+    } 
+ 
+    pre { 
+        background: #0b1120; 
+        color: #e5e7eb; 
+        padding: 20px; 
+        overflow-x: auto; 
+        border-radius: 0 0 8px 8px; 
+        margin-bottom: 20px; 
+        font-size: 14px; 
+        line-height: 1.6; 
+    } 
+ 
+    code { 
+        font-family: Consolas, Monaco, monospace; 
+    } 
+ 
+    .inline-code { 
+        background: #eef2ff; 
+        color: #3730a3; 
+        padding: 3px 7px; 
+        border-radius: 5px; 
+        font-family: Consolas, monospace; 
+    } 
+ 
+    /* ========================= 
+       INFO BOX 
+    ========================= */ 
+ 
+    .info { 
+        background: #eff6ff; 
+        border-left: 5px solid #2563eb; 
+        padding: 18px; 
+        border-radius: 8px; 
+        margin: 20px 0; 
+    } 
+ 
+    .success { 
+        background: #ecfdf5; 
+        border-left: 5px solid #10b981; 
+        padding: 18px; 
+        border-radius: 8px; 
+        margin: 20px 0; 
+    } 
+ 
+    .warning { 
+        background: #fffbeb; 
+        border-left: 5px solid #f59e0b; 
+        padding: 18px; 
+        border-radius: 8px; 
+        margin: 20px 0; 
+    } 
+ 
+    /* ========================= 
+       FLOW 
+    ========================= */ 
+ 
+    .flow { 
+        display: flex; 
+        flex-wrap: wrap; 
+        justify-content: center; 
+        align-items: center; 
+        gap: 12px; 
+        margin: 30px 0; 
+    } 
+ 
+    .flow-box { 
+        background: #eff6ff; 
+        border: 2px solid #2563eb; 
+        padding: 18px; 
+        border-radius: 12px; 
+        text-align: center; 
+        min-width: 150px; 
+        font-weight: bold; 
+    } 
+ 
+    .arrow { 
+        font-size: 25px; 
+        color: #2563eb; 
+        font-weight: bold; 
+    } 
+ 
+    /* ========================= 
+       TABLE 
+    ========================= */ 
+ 
+    table { 
+        width: 100%; 
+        border-collapse: collapse; 
+        margin: 20px 0; 
+    } 
+ 
+    th, 
+    td { 
+        border: 1px solid #dbe3ef; 
+        padding: 12px; 
+        text-align: left; 
+    } 
+ 
+    th { 
+        background: #111827; 
+        color: white; 
+    } 
+ 
+    tr:nth-child(even) { 
+        background: #f8fafc; 
+    } 
+ 
+    /* ========================= 
+       BUTTON 
+    ========================= */ 
+ 
+    .top-button { 
+        position: fixed; 
+        right: 25px; 
+        bottom: 25px; 
+        width: 45px; 
+        height: 45px; 
+        border: none; 
+        border-radius: 50%; 
+        background: #2563eb; 
+        color: white; 
+        font-size: 20px; 
+        cursor: pointer; 
+        display: none; 
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+    } 
+ 
+    .top-button:hover { 
+        background: #1d4ed8; 
+    } 
+ 
+    /* ========================= 
+       MOBILE 
+    ========================= */ 
+ 
+    @media (max-width: 850px) { 
+ 
+        .sidebar { 
+            position: relative; 
+            width: 100%; 
+            height: auto; 
+        } 
+ 
+        .main { 
+            margin-left: 0; 
+            padding: 20px; 
+        } 
+ 
+        .hero { 
+            padding: 30px 20px; 
+        } 
+ 
+        .hero h1 { 
+            font-size: 28px; 
+        } 
+ 
+        .section { 
+            padding: 22px; 
+        } 
+ 
+        .flow { 
+            flex-direction: column; 
+        } 
+ 
+        .arrow { 
+            transform: rotate(90deg); 
+        } 
+    } 
+</style> 
+
+</head> 
+
+<body> 
+
+<!-- ===================================================== 
+     SIDEBAR 
+===================================================== --> 
+
+<aside class="sidebar"> 
+
+<h2>🤖 Documentación de ML</h2> 
+
+<p class="subtitle"> 
+    Predicción de Ropa y Node.js 
+</p> 
+
+<a href="#presentation">1. Presentación</a> <a href="#architecture">2. Arquitectura</a> <a href="#model">3. Modelo ML</a> <a href="#python">4. Código Python</a> <a href="#prediction">5. Función predict()</a> <a href="#json">6. Resultado JSON</a> <a href="#node">7. Node.js</a> <a href="#express">8. Express</a> <a href="#route">9. Ruta de Ropa</a> <a href="#integration">10. Integración con Python</a> <a href="#flow">11. Flujo completo</a> <a href="#example">12. Ejemplo</a> <a href="#security">13. Seguridad</a> <a href="#summary">14. Conclusión</a>
+
+</aside> 
+
+<!-- ===================================================== 
+     MAIN 
+===================================================== --> 
+
+<main class="main"> 
+
+<!-- HERO --> 
+
+<section class="hero"> 
+
+```
+<h1> 
+    🤖 Predicción con Machine Learning 
+</h1> 
+
+<p> 
+    Documentación técnica de la integración de un modelo 
+    de Machine Learning de Python con una API de Node.js y Express. 
+</p> 
+```
+
+</section> 
+
+<!-- ================================================= 
+     1. PRESENTATION 
+================================================== --> 
+
+<section class="section" id="presentation"> 
+
+```
+<h2>1. Presentación</h2> 
+
+<p> 
+    Esta parte del proyecto permite integrar un modelo 
+    de Machine Learning en una aplicación Web. 
+</p> 
+
+<p> 
+    El modelo se entrena y luego se guarda en un archivo 
+    <span class="inline-code">vetement.pkl</span>. 
+</p> 
+
+<p> 
+    Python se utiliza para cargar el modelo y realizar 
+    la predicción. 
+</p> 
+
+<p> 
+    Node.js y Express se utilizan como backend para 
+    comunicarse con la aplicación Web. 
+</p> 
+
+<div class="info"> 
+
+    <strong>Objetivo:</strong> 
+
+    permitir que el frontend envíe un dato al backend, 
+    solicite una predicción al modelo de Machine Learning 
+    y luego recupere el resultado en formato JSON. 
+
+</div> 
+```
+
+</section> 
+
+<!-- ================================================= 
+     2. ARCHITECTURE 
+================================================== --> 
+
+<section class="section" id="architecture"> 
+
+```
+<h2>2. Arquitectura general</h2> 
+
+<p> 
+    El sistema está compuesto por varias partes. 
+</p> 
+
+<div class="flow"> 
+
+    <div class="flow-box"> 
+        🌐<br> 
+        Frontend 
+    </div> 
+
+    <div class="arrow">→</div> 
+
+    <div class="flow-box"> 
+        🟢<br> 
+        Node.js 
+    </div> 
+
+    <div class="arrow">→</div> 
+
+    <div class="flow-box"> 
+        🚏<br> 
+        Express Route 
+    </div> 
+
+    <div class="arrow">→</div> 
+
+    <div class="flow-box"> 
+        🐍<br> 
+        Python 
+    </div> 
+
+    <div class="arrow">→</div> 
+
+    <div class="flow-box"> 
+        🤖<br> 
+        vetement.pkl 
+    </div> 
+
+    <div class="arrow">→</div> 
+
+    <div class="flow-box"> 
+        📊<br> 
+        Predicción 
+    </div> 
+
+    <div class="arrow">→</div> 
+
+    <div class="flow-box"> 
+        📦<br> 
+        JSON 
+    </div> 
+
+</div> 
+
+<p> 
+    El resultado sigue después el camino inverso: 
+</p> 
+
+<div class="flow"> 
+
+    <div class="flow-box"> 
+        📦 JSON 
+    </div> 
+
+    <div class="arrow">→</div> 
+
+    <div class="flow-box"> 
+        🟢 Node.js 
+    </div> 
+
+</div> 
+```
+
+</section> 
+
+<!-- ================================================= 
+     6. JSON 
+================================================== --> 
+
+<section class="section" id="json"> 
+
+```
+<h2>6. Transformación del resultado en JSON</h2> 
+
+<pre><code>print(json.dumps({ 
+```
+
+"prediction": float(result[0])
+}))</code></pre>
+
+```
+<p> 
+    El resultado del modelo se convierte en un número mediante: 
+</p> 
+
+<pre><code>float(result[0])</code></pre> 
+
+<p> 
+    Después se coloca en un objeto JSON. 
+</p> 
+
+<p> 
+    El resultado puede tener esta forma: 
+</p> 
+
+<pre><code>{ 
+```
+
+"prediction": 123.45
+}</code></pre>
+
+```
+<div class="success"> 
+
+    <strong>¿Por qué JSON?</strong> 
+
+    JSON permite que Python y Node.js se comuniquen 
+    fácilmente. 
+
+</div> 
+```
+
+</section> 
+
+<!-- ================================================= 
+     7. NODE 
+================================================== --> 
+
+<section class="section" id="node"> 
+
+```
+<h2>7. Integración con Node.js</h2> 
+
+<p> 
+    Node.js constituye la capa backend de la aplicación. 
+</p> 
+
+<p> 
+    Su función es recibir las solicitudes del frontend, 
+    ejecutar el procesamiento necesario y devolver 
+    el resultado. 
+</p> 
+
+<p> 
+    El servidor puede utilizar el módulo nativo 
+    <span class="inline-code">child_process</span> 
+    para ejecutar Python. 
+</p> 
+
+<div class="code-title"> 
+    📄 server.js 
+</div> 
+
+<pre><code>const express = require("express"); 
+```
+
+const app = express();
+
+app.use(express.json());
+
+const vetementRoute =
+require("./routes/vetementRoute");
+
+app.use("/vetement", vetementRoute);
+
+app.listen(3000, () => {
+console.log("Server running on port 3000");
+});</code></pre>
+
+</section> 
+
+<!-- ================================================= 
+     8. EXPRESS 
+================================================== --> 
+
+<section class="section" id="express"> 
+
+```
+<h2>8. Función de Express</h2> 
+
+<pre><code>const express = require("express"); 
+```
+
+const app = express();</code></pre>
+
+```
+<p> 
+    Express permite crear la API backend. 
+</p> 
+
+<p> 
+    La instrucción: 
+</p> 
+
+<pre><code>app.use(express.json());</code></pre> 
+
+<p> 
+    permite a Express leer los datos JSON enviados 
+    por el frontend. 
+</p> 
+
+<p> 
+    Por ejemplo: 
+</p> 
+
+<pre><code>{ 
+```
+
+"value": 30
+}</code></pre>
+
+```
+<p> 
+    puede recuperarse en el servidor con: 
+</p> 
+
+<pre><code>req.body.value</code></pre> 
+```
+
+</section> 
+
+<!-- ================================================= 
+     9. ROUTE 
+================================================== --> 
+
+<section class="section" id="route"> 
+
+```
+<h2>9. Ruta de Ropa</h2> 
+
+<p> 
+    El servidor declara: 
+</p> 
+
+<pre><code>app.use("/vetement", vetementRoute);</code></pre> 
+
+<p> 
+    Esto significa que las rutas del módulo de ropa 
+    comienzan con: 
+</p> 
+
+<pre><code>/vetement</code></pre> 
+
+<p> 
+    Por ejemplo, si la ruta contiene: 
+</p> 
+
+<pre><code>router.post("/predict", ...)</code></pre> 
+
+<p> 
+    el endpoint completo se convierte en: 
+</p> 
+
+<pre><code>POST /vetement/predict</code></pre> 
+```
+
+</section> 
+
+<!-- ================================================= 
+     10. INTEGRATION PYTHON 
+================================================== --> 
+
+<section class="section" id="integration"> 
+
+```
+<h2>10. Ejecución de Python desde Node.js</h2> 
+
+<p> 
+    Node.js puede ejecutar el programa Python gracias al 
+    módulo <span class="inline-code">child_process</span>. 
+</p> 
+
+<div class="code-title"> 
+    Ejemplo de integración Node.js → Python 
+</div> 
+
+<pre><code>const { spawn } = require("child_process"); 
+```
+
+const python = spawn("python", [
+"predict.py"
+]);
+
+let output = "";
+
+python.stdout.on("data", (data) => {
+output += data.toString();
+});
+
+python.on("close", () => {
+
+const result = JSON.parse(output);
+
+console.log(result);
+
+});</code></pre>
+
+```
+<h3>10.1 Importación de spawn</h3> 
+
+<pre><code>const { spawn } = require("child_process");</code></pre> 
+
+<p> 
+    <span class="inline-code">spawn()</span> permite a Node.js 
+    iniciar un proceso externo. 
+</p> 
+
+<p> 
+    En nuestro caso, el proceso externo es Python. 
+</p> 
+
+<h3>10.2 Ejecución del script</h3> 
+
+<pre><code>const python = spawn("python", [ 
+```
+
+"predict.py"
+]);</code></pre>
+
+```
+<p> 
+    Node.js solicita al sistema que ejecute: 
+</p> 
+
+<pre><code>python predict.py</code></pre> 
+
+<h3>10.3 Recuperación de la salida de Python</h3> 
+
+<pre><code>python.stdout.on("data", (data) => { 
+```
+
+output += data.toString();
+});</code></pre>
+
+```
+<p> 
+    Todo lo que Python muestra mediante 
+    <span class="inline-code">print()</span> 
+    es recuperado por Node.js. 
+</p> 
+
+<h3>10.4 Conversión del JSON</h3> 
+
+<pre><code>const result = JSON.parse(output);</code></pre> 
+
+<p> 
+    Node.js transforma el texto JSON recibido de Python 
+    en un objeto JavaScript. 
+</p> 
+```
+
+</section> 
+
+<!-- ================================================= 
+     11. COMPLETE FLOW 
+================================================== --> 
+
+<section class="section" id="flow"> 
+
+```
+<h2>11. Flujo completo de la predicción</h2> 
+
+<ol> 
+
+    <li> 
+        El frontend introduce un valor. 
+    </li> 
+
+    <li> 
+        El frontend envía una solicitud HTTP a Node.js. 
+    </li> 
+
+    <li> 
+        Express recibe la solicitud. 
+    </li> 
+
+    <li> 
+        La ruta <span class="inline-code">/vetement/predict</span> 
+        procesa la solicitud. 
+    </li> 
+
+    <li> 
+        Node.js ejecuta el script Python. 
+    </li> 
+
+    <li> 
+        Python carga <span class="inline-code">vetement.pkl</span>. 
+    </li> 
+
+    <li> 
+        Python transmite el valor al modelo. 
+    </li> 
+
+    <li> 
+        El modelo calcula la predicción. 
+    </li> 
+
+    <li> 
+        Python transforma el resultado en JSON. 
+    </li> 
+
+    <li> 
+        Node.js recupera el JSON. 
+    </li> 
+
+    <li> 
+        Express devuelve la respuesta al frontend. 
+    </li> 
+
+    <li> 
+        El frontend muestra la predicción. 
+    </li> 
+
+</ol> 
+
+<div class="flow"> 
+
+    <div class="flow-box"> 
+        👤<br> 
+        Usuario 
+    </div> 
+
+    <div class="arrow">→</div> 
+
+    <div class="flow-box"> 
+        🌐<br> 
+        Frontend 
+    </div> 
+
+    <div class="arrow">→</div> 
+
+    <div class="flow-box"> 
+        🟢<br> 
+        Express 
+    </div> 
+
+    <div class="arrow">→</div> 
+
+    <div class="flow-box"> 
+        🐍<br> 
+        Python 
+    </div> 
+
+    <div class="arrow">→</div> 
+
+    <div class="flow-box"> 
+        🤖<br> 
+        Modelo ML 
+    </div> 
+
+    <div class="arrow">→</div> 
+
+    <div class="flow-box"> 
+        📊<br> 
+        Resultado 
+    </div> 
+
+</div> 
+```
+
+</section> 
+
+<!-- ================================================= 
+     12. EXAMPLE 
+================================================== --> 
+
+<section class="section" id="example"> 
+
+```
+<h2>12. Ejemplo de resultado</h2> 
+
+<p> 
+    Supongamos que el frontend envía: 
+</p> 
+
+<pre><code>{ 
+```
+
+"value": 30
+}</code></pre>
+
+```
+<p> 
+    Python utiliza: 
+</p> 
+
+<pre><code>value = 30</code></pre> 
+
+<p> 
+    después: 
+</p> 
+
+<pre><code>result = model.predict([[value]])</code></pre> 
+
+<p> 
+    El modelo produce, por ejemplo: 
+</p> 
+
+<pre><code>123.45</code></pre> 
+
+<p> 
+    Python devuelve: 
+</p> 
+
+<pre><code>{ 
+```
+
+"prediction": 123.45
+}</code></pre>
+
+```
+<p> 
+    Node.js puede entonces enviar esta respuesta al frontend: 
+</p> 
+
+<pre><code>res.json({ 
+```
+
+prediction: 123.45
+});</code></pre>
+
+```
+<div class="success"> 
+
+    <strong>Resultado final:</strong> 
+
+    el frontend recibe la predicción y puede mostrarla 
+    en una tarjeta, una tabla, un gráfico o un dashboard. 
+
+</div> 
+```
+
+</section> 
+
+<!-- ================================================= 
+     13. SECURITY 
+================================================== --> 
+
+<section class="section" id="security"> 
+
+```
+<h2>13. Seguridad y buenas prácticas</h2> 
+
+<p> 
+    Para un proyecto en producción, se recomiendan 
+    algunas mejoras. 
+</p> 
+
+<ul> 
+
+    <li> 
+        Utilizar variables de entorno para 
+        la información sensible. 
+    </li> 
+
+    <li> 
+        Evitar colocar las contraseñas directamente 
+        en el código. 
+    </li> 
+
+    <li> 
+        Validar los valores recibidos por la API. 
+    </li> 
+
+    <li> 
+        Gestionar los errores de Python. 
+    </li> 
+
+    <li> 
+        Verificar que el archivo del modelo existe. 
+    </li> 
+
+    <li> 
+        Gestionar los errores de comunicación entre 
+        Node.js y Python. 
+    </li> 
+
+    <li> 
+        Añadir autenticación si la API es pública. 
+    </li> 
+
+</ul> 
+```
+
+</section> 
+
+<!-- ================================================= 
+     14. CONCLUSION 
+================================================== --> 
+
+<section class="section" id="summary"> 
+
+```
+<h2>14. Conclusión</h2> 
+
+<p> 
+    Esta integración permite combinar varias tecnologías 
+    dentro de una misma arquitectura. 
+</p> 
+
+<table> 
+
+    <tr> 
+        <th>Tecnología</th> 
+        <th>Función</th> 
+    </tr> 
+
+    <tr> 
+        <td>Python</td> 
+        <td>Ejecución del modelo de Machine Learning</td> 
+    </tr> 
+
+    <tr> 
+        <td>Scikit-learn / modelo ML</td> 
+        <td>Cálculo de la predicción</td> 
+    </tr> 
+
+    <tr> 
+        <td>Pickle</td> 
+        <td>Carga del modelo guardado</td> 
+    </tr> 
+
+    <tr> 
+        <td>Node.js</td> 
+        <td>Backend de la aplicación</td> 
+    </tr> 
+
+    <tr> 
+        <td>Express</td> 
+        <td>Creación y gestión de la API</td> 
+    </tr> 
+
+    <tr> 
+        <td>JSON</td> 
+        <td>Comunicación Python ↔ Node.js ↔ Frontend</td> 
+    </tr> 
+
+    <tr> 
+        <td>React / Frontend</td> 
+        <td>Interfaz de usuario y visualización de la predicción</td> 
+    </tr> 
+
+</table> 
+
+<div class="info"> 
+
+    <strong>Arquitectura final:</strong> 
+
+    Frontend → Express → Node.js → Python → 
+    modelo de Machine Learning → predicción JSON → 
+    Node.js → Frontend. 
+
+</div> 
+```
+
+</section> 
+
+</main> 
+
+<!-- ===================================================== 
+     BACK TO TOP 
+===================================================== --> 
+
+<button class="top-button" id="topButton"> 
+    ↑ 
+</button> 
+
+<script> 
+ 
+    // ========================================== 
+    // Botón para volver arriba 
+    // ========================================== 
+ 
+    const topButton = document.getElementById("topButton"); 
+ 
+    window.addEventListener("scroll", () => { 
+ 
+        if (window.scrollY > 400) { 
+            topButton.style.display = "block"; 
+        } else { 
+            topButton.style.display = "none"; 
+        } 
+ 
+    }); 
+ 
+    topButton.addEventListener("click", () => { 
+ 
+        window.scrollTo({ 
+            top: 0, 
+            behavior: "smooth" 
+        }); 
+ 
+    }); 
+ 
+ 
+    // ========================================== 
+    // Navegación activa 
+    // ========================================== 
+ 
+    const links = document.querySelectorAll(".sidebar a"); 
+ 
+    links.forEach(link => { 
+ 
+        link.addEventListener("click", () => { 
+ 
+            links.forEach(item => { 
+                item.style.background = ""; 
+                item.style.color = ""; 
+            }); 
+ 
+            link.style.background = "#2563eb"; 
+            link.style.color = "white"; 
+ 
+        }); 
+ 
+    }); 
+ 
+ 
+    // ========================================== 
+    // Animación de aparición de las secciones 
+    // ========================================== 
+ 
+    const sections = document.querySelectorAll(".section"); 
+ 
+    const observer = new IntersectionObserver((entries) => { 
+ 
+        entries.forEach(entry => { 
+ 
+            if (entry.isIntersecting) { 
+ 
+                entry.target.style.transition = 
+                    "opacity 0.6s ease, transform 0.6s ease"; 
+ 
+                entry.target.style.opacity = "1"; 
+                entry.target.style.transform = "translateY(0)"; 
+ 
+            } 
+ 
+        }); 
+ 
+    }, { 
+        threshold: 0.08 
+    }); 
+ 
+ 
+    sections.forEach(section => { 
+ 
+        section.style.opacity = "0"; 
+        section.style.transform = "translateY(20px)"; 
+ 
+        observer.observe(section); 
+ 
+    }); 
+ 
+</script> 
+
+</body> 
+</html>
